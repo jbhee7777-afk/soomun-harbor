@@ -279,12 +279,12 @@ h1,h2,h3{font-family:var(--disp);font-weight:400;margin:0;text-wrap:balance}
 #modal{position:fixed;inset:0;z-index:50;background:rgba(74,56,69,.45);display:grid;place-items:center;padding:16px;animation:fade .2s}
 .sheet{background:#fff;border-radius:30px;width:min(580px,100%);max-height:calc(100% - 8px);overflow:auto;padding:22px;box-sizing:border-box;position:relative;box-shadow:0 10px 0 rgba(0,0,0,.08);animation:up .28s cubic-bezier(.2,1.4,.4,1)}
 .sheet h2{font-size:31px}
-.x{position:absolute;right:14px;top:14px;width:38px;height:38px;border-radius:50%;background:#F6EEF2;font-size:22px;color:var(--ink2)}
+.x{position:absolute;right:12px;top:12px;width:44px;height:44px;border-radius:50%;background:#F6EEF2;font-size:22px;color:var(--ink2)}
 .talk{display:flex;gap:12px;align-items:flex-start;margin-top:14px}
 .talk .bubble{background:var(--cream);box-shadow:none;font-size:22px}
 .talk .bubble.gull{background:#FFF4D0}
 .row{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
-.qhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.qhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-right:48px}
 .qhead .tag{font-size:18px}
 .qq{font-size:25px;line-height:1.5;margin:12px 0 14px}
 .opts{display:flex;flex-direction:column;gap:9px}
@@ -418,6 +418,95 @@ select{font:inherit;padding:6px 8px;border-radius:12px;border:2px solid #EDE3E8;
   .sheet{padding:18px}
   .qq{font-size:24px}
 }
+
+/* ===== 수업 구조 ===== */
+.tts{display:none;flex:none;width:44px;height:44px;border-radius:50%;background:var(--butterL);box-shadow:0 3px 0 #F0D78C;align-items:center;justify-content:center;font-size:22px;margin-left:auto}
+body.tts-on .tts{display:inline-flex}
+.tts.on{background:var(--butter);animation:bob 1s infinite}
+.tts.inl{margin:6px 0 0 0}
+.starwin{margin-top:12px;text-align:center;font-family:var(--disp);font-size:44px;color:#fff;-webkit-text-stroke:2px var(--butter2);paint-order:stroke fill;text-shadow:0 4px 0 var(--butter2);animation:pop .5s}
+.bigmsg{font-family:var(--disp);font-size:26px;text-align:center;margin:14px 0;line-height:1.5}
+.reviewbtn{min-height:52px}
+.reviewbtn .cnt{background:#fff;border-radius:999px;min-width:32px;padding:0 8px;font-size:20px}
+.lessonchip small{font-size:15px;color:var(--ink2)}
+.guessh{text-align:center;font-size:32px;margin:10px 0 12px}
+.rumorbig{position:relative;background:var(--tintL,var(--pinkL));border-radius:24px;padding:18px 18px 14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.rumorbig>.em{font-size:40px}
+.rumorbig q{flex:1 1 200px;font-family:var(--disp);font-size:clamp(24px,4.4vw,32px);line-height:1.4}
+.guessbtns,.vbtns{display:grid;gap:10px;margin:16px 0 6px}
+.gpick,.vpick{min-height:60px;border-radius:20px;background:#fff;border:3px solid #F3E4EB;font-family:var(--disp);font-size:26px;display:flex;align-items:center;gap:12px;padding:8px 18px;box-shadow:0 4px 0 rgba(120,90,110,.12);transition:transform .08s}
+.gpick .em,.vpick .em{font-size:34px}
+.gpick:active,.vpick:active{transform:translateY(3px)}
+.gpick:hover,.vpick:hover{border-color:var(--pink)}
+.report{background:var(--tintL,var(--pinkL));border-radius:24px;padding:8px 14px;margin-top:10px}
+.rsec{display:flex;gap:10px;padding:12px 0;border-bottom:2px dashed rgba(255,255,255,.9)}
+.rsec.last{border-bottom:0}
+.rsec>div{flex:1;min-width:0}
+.rsec .no{flex:none;width:36px;height:36px;border-radius:50%;background:var(--tint,var(--pink));color:#fff;display:grid;place-items:center;font-family:var(--disp);font-size:22px}
+.rsec small{display:block;font-family:var(--disp);font-size:18px;color:var(--ink2);margin-bottom:2px}
+.rsec q,.rsec b{font-family:var(--disp);font-weight:400;font-size:24px;line-height:1.4}
+.rsec .dim{color:var(--ink2);font-size:19px}
+.rq{font-family:var(--disp);font-size:22px;margin:4px 0 0}
+.clue{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:6px}
+.clue li{display:flex;gap:8px;font-size:20px;line-height:1.45;background:rgba(255,255,255,.75);border-radius:14px;padding:7px 10px}
+.vres{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.vline{background:#fff;border-radius:16px;padding:8px 12px}
+.vline small{margin:0}
+.vline b{font-size:22px}
+.truthline{box-shadow:inset 0 0 0 3px var(--tint,var(--pink))}
+.explain.soft{background:var(--lavL)}
+.explain .why{display:block;font-family:var(--disp);font-weight:400;font-size:22px;margin:4px 0 2px}
+.fbk{margin-top:10px;display:flex;gap:10px;align-items:flex-start;background:var(--butterL);border-radius:18px;padding:12px 14px;font-size:20px;line-height:1.5}
+.fbk .em{font-size:30px}
+.cbtn.sm{font-size:19px;padding:8px 14px;min-height:44px}
+#recap{position:fixed;inset:0;z-index:80;overflow:auto;background:linear-gradient(180deg,#FFF6FA,var(--tintL,var(--pinkL)));padding:clamp(16px,3vw,48px);box-sizing:border-box;animation:fade .2s}
+#recap[hidden]{display:none}
+.rclose{position:fixed;top:14px;right:14px;min-height:48px;padding:6px 18px;border-radius:999px;background:#fff;font-family:var(--disp);font-size:22px;box-shadow:0 4px 0 rgba(120,90,110,.15);z-index:2}
+.rcwrap{max-width:1500px;margin:0 auto;display:flex;flex-direction:column;align-items:stretch;gap:6px;min-height:100%;justify-content:center}
+.rblk{background:#fff;border-radius:28px;padding:clamp(12px,2vh,26px) clamp(16px,3vw,40px);box-shadow:0 6px 0 rgba(120,90,110,.1)}
+.rblk small{display:block;font-family:var(--disp);font-size:clamp(20px,2.4vw,34px);color:var(--tint,var(--pink2))}
+.rblk .big{margin:4px 0 0;font-family:var(--disp);font-size:clamp(28px,4.4vw,68px);line-height:1.3}
+.rblk ol{margin:6px 0 0;padding-left:1.3em;font-family:var(--disp);font-size:clamp(24px,3.4vw,52px);line-height:1.35}
+.truthblk{box-shadow:inset 0 0 0 5px var(--tint,var(--pink)),0 6px 0 rgba(120,90,110,.1)}
+.rblk.ask{background:var(--butterL)}
+.rarrow{text-align:center;font-family:var(--disp);font-size:clamp(24px,3vw,44px);color:var(--ink2);line-height:1}
+.sheet.teach{width:min(720px,100%)}
+.tabs{display:flex;gap:8px;margin:10px 0 14px;background:var(--pinkL);padding:5px;border-radius:999px}
+.tab{flex:1;min-height:48px;border-radius:999px;font-family:var(--disp);font-size:22px;color:var(--ink2)}
+.tab.on{background:#fff;color:var(--ink);box-shadow:0 3px 0 rgba(120,90,110,.12)}
+.tstep{font-family:var(--disp);font-size:22px;margin:14px 0 8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tstep b{width:30px;height:30px;border-radius:50%;background:var(--pink);color:#fff;display:grid;place-items:center;font-weight:400;font-size:18px}
+.tstep small{font-size:17px;color:var(--ink2)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:48px;padding:6px 16px;border-radius:999px;background:#fff;border:3px solid #F3E4EB;font-family:var(--disp);font-size:21px}
+.chip.on{background:var(--pink);border-color:var(--pink);color:#fff}
+.zpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;max-height:min(42vh,360px);overflow:auto;padding:2px}
+.zone{position:relative;min-height:60px;display:flex;align-items:center;gap:10px;text-align:left;background:#fff;border:3px solid #F3E4EB;border-radius:18px;padding:8px 10px}
+.zone .em{font-size:30px}
+.zone .zt{display:flex;flex-direction:column;min-width:0}
+.zone b{font-family:var(--disp);font-weight:400;font-size:20px;line-height:1.2;word-break:keep-all}
+.zone small{font-size:15px;color:var(--ink2)}
+.zone.on{border-color:var(--tint);background:var(--tintL);box-shadow:0 0 0 2px var(--tint)}
+.recb{position:absolute;top:-8px;right:8px;background:var(--mint2);color:#fff;font-family:var(--disp);font-size:14px;border-radius:999px;padding:1px 8px}
+.startb{font-size:28px;min-height:60px;padding:10px 34px}
+.nowles{display:flex;gap:14px;align-items:center;background:var(--tintL);border-radius:22px;padding:14px 16px}
+.nowles .big{font-size:48px}
+.nowles small{display:block;color:var(--ink2);font-size:17px}
+.nowles b{display:block;font-family:var(--disp);font-weight:400;font-size:28px}
+.row.col{flex-direction:column;align-items:stretch}
+.row.col .cbtn{min-height:54px}
+.gh{margin-top:16px;font-size:24px}
+@media (max-width:480px){
+  .ibtn{width:44px;height:44px}
+  .gpick,.vpick{font-size:23px}
+  .vres{grid-template-columns:1fr}
+  .zpick{grid-template-columns:1fr 1fr}
+  .zone .em{font-size:24px}
+  .zone b{font-size:17px}
+  .zone small{display:none}
+  .rsec q,.rsec b{font-size:21px}
+  .clue li{font-size:18px}
+}
 </style>
 </head><body>
 <div id="app">
@@ -426,7 +515,7 @@ select{font:inherit;padding:6px 8px;border-radius:12px;border:2px solid #EDE3E8;
       <div class="hero" id="hero">
         <div class="logo"><h1>소문 항구 탐정단</h1><br><p>합치고 · 쌓고 · 모험하며 소문의 진실을 밝혀요!</p></div>
         <div class="herobtns">
-          <button class="ibtn" id="btnGuide" aria-label="선생님 안내" title="선생님 안내"><span class="em">🍎</span></button>
+          <button class="ibtn" id="btnGuide" aria-label="선생님 수업 모드" title="선생님 수업 모드"><span class="em">🍎</span></button>
           <button class="ibtn" id="btnSet" aria-label="설정" title="설정"><span class="em">⚙️</span></button>
         </div>
       </div>
@@ -501,6 +590,7 @@ select{font:inherit;padding:6px 8px;border-radius:12px;border:2px solid #EDE3E8;
 /* ===== 범교과 10개 주제 콘텐츠 (2022 개정 교육과정 총론) ===== */
 const CH = [
 {
+  grades:[1,2,3,4], verdict:'part', verdictWhy:'흔들림이 멈춘 뒤 넓은 곳으로 대피하는 건 맞아요. 하지만 흔들리는 동안 바로 뛰어나가면 떨어지는 물건에 다칠 수 있어요.',
   id:'safety', theme:'안전·건강 교육', place:'반짝 등대 보건소', icon:'⛑️', tint:'#E2513A',
   subjects:'안전한 생활(1~2학년), 체육(보건), 과학(지진)',
   npc:{face:'👩‍⚕️', name:'하나 보건 선생님'},
@@ -546,6 +636,7 @@ const CH = [
   tips:['흔들리면 책상 아래로!','연기가 나면 몸을 낮춰요.','화재·구조·구급은 119!','물을 자주 마셔요.']
 },
 {
+  grades:[1,2,3,4], verdict:'false', verdictWhy:'인사를 안 받은 까닭은 여러 가지일 수 있어요. 부끄럽거나 못 들었을 수도 있어요.',
   id:'character', theme:'인성 교육', place:'다정 꽃집', icon:'💐', tint:'#D9577E',
   subjects:'도덕, 국어(듣기·말하기)',
   npc:{face:'👵', name:'민들레 할머니'},
@@ -591,6 +682,7 @@ const CH = [
   tips:['먼저 인사해 봐요.','끝까지 들어 주는 게 존중!','실수하면 솔직하게 사과해요.','"고마워"는 마법의 말!']
 },
 {
+  grades:[3,4,5,6], verdict:'false', verdictWhy:'꿈은 여러 경험을 하며 바뀌고 넓어져도 괜찮아요.',
   id:'career', theme:'진로 교육', place:'꿈틀 공방', icon:'🛠️', tint:'#E08A1E',
   subjects:'실과, 도덕, 창의적 체험활동(진로)',
   npc:{face:'👨‍🔧', name:'공방지기 도윤'},
@@ -636,6 +728,7 @@ const CH = [
   tips:['여러 가지를 경험해 봐요.','꿈이 바뀌어도 괜찮아요.','직업에 성별은 없어요.','작은 목표부터 차근차근!']
 },
 {
+  grades:[5,6], verdict:'false', verdictWhy:'마을 일은 목소리 큰 사람이 아니라 모두의 토의와 투표로 정해요.',
   id:'democracy', theme:'민주시민 교육', place:'고래 마을회관', icon:'🏛️', tint:'#3C6FD1',
   subjects:'사회(정치·민주주의), 국어(토의·토론)',
   npc:{face:'🧔', name:'고래 이장님'},
@@ -681,6 +774,7 @@ const CH = [
   tips:['출처부터 확인해요!','소수 의견도 소중해요.','함께 정한 약속은 함께 지켜요.','끝까지 듣고 말해요.']
 },
 {
+  grades:[5,6], verdict:'false', verdictWhy:'어린이도 자신과 관련된 일에 의견을 말할 권리가 있어요.',
   id:'rights', theme:'인권 교육', place:'누구나 도서관', icon:'📚', tint:'#7A5BC7',
   subjects:'사회(인권·법), 도덕',
   npc:{face:'👩', name:'해솔 사서님'},
@@ -725,6 +819,7 @@ const CH = [
   tips:['인권은 모두에게 있어요.','어린이도 의견을 말해요.','다른 사람의 권리도 소중해요.','싫다는 장난은 멈춰요.']
 },
 {
+  grades:[3,4], verdict:'false', verdictWhy:'말투나 생김새가 달라도 모두 함께 사는 우리 이웃이에요.',
   id:'multi', theme:'다문화 교육', place:'알록달록 세계 시장', icon:'🌏', tint:'#16A085',
   subjects:'사회(문화 다양성), 도덕, 음악·미술',
   npc:{face:'👩', name:'투이 아주머니'},
@@ -770,6 +865,7 @@ const CH = [
   tips:['다른 것은 틀린 게 아니에요.','씬 짜오! = 안녕하세요','천천히 말하면 잘 통해요.','다름이 모이면 더 즐거워요.']
 },
 {
+  grades:[5,6], verdict:'false', verdictWhy:'남과 북은 같은 한글을 써서 말이 대부분 통해요. 일부 낱말만 달라요.',
   id:'unify', theme:'통일 교육', place:'평화 기차역', icon:'🚉', tint:'#2E8BC0',
   subjects:'도덕(통일), 사회(역사)',
   npc:{face:'👴', name:'평화 역장 할아버지'},
@@ -814,6 +910,7 @@ const CH = [
   tips:['남과 북은 같은 한글을 써요.','도시락 = 곽밥','휴대 전화 = 손전화','평화는 이해에서 시작돼요.']
 },
 {
+  grades:[5,6], verdict:'false', verdictWhy:'독도는 옛 기록에도 나오는 대한민국의 영토이고, 주소도 있어요.',
   id:'dokdo', theme:'독도 교육', place:'해 뜨는 전망대', icon:'🌅', tint:'#1D6FA3',
   subjects:'사회(5학년 국토·역사), 창의적 체험활동',
   npc:{face:'👩‍🔬', name:'강치 박사님'},
@@ -858,6 +955,7 @@ const CH = [
   tips:['독도는 경상북도 울릉군!','동도·서도 + 89개 부속 섬','10월 25일은 독도의 날','강치를 기억해요.']
 },
 {
+  grades:[3,4], verdict:'false', verdictWhy:'갖고 싶은 것을 모두 바로 사면 꼭 필요한 곳에 쓸 돈이 모자랄 수 있어요.',
   id:'money', theme:'경제·금융 교육', place:'반짝 저금 시장', icon:'🏦', tint:'#C9A227',
   subjects:'사회(4학년 경제), 실과, 수학',
   npc:{face:'👨‍💼', name:'저금통 사장님'},
@@ -903,6 +1001,7 @@ const CH = [
   tips:['필요한 것부터 사요.','용돈 기입장을 써요.','저축하면 이자가 붙어요.','비교하고 고르세요.']
 },
 {
+  grades:[3,4,5,6], verdict:'false', verdictWhy:'작은 쓰레기도 바다에 모이면 생물과 우리에게 다시 돌아와요.',
   id:'eco', theme:'환경·지속가능발전 교육', place:'푸른 바닷가', icon:'🐢', tint:'#2F9E5B',
   subjects:'과학(생태·환경), 사회, 실과',
   npc:{face:'👩', name:'바다 지킴이 누리'},
@@ -1392,11 +1491,13 @@ function show(id){
   coachEnd(true);
 }
 function refresh(){({map:renderMap,hub:renderHub,merge:()=>renderMergeAll(),block:()=>renderBlockTop(),match:()=>renderMatchTop(),dungeon:()=>renderDungeonStatus()}[SCREEN]||(()=>{}))()}
-function goMap(){CI=-1;show('map');renderMap()}
+function goMap(force){if(S.lesson&&!force){goHub(S.lesson.ci);return}CI=-1;show('map');renderMap()}
 function goHub(ci){
+  if(ci!=null&&S.lesson&&ci!==S.lesson.ci){sfx.no();toast(`오늘은 ${CH[S.lesson.ci].place} 수업 중이에요 🍎`);ci=S.lesson.ci}
   if(ci!=null) CI=ci; show('hub'); renderHub();
   const c=chState(CI);
-  const after=()=>{ if(!S.tut.hub) setTimeout(()=>coachStart(hubTutorial(),()=>{S.tut.hub=true;save()}),250) };
+  const tut=()=>{ if(!S.tut.hub) setTimeout(()=>coachStart(hubTutorial(),()=>{S.tut.hub=true;save()}),250) };
+  const after=()=>{ if(needGuess(CI)) guessModal(CI,tut); else tut() };
   if(!c.intro) showIntro(CI,after); else after();
 }
 
@@ -1426,7 +1527,8 @@ function renderHub(){
   else say=`<b class="n">${esc(ch.npc.name)}</b>단서를 ${c.step}개 찾았어요! 조금만 더 모으면 소문의 진실이 밝혀져요.`;
   $('#hubwrap').innerHTML=`
    <div class="pillbar">
-     <button class="ibtn" id="hBack" aria-label="지도로"><span class="em">🗺️</span></button>
+     ${S.lesson?`<button class="ibtn" id="hBack" aria-label="수업 모드"><span class="em">🍎</span></button><span class="chipr lessonchip"><small>오늘의 수업</small>${S.lesson.dur?`<span id="lessonT">${lessonLeft()}</span>`:'<span>자유 놀이</span>'}</span>`:
+       `<button class="ibtn" id="hBack" aria-label="지도로"><span class="em">🗺️</span></button>`}
      <span class="chipr"><span class="em">⭐</span><span class="sVal">${c.stars}</span><small>이 구역 별</small></span>
      <span class="sp"></span>
      <button class="ibtn" id="hHelp" aria-label="안내 다시 보기"><span class="em">❓</span></button>
@@ -1443,6 +1545,7 @@ function renderHub(){
      ${c.done?`<button class="cbtn mint" id="hStory">🎴 진실 카드 보기</button>`:
        `<button class="cbtn ${ready?'':'ghost'} storybtn ${ready?'ready':''}" id="hStory">${ready?'🔍 이야기 열기!':'🔒 다음 이야기'} · ⭐${cost}</button>`}
    </div>
+   ${(c.wrong&&c.wrong.length)?`<div class="row" style="justify-content:center;margin:0 0 12px"><button class="cbtn butter reviewbtn" id="hReview">🔁 헷갈린 문제 다시 풀기 <span class="cnt">${c.wrong.length}</span></button></div>`:''}
    <div class="modes" id="hModes">
      <button class="mode m1" id="mMerge"><span class="deco em">⚓</span><span class="big em">🧺</span><span class="mt2"><h3>항구 합치기</h3><p>똑같은 물건을 합쳐 이웃의 주문을 배달해요.</p></span><span class="rec">⚡ 에너지 ${S.unlimited?'∞':S.energy}</span></button>
      <button class="mode m4" id="mMatch"><span class="deco em">🍬</span><span class="big em">💥</span><span class="mt2"><h3>소문 팡팡</h3><p>같은 그림 3개를 맞추면 팡! 아래로 떨어지며 연속 팡팡!</p></span><span class="rec">👑 최고 ${c.mBest||0}점</span></button>
@@ -1451,7 +1554,8 @@ function renderHub(){
    </div>
    <p class="hint">⭐ 별은 네 놀이 어디서든 모을 수 있어요 · 별로 이야기를 열고 퀴즈·미니게임을 풀면 단서를 얻어요</p>`;
   c._pop=false;
-  $('#hBack').onclick=()=>{sfx.tap();goMap()};
+  $('#hBack').onclick=()=>{sfx.tap();if(S.lesson)teacherModal();else goMap()};
+  const rv=$('#hReview'); if(rv) rv.onclick=()=>{sfx.tap();reviewWrong()};
   $('#hHelp').onclick=()=>{sfx.tap();coachStart(hubTutorial())};
   $('#hStory').onclick=()=>storyButton();
   $('#mMerge').onclick=()=>{sfx.tap();openMerge()};
@@ -1477,13 +1581,13 @@ function hubTutorial(){
 
 /* ---------- 모달 ---------- */
 const modal=$('#modal');
-function openModal(html,{onClose,closable=true}={}){
+function openModal(html,{onClose,closable=true}={}){ttsStop();
   modal.innerHTML=`<div class="sheet" role="dialog" aria-modal="true">${closable?'<button class="x" aria-label="닫기">✕</button>':''}${html}</div>`;
   modal.hidden=false; modal._close=onClose;
   const x=modal.querySelector('.x'); if(x) x.onclick=closeModal;
   return modal.querySelector('.sheet');
 }
-function closeModal(){modal.hidden=true;modal.innerHTML='';const f=modal._close;modal._close=null;if(f)f()}
+function closeModal(){ttsStop();modal.hidden=true;modal.innerHTML='';const f=modal._close;modal._close=null;if(f)f()}
 modal.addEventListener('click',e=>{if(e.target===modal&&modal.querySelector('.x'))closeModal()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden&&modal.querySelector('.x'))closeModal()});
 function talkHTML(ch,w,text){
@@ -1503,21 +1607,22 @@ function showIntro(ci,after){
 function runQuiz(qz,o){
   // o: {title, tag, retry, onRight, onWrong, rightLabel, wrongLabel, hint:{n,use}, closable}
   const order=shuffle(qz.o.map((_,i)=>i)); const L='가나다라마';
-  const sh=openModal(`<div class="qhead"><span class="tag">${esc(o.tag||'퀴즈')}</span><span style="font-family:var(--disp);color:var(--ink2)">${esc(o.title||'')}</span></div>
+  const sh=openModal(`<div class="qhead"><span class="tag">${esc(o.tag||'퀴즈')}</span><span style="font-family:var(--disp);color:var(--ink2)">${esc(o.title||'')}</span>${ttsBtn(qz.q+'. '+order.map((oi,j)=>L[j]+', '+qz.o[oi]).join('. '))}</div>
     <div class="qq">${esc(qz.q)}</div>
     <div class="opts">${order.map((oi,j)=>`<button class="opt" data-o="${oi}"><b>${L[j]}</b><span>${esc(qz.o[oi])}</span></button>`).join('')}</div>
     ${o.hint&&o.hint.n>0&&qz.o.length>2?`<div class="row" style="justify-content:flex-start;margin-top:10px"><button class="cbtn butter" id="hintb" style="font-size:20px;padding:7px 14px">💡 힌트 쓰기 (${o.hint.n})</button></div>`:''}
-    <div id="res"></div>`,{closable:o.closable!==false});
+    <div id="res"></div>`,{closable:o.closable!==false,onClose:o.onClose});
   const hb=sh.querySelector('#hintb');
   if(hb) hb.onclick=()=>{o.hint.use(); const wrong=shuffle([...sh.querySelectorAll('.opt')].filter(b=>+b.dataset.o!==qz.a&&!b.disabled)); if(wrong[0]){wrong[0].disabled=true;wrong[0].classList.add('gone')} hb.remove(); sfx.tap()};
   sh.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
     const pick=+b.dataset.o, right=pick===qz.a;
+    if(CI>=0&&o.track!==false){ if(right){ if(o.review) wrongRemove(CI,qz) } else wrongAdd(CI,qz) }
     sh.querySelectorAll('.opt').forEach(x=>x.disabled=true); if(hb) hb.remove();
     b.classList.add(right?'right':'wrong');
     const res=sh.querySelector('#res');
     if(right){
       sfx.ok();
-      res.innerHTML=`<div class="explain good"><strong>딩동댕! 정답이에요</strong>${esc(qz.x||'')}</div><div class="row"><button class="cbtn mint" id="go">${esc(o.rightLabel||'좋아요!')}</button></div>`;
+      res.innerHTML=`${o.starReward?`<div class="starwin"><span class="em">⭐</span>+${o.starReward}</div>`:''}<div class="explain good"><strong>딩동댕! 정답이에요</strong>${esc(qz.x||'')}</div><div class="row"><button class="cbtn mint" id="go">${esc(o.rightLabel||'좋아요!')}</button></div>`;
       res.querySelector('#go').onclick=()=>{closeModal();o.onRight&&o.onRight()};
     }else{
       sfx.no();
@@ -1667,19 +1772,6 @@ function completeStep(ci,k){
   if(c.done) setTimeout(()=>showTruth(ci,true),400);
   else toast(`🔍 단서 ${c.step}/4 획득! ${CH[ci].steps[k].deco} ${CH[ci].steps[k].title}`);
 }
-function showTruth(ci,celebrate){
-  const ch=CH[ci];
-  if(celebrate){sfx.ok();confetti(70)}
-  const sh=openModal(`<h2>${celebrate?'소문의 진실을 밝혔어요!':'진실 카드'}</h2>
-    <div class="truth" style="${tintVars(ch)}"><span class="stampbig">진실 확인</span>
-      <div class="rm">🐦 소문: <q>${esc(ch.rumor)}</q></div>
-      <h3><span class="em">${ch.icon}</span> ${esc(ch.truth.title)}</h3>
-      <ul>${ch.truth.points.map(p=>`<li>${esc(p)}</li>`).join('')}</ul></div>
-    ${celebrate?talkHTML(ch,'gull','꾸꾸… 확인도 안 하고 퍼뜨려서 미안해. 앞으로는 사실인지 먼저 알아볼게!'):''}
-    <div class="row">${CI>=0?'<button class="cbtn ghost" id="stay">계속 놀기</button>':''}<button class="cbtn" id="go">지도로 가기</button></div>`);
-  const s=sh.querySelector('#stay'); if(s) s.onclick=closeModal;
-  sh.querySelector('#go').onclick=()=>{closeModal();goMap()};
-}
 function addStars(n,x,y){const c=chState(CI);c.stars+=n;save();if(x!=null)floatText(`+⭐${n}`,x,y);$$('.sVal').forEach(e=>e.textContent=c.stars)}
 
 /* ---------- 따라 하기 안내 (코치) ---------- */
@@ -1731,17 +1823,6 @@ function confetti(n=40){
 }
 
 /* ---------- 선생님 안내 · 설정 ---------- */
-function guideModal(){
-  const sh=openModal(`<h2>선생님 안내</h2>
-    <p class="note">2022 개정 교육과정 총론의 범교과 학습 주제 10가지를 항구 마을 10개 구역에 하나씩 담았어요. 구역마다 <b>네 가지 놀이</b>(항구 합치기 · 소문 팡팡 · 블록 퍼즐 · 소문 던전)로 ⭐을 모으고, ⭐으로 <b>이야기 4단계</b>(퀴즈 2개 + 구역 전용 미니게임 2개)를 열면 진실 카드를 받아요.</p>
-    <div class="tw"><table class="tbl"><thead><tr><th>구역</th><th>범교과 주제</th><th>추천 연계 교과</th><th>미니게임</th></tr></thead>
-    <tbody>${CH.map(ch=>`<tr><td><span class="em">${ch.icon}</span> ${esc(ch.place)}</td><td>${esc(ch.theme)}</td><td>${esc(ch.subjects)}</td><td>${(GAMES[ch.id]||[]).map(g=>esc(g.name)).join(', ')}</td></tr>`).join('')}</tbody></table></div>
-    <h3 style="margin-top:16px;font-size:24px">수업 흐름 예시 (40분)</h3>
-    <p class="note">① 도입 5분: 구역의 소문을 함께 읽고 "진짜일까?" 예상하기 → ② 전개 25분: 좋아하는 놀이로 ⭐ 모으고 이야기 단계 풀기 → ③ 정리 10분: 진실 카드를 보며 알게 된 점 나누기, 확인 없이 소문을 퍼뜨리면 어떤 일이 생기는지 이야기하기</p>
-    <p class="note">처음 들어가면 꾸꾸가 놀이 방법을 따라 하기로 알려 줘요. 진행 기록은 각 기기의 브라우저에만 저장돼요. 시간이 짧으면 설정에서 <b>에너지 무제한</b>을 켜 주세요.</p>
-    <div class="row"><button class="cbtn" id="go">닫기</button></div>`);
-  sh.querySelector('#go').onclick=closeModal;
-}
 function settingsModal(){
   const draw=()=>{
     const sh=openModal(`<h2>설정</h2>
@@ -1762,6 +1843,235 @@ function settingsModal(){
   };
   draw();
 }
+/* ===== 수업 구조: 읽어주기 · 오답 · 첫 예상 · 탐정 보고서 · 함께 정리하기 · 교사 수업 모드 ===== */
+
+/* ---------- 🔊 읽어주기 (브라우저 내장 음성, 한국어 음성이 있을 때만) ---------- */
+const TTS={ok:false,voice:null,btn:null};
+function ttsInit(){
+  try{
+    if(!('speechSynthesis' in window)||typeof SpeechSynthesisUtterance==='undefined') return;
+    const pick=()=>{const v=speechSynthesis.getVoices().find(v=>/^ko/i.test(v.lang||''));
+      if(v){TTS.ok=true;TTS.voice=v;document.body.classList.add('tts-on')}};
+    pick(); if(speechSynthesis.addEventListener) speechSynthesis.addEventListener('voiceschanged',pick);
+  }catch(e){}
+}
+function ttsBtn(text,cls=''){return `<button class="tts ${cls}" type="button" data-say="${esc(text)}" aria-label="읽어주기" title="읽어주기"><span class="em">🔊</span></button>`}
+function ttsStop(){try{if(TTS.ok&&(speechSynthesis.speaking||speechSynthesis.pending))speechSynthesis.cancel()}catch(e){} if(TTS.btn){TTS.btn.classList.remove('on');TTS.btn=null}}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.tts'); if(!b||!TTS.ok) return;
+  e.stopPropagation();
+  if(TTS.btn===b){ttsStop();return}
+  ttsStop();
+  const u=new SpeechSynthesisUtterance(b.dataset.say); u.lang='ko-KR'; u.voice=TTS.voice; u.rate=.9;
+  u.onend=u.onerror=()=>{if(TTS.btn===b){b.classList.remove('on');TTS.btn=null}};
+  TTS.btn=b; b.classList.add('on'); speechSynthesis.speak(u);
+},true);
+
+/* ---------- 🔁 헷갈린 문제 (구역별 오답 기록) ---------- */
+function qid(q){let h=5381;const s=q.q;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return 'q'+(h>>>0).toString(36)}
+function wrongAdd(ci,q){const c=chState(ci);if(!Array.isArray(c.wrong))c.wrong=[];const id=qid(q);if(!c.wrong.includes(id)){c.wrong.push(id);save()}}
+function wrongRemove(ci,q){const c=chState(ci);if(!Array.isArray(c.wrong))return;const id=qid(q);const n=c.wrong.length;c.wrong=c.wrong.filter(x=>x!==id);if(c.wrong.length!==n)save()}
+function reviewWrong(){
+  const ci=CI, c=chState(ci);
+  const ids=new Set(c.wrong||[]);
+  const list=shuffle(poolOf(ci).filter(q=>ids.has(qid(q))));
+  /* 문제 은행에서 사라진 오래된 기록은 정리 */
+  const alive=new Set(poolOf(ci).map(qid)); c.wrong=(c.wrong||[]).filter(x=>alive.has(x)); save();
+  if(!list.length){renderHub();toast('다시 풀 문제가 없어요!');return}
+  let i=0, got=0;
+  const next=()=>{
+    if(CI!==ci) return;
+    if(i>=list.length){
+      renderHub();
+      const left=(chState(ci).wrong||[]).length;
+      const sh=openModal(`<h2>${got?'🎉 다시 풀기 끝!':'다시 풀기 끝!'}</h2>
+        <div class="bigmsg">${got?`<b>${got}문제</b>를 이번엔 맞혔어요! <span class="em">⭐</span>+${got}`:'괜찮아요! 틀리면서 배우는 거예요.'}</div>
+        <p class="note" style="text-align:center">${left?`아직 헷갈리는 문제 ${left}개가 남아 있어요. 다음에 또 도전해요!`:'헷갈린 문제를 모두 해결했어요!'}</p>
+        <div class="row"><button class="cbtn mint" id="go">좋아요!</button></div>`);
+      sh.querySelector('#go').onclick=closeModal;
+      if(got) confetti(30);
+      return;
+    }
+    const q=list[i++];
+    runQuiz(q,{tag:`🔁 다시 풀기 ${i}/${list.length}`,title:'이번엔 맞힐 수 있어요!',review:true,starReward:1,
+      rightLabel:i<list.length?'다음 문제':'끝내기',wrongLabel:i<list.length?'다음 문제':'끝내기',
+      onRight:()=>{got++;addStars(1);next()},onWrong:next,onClose:()=>{if(SCREEN==='hub')renderHub()}});
+  };
+  next();
+}
+
+/* ---------- 🤔 소문 첫 예상 ---------- */
+const GUESS={yes:{e:'👍',t:'진짜 같아요'},unsure:{e:'🤔',t:'잘 모르겠어요'},no:{e:'👎',t:'아닌 것 같아요'}};
+function needGuess(ci){const c=chState(ci);return !c.guess&&c.step===0&&!c.done}
+function guessModal(ci,after){
+  const ch=CH[ci];
+  const sh=openModal(`<div class="qhead"><span class="tag" style="background:${ch.tint}">${esc(ch.theme)}</span></div>
+    <h2 class="guessh">이 소문, 어떻게 생각해?</h2>
+    <div class="rumorbig" style="${tintVars(ch)}"><span class="em">🐦</span><q>${esc(ch.rumor)}</q>${ttsBtn('이 소문, 어떻게 생각해? '+ch.rumor)}</div>
+    <div class="guessbtns">${Object.entries(GUESS).map(([k,g])=>`<button class="gpick" data-k="${k}"><span class="em">${g.e}</span>${g.t}</button>`).join('')}</div>
+    <p class="note" style="text-align:center">지금은 정답을 몰라도 괜찮아요.<br>탐정 활동을 하며 단서를 찾아봐요!</p>`,{closable:false});
+  sh.querySelectorAll('.gpick').forEach(b=>b.onclick=()=>{
+    const c=chState(ci); c.guess=b.dataset.k; save(); sfx.ok();
+    closeModal(); toast(`${GUESS[c.guess].e} 첫 생각을 기록했어요! 이제 단서를 찾아봐요 🔍`);
+    if(SCREEN==='hub') renderHub(); after&&after();
+  });
+}
+
+/* ---------- 🕵️ 탐정 최종 보고서 (진실 카드) ---------- */
+const VERDICT={true:'맞는 소문이에요',part:'일부만 맞아요',false:'사실과 달라요'};
+const VERDICT_E={true:'⭕',part:'🔺',false:'❌'};
+function showTruth(ci,celebrate){
+  const ch=CH[ci], c=chState(ci);
+  if(celebrate){sfx.ok();confetti(70)}
+  const clues=ch.truth.points.slice(0,3);
+  const draw=()=>{
+    const fin=c.final, v=ch.verdict||'false';
+    let judge;
+    if(!fin){
+      judge=`<p class="rq">단서를 모두 모았어요. 이 소문은…?</p>
+        <div class="vbtns">${['true','part','false'].map(k=>`<button class="vpick" data-k="${k}"><span class="em">${VERDICT_E[k]}</span>${VERDICT[k]}</button>`).join('')}</div>`;
+    }else{
+      const same=fin===v;
+      const gmap={yes:'true',no:'false'}; const g=c.guess;
+      let fb;
+      if(!g) fb='';
+      else if(g==='unsure') fb='처음엔 잘 몰랐지만, 단서를 모아 스스로 생각을 정했어요! 멋진 탐정이에요.';
+      else if(gmap[g]!==fin) fb='새로운 단서를 보고 생각이 달라졌어요! 탐정은 확인한 뒤 생각을 바꿀 수도 있어요.';
+      else fb='처음 생각을 단서로 꼼꼼히 확인했어요!';
+      judge=`<div class="vres"><div class="vline"><small>내 판단</small><b>${VERDICT_E[fin]} ${VERDICT[fin]}</b></div>
+          <div class="vline truthline"><small>진실</small><b>${VERDICT_E[v]} ${VERDICT[v]}</b></div></div>
+        <div class="explain ${same?'good':'soft'}"><strong>${same?'🎉 진실과 같은 판단이에요!':'🔍 다시 보면 이런 까닭이 있어요'}</strong>
+          <b class="why">${esc(ch.truth.title)}</b>${ch.verdictWhy?`<br>${esc(ch.verdictWhy)}`:''}
+          ${ttsBtn(`진실은, ${VERDICT[v]}. ${ch.truth.title}. ${ch.verdictWhy||''}`,'inl')}</div>
+        ${fb?`<div class="fbk"><span class="em">🕵️</span>${esc(fb)}</div>`:''}
+        <div class="row"><button class="cbtn ghost sm" id="redo">다시 판단하기</button></div>`;
+    }
+    const sh=openModal(`<h2>🕵️ 탐정 최종 보고서</h2>
+      <div class="report" style="${tintVars(ch)}">
+        <div class="rsec"><span class="no">①</span><div><small>처음 들은 소문</small><q>${esc(ch.rumor)}</q>${ttsBtn('처음 들은 소문. '+ch.rumor,'inl')}</div></div>
+        <div class="rsec"><span class="no">②</span><div><small>내가 처음 고른 생각</small>${c.guess?`<b>${GUESS[c.guess].e} ${GUESS[c.guess].t}</b>`:'<span class="dim">기록이 없어요</span>'}</div></div>
+        <div class="rsec"><span class="no">③</span><div><small>조사하며 찾은 핵심 단서</small><ul class="clue">${clues.map(p=>`<li><span class="em">🔍</span>${esc(p)}</li>`).join('')}</ul>${ttsBtn('찾은 단서. '+clues.join('. '),'inl')}</div></div>
+        <div class="rsec last"><span class="no">④</span><div><small>최종 판단</small>${judge}</div></div>
+      </div>
+      ${celebrate&&!fin?talkHTML(ch,'gull','꾸꾸… 확인도 안 하고 퍼뜨려서 미안해. 탐정님의 판단을 들려줘!'):''}
+      <div class="row">
+        <button class="cbtn lav" id="recapB">📺 함께 정리하기</button>
+        ${CI>=0?'<button class="cbtn ghost" id="stay">계속 놀기</button>':''}
+        <button class="cbtn" id="go">${S.lesson?'구역으로':'지도로 가기'}</button></div>`);
+    sh.querySelectorAll('.vpick').forEach(b=>b.onclick=()=>{c.final=b.dataset.k;save();sfx.ok();if(c.final===(ch.verdict||'false'))confetti(30);draw()});
+    const r=sh.querySelector('#redo'); if(r) r.onclick=()=>{c.final=null;save();draw()};
+    sh.querySelector('#recapB').onclick=()=>openRecap(ci);
+    const s=sh.querySelector('#stay'); if(s) s.onclick=closeModal;
+    sh.querySelector('#go').onclick=()=>{closeModal();if(S.lesson)goHub(S.lesson.ci);else goMap()};
+  };
+  draw();
+}
+
+/* ---------- 📺 함께 정리하기 (교실 TV·프로젝터) ---------- */
+function openRecap(ci){
+  const ch=CH[ci]; ttsStop(); document.querySelectorAll('.confetti').forEach(e=>e.remove());
+  let el=$('#recap'); if(!el){el=document.createElement('div');el.id='recap';document.body.appendChild(el)}
+  el.setAttribute('style',tintVars(ch));
+  el.innerHTML=`<button class="rclose" id="rClose">돌아가기 ✕</button>
+    <div class="rcwrap">
+      <div class="rblk"><small>오늘의 소문</small><p class="big">🐦 “${esc(ch.rumor)}”</p></div>
+      <div class="rarrow">↓</div>
+      <div class="rblk"><small>우리가 찾은 단서</small><ol>${ch.truth.points.slice(0,3).map(p=>`<li>${esc(p)}</li>`).join('')}</ol></div>
+      <div class="rarrow">↓</div>
+      <div class="rblk truthblk"><small>진실 · ${VERDICT[ch.verdict||'false']}</small><p class="big">${ch.icon} ${esc(ch.truth.title)}</p></div>
+      <div class="rarrow">↓</div>
+      <div class="rblk ask"><p class="big">💬 오늘 새롭게 알게 된 것은 무엇인가요?</p></div>
+    </div>`;
+  el.hidden=false;
+  el.querySelector('#rClose').onclick=closeRecap;
+}
+function closeRecap(){const el=$('#recap');if(el){el.hidden=true;el.innerHTML=''}}
+document.addEventListener('keydown',e=>{const el=$('#recap');if(e.key==='Escape'&&el&&!el.hidden){e.stopImmediatePropagation();closeRecap()}},true);
+
+/* ---------- 🍎 교사 수업 모드 ---------- */
+const GRADE_OPT=[['12','1~2학년'],['34','3~4학년'],['56','5~6학년'],['all','전체']];
+const DUR_OPT=[[15,'짧게 15분'],[40,'기본 40분'],[0,'자유 놀이']];
+function lessonLeft(){
+  const L=S.lesson; if(!L||!L.dur) return '';
+  const ms=Math.max(0,L.start+L.dur*60000-Date.now()); const m=Math.floor(ms/60000), s=Math.floor(ms%60000/1000);
+  return ms<=0?'시간 끝!':`⏱ ${m}:${String(s).padStart(2,'0')}`;
+}
+function recommendOrder(g){
+  const idx=CH.map((_,i)=>i); if(g==='all') return {list:idx,rec:new Set()};
+  const n=+g[0]; const rec=new Set(idx.filter(i=>(CH[i].grades||[]).includes(n)));
+  return {list:[...idx.filter(i=>rec.has(i)),...idx.filter(i=>!rec.has(i))],rec};
+}
+const TM={tab:'start',grade:'all',ci:null,dur:40};
+function teacherModal(tab){
+  if(tab) TM.tab=tab;
+  const draw=()=>{
+    let body;
+    if(TM.tab==='guide') body=guideHTML();
+    else if(S.lesson){
+      const L=S.lesson, ch=CH[L.ci];
+      body=`<div class="nowles" style="${tintVars(ch)}"><span class="em big">${ch.icon}</span><div><small>지금 수업 중</small><b>${esc(ch.place)}</b><span>${esc(ch.theme)} · ${L.dur?`${L.dur}분 · <span id="lessonT2">${lessonLeft()}</span>`:'자유 놀이'}</span></div></div>
+        <div class="row col"><button class="cbtn mint" id="toZone">🏠 오늘의 구역으로</button>
+          <button class="cbtn lav" id="recap2">📺 함께 정리하기</button>
+          <button class="cbtn ghost" id="endL">수업 끝내기 (자유 탐색으로)</button></div>
+        <p class="note">수업 중에는 다른 구역으로 이동할 수 없어요. 끝내면 항구 지도가 다시 열려요.</p>`;
+    }else{
+      const {list,rec}=recommendOrder(TM.grade);
+      if(TM.ci==null||(TM.grade!=='all'&&!rec.has(TM.ci))) TM.ci=list[0];
+      body=`<div class="tstep"><b>1</b> 학년군</div>
+        <div class="chips">${GRADE_OPT.map(([k,t])=>`<button class="chip ${TM.grade===k?'on':''}" data-g="${k}">${t}</button>`).join('')}</div>
+        <div class="tstep"><b>2</b> 오늘의 구역 <small>${TM.grade==='all'?'10개 구역':'추천 구역이 먼저 보여요'}</small></div>
+        <div class="zpick">${list.map(i=>{const ch=CH[i];return `<button class="zone ${TM.ci===i?'on':''}" data-i="${i}" style="${tintVars(ch)}"><span class="em">${ch.icon}</span><span class="zt"><b>${esc(ch.place)}</b><small>${esc(ch.theme)}</small></span>${rec.has(i)?'<span class="recb">추천</span>':''}</button>`}).join('')}</div>
+        <div class="tstep"><b>3</b> 수업 시간</div>
+        <div class="chips">${DUR_OPT.map(([k,t])=>`<button class="chip ${TM.dur===k?'on':''}" data-d="${k}">${t}</button>`).join('')}</div>
+        <div class="row"><button class="cbtn startb" id="startL">🍎 수업 시작</button></div>`;
+    }
+    const sh=openModal(`<h2>선생님 수업 모드</h2>
+      <div class="tabs" role="tablist"><button class="tab ${TM.tab==='start'?'on':''}" data-t="start" role="tab">① 수업 시작</button><button class="tab ${TM.tab==='guide'?'on':''}" data-t="guide" role="tab">② 이용 안내</button></div>
+      ${body}`);
+    sh.classList.add('teach');
+    sh.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{TM.tab=b.dataset.t;sfx.tap();draw()});
+    sh.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{TM.grade=b.dataset.g;TM.ci=null;sfx.tap();draw()});
+    sh.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{TM.dur=+b.dataset.d;sfx.tap();draw()});
+    sh.querySelectorAll('.zone').forEach(b=>b.onclick=()=>{TM.ci=+b.dataset.i;sfx.tap();draw()});
+    const st=sh.querySelector('#startL'); if(st) st.onclick=()=>{
+      S.lesson={ci:TM.ci,grade:TM.grade,dur:TM.dur,start:Date.now(),over:false}; save(); sfx.ok();
+      closeModal(); goHub(TM.ci); toast(`🍎 ${CH[TM.ci].place} 수업을 시작해요!`);
+    };
+    const tz=sh.querySelector('#toZone'); if(tz) tz.onclick=()=>{closeModal();goHub(S.lesson.ci)};
+    const r2=sh.querySelector('#recap2'); if(r2) r2.onclick=()=>openRecap(S.lesson.ci);
+    const en=sh.querySelector('#endL'); if(en) en.onclick=()=>{S.lesson=null;save();closeModal();goMap(true);toast('자유 탐색으로 돌아왔어요 🗺️')};
+    const gg=sh.querySelector('#go'); if(gg) gg.onclick=closeModal;
+  };
+  draw();
+}
+function guideHTML(){
+  return `<p class="note">2022 개정 교육과정 총론의 범교과 학습 주제 10가지를 항구 마을 10개 구역에 하나씩 담았어요. 네 가지 놀이로 ⭐을 모으고, ⭐으로 <b>이야기 4단계</b>(퀴즈 2개 + 미니게임 2개)를 열면 <b>탐정 최종 보고서</b>를 써요.</p>
+    <div class="tw"><table class="tbl"><thead><tr><th>구역</th><th>범교과 주제</th><th>추천 학년</th><th>연계 교과</th></tr></thead>
+    <tbody>${CH.map(ch=>`<tr><td><span class="em">${ch.icon}</span> ${esc(ch.place)}</td><td>${esc(ch.theme)}</td><td>${(ch.grades||[]).length?`${Math.min(...ch.grades)}~${Math.max(...ch.grades)}학년`:'-'}</td><td>${esc(ch.subjects)}</td></tr>`).join('')}</tbody></table></div>
+    <h3 class="gh">수업 흐름 (40분)</h3>
+    <p class="note">① 도입 5분: 소문을 읽고 <b>첫 생각</b> 고르기 (정답은 알려 주지 않아요) → ② 전개 25분: 놀이로 ⭐ 모으고 이야기 단계 풀기 → ③ 정리 10분: 최종 판단 후 <b>📺 함께 정리하기</b> 화면을 TV에 띄워 이야기 나누기</p>
+    <h3 class="gh">알아 두면 좋아요</h3>
+    <p class="note">· <b>수업 모드</b>를 켜면 오늘의 구역에서만 놀 수 있어요. 🍎 단추로 언제든 끝낼 수 있어요.<br>
+    · 틀린 문제는 구역마다 모여서 <b>🔁 헷갈린 문제 다시 풀기</b>로 다시 풀 수 있어요.<br>
+    · 🔊 단추는 기기에 한국어 음성이 있을 때만 보여요.<br>
+    · 보너스 퀴즈를 맞히면 ⭐을 더 많이 받지만, 틀려도 놀이는 계속돼요.<br>
+    · 기록은 각 기기의 브라우저에만 저장돼요. 시간이 짧으면 ⚙️ 설정에서 <b>에너지 무제한</b>을 켜 주세요.</p>
+    <div class="row"><button class="cbtn" id="go">닫기</button></div>`;
+}
+function guideModal(){teacherModal()}
+function timeUpModal(){
+  const L=S.lesson; if(!L) return;
+  const sh=openModal(`<h2>⏰ 수업 시간이 끝났어요!</h2><div class="bigmsg">오늘 찾은 단서를 함께 정리해 볼까요?</div>
+    <div class="row"><button class="cbtn ghost" id="more">조금 더 놀기</button><button class="cbtn lav" id="rc">📺 함께 정리하기</button></div>`);
+  sh.querySelector('#more').onclick=closeModal;
+  sh.querySelector('#rc').onclick=()=>{closeModal();openRecap(L.ci)};
+}
+setInterval(()=>{
+  const L=S.lesson; if(!L||!L.dur) return;
+  const t=lessonLeft(); ['#lessonT','#lessonT2'].forEach(s=>{const e=$(s);if(e)e.textContent=t});
+  if(!L.over&&Date.now()>=L.start+L.dur*60000&&SCREEN==='hub'&&modal.hidden&&!CO){L.over=true;save();timeUpModal()}
+},1000);
+ttsInit();
 /* ===== 놀이 1: 항구 합치기 ===== */
 const C0='#FFC9DA', C1='#C4F0DE';
 function freshBoard(ci,c){
@@ -1947,8 +2257,8 @@ function fitMerge(){
 window.addEventListener('resize',()=>{fitMerge();fitBlock();fitMatch()});
 function quizCharge(){
   const bag=quizCharge.bag||(quizCharge.bag={}); if(bag.ci!==CI){bag.ci=CI;bag.q=null}
-  runQuiz(drawQ(CI,bag),{tag:'📚 퀴즈 충전',title:'맞히면 ⚡15',rightLabel:'⚡15 받기',wrongLabel:'위로 ⚡3 받기',
-    onRight:()=>{addEnergy(15);save();renderMergeTop();toast('⚡15 충전!')},onWrong:()=>{addEnergy(3);save();renderMergeTop()}});
+  runQuiz(drawQ(CI,bag),{tag:'📚 퀴즈 충전',title:'맞히면 ⚡15 + ⭐1',starReward:1,rightLabel:'⚡15 + ⭐1 받기',wrongLabel:'위로 ⚡3 받기',
+    onRight:()=>{addEnergy(15);addStars(1);save();renderMergeTop();toast('⚡15 + ⭐1 받았어요!')},onWrong:()=>{addEnergy(3);save();renderMergeTop()}});
 }
 function noEnergy(){
   sfx.no();
@@ -2107,8 +2417,8 @@ async function gravity(){
   await wait(20); placeAll(); await wait(300);
 }
 function quizBubble(){
-  runQuiz(drawQ(CI,M.bag),{tag:'❓ 팡팡 보너스 퀴즈',title:'맞히면 ⭐1 + 이동 2번',closable:false,rightLabel:'⭐ 받기',wrongLabel:'계속하기',
-    onRight:()=>{M.moves+=2;M.starsWon++;const r=$('#mScore').getBoundingClientRect();addStars(1,r.left+r.width/2,r.top);renderMatchTop();afterMove()},
+  runQuiz(drawQ(CI,M.bag),{tag:'❓ 팡팡 보너스 퀴즈',title:'맞히면 ⭐2 + 이동 2번',closable:false,starReward:2,rightLabel:'⭐2 받기',wrongLabel:'계속하기',
+    onRight:()=>{M.moves+=2;M.starsWon+=2;const r=$('#mScore').getBoundingClientRect();addStars(2,r.left+r.width/2,r.top);renderMatchTop();afterMove()},
     onWrong:()=>afterMove()});
 }
 function afterMove(){
@@ -2143,7 +2453,7 @@ function matchHelp(){
     <span class="em">⬇️</span><div>터진 자리로 위의 그림이 떨어져요. 연속으로 터지면 점수가 쑥쑥!</div>
     <span class="em">💣</span><div>4개를 맞추면 폭탄! 폭탄이 터지면 주변 9칸이 함께 팡.</div>
     <span class="em">🌈</span><div>5개를 맞추면 무지개! 아무 그림과 바꾸면 그 그림이 모두 사라져요.</div>
-    <span class="em">❓</span><div>점수 막대가 차면 보너스 퀴즈! 맞히면 ⭐1과 이동 2번 추가.</div></div>
+    <span class="em">❓</span><div>점수 막대가 차면 보너스 퀴즈! 맞히면 ⭐2와 이동 2번 추가.</div></div>
     <div class="row"><button class="cbtn" id="go">알겠어요</button></div>`);
   sh.querySelector('#go').onclick=closeModal;
 }
@@ -2193,7 +2503,7 @@ function blockHelp(){
   const sh=openModal(`<h2>블록 퍼즐 방법</h2><div class="howto">
     <span class="em">✋</span><div>아래 블록을 끌어다 판 위에 놓아요.</div>
     <span class="em">💥</span><div>가로줄이나 세로줄을 꽉 채우면 펑! 한 번에 여러 줄이면 점수가 쑥쑥.</div>
-    <span class="em">📚</span><div>줄을 3번 없애면 보너스 퀴즈! 맞히면 ⭐별과 +30점.</div>
+    <span class="em">📚</span><div>줄을 3번 없애면 보너스 퀴즈! 맞히면 ⭐2와 +30점.</div>
     <span class="em">🆘</span><div>놓을 곳이 없으면 한 번 구조 퀴즈 기회가 있어요.</div></div>
     <div class="row"><button class="cbtn" id="go">알겠어요</button></div>`);
   sh.querySelector('#go').onclick=closeModal;
@@ -2290,8 +2600,8 @@ function afterPlace(){
   checkOver();
 }
 function bonusQuiz(){
-  runQuiz(drawQ(CI,B.bag),{tag:'📚 보너스 퀴즈',title:'맞히면 ⭐1 + 30점',closable:false,rightLabel:'⭐ 받기',wrongLabel:'계속하기',
-    onRight:()=>{B.score+=30;B.starsWon++;const r=$('#bScore').getBoundingClientRect();addStars(1,r.left+r.width/2,r.top);renderBlockTop();checkOver()},
+  runQuiz(drawQ(CI,B.bag),{tag:'📚 보너스 퀴즈',title:'맞히면 ⭐2 + 30점',closable:false,starReward:2,rightLabel:'⭐2 받기',wrongLabel:'계속하기',
+    onRight:()=>{B.score+=30;B.starsWon+=2;const r=$('#bScore').getBoundingClientRect();addStars(2,r.left+r.width/2,r.top);renderBlockTop();checkOver()},
     onWrong:()=>checkOver()});
 }
 function checkOver(){
@@ -2452,9 +2762,9 @@ $('#tcards').addEventListener('click',e=>{const t=e.target.closest('.tcard');if(
   if(S.ch[CH[i].id]&&S.ch[CH[i].id].done)showTruth(i,false);else toast(`${CH[i].place}의 소문을 밝히면 받을 수 있어요`)});
 $$('[data-back]').forEach(b=>b.onclick=()=>{sfx.tap();goHub()});
 $('#btnQuiz').onclick=()=>{sfx.tap();quizCharge()};
-$('#btnGuide').onclick=()=>guideModal();
+$('#btnGuide').onclick=()=>teacherModal();
 $('#btnSet').onclick=()=>settingsModal();
 setInterval(()=>{if(SCREEN==='merge')renderMergeTop()},1000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)save()});
-goMap();
+if(S.lesson&&CH[S.lesson.ci])goHub(S.lesson.ci);else{S.lesson=null;goMap()}
 </script></body></html>
