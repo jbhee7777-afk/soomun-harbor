@@ -1,0 +1,2460 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}</style>
+<title>소문 항구 탐정단</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&display=swap">
+<style>
+/* 맑은 낮의 파스텔 항구: 한 가지 밝은 세계로 고정한 게임 화면 (모든 색을 직접 지정) */
+:root{
+  --sky1:#BFE6FF; --sky2:#EAF7FF; --sea:#8ED8EC; --sea2:#4FB7D6;
+  --cream:#FFF8EE; --sand:#FFE9C7; --sand2:#F4D3A1;
+  --pink:#FF8FB1; --pink2:#E86A93; --pinkL:#FFE1EA;
+  --mint:#7FDDB8; --mint2:#3FB98A; --mintL:#DDF7EC;
+  --butter:#FFD66B; --butter2:#E9AF2E; --butterL:#FFF3CC;
+  --lav:#BBA9FF; --lav2:#8E77EE; --lavL:#EEE9FF;
+  --coral:#FF8C74; --coral2:#E4644B;
+  --ink:#4A3845; --ink2:#8E7885; --white:#FFFFFF;
+  --disp:"Jua","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --body:"Jua","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --emoji:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{margin:0;color:var(--ink);font-family:var(--body);font-size:19px;font-weight:400;line-height:1.4;background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 55%,#F4FBFF 100%);
+  -webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.55;
+  background-image:radial-gradient(circle at 12% 18%,#fff 0 2px,transparent 3px),radial-gradient(circle at 78% 8%,#fff 0 2px,transparent 3px),radial-gradient(circle at 55% 30%,#fff 0 1.5px,transparent 2.5px);background-size:220px 180px}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;-webkit-user-select:none;user-select:none}
+button:focus-visible{outline:3px solid var(--butter2);outline-offset:2px}
+.em{font-family:var(--emoji);line-height:1}
+h1,h2,h3{font-family:var(--disp);font-weight:400;margin:0;text-wrap:balance}
+#app{height:100%;display:flex;flex-direction:column;position:relative}
+.screen{flex:1;min-height:0;box-sizing:border-box}
+
+/* 손글씨 느낌 */
+
+
+.sect h2{background:linear-gradient(transparent 58%,var(--butterL) 58%,var(--butterL) 90%,transparent 90%);padding:0 4px}
+.tile:nth-child(odd){rotate:-.8deg}.tile:nth-child(even){rotate:.7deg}
+.tile::after{content:"";position:absolute;top:-8px;left:50%;width:54px;height:18px;margin-left:-27px;background:rgba(255,255,255,.65);border-left:2px dashed rgba(0,0,0,.06);border-right:2px dashed rgba(0,0,0,.06);rotate:-4deg;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.card,.sheet,.bubble{background-image:radial-gradient(rgba(142,120,133,.05) 1px,transparent 1.2px);background-size:7px 7px}
+.sheet{border:3px dashed #F3E4EB;background-clip:padding-box}
+.mode{border:3px dashed rgba(255,255,255,.8)}
+.mode:nth-child(odd){rotate:-.6deg}.mode:nth-child(even){rotate:.6deg}
+
+.tile .tag{align-self:flex-start}
+/* 공통 조각 */
+.card{background:var(--white);border-radius:24px;box-shadow:0 6px 0 rgba(120,90,110,.12),0 14px 30px rgba(80,120,160,.12)}
+.cbtn{font-family:var(--disp);font-size:24px;color:#fff;padding:11px 20px;border-radius:999px;background:linear-gradient(180deg,#FFA6C2,var(--pink));box-shadow:0 5px 0 var(--pink2);text-shadow:0 1px 0 rgba(0,0,0,.12);display:inline-flex;align-items:center;gap:6px;justify-content:center;transition:transform .08s}
+.cbtn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--pink2)}
+.cbtn.mint{background:linear-gradient(180deg,#9DEBCB,var(--mint));box-shadow:0 5px 0 var(--mint2)}
+.cbtn.butter{background:linear-gradient(180deg,#FFE292,var(--butter));box-shadow:0 5px 0 var(--butter2);color:var(--ink);text-shadow:none}
+.cbtn.lav{background:linear-gradient(180deg,#D0C3FF,var(--lav));box-shadow:0 5px 0 var(--lav2)}
+.cbtn.ghost{background:#fff;color:var(--ink);box-shadow:0 5px 0 #E6D9E0;text-shadow:none}
+.cbtn[disabled]{filter:grayscale(.7);opacity:.6;cursor:default}
+.pillbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.chipr{display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:999px;padding:5px 12px 5px 7px;font-family:var(--disp);font-size:22px;box-shadow:0 3px 0 rgba(120,90,110,.12);font-variant-numeric:tabular-nums}
+.chipr .em{font-size:25px}
+.chipr small{font-family:var(--body);font-size:16px;color:var(--ink2)}
+.ibtn{width:44px;height:44px;border-radius:16px;background:#fff;display:grid;place-items:center;font-size:26px;box-shadow:0 4px 0 rgba(120,90,110,.14)}
+.ibtn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(120,90,110,.14)}
+.sp{flex:1}
+.tag{display:inline-block;font-family:var(--disp);font-size:17px;padding:3px 10px;border-radius:999px;background:var(--tint,var(--pink));color:#fff}
+.avatar{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:38px;background:radial-gradient(circle at 35% 30%,#fff 0,var(--tintL,#FFE1EA) 70%);box-shadow:0 0 0 4px #fff,0 4px 0 5px rgba(120,90,110,.12);flex:none}
+.gullsvg{display:block}
+
+/* ---------- 지도 ---------- */
+#map{overflow-y:auto;padding:14px 16px 40px}
+.mapwrap{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.hero{position:relative;border-radius:30px;overflow:hidden;box-shadow:0 8px 0 rgba(79,183,214,.35),0 18px 40px rgba(60,130,170,.2);background:var(--sky1)}
+.hero svg.scene{display:block;width:100%;height:auto;aspect-ratio:800/300;min-height:190px}
+.logo{position:absolute;left:0;right:0;top:9%;text-align:center;pointer-events:none}
+.logo h1{font-size:clamp(40px,8vw,76px);color:#fff;letter-spacing:1px;
+  text-shadow:0 3px 0 var(--pink2),0 6px 0 var(--pink2),0 10px 18px rgba(232,106,147,.45);-webkit-text-stroke:2px var(--pink2);paint-order:stroke fill}
+.logo p{margin:6px auto 0;display:inline-block;font-family:var(--disp);font-size:clamp(17px,2.6vw,22px);color:var(--ink);background:rgba(255,255,255,.85);padding:5px 14px;border-radius:999px}
+.herobtns{position:absolute;right:12px;top:12px;display:flex;gap:8px}
+.sect{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:0 4px}
+.sect h2{font-size:29px;color:var(--ink)}
+.sect span{color:var(--ink2);font-size:18px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.tile{position:relative;text-align:left;border-radius:26px;padding:14px;display:flex;flex-direction:column;gap:7px;min-height:168px;
+  background:linear-gradient(180deg,#fff 0%,#fff 55%,var(--tintL) 100%);box-shadow:0 6px 0 var(--tintD),0 12px 24px rgba(80,120,160,.12);transition:transform .15s}
+.tile:hover{transform:translateY(-3px) rotate(-.5deg)}
+.tile:active{transform:translateY(2px)}
+.tile .ic{width:58px;height:58px;border-radius:20px;display:grid;place-items:center;font-size:38px;background:var(--tintL);box-shadow:inset 0 -4px 0 rgba(0,0,0,.05)}
+.tile .pl{font-family:var(--disp);font-size:25px}
+.tile .rm{font-size:17px;color:var(--ink2);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.clues{display:flex;gap:3px;margin-top:auto}
+.clues i{font-style:normal;font-size:20px;filter:grayscale(1);opacity:.3}
+.clues i.on{filter:none;opacity:1}
+.tile .stamp{position:absolute;top:12px;right:12px;font-family:var(--disp);font-size:17px;color:#fff;background:var(--mint2);border-radius:999px;padding:3px 9px;transform:rotate(8deg);box-shadow:0 3px 0 rgba(0,0,0,.1)}
+.tcards{display:flex;gap:10px;flex-wrap:wrap}
+.tcard{width:72px;height:94px;border-radius:16px;display:grid;place-items:center;font-size:36px;background:rgba(255,255,255,.5);border:3px dashed rgba(142,120,133,.35)}
+.tcard.got{border:0;background:linear-gradient(180deg,#fff,var(--tintL));box-shadow:0 5px 0 var(--tintD)}
+.tcard:not(.got) .em{filter:grayscale(1);opacity:.3}
+
+/* ---------- 구역 허브 ---------- */
+#hub{overflow-y:auto;padding:12px 16px 30px}
+.hubwrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.stage{position:relative;border-radius:28px;overflow:hidden;box-shadow:0 7px 0 var(--tintD),0 16px 30px rgba(80,120,160,.15)}
+.stage svg.scene{display:block;width:100%;height:auto;aspect-ratio:800/260;min-height:170px}
+.stage .talkrow{position:absolute;left:14px;right:14px;bottom:14px;display:flex;align-items:flex-end;gap:10px}
+.stage .bubble{flex:1}
+.stage .place{position:absolute;left:16px;top:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.stage .place h2{font-size:clamp(24px,4.5vw,34px);color:var(--ink);background:rgba(255,255,255,.92);padding:4px 16px;border-radius:999px;box-shadow:0 4px 0 rgba(74,56,69,.12)}
+.bubble{background:#fff;border-radius:20px;padding:10px 14px;font-size:21px;line-height:1.45;box-shadow:0 4px 0 rgba(120,90,110,.12);position:relative}
+.bubble b.n{display:block;font-family:var(--disp);font-weight:400;font-size:18px;color:var(--pink2)}
+.bubble.gull b.n{color:#C9861B}
+.bubble q{quotes:"“" "”"}
+.bubble .solved{color:var(--mint2);font-family:var(--disp)}
+.trail{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 14px}
+.trail .lbl{font-family:var(--disp);font-size:21px;margin-right:2px}
+.slots{display:flex;gap:8px}
+.slot{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-size:34px;background:var(--cream);border:3px dashed #EBDCCB}
+.slot.off .em{filter:grayscale(1);opacity:.25}
+.slot.on{border:0;background:var(--tintL);box-shadow:0 4px 0 var(--tintD)}
+.slot.pop{animation:pop .6s}
+.meter{flex:1;min-width:140px;display:flex;flex-direction:column;gap:4px}
+.meter .bar{height:14px;border-radius:999px;background:#F3E8EE;overflow:hidden;box-shadow:inset 0 2px 0 rgba(0,0,0,.05)}
+.meter .bar i{display:block;height:100%;border-radius:999px;background:repeating-linear-gradient(135deg,var(--coral) 0 10px,#FFA58F 10px 20px);transition:width .6s}
+.meter small{font-size:16px;color:var(--ink2)}
+.storybtn.ready{animation:bob 1.4s infinite}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.mode{border-radius:26px;padding:16px 14px 14px;text-align:left;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;color:var(--ink);transition:transform .15s}
+.mode:hover{transform:translateY(-3px)}
+.mode:active{transform:translateY(2px)}
+.mode .big{font-size:52px;filter:drop-shadow(0 4px 0 rgba(0,0,0,.08))}
+.mode h3{font-size:28px}
+.mode p{margin:0;font-size:18px;line-height:1.4;color:var(--ink)}
+.mode .rec{margin-top:auto;font-family:var(--disp);font-size:18px;background:rgba(255,255,255,.75);border-radius:999px;padding:4px 10px;align-self:flex-start}
+.mode.m1{background:linear-gradient(160deg,#FFF4D6,#FFE3A3);box-shadow:0 6px 0 #EFC76A}
+.mode.m2{background:linear-gradient(160deg,#FFE6EF,#FFC3D6);box-shadow:0 6px 0 #EE9DB7}
+.mode.m4{background:linear-gradient(160deg,#DDF7EC,#A9EDD0);box-shadow:0 6px 0 #6FCFA8}
+.mode.m3{background:linear-gradient(160deg,#EEE9FF,#CFC2FF);box-shadow:0 6px 0 #A996F0}
+.mode .deco{position:absolute;right:-12px;top:-12px;font-size:78px;opacity:.16;transform:rotate(14deg)}
+.hint{font-size:18px;color:var(--ink2);text-align:center}
+
+/* ---------- 항구 합치기 ---------- */
+#merge{display:grid;grid-template-columns:1fr;grid-template-rows:auto auto minmax(0,1fr) auto;gap:10px;padding:10px 16px 12px;height:100%;overflow-y:auto}
+.orders{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.order{background:#fff;border-radius:20px;padding:8px 6px 9px;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;box-shadow:0 5px 0 rgba(120,90,110,.12);position:relative}
+.order.ready{box-shadow:0 5px 0 var(--mint2),0 0 0 3px var(--mint)}
+.order .who{display:flex;align-items:center;gap:5px;font-size:16px;color:var(--ink2);max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.order .who .em{font-size:28px}
+.needs{display:flex;gap:5px}
+.need{position:relative;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:30px;background:radial-gradient(circle at 35% 30%,#fff 0,var(--c0) 75%)}
+.need.c1{background:radial-gradient(circle at 35% 30%,#fff 0,var(--c1) 75%)}
+.need.have::after{content:"✓";position:absolute;right:-3px;bottom:-3px;width:17px;height:17px;border-radius:50%;background:var(--mint2);color:#fff;font-size:16px;display:grid;place-items:center;font-weight:700;border:2px solid #fff}
+.order .rw{font-size:16px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.order .give{font-family:var(--disp);font-size:20px;border-radius:999px;padding:4px 14px;background:linear-gradient(180deg,#9DEBCB,var(--mint));color:#fff;box-shadow:0 3px 0 var(--mint2)}
+.order .give[disabled]{background:#F1ECEF;color:#B9A9B2;box-shadow:none;cursor:default}
+.boardwrap{min-height:0;display:grid;place-items:center}
+.board{--cell:54px;display:grid;grid-template-columns:repeat(7,var(--cell));grid-auto-rows:var(--cell);gap:4px;padding:10px;border-radius:28px;
+  background:#FFF3E0;box-shadow:0 0 0 5px #fff,0 9px 0 5px #F2D3AE,0 18px 30px rgba(120,90,60,.18);touch-action:none;user-select:none;-webkit-user-select:none}
+.cell{border-radius:14px;background:#FFE9CC;position:relative;display:grid;place-items:center;box-shadow:inset 0 3px 0 rgba(0,0,0,.035)}
+.cell:nth-child(odd){background:#FFF0DB}
+.cell.tgt{box-shadow:inset 0 0 0 3px var(--butter2)}
+.cell.sel .tok{box-shadow:0 0 0 3px #fff,0 0 0 6px var(--pink)}
+.tok{width:88%;height:88%;border-radius:50%;display:grid;place-items:center;font-size:calc(var(--cell)*.52);position:relative;
+  background:radial-gradient(circle at 34% 28%,#fff 0 12%,var(--c0) 60%,var(--c0d) 100%);box-shadow:0 3px 0 rgba(0,0,0,.08)}
+.tok.c1{background:radial-gradient(circle at 34% 28%,#fff 0 12%,var(--c1) 60%,var(--c1d) 100%)}
+.tok .em{pointer-events:none;filter:drop-shadow(0 2px 0 rgba(0,0,0,.08))}
+.tok .lv{position:absolute;left:-2px;bottom:-2px;font-style:normal;font-family:var(--disp);font-size:calc(var(--cell)*.26);color:#fff;background:var(--ink2);border-radius:999px;min-width:1.35em;height:1.35em;display:grid;place-items:center;border:2px solid #fff}
+.tok.l5 .lv{background:var(--butter2)}
+.tok.gen{border-radius:30%;background:linear-gradient(180deg,#fff,#FFE8A8);box-shadow:0 4px 0 var(--butter2);animation:breathe 2.2s infinite}
+.tok.gen::after{content:"✨";position:absolute;right:-4px;top:-6px;font-size:calc(var(--cell)*.26);font-family:var(--emoji);animation:twinkle 1.6s infinite}
+.tok.box{border-radius:28%;background:linear-gradient(180deg,#FFD1E0,var(--pink));box-shadow:0 4px 0 var(--pink2);animation:wiggle 1.2s infinite}
+.tok.match::before{content:"✓";position:absolute;right:-3px;top:-3px;width:calc(var(--cell)*.3);height:calc(var(--cell)*.3);border-radius:50%;background:var(--mint2);color:#fff;
+  font-size:calc(var(--cell)*.18);display:grid;place-items:center;font-weight:700;font-family:var(--body);border:2px solid #fff;z-index:1}
+.tok.drag{opacity:.25}
+.tok.pop{animation:pop .35s}
+.tok.spawn{animation:spawn .3s}
+#ghost{position:fixed;left:0;top:0;pointer-events:none;z-index:40;filter:drop-shadow(0 8px 8px rgba(0,0,0,.2))}
+.info{background:#fff;border-radius:22px;padding:8px 12px;display:flex;align-items:center;gap:10px;min-height:54px;box-shadow:0 5px 0 rgba(120,90,110,.12)}
+.info .big{font-size:38px}
+.info .txt{flex:1;min-width:0}
+.info .nm{font-family:var(--disp);font-size:22px}
+.info .ds{font-size:17px;color:var(--ink2);line-height:1.35}
+.chain{display:inline-flex;gap:3px;font-size:21px;vertical-align:middle;margin-left:4px}
+.chain .em.me{background:var(--butterL);border-radius:6px;box-shadow:0 0 0 2px var(--butter)}
+.sell{font-family:var(--disp);font-size:18px;border-radius:999px;padding:7px 12px;background:var(--butterL);box-shadow:0 3px 0 #F0D78C;white-space:nowrap}
+.readypill{font-family:var(--disp);font-size:20px;color:#fff;background:linear-gradient(180deg,#FFA58F,var(--coral));box-shadow:0 4px 0 var(--coral2);border-radius:999px;padding:7px 12px;animation:bob 1.4s infinite}
+.combo{position:fixed;z-index:46;pointer-events:none;font-family:var(--disp);font-size:34px;color:#fff;-webkit-text-stroke:2px var(--pink2);paint-order:stroke fill;animation:combo .9s forwards}
+@media (min-aspect-ratio:1/1) and (min-width:820px){
+  #merge{grid-template-columns:minmax(260px,330px) minmax(0,1fr);grid-template-rows:auto 1fr auto;column-gap:18px}
+  #merge .topbar{grid-column:1 / -1}
+  #merge .orders{grid-column:1;grid-row:2;grid-template-columns:1fr;align-content:start}
+  #merge .order{flex-direction:row;justify-content:space-between;padding:10px 12px}
+  #merge .order .who{flex-direction:column;gap:2px;width:66px;white-space:normal;text-align:center;font-size:16px}
+  #merge .order .who .em{font-size:34px}
+  #merge .boardwrap{grid-column:2;grid-row:2}
+  #merge .info{grid-column:1 / -1;grid-row:3}
+}
+#merge.scroll{grid-template-rows:auto auto auto auto}
+#merge.scroll .info{position:sticky;bottom:0;z-index:5}
+
+/* ---------- 블록 퍼즐 ---------- */
+#block{display:flex;flex-direction:column;gap:10px;padding:10px 16px 14px;height:100%;overflow-y:auto}
+.bmain{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;gap:12px}
+.score{font-family:var(--disp);font-size:45px;line-height:1;color:#fff;-webkit-text-stroke:2px var(--lav2);paint-order:stroke fill;text-shadow:0 4px 0 var(--lav2);font-variant-numeric:tabular-nums}
+.qgauge{display:flex;align-items:center;gap:8px;background:#fff;border-radius:999px;padding:5px 12px;box-shadow:0 3px 0 rgba(120,90,110,.12);font-family:var(--disp);font-size:18px}
+.qgauge i{width:22px;height:12px;border-radius:999px;background:#EFE6F7}
+.qgauge i.on{background:linear-gradient(90deg,var(--lav),var(--pink))}
+.bboard{--bc:40px;display:grid;grid-template-columns:repeat(8,var(--bc));grid-auto-rows:var(--bc);gap:3px;padding:9px;border-radius:24px;background:#6F5A8E;
+  box-shadow:0 0 0 5px #fff,0 9px 0 5px #D9CCF2,0 18px 30px rgba(90,70,140,.2);touch-action:none}
+.bcell{border-radius:9px;background:#826EA3;box-shadow:inset 0 3px 0 rgba(0,0,0,.12);display:grid;place-items:center;font-size:calc(var(--bc)*.55)}
+.bcell.f,.pcell{border-radius:9px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.14),inset 0 3px 0 rgba(255,255,255,.55);display:grid;place-items:center}
+.bcell.pv{background:rgba(255,255,255,.5)!important;box-shadow:inset 0 0 0 3px #fff}
+.bcell.pvl{filter:brightness(1.18) saturate(1.2)}
+.bcell.clr{animation:clr .32s forwards}
+.tray{--pc:22px;display:flex;justify-content:center;align-items:center;gap:14px;width:100%;min-height:110px;flex-wrap:nowrap;touch-action:none}
+.piece{display:grid;gap:2px;padding:8px;border-radius:16px;touch-action:none;cursor:grab;transition:transform .12s}
+.piece:hover{transform:scale(1.05)}
+.piece.used{visibility:hidden}
+.piece.nofit{opacity:.35}
+.pcell{width:var(--pc);height:var(--pc);font-size:calc(var(--pc)*.6)}
+.pcell.e{background:transparent;box-shadow:none}
+#bghost{position:fixed;left:0;top:0;z-index:40;pointer-events:none;display:grid;gap:3px;filter:drop-shadow(0 10px 10px rgba(0,0,0,.25))}
+@media (min-aspect-ratio:1/1) and (min-width:820px){
+  .bmain{flex-direction:row;justify-content:center;align-items:center;gap:30px}
+  .tray{flex-direction:column;width:auto;min-height:0}
+  .bside{display:flex;flex-direction:column;align-items:center;gap:12px}
+}
+
+/* ---------- 소문 팡팡 ---------- */
+#match{display:flex;flex-direction:column;gap:10px;padding:10px 16px 16px;height:100%;overflow-y:auto;background:linear-gradient(180deg,rgba(221,247,236,.7),rgba(234,247,255,.3))}
+.mwrap{display:flex;flex-direction:column;align-items:center;gap:12px;flex:1}
+.mtop{display:flex;align-items:center;gap:14px;padding:10px 16px;width:100%;max-width:520px;box-sizing:border-box}
+.mstat{display:flex;flex-direction:column;align-items:center;min-width:64px}
+.mstat small,.mq small{font-size:16px;color:var(--ink2)}
+.mstat b{font-family:var(--disp);font-weight:400;font-size:35px;font-variant-numeric:tabular-nums;line-height:1.1}
+.mq{flex:1;display:flex;flex-direction:column;gap:4px}
+.mq .bar{height:14px;border-radius:999px;background:#EDF3F0;overflow:hidden}
+.mq .bar i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--mint),var(--butter));transition:width .4s}
+.mboard{--mc:48px;position:relative;box-sizing:content-box;padding:10px;border-radius:26px;background:#E7F7F0;box-shadow:0 0 0 5px #fff,0 9px 0 5px #BFE9D6,0 18px 30px rgba(60,140,110,.18);touch-action:none;overflow:hidden;user-select:none;-webkit-user-select:none}
+.mt{position:absolute;left:10px;top:10px;width:var(--mc);height:var(--mc);border-radius:30%;display:grid;place-items:center;font-size:calc(var(--mc)*.58);
+  box-shadow:inset 0 -5px 0 rgba(0,0,0,.1),inset 0 4px 0 rgba(255,255,255,.6);transition:transform .28s cubic-bezier(.3,1.3,.5,1);cursor:pointer}
+.mt .em{pointer-events:none;filter:drop-shadow(0 2px 0 rgba(0,0,0,.08))}
+.mt .bomb{position:absolute;right:-3px;bottom:-3px;font-size:calc(var(--mc)*.34);font-style:normal}
+.mt.sel{box-shadow:0 0 0 3px #fff,0 0 0 6px var(--pink);z-index:2}
+.mt.pang{animation:pang .24s forwards;z-index:3}
+.mt.pop{animation:pop .4s}
+.mt.nope{animation:shake .25s}
+@keyframes pang{0%{scale:1}40%{scale:1.3;filter:brightness(1.5)}100%{scale:0;opacity:0}}
+
+/* ---------- 소문 던전 ---------- */
+#dungeon{overflow-y:auto;padding:10px 16px 30px;background:linear-gradient(180deg,rgba(238,233,255,.8),rgba(255,225,234,.6))}
+.dwrap{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.status{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px}
+.hearts{font-size:28px;letter-spacing:1px}
+.path{display:flex;align-items:center;gap:4px;margin-left:auto}
+.path i{width:14px;height:14px;border-radius:50%;background:#E9E1F3;display:block}
+.path i.done{background:var(--lav)}
+.path i.now{background:var(--pink);box-shadow:0 0 0 4px var(--pinkL)}
+.path i.boss{width:auto;height:auto;background:none;font-style:normal;font-size:24px}
+.dstage{padding:18px;display:flex;flex-direction:column;gap:14px;align-items:stretch;text-align:center}
+.dstage h2{font-size:32px}
+.doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.door{border-radius:28px 28px 16px 16px;padding:16px 10px 14px;display:flex;flex-direction:column;align-items:center;gap:6px;background:linear-gradient(180deg,#B89BE8,#8E6FD3);color:#fff;box-shadow:0 6px 0 #6C51B0;transition:transform .15s}
+.door:hover{transform:translateY(-4px)}
+.door .em{font-size:54px;filter:drop-shadow(0 4px 0 rgba(0,0,0,.15))}
+.door b{font-family:var(--disp);font-weight:400;font-size:25px}
+.door small{font-size:16px;opacity:.95;line-height:1.35}
+.door.t-treasure{background:linear-gradient(180deg,#FFD978,#F0B13A);box-shadow:0 6px 0 #C98A1C;color:var(--ink)}
+.door.t-game{background:linear-gradient(180deg,#8FE0BE,#3FB98A);box-shadow:0 6px 0 #2B8F69}
+.door.t-rest{background:linear-gradient(180deg,#9FD8F5,#4FB7D6);box-shadow:0 6px 0 #328FAB}
+.door.t-boss{background:linear-gradient(180deg,#FF9B86,#E4644B);box-shadow:0 6px 0 #B84631}
+.monster{font-size:103px;animation:float 2.2s infinite;filter:drop-shadow(0 10px 0 rgba(0,0,0,.08))}
+.monster.hit{animation:hit .4s}
+.hpbar{display:flex;justify-content:center;gap:5px}
+.hpbar i{width:34px;height:12px;border-radius:999px;background:var(--coral)}
+.hpbar i.off{background:#EEE3E8}
+.buffs{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.buff{border-radius:20px;padding:14px 8px;background:var(--cream);box-shadow:0 5px 0 #F0DCC2;display:flex;flex-direction:column;align-items:center;gap:4px}
+.buff .em{font-size:40px}
+.buff b{font-family:var(--disp);font-weight:400;font-size:22px}
+.buff small{font-size:16px;color:var(--ink2)}
+
+/* ---------- 모달 · 퀴즈 · 미니게임 ---------- */
+#modal{position:fixed;inset:0;z-index:50;background:rgba(74,56,69,.45);display:grid;place-items:center;padding:16px;animation:fade .2s}
+.sheet{background:#fff;border-radius:30px;width:min(580px,100%);max-height:calc(100% - 8px);overflow:auto;padding:22px;box-sizing:border-box;position:relative;box-shadow:0 10px 0 rgba(0,0,0,.08);animation:up .28s cubic-bezier(.2,1.4,.4,1)}
+.sheet h2{font-size:31px}
+.x{position:absolute;right:14px;top:14px;width:38px;height:38px;border-radius:50%;background:#F6EEF2;font-size:22px;color:var(--ink2)}
+.talk{display:flex;gap:12px;align-items:flex-start;margin-top:14px}
+.talk .bubble{background:var(--cream);box-shadow:none;font-size:22px}
+.talk .bubble.gull{background:#FFF4D0}
+.row{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+.qhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.qhead .tag{font-size:18px}
+.qq{font-size:25px;line-height:1.5;margin:12px 0 14px}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{text-align:left;padding:13px 15px;border-radius:18px;background:var(--cream);font-size:22px;line-height:1.4;display:flex;gap:10px;align-items:center;box-shadow:0 4px 0 #F0DCC2;transition:transform .1s}
+.opt b{flex:none;width:30px;height:30px;border-radius:50%;background:#fff;display:grid;place-items:center;font-family:var(--disp);font-weight:400;color:var(--pink2)}
+.opt:hover{transform:translateX(3px)}
+.opt.right{background:var(--mintL);box-shadow:0 4px 0 var(--mint)}
+.opt.wrong{background:var(--pinkL);box-shadow:0 4px 0 var(--pink);animation:shake .35s}
+.opt.gone{opacity:.25;text-decoration:line-through}
+.opt[disabled]{cursor:default;transform:none}
+.explain{margin-top:14px;padding:13px 15px;border-radius:18px;font-size:20px;line-height:1.5}
+.explain.good{background:var(--mintL)}
+.explain.bad{background:var(--pinkL)}
+.explain strong{font-family:var(--disp);font-weight:400;font-size:25px;display:block;margin-bottom:2px}
+.gprompt{font-family:var(--disp);font-size:25px;margin:10px 0 12px}
+.gdots{display:flex;gap:5px;margin-left:auto}
+.gdots i{width:10px;height:10px;border-radius:50%;background:#EEE3E8}
+.gdots i.on{background:var(--mint)}
+.oslots{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.oslot{min-height:42px;border-radius:14px;border:3px dashed #EAD9E1;display:flex;align-items:center;gap:8px;padding:6px 10px;font-size:20px}
+.oslot b{font-family:var(--disp);font-weight:400;width:26px;height:26px;border-radius:50%;background:#F4ECF0;display:grid;place-items:center;flex:none}
+.oslot.f{border:0;background:var(--mintL);animation:pop .35s}
+.oslot.f b{background:var(--mint2);color:#fff}
+.gbtns{display:flex;flex-wrap:wrap;gap:8px}
+.gbtn{padding:11px 14px;border-radius:16px;background:var(--lavL);box-shadow:0 4px 0 #D5CAF7;font-size:20px;text-align:left;line-height:1.35}
+.gbtn.bad{animation:shake .35s;background:var(--pinkL)}
+.gbtn.sel{background:var(--butterL);box-shadow:0 4px 0 var(--butter2)}
+.gbtn.ok{background:var(--mintL);box-shadow:0 4px 0 var(--mint);opacity:.7;cursor:default}
+.scard{margin:4px auto 14px;max-width:360px;padding:22px 16px;border-radius:24px;background:var(--butterL);box-shadow:0 6px 0 #F0D78C;font-size:25px;font-family:var(--disp);animation:pop .35s;text-align:center}
+.bins{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.bin{padding:14px 8px;border-radius:20px;background:var(--mintL);box-shadow:0 5px 0 var(--mint);display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--disp);font-size:21px}
+.bin .em{font-size:38px}
+.bin.bad{animation:shake .35s;background:var(--pinkL);box-shadow:0 5px 0 var(--pink)}
+.bin.good{animation:pop .35s}
+.mcols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mcols .gbtns{flex-direction:column}
+.oxbtns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.oxbtns button{font-size:49px;padding:14px;border-radius:22px;background:var(--cream);box-shadow:0 5px 0 #F0DCC2}
+.shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.item{border-radius:18px;padding:12px 8px;background:var(--cream);box-shadow:0 4px 0 #F0DCC2;display:flex;flex-direction:column;align-items:center;gap:3px}
+.item .em{font-size:36px}
+.item b{font-family:var(--disp);font-weight:400;font-size:21px}
+.item small{font-variant-numeric:tabular-nums;color:var(--ink2)}
+.item.on{background:var(--mintL);box-shadow:0 4px 0 var(--mint),0 0 0 3px var(--mint)}
+.wallet{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:10px 14px;border-radius:16px;background:var(--lavL);font-family:var(--disp);font-size:22px;font-variant-numeric:tabular-nums}
+.result{text-align:center;padding:6px 0}
+.result .stars{font-size:54px;letter-spacing:4px;margin:8px 0}
+.result .stars .off{filter:grayscale(1);opacity:.25}
+.truth{border-radius:24px;padding:20px;background:linear-gradient(180deg,#fff,var(--tintL));box-shadow:0 6px 0 var(--tintD);position:relative;margin-top:12px}
+.truth .rm{font-size:20px;color:var(--ink2)}
+.truth .rm q{text-decoration:line-through;text-decoration-color:var(--coral);text-decoration-thickness:2px}
+.truth .stampbig{position:absolute;right:14px;top:-10px;font-family:var(--disp);color:#fff;background:var(--coral);border-radius:999px;padding:4px 12px;transform:rotate(8deg);font-size:22px;box-shadow:0 3px 0 var(--coral2)}
+.truth h3{font-size:29px;margin:12px 0 10px}
+.truth ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.truth li{display:flex;gap:8px;font-size:21px;line-height:1.45}
+.truth li::before{content:"✓";color:#fff;background:var(--tint);border-radius:50%;width:22px;height:22px;flex:none;display:grid;place-items:center;font-size:17px;margin-top:1px}
+.howto{display:grid;grid-template-columns:auto 1fr;gap:10px 12px;margin-top:14px;align-items:center;font-size:20px;line-height:1.4}
+.howto .em{font-size:35px;text-align:center}
+.tbl{width:100%;border-collapse:collapse;font-size:18px;margin-top:10px}
+.tbl th,.tbl td{text-align:left;padding:7px 6px;border-bottom:1px solid #F1E6EC;vertical-align:top}
+.tbl th{font-family:var(--disp);font-weight:400;color:var(--pink2)}
+.tw{overflow-x:auto}
+.set{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #F1E6EC;font-size:21px}
+.sw{width:56px;height:32px;border-radius:999px;background:#EDE3E8;position:relative;flex:none}
+.sw::after{content:"";position:absolute;left:3px;top:3px;width:26px;height:26px;border-radius:50%;background:#fff;transition:left .15s;box-shadow:0 2px 0 rgba(0,0,0,.1)}
+.sw[aria-checked="true"]{background:var(--mint)}
+.sw[aria-checked="true"]::after{left:27px}
+.note{font-size:18px;color:var(--ink2);line-height:1.55}
+select{font:inherit;padding:6px 8px;border-radius:12px;border:2px solid #EDE3E8;background:#fff;max-width:100%}
+
+/* ---------- 따라 하기 안내 ---------- */
+#coach{position:fixed;inset:0;z-index:48;pointer-events:none}
+#coach .spot{position:fixed;border-radius:20px;box-shadow:0 0 0 9999px rgba(74,56,69,.5);transition:all .25s;pointer-events:none}
+#coach .spot.none{box-shadow:0 0 0 9999px rgba(74,56,69,.5);width:0;height:0;left:50%;top:50%}
+#coach .ring{position:fixed;border-radius:20px;border:4px solid var(--butter);animation:ringp 1.2s infinite;pointer-events:none}
+#coach .hand{position:fixed;font-size:49px;font-family:var(--emoji);pointer-events:none;z-index:2;filter:drop-shadow(0 4px 4px rgba(0,0,0,.25))}
+#coach .hand.tap{animation:tap 1s infinite}
+#coach .hand.drag{animation:dragh 1.8s infinite}
+#coach .cbox{position:fixed;left:0;right:0;margin:0 auto;width:min(520px,calc(100% - 32px));display:flex;gap:10px;align-items:flex-end;pointer-events:auto;animation:up .3s}
+#coach .cbox .bubble{flex:1;font-size:22px;border:3px solid var(--butter)}
+#coach .cbox .bubble .row{margin-top:8px}
+#coach .skip{font-size:17px;color:var(--ink2);text-decoration:underline;padding:6px}
+
+#toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;gap:6px;align-items:center;pointer-events:none;width:min(92%,460px)}
+.tst{background:#fff;color:var(--ink);padding:10px 18px;border-radius:999px;font-size:20px;line-height:1.4;animation:up .25s;text-align:center;box-shadow:0 5px 0 rgba(120,90,110,.15),0 10px 20px rgba(0,0,0,.08);font-family:var(--disp)}
+.float{position:fixed;z-index:47;pointer-events:none;font-family:var(--disp);font-size:30px;color:var(--butter2);animation:rise 1s forwards;-webkit-text-stroke:1.5px #fff;paint-order:stroke fill}
+.confetti{position:fixed;top:-20px;z-index:70;pointer-events:none;width:10px;height:14px;border-radius:3px;animation:fall linear forwards}
+
+@keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes spawn{0%{transform:scale(.2) translateY(10px);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes fade{from{opacity:0}}
+@keyframes up{from{transform:translateY(16px);opacity:0}}
+@keyframes rise{to{transform:translateY(-60px);opacity:0}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes twinkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@keyframes clr{0%{transform:scale(1)}50%{transform:scale(1.2);filter:brightness(1.6)}100%{transform:scale(0);opacity:0}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes hit{0%{transform:translateX(0)}20%{transform:translateX(-14px) rotate(-8deg);filter:brightness(2)}60%{transform:translateX(10px) rotate(6deg)}100%{transform:translateX(0)}}
+@keyframes combo{0%{transform:scale(.4);opacity:0}30%{transform:scale(1.2);opacity:1}100%{transform:scale(1) translateY(-40px);opacity:0}}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+@keyframes tap{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(0,8px) scale(.9)}}
+@keyframes dragh{0%{transform:translate(0,0);opacity:0}15%{opacity:1}75%{transform:translate(var(--dx),var(--dy));opacity:1}100%{transform:translate(var(--dx),var(--dy));opacity:0}}
+@keyframes ringp{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.08);opacity:.6}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
+@media (max-width:640px){
+  .stage .talkrow{position:relative;left:auto;right:auto;bottom:auto;padding:10px 12px 12px;background:#fff}
+  .stage .bubble{box-shadow:none;background:var(--cream)}
+  .modes{grid-template-columns:1fr}
+  .mode{flex-direction:row;align-items:center;flex-wrap:wrap;gap:4px 12px}
+  .mode .big{font-size:45px}
+  .mode .mt2{flex:1;min-width:0}
+  .mode .rec{margin-top:0}
+}
+@media (max-width:480px){
+  .logo{top:18%}
+  .logo h1{font-size:36px;-webkit-text-stroke:1.5px var(--pink2)}
+  .logo p{font-size:16px}
+  .herobtns .ibtn{width:36px;height:36px;font-size:22px}
+  .tile{min-height:0;padding:12px}
+  .tile .pl{font-size:22px}
+  .tile .ic{width:46px;height:46px;font-size:34px}
+  .slot{width:40px;height:40px;font-size:28px}
+  .need{width:32px;height:32px;font-size:25px}
+  .chipr{font-size:20px;padding:4px 9px 4px 6px}
+  .ibtn{width:40px;height:40px}
+  .avatar{width:48px;height:48px;font-size:35px}
+  .bubble{font-size:19px}
+  .sheet{padding:18px}
+  .qq{font-size:24px}
+}
+</style>
+</head><body>
+<div id="app">
+  <section id="map" class="screen">
+    <div class="mapwrap">
+      <div class="hero" id="hero">
+        <div class="logo"><h1>소문 항구 탐정단</h1><br><p>합치고 · 쌓고 · 모험하며 소문의 진실을 밝혀요!</p></div>
+        <div class="herobtns">
+          <button class="ibtn" id="btnGuide" aria-label="선생님 안내" title="선생님 안내"><span class="em">🍎</span></button>
+          <button class="ibtn" id="btnSet" aria-label="설정" title="설정"><span class="em">⚙️</span></button>
+        </div>
+      </div>
+      <div class="sect"><h2>항구 마을 지도</h2><span>구역을 골라 들어가요 · 구역마다 범교과 주제가 하나씩!</span></div>
+      <div class="tiles" id="tiles"></div>
+      <div class="sect"><h2>진실 카드 도감</h2><span id="cardCount"></span></div>
+      <div class="tcards" id="tcards"></div>
+    </div>
+  </section>
+
+  <section id="hub" class="screen" hidden><div class="hubwrap" id="hubwrap"></div></section>
+
+  <section id="merge" class="screen" hidden>
+    <div class="topbar pillbar">
+      <button class="ibtn" data-back aria-label="구역으로"><span class="em">🏠</span></button>
+      <span class="chipr" title="에너지"><span class="em">⚡</span><span id="eVal">50</span><small id="eTime"></small></span>
+      <span class="chipr" title="동전"><span class="em">🪙</span><span id="cVal">0</span></span>
+      <span class="chipr" title="이 구역의 별"><span class="em">⭐</span><span class="sVal">0</span></span>
+      <span class="sp"></span>
+      <span id="mReady"></span>
+      <button class="cbtn butter" id="btnQuiz" style="font-size:15px;padding:8px 14px"><span class="em">📚</span>퀴즈 충전</button>
+    </div>
+    <div class="orders" id="orders"></div>
+    <div class="boardwrap" id="boardwrap"><div class="board" id="board"></div></div>
+    <div class="info" id="info"></div>
+  </section>
+
+  <section id="block" class="screen" hidden>
+    <div class="topbar pillbar">
+      <button class="ibtn" data-back aria-label="구역으로"><span class="em">🏠</span></button>
+      <span class="chipr" title="최고 점수"><span class="em">👑</span><span id="bBest">0</span></span>
+      <span class="chipr" title="이 구역의 별"><span class="em">⭐</span><span class="sVal">0</span></span>
+      <span class="sp"></span>
+      <button class="ibtn" id="bHelp" aria-label="도움말"><span class="em">❓</span></button>
+    </div>
+    <div class="bmain">
+      <div class="bside" style="display:flex;flex-direction:column;align-items:center;gap:8px">
+        <div class="score" id="bScore">0</div>
+        <div class="qgauge" id="bGauge"></div>
+        <div class="bboard" id="bboard"></div>
+      </div>
+      <div class="tray" id="tray"></div>
+    </div>
+  </section>
+
+  <section id="match" class="screen" hidden>
+    <div class="topbar pillbar">
+      <button class="ibtn" data-back aria-label="구역으로"><span class="em">🏠</span></button>
+      <span class="chipr" title="최고 점수"><span class="em">👑</span><span id="mBest">0</span></span>
+      <span class="chipr" title="이 구역의 별"><span class="em">⭐</span><span class="sVal">0</span></span>
+      <span class="sp"></span>
+      <button class="ibtn" id="mHelp" aria-label="도움말"><span class="em">❓</span></button>
+    </div>
+    <div class="mwrap">
+      <div class="card mtop" id="mTop">
+        <div class="mstat"><small>점수</small><b id="mScore">0</b></div>
+        <div class="mq"><small>❓ 보너스 퀴즈까지</small><span class="bar"><i id="mQbar"></i></span></div>
+        <div class="mstat"><small>남은 이동</small><b id="mMoves">20</b></div>
+      </div>
+      <div class="mboard" id="mboard"></div>
+    </div>
+  </section>
+
+  <section id="dungeon" class="screen" hidden><div class="dwrap" id="dwrap"></div></section>
+</div>
+<div id="modal" hidden></div>
+<div id="coach" hidden></div>
+<div id="toast"></div>
+<div id="ghost" hidden></div>
+<div id="bghost" hidden></div>
+<script>
+/* ===== 범교과 10개 주제 콘텐츠 (2022 개정 교육과정 총론) ===== */
+const CH = [
+{
+  id:'safety', theme:'안전·건강 교육', place:'반짝 등대 보건소', icon:'⛑️', tint:'#E2513A',
+  subjects:'안전한 생활(1~2학년), 체육(보건), 과학(지진)',
+  npc:{face:'👩‍⚕️', name:'하나 보건 선생님'},
+  villagers:[{face:'👴', name:'박 할아버지'},{face:'👦', name:'준이'}],
+  rumor:'지진이 나면 무조건 바로 밖으로 뛰어나가야 한대!',
+  chains:[
+    {gen:{e:'🧰', n:'안전 창고'}, items:[
+      {e:'🩹', n:'반창고', d:'작은 상처는 깨끗한 물로 씻은 뒤 붙여요.'},
+      {e:'🧤', n:'위생 장갑', d:'다친 사람을 도울 때 손을 보호해요.'},
+      {e:'🔦', n:'손전등', d:'정전이 되면 촛불 대신 손전등을 켜요.'},
+      {e:'🎒', n:'생존 가방', d:'물, 손전등, 구급약, 호루라기를 미리 챙겨 둬요.'},
+      {e:'🚒', n:'소방차', d:'불이 나면 119에 신고해요.'}]},
+    {gen:{e:'🧺', n:'건강 바구니'}, items:[
+      {e:'💧', n:'물', d:'목이 마를 땐 단 음료보다 물을 마셔요.'},
+      {e:'🥛', n:'우유', d:'우유는 뼈와 이를 튼튼하게 해 줘요.'},
+      {e:'🥕', n:'당근', d:'채소를 골고루 먹으면 몸이 튼튼해져요.'},
+      {e:'🥗', n:'샐러드', d:'여러 색깔의 채소를 먹으면 좋아요.'},
+      {e:'🍱', n:'건강 도시락', d:'밥, 반찬, 채소, 과일을 골고루 먹어요.'}]}
+  ],
+  steps:[
+    {title:'보건소 간판 달기', deco:'🪧', lines:[
+      ['npc','어머, 탐정님 오셨군요! 마을에 걱정스러운 소문이 돌고 있어요.'],
+      ['gull','꾸꾸! 지진이 나면 무조건 바로 밖으로 뛰어나가야 한대!'],
+      ['npc','정말 그럴까요? 흔들리는 순간을 떠올리며 이 문제부터 풀어 봐요.']],
+     quiz:{q:'교실에서 땅이 흔들리기 시작했어요. 가장 먼저 할 일은?', o:['책상 아래로 들어가 책상 다리를 잡고 머리와 몸을 보호한다','바로 복도로 뛰어나간다','창문 옆에 붙어 선다'], a:0, x:'흔들릴 때 움직이면 떨어지는 물건이나 깨진 유리에 다칠 수 있어요. 흔들림이 멈출 때까지 책상 아래에서 몸을 보호해요.'}},
+    {title:'대피 안내도 붙이기', deco:'🗺️', lines:[
+      ['npc','좋아요! 첫 번째 단서를 찾았어요. 그럼 흔들림이 멈춘 뒤에는요?']],
+     quiz:{q:'흔들림이 멈춘 뒤 건물 밖으로 나갈 때 알맞은 방법은?', o:['계단을 이용해 운동장처럼 넓은 곳으로 대피한다','엘리베이터를 탄다','가방을 챙기러 교실로 다시 들어간다'], a:0, x:'지진이나 불이 났을 때 엘리베이터는 멈춰서 갇힐 수 있어요. 계단으로 넓은 곳에 대피해요.'}},
+    {title:'소화기 채우기', deco:'🧯', lines:[
+      ['gull','꾸꾸? 불이 났을 때는 어떻게 해야 해?'],
+      ['npc','불이 났을 때 가장 무서운 건 연기예요.']],
+     quiz:{q:'불이 나서 복도에 연기가 찼어요. 어떻게 움직일까요?', o:['젖은 수건 등으로 코와 입을 막고 몸을 낮춰 이동한다','숨을 참고 똑바로 서서 뛴다','연기가 어디서 오는지 보려고 연기 쪽으로 간다'], a:0, x:'연기는 위로 올라가요. 코와 입을 막고 자세를 낮추면 연기를 덜 마실 수 있어요.'}},
+    {title:'구급차 불빛 켜기', deco:'🚑', lines:[
+      ['npc','마지막 단서예요! 위급할 때 도움을 부르는 방법도 꼭 알아야 해요.']],
+     quiz:{q:'불이 나거나 크게 다친 사람이 있을 때 신고하는 번호는?', o:['112','119','114'], a:1, x:'119는 화재·구조·구급 신고 번호예요. 112는 경찰 신고 번호예요.'}}
+  ],
+  truth:{title:'지진이 나면 먼저 몸을 보호해요', points:['흔들릴 때: 책상 아래에서 머리와 몸 보호','흔들림이 멈추면: 계단으로 넓은 곳에 대피','엘리베이터는 타지 않아요','화재·구조·구급 신고는 119']},
+  extra:[
+    {q:'손을 씻을 때 알맞은 방법은?', o:['비누로 30초 이상 손가락 사이, 손톱 밑까지 씻는다','물만 살짝 묻힌다','손바닥만 문지른다'], a:0, x:'비누로 30초 이상 구석구석 씻으면 감염병을 막을 수 있어요.'},
+    {q:'초록불이 켜졌어요. 횡단보도를 건널 때 알맞은 행동은?', o:['차가 멈췄는지 좌우를 살핀 뒤 건넌다','휴대 전화를 보며 건넌다','불이 바뀌자마자 뛰어서 건넌다'], a:0, x:'초록불이어도 달려오는 차가 있을 수 있어요. 멈추고, 살피고, 건너요.'},
+    {q:'자전거나 킥보드를 탈 때 꼭 써야 하는 것은?', o:['안전모(헬멧)','선글라스','털모자'], a:0, x:'안전모는 넘어졌을 때 머리를 보호해 줘요.'}
+  ],
+  tips:['흔들리면 책상 아래로!','연기가 나면 몸을 낮춰요.','화재·구조·구급은 119!','물을 자주 마셔요.']
+},
+{
+  id:'character', theme:'인성 교육', place:'다정 꽃집', icon:'💐', tint:'#D9577E',
+  subjects:'도덕, 국어(듣기·말하기)',
+  npc:{face:'👵', name:'민들레 할머니'},
+  villagers:[{face:'👧', name:'소미'},{face:'👦', name:'준이'}],
+  rumor:'새로 전학 온 친구가 인사를 안 받아 준 건 우리를 싫어해서래!',
+  chains:[
+    {gen:{e:'🪴', n:'꽃밭'}, items:[
+      {e:'🌱', n:'씨앗', d:'작은 친절이 큰 우정으로 자라요.'},
+      {e:'🌿', n:'새싹', d:'친구에게 먼저 인사해 봐요.'},
+      {e:'🌷', n:'튤립', d:'고운 말은 마음을 환하게 해요.'},
+      {e:'🌻', n:'해바라기', d:'친구의 좋은 점을 찾아 칭찬해요.'},
+      {e:'💐', n:'꽃다발', d:'함께하면 더 아름다워요.'}]},
+    {gen:{e:'📮', n:'마음 우체통'}, items:[
+      {e:'✏️', n:'연필', d:'마음을 글로 전해 볼까요?'},
+      {e:'📝', n:'쪽지', d:'"고마워" 한마디를 적어요.'},
+      {e:'💌', n:'편지', d:'"미안해"라고 솔직하게 말해요.'},
+      {e:'🎁', n:'선물', d:'친구가 무엇을 좋아하는지 생각해요.'},
+      {e:'💞', n:'우정', d:'서로 존중하면 우정이 깊어져요.'}]}
+  ],
+  steps:[
+    {title:'꽃집 문 열기', deco:'🚪', lines:[
+      ['npc','탐정님, 요즘 아이들 사이에 오해가 생겼단다.'],
+      ['gull','꾸꾸! 새로 온 친구가 인사를 안 받아 준 건 우리를 싫어해서래!'],
+      ['npc','겉으로 보이는 행동만으로 마음을 다 알 수 있을까?']],
+     quiz:{q:'친구가 내 인사를 받아 주지 않았어요. 가장 알맞은 생각은?', o:['나를 싫어하는 게 틀림없어','못 들었거나 부끄러웠을 수도 있어. 다시 다가가 보자','다른 친구들에게 그 친구 흉을 본다'], a:1, x:'친구의 행동에는 여러 까닭이 있을 수 있어요. 섣불리 판단하지 않고 먼저 다가가는 것이 배려예요.'}},
+    {title:'화분 정리하기', deco:'🪴', lines:[
+      ['npc','그래, 한 번 더 다가가 보는 거야. 그럼 친구가 실수했을 땐?']],
+     quiz:{q:'모둠 활동 중 친구가 발표하다 틀렸어요. 어떻게 할까요?', o:['크게 웃는다','끝까지 듣고 "괜찮아"라고 말해 준다','내가 대신하겠다며 끼어든다'], a:1, x:'다른 사람을 소중히 여기고 끝까지 들어 주는 것이 존중이에요.'}},
+    {title:'향기 나는 창문 달기', deco:'🪟', lines:[
+      ['gull','꾸꾸… 나도 실수로 친구 물건을 망가뜨린 적 있어.'],
+      ['npc','그럴 때 어떻게 하면 좋을지 함께 생각해 보자.']],
+     quiz:{q:'친구의 물건을 실수로 망가뜨렸어요. 가장 바른 행동은?', o:['모른 척한다','다른 친구가 그랬다고 한다','솔직하게 말하고 사과한 뒤 함께 해결 방법을 찾는다'], a:2, x:'잘못을 솔직하게 인정하는 것은 정직, 해결하려고 노력하는 것은 책임이에요.'}},
+    {title:'환영 꽃다발 만들기', deco:'🎀', lines:[
+      ['npc','이제 새 친구를 환영할 꽃다발을 만들 차례구나!']],
+     quiz:{q:'다음 중 인성교육에서 말하는 핵심 가치가 아닌 것은?', o:['배려','협동','무조건 1등 하기'], a:2, x:'「인성교육진흥법」은 예, 효, 정직, 책임, 존중, 배려, 소통, 협동을 핵심 가치로 정하고 있어요.'}}
+  ],
+  truth:{title:'행동만 보고 마음을 단정하지 않아요', points:['친구의 행동에는 여러 까닭이 있어요','먼저 다가가 말을 걸어요 (배려·소통)','실수했을 땐 솔직하게 사과해요 (정직·책임)','8가지 핵심 가치: 예·효·정직·책임·존중·배려·소통·협동']},
+  extra:[
+    {q:'모둠에서 한 친구가 맡은 일을 어려워해요. 좋은 방법은?', o:['어떻게 도울지 물어보고 함께 한다','그 친구 탓을 한다','혼자 다 해 버린다'], a:0, x:'서로 힘을 모으는 것이 협동이에요.'},
+    {q:'"고마워", "미안해"라는 말은 언제 하면 좋을까요?', o:['필요할 때마다 누구에게나','어른에게만','선생님이 시킬 때만'], a:0, x:'고마움과 미안함을 표현하는 것은 나이와 상관없이 모두에게 필요한 예절이에요.'},
+    {q:'퇴근하신 부모님이 피곤해 보이세요. 효를 실천하는 행동은?', o:['"오늘 고생 많으셨어요" 하고 인사한다','계속 놀아 달라고 조른다','못 본 척 게임만 한다'], a:0, x:'부모님을 공경하고 마음을 헤아리는 것이 효예요.'}
+  ],
+  tips:['먼저 인사해 봐요.','끝까지 들어 주는 게 존중!','실수하면 솔직하게 사과해요.','"고마워"는 마법의 말!']
+},
+{
+  id:'career', theme:'진로 교육', place:'꿈틀 공방', icon:'🛠️', tint:'#E08A1E',
+  subjects:'실과, 도덕, 창의적 체험활동(진로)',
+  npc:{face:'👨‍🔧', name:'공방지기 도윤'},
+  villagers:[{face:'👩‍🍳', name:'요리사 수아'},{face:'👩‍🚀', name:'우주인 지호'}],
+  rumor:'꿈은 딱 하나만 정해야 하고, 한 번 정하면 바꾸면 안 된대!',
+  chains:[
+    {gen:{e:'🗄️', n:'배움 서랍'}, items:[
+      {e:'🖍️', n:'크레파스', d:'좋아하는 것을 그려 보며 나를 알아가요.'},
+      {e:'📓', n:'공책', d:'하고 싶은 일을 적어 봐요.'},
+      {e:'📚', n:'책', d:'책 속에서 여러 직업을 만나요.'},
+      {e:'🎓', n:'학사모', d:'배움은 평생 이어져요.'},
+      {e:'🏆', n:'트로피', d:'꾸준한 노력이 꿈을 키워요.'}]},
+    {gen:{e:'⚙️', n:'발명 기계'}, items:[
+      {e:'🔩', n:'나사', d:'작은 부품도 꼭 필요한 역할이 있어요.'},
+      {e:'🔧', n:'스패너', d:'직접 만들어 보는 경험은 소중해요.'},
+      {e:'🤖', n:'로봇', d:'기술이 발전하면 새 직업이 생겨요.'},
+      {e:'🚀', n:'로켓', d:'꿈은 크게, 계획은 작게!'},
+      {e:'🛰️', n:'인공위성', d:'여러 사람이 협력해 큰일을 해내요.'}]}
+  ],
+  steps:[
+    {title:'공방 불 켜기', deco:'💡', lines:[
+      ['npc','탐정님, 아이들이 꿈 때문에 걱정이 많아요.'],
+      ['gull','꾸꾸! 꿈은 딱 하나만 정해야 하고, 바꾸면 안 된대!'],
+      ['npc','꿈은 어떻게 찾아가는 걸까요?']],
+     quiz:{q:'나에게 어울리는 일을 찾는 좋은 방법은?', o:['여러 가지를 경험하며 내가 좋아하고 잘하는 것을 살펴본다','친구가 정한 꿈을 그대로 따라 한다','인기가 많은 직업만 고른다'], a:0, x:'다양하게 경험하면서 나의 흥미와 강점을 알아 가는 것이 진로 탐색의 시작이에요.'}},
+    {title:'작업대 놓기', deco:'🪚', lines:[
+      ['npc','그런데 경험하다 보면 좋아하는 게 바뀌기도 하겠죠?']],
+     quiz:{q:'"꿈은 한 번 정하면 절대 바꾸면 안 된다." 맞을까요?', o:['맞아요','아니에요. 자라면서 새로 알게 된 것에 따라 바뀔 수 있어요'], a:1, x:'꿈은 경험이 쌓이면서 달라질 수 있어요. 바뀌는 것도 성장의 한 부분이에요.'}},
+    {title:'작품 진열장 세우기', deco:'🖼️', lines:[
+      ['gull','꾸꾸! 어떤 일은 남자만, 어떤 일은 여자만 한대!'],
+      ['npc','그것도 확인해 볼 소문이네요.']],
+     quiz:{q:'다음 중 편견이 담긴 말은?', o:['"간호사는 여자만 하는 일이야."','"요리사는 새로운 음식을 연구하기도 해."','"프로그래머는 컴퓨터 프로그램을 만들어."'], a:0, x:'직업에는 성별이 정해져 있지 않아요. 누구나 흥미와 능력에 따라 선택할 수 있어요.'}},
+    {title:'꿈 무지개 걸기', deco:'🌈', lines:[
+      ['npc','마지막 단서! 세상이 바뀌면 직업도 바뀐답니다.']],
+     quiz:{q:'옛날에는 없었지만 요즘 새로 생긴 직업은?', o:['드론 조종사','농부','어부'], a:0, x:'기술과 사회가 바뀌면 새로운 직업이 생기고, 어떤 직업은 모습이 달라지거나 줄어들어요.'}}
+  ],
+  truth:{title:'꿈은 자라면서 바뀌고 넓어질 수 있어요', points:['여러 경험으로 나의 흥미와 강점을 알아가요','꿈이 바뀌는 것도 성장이에요','직업에 성별 구분은 없어요','세상이 변하면 새로운 직업이 생겨요']},
+  extra:[
+    {q:'큰 꿈을 이루기 위한 좋은 방법은?', o:['작은 목표를 세우고 꾸준히 실천한다','언젠가 저절로 이루어지길 기다린다','어려우면 바로 포기한다'], a:0, x:'작은 목표를 하나씩 이루다 보면 큰 꿈에 가까워져요.'},
+    {q:'"나는 그림 그리기를 좋아하고, 친구를 잘 도와줘." 이것은 나의 무엇을 알아보는 활동일까요?', o:['흥미와 강점','키와 몸무게','집 주소'], a:0, x:'내가 좋아하는 것(흥미)과 잘하는 것(강점)을 알면 진로를 찾는 데 도움이 돼요.'},
+    {q:'모든 직업에 공통으로 필요한 태도는?', o:['맡은 일에 책임을 다하는 태도','약속을 자주 어기는 태도','남의 일을 방해하는 태도'], a:0, x:'어떤 일을 하든 책임감과 성실함이 중요해요.'}
+  ],
+  tips:['여러 가지를 경험해 봐요.','꿈이 바뀌어도 괜찮아요.','직업에 성별은 없어요.','작은 목표부터 차근차근!']
+},
+{
+  id:'democracy', theme:'민주시민 교육', place:'고래 마을회관', icon:'🏛️', tint:'#3C6FD1',
+  subjects:'사회(정치·민주주의), 국어(토의·토론)',
+  npc:{face:'🧔', name:'고래 이장님'},
+  villagers:[{face:'👩‍🏫', name:'윤 선생님'},{face:'👧', name:'서연'}],
+  rumor:'새 놀이터는 목소리 큰 사람 마음대로 정한대!',
+  chains:[
+    {gen:{e:'🗂️', n:'회의 서류함'}, items:[
+      {e:'📝', n:'의견 쪽지', d:'내 생각을 까닭과 함께 적어요.'},
+      {e:'📋', n:'회의 안건', d:'무엇을 정할지 먼저 분명히 해요.'},
+      {e:'🗳️', n:'투표함', d:'투표는 비밀이 지켜져야 해요.'},
+      {e:'📜', n:'마을 약속', d:'함께 정한 규칙은 함께 지켜요.'},
+      {e:'🏛️', n:'마을회관', d:'모두가 주인인 마을이에요.'}]},
+    {gen:{e:'🗞️', n:'소식 가판대'}, items:[
+      {e:'📰', n:'신문', d:'기사는 누가, 언제 썼는지 살펴봐요.'},
+      {e:'🔍', n:'돋보기', d:'출처를 확인하는 습관!'},
+      {e:'📊', n:'자료', d:'여러 자료와 비교해 봐요.'},
+      {e:'📢', n:'확성기', d:'확인된 사실만 널리 알려요.'},
+      {e:'📡', n:'방송탑', d:'바른 정보가 민주주의를 지켜요.'}]}
+  ],
+  steps:[
+    {title:'회의 탁자 놓기', deco:'🪑', lines:[
+      ['npc','탐정님, 마을에 새 놀이터를 짓기로 했는데 말이 많아요.'],
+      ['gull','꾸꾸! 새 놀이터는 목소리 큰 사람 마음대로 정한대!'],
+      ['npc','과연 그게 바른 방법일까요?']],
+     quiz:{q:'새 놀이터에 무엇을 만들지 정할 때 가장 민주적인 방법은?', o:['목소리가 가장 큰 사람이 정한다','주민들이 의견을 충분히 나누고 투표로 정한다','한 사람을 뽑아 혼자 정하게 한다'], a:1, x:'여러 사람의 의견을 듣고 대화와 타협, 투표로 정하는 것이 민주적인 방법이에요.'}},
+    {title:'투표소 준비하기', deco:'🗳️', lines:[
+      ['npc','투표에서 진 쪽 의견은 어떻게 해야 할까요?']],
+     quiz:{q:'투표에서 적은 표를 받은 쪽(소수)의 의견은 어떻게 해야 할까요?', o:['무시해도 된다','존중하고, 좋은 점은 반영하도록 노력한다','다시는 말하지 못하게 한다'], a:1, x:'다수결로 정하더라도 소수의 의견을 존중하는 것이 민주주의예요.'}},
+    {title:'게시판 세우기', deco:'📌', lines:[
+      ['gull','꾸꾸! 인터넷에 "내일 학교 쉰대!"라는 글이 있어!'],
+      ['npc','소문을 퍼뜨리기 전에 해야 할 일이 있어요.']],
+     quiz:{q:'인터넷에서 "내일 학교 쉰대!"라는 글을 봤어요. 가장 먼저 할 일은?', o:['바로 친구들에게 퍼뜨린다','누가 언제 쓴 글인지, 학교 공식 안내가 있는지 확인한다','댓글로 확실하다고 쓴다'], a:1, x:'출처와 날짜를 확인하고 믿을 만한 곳의 정보와 비교해야 가짜 뉴스에 속지 않아요.'}},
+    {title:'새 놀이터 발표', deco:'🎠', lines:[
+      ['npc','드디어 주민 투표 날이에요! 투표에도 지켜야 할 원칙이 있지요.']],
+     quiz:{q:'누구에게 투표했는지 다른 사람이 알 수 없게 하는 선거 원칙은?', o:['비밀 선거','공개 선거','대리 선거'], a:0, x:'우리나라 선거는 보통·평등·직접·비밀 선거의 4대 원칙을 따라요.'}}
+  ],
+  truth:{title:'마을 일은 모두의 대화와 투표로 정해요', points:['충분히 토의하고 투표로 결정해요','소수의 의견도 존중해요','소문은 출처와 날짜를 확인해요','선거 4원칙: 보통·평등·직접·비밀']},
+  extra:[
+    {q:'학급 규칙이 불편하다고 느껴질 때 알맞은 행동은?', o:['학급 회의에서 고치자고 제안한다','혼자 규칙을 무시한다','몰래 규칙판을 뗀다'], a:0, x:'규칙은 함께 지키고, 바꿀 때는 정해진 절차를 따라요.'},
+    {q:'우리나라에서 대통령·국회의원 선거에 투표할 수 있는 나이는?', o:['만 18세 이상','만 12세 이상','만 30세 이상'], a:0, x:'2020년 선거부터 만 18세 이상 국민이 투표할 수 있어요.'},
+    {q:'토의할 때 바른 태도는?', o:['다른 사람 말을 끝까지 듣고 까닭을 들어 말한다','내 말만 계속한다','다른 의견을 비웃는다'], a:0, x:'서로 존중하며 근거를 들어 이야기해야 좋은 결정을 할 수 있어요.'}
+  ],
+  tips:['출처부터 확인해요!','소수 의견도 소중해요.','함께 정한 약속은 함께 지켜요.','끝까지 듣고 말해요.']
+},
+{
+  id:'rights', theme:'인권 교육', place:'누구나 도서관', icon:'📚', tint:'#7A5BC7',
+  subjects:'사회(인권·법), 도덕',
+  npc:{face:'👩', name:'해솔 사서님'},
+  villagers:[{face:'👧', name:'다은'},{face:'👴', name:'김 할아버지'}],
+  rumor:'어린이는 아직 어려서 자기 생각을 말할 권리가 없대!',
+  chains:[
+    {gen:{e:'📦', n:'책 상자'}, items:[
+      {e:'📄', n:'종이', d:'누구나 배우고 읽을 권리가 있어요.'},
+      {e:'📖', n:'책', d:'어린이는 배우고 성장할 권리(발달권)가 있어요.'},
+      {e:'✍️', n:'나의 생각', d:'내 생각을 자유롭게 표현할 수 있어요.'},
+      {e:'🏫', n:'학교', d:'모든 어린이는 교육받을 권리가 있어요.'},
+      {e:'🌈', n:'무지개', d:'모두가 존중받는 세상을 만들어요.'}]},
+    {gen:{e:'🏡', n:'보금자리'}, items:[
+      {e:'🍞', n:'빵', d:'건강하게 살아갈 권리(생존권)가 있어요.'},
+      {e:'🍎', n:'사과', d:'골고루 먹고 건강하게 자랄 권리!'},
+      {e:'🏠', n:'집', d:'안전한 곳에서 지낼 권리가 있어요.'},
+      {e:'🛡️', n:'방패', d:'어린이는 폭력으로부터 보호받을 권리(보호권)가 있어요.'},
+      {e:'🕊️', n:'평화', d:'서로의 권리를 지키면 평화로워져요.'}]}
+  ],
+  steps:[
+    {title:'도서관 불 밝히기', deco:'🕯️', lines:[
+      ['npc','탐정님, 어린이 의견함에 쪽지가 하나도 없어요.'],
+      ['gull','꾸꾸! 어린이는 어려서 자기 생각을 말할 권리가 없대!'],
+      ['npc','먼저 "인권"이 무엇인지부터 알아봐요.']],
+     quiz:{q:'인권이란 무엇일까요?', o:['모든 사람이 태어날 때부터 가진, 사람답게 살 권리','돈이 많은 사람만 가진 권리','어른이 되면 생기는 권리'], a:0, x:'인권은 나이, 성별, 피부색, 장애와 상관없이 누구나 태어날 때부터 가져요.'}},
+    {title:'어린이 책장 채우기', deco:'📗', lines:[
+      ['npc','어린이의 권리를 약속한 국제 협약도 있답니다.']],
+     quiz:{q:'유엔 아동권리협약의 4가지 기본 권리가 아닌 것은?', o:['생존권','보호권','명령권'], a:2, x:'아동의 4대 권리는 생존권, 보호권, 발달권, 참여권이에요.'}},
+    {title:'경사로 만들기', deco:'♿', lines:[
+      ['npc','도서관 입구에 경사로를 만들기로 했어요.']],
+     quiz:{q:'계단 옆에 경사로를 만드는 까닭은?', o:['휠체어나 유모차를 이용하는 사람도 편하게 드나들 수 있도록','계단이 보기 싫어서','미끄럼틀로 놀려고'], a:0, x:'경사로는 모든 사람이 불편 없이 이동할 권리를 지켜 줘요.'}},
+    {title:'어린이 의견함 열기', deco:'🗣️', lines:[
+      ['gull','꾸꾸… 그럼 어린이도 의견을 말할 수 있는 거야?']],
+     quiz:{q:'학교 행사를 정할 때 어린이가 의견을 말할 수 있는 권리는?', o:['참여권','보호권','생존권'], a:0, x:'어린이는 자신과 관련된 일에 자유롭게 의견을 말할 권리(참여권)가 있어요.'}}
+  ],
+  truth:{title:'어린이도 자기 생각을 말할 권리가 있어요', points:['인권은 누구나 태어날 때부터 가져요','아동 4대 권리: 생존권·보호권·발달권·참여권','자신과 관련된 일에 의견을 말할 수 있어요','내 권리만큼 다른 사람의 권리도 소중해요']},
+  extra:[
+    {q:'친구의 일기장을 허락 없이 읽는 것은?', o:['사생활을 침해하는 행동','친해지는 방법','괜찮은 장난'], a:0, x:'모든 사람은 사생활을 보호받을 권리가 있어요.'},
+    {q:'"세계 인권의 날"은 언제일까요?', o:['12월 10일','5월 5일','10월 9일'], a:0, x:'1948년 12월 10일 유엔에서 세계 인권 선언을 발표한 것을 기념해요.'},
+    {q:'친구의 외모를 놀리는 별명을 부르는 것은?', o:['상대의 마음을 아프게 하는, 존중하지 않는 행동','재미있으니 괜찮은 행동','친하다는 표시'], a:0, x:'누구나 존중받을 권리가 있어요. 장난도 상대가 싫어하면 멈춰야 해요.'}
+  ],
+  tips:['인권은 모두에게 있어요.','어린이도 의견을 말해요.','다른 사람의 권리도 소중해요.','싫다는 장난은 멈춰요.']
+},
+{
+  id:'multi', theme:'다문화 교육', place:'알록달록 세계 시장', icon:'🌏', tint:'#16A085',
+  subjects:'사회(문화 다양성), 도덕, 음악·미술',
+  npc:{face:'👩', name:'투이 아주머니'},
+  villagers:[{face:'👨', name:'라훌 아저씨'},{face:'👧', name:'소피아'}],
+  rumor:'말투나 생김새가 다르면 우리 마을 사람이 아니래!',
+  chains:[
+    {gen:{e:'🍳', n:'시장 부엌'}, items:[
+      {e:'🍚', n:'밥', d:'쌀은 아시아 여러 나라의 주식이에요.'},
+      {e:'🍙', n:'주먹밥', d:'나라마다 다양한 주먹밥이 있어요.'},
+      {e:'🍜', n:'쌀국수', d:'베트남의 대표 음식 "퍼(Phở)"!'},
+      {e:'🍛', n:'커리', d:'인도에서는 여러 향신료로 커리를 만들어요.'},
+      {e:'🎂', n:'잔치 케이크', d:'함께 나누면 더 맛있어요.'}]},
+    {gen:{e:'🎪', n:'축제 천막'}, items:[
+      {e:'👋', n:'인사', d:'여러 나라 말로 인사해 봐요.'},
+      {e:'💬', n:'대화', d:'천천히, 몸짓도 함께 쓰면 잘 통해요.'},
+      {e:'🎶', n:'노래', d:'나라마다 다른 노래와 춤이 있어요.'},
+      {e:'🎨', n:'그림', d:'서로의 문화를 그림으로 소개해요.'},
+      {e:'🎉', n:'축제', d:'다름이 모이면 더 신나요!'}]}
+  ],
+  steps:[
+    {title:'시장 등불 달기', deco:'🏮', lines:[
+      ['npc','씬 짜오! 탐정님, 저는 베트남에서 온 투이예요.'],
+      ['gull','꾸꾸! 말투나 생김새가 다르면 우리 마을 사람이 아니래!'],
+      ['npc','저는 이 마을에서 15년째 쌀국숫집을 하고 있는걸요?']],
+     quiz:{q:'나와 다른 문화를 만났을 때 알맞은 생각은?', o:['틀린 것이 아니라 다른 것이다','이상하니까 고쳐야 한다','우리 것만 좋다'], a:0, x:'문화에는 옳고 그름이 아니라 차이가 있어요. 서로의 문화를 존중해요.'}},
+    {title:'인사말 간판 걸기', deco:'🪧', lines:[
+      ['npc','시장 입구에 여러 나라 인사말을 걸어 볼까요?']],
+     quiz:{q:'베트남어로 "안녕하세요"는?', o:['씬 짜오','곤니치와','봉주르'], a:0, x:'씬 짜오(Xin chào)는 베트남어 인사예요. 곤니치와는 일본어, 봉주르는 프랑스어 인사예요.'}},
+    {title:'세계 음식 식탁 차리기', deco:'🍽️', lines:[
+      ['gull','꾸꾸! 라훌 아저씨는 손으로 밥을 드셔!'],
+      ['npc','그건 어떻게 생각해야 할까요?']],
+     quiz:{q:'인도 등 여러 나라에서는 손으로 음식을 먹기도 해요. 어떻게 생각해야 할까요?', o:['그 나라의 식사 문화로 존중한다','예의가 없다고 놀린다','숟가락만 옳은 방법이라고 말한다'], a:0, x:'나라마다 기후와 역사에 따라 식사 문화가 달라요.'}},
+    {title:'다문화 축제 열기', deco:'🎊', lines:[
+      ['npc','축제 날이에요! 마지막으로 이 말들을 살펴봐요.']],
+     quiz:{q:'다음 중 고정관념이 담긴 말은?', o:['"엄마가 외국에서 오셨으면 한국어를 못할 거야."','"사람마다 잘하는 게 달라."','"여러 나라 음식을 맛보고 싶어."'], a:0, x:'부모님의 나라와 상관없이 사람마다 할 수 있는 것은 달라요. 배경으로 사람을 판단하지 않아요.'}}
+  ],
+  truth:{title:'생김새와 말투가 달라도 모두 우리 이웃이에요', points:['문화는 틀린 것이 아니라 다른 것','다른 나라의 인사·음식·놀이를 배우며 가까워져요','배경으로 사람을 판단하지 않아요','서로 다름이 마을을 더 풍성하게 해요']},
+  extra:[
+    {q:'새로 온 친구가 한국어가 서툴러요. 좋은 행동은?', o:['천천히 말하고 몸짓이나 그림으로 함께 이야기한다','말을 걸지 않는다','말투를 흉내 내며 놀린다'], a:0, x:'조금만 배려하면 누구와도 이야기할 수 있어요.'},
+    {q:'"다문화"는 무엇을 뜻할까요?', o:['여러 문화가 함께 어우러져 있는 것','한 가지 문화만 있는 것','외국 음식만 먹는 것'], a:0, x:'우리 사회에는 다양한 문화와 배경을 가진 사람들이 함께 살아요.'},
+    {q:'세계 여러 나라의 명절과 축제를 알아보는 까닭은?', o:['다른 문화를 이해하고 존중하기 위해','우리 문화가 최고임을 보여 주려고','외국에 가지 않으려고'], a:0, x:'서로의 문화를 알면 더 잘 이해하고 가까워질 수 있어요.'}
+  ],
+  tips:['다른 것은 틀린 게 아니에요.','씬 짜오! = 안녕하세요','천천히 말하면 잘 통해요.','다름이 모이면 더 즐거워요.']
+},
+{
+  id:'unify', theme:'통일 교육', place:'평화 기차역', icon:'🚉', tint:'#2E8BC0',
+  subjects:'도덕(통일), 사회(역사)',
+  npc:{face:'👴', name:'평화 역장 할아버지'},
+  villagers:[{face:'👧', name:'한별'},{face:'👩', name:'여행객 미나'}],
+  rumor:'북한 사람들과는 말이 하나도 안 통한대!',
+  chains:[
+    {gen:{e:'🎟️', n:'매표소'}, items:[
+      {e:'🎫', n:'기차표', d:'언젠가 북쪽으로 가는 기차표도 생길까요?'},
+      {e:'🧳', n:'여행 가방', d:'분단 전에는 기차로 신의주까지 갔어요.'},
+      {e:'🚃', n:'객차', d:'끊어진 철길을 이으면 대륙까지 갈 수 있어요.'},
+      {e:'🚂', n:'기관차', d:'평화는 함께 달리는 기차 같아요.'},
+      {e:'🚄', n:'고속 열차', d:'부산에서 유럽까지, 꿈의 기차!'}]},
+    {gen:{e:'📬', n:'그리움 우체통'}, items:[
+      {e:'✉️', n:'편지', d:'헤어진 가족에게 보내는 편지'},
+      {e:'📷', n:'사진기', d:'고향의 모습을 기억해요.'},
+      {e:'🖼️', n:'가족사진', d:'이산가족은 지금도 만남을 기다려요.'},
+      {e:'🤝', n:'악수', d:'서로 이해하려는 마음이 평화의 시작!'},
+      {e:'🕊️', n:'평화', d:'평화 통일은 모두의 바람이에요.'}]}
+  ],
+  steps:[
+    {title:'역 시계 고치기', deco:'🕰️', lines:[
+      ['npc','내 고향은 저 북쪽 땅이란다. 철길이 다시 이어지면 꼭 가 보고 싶구나.'],
+      ['gull','꾸꾸! 북한 사람들과는 말이 하나도 안 통한대!'],
+      ['npc','허허, 그럴 리가. 같이 알아보자꾸나.']],
+     quiz:{q:'남한과 북한이 함께 쓰는 글자는?', o:['한글','한자','알파벳'], a:0, x:'남과 북은 같은 한글을 쓰고, 대부분의 말이 통해요.'}},
+    {title:'남북 낱말 사전 만들기', deco:'📖', lines:[
+      ['npc','다만 오래 떨어져 지내서 달라진 낱말도 있지.']],
+     quiz:{q:'북한에서는 "도시락"을 무엇이라고 부를까요?', o:['곽밥','김밥','볶음밥'], a:0, x:'남과 북은 오랫동안 떨어져 지내 일부 낱말이 달라졌어요. 도시락을 북한에서는 "곽밥"이라고 해요.'}},
+    {title:'이산가족 편지함 달기', deco:'💌', lines:[
+      ['npc','나처럼 가족과 헤어져 지내는 사람이 많단다.']],
+     quiz:{q:'전쟁과 분단으로 가족과 헤어져 서로 소식을 모르고 지내는 사람들을 무엇이라 할까요?', o:['이산가족','대가족','핵가족'], a:0, x:'6·25 전쟁과 분단으로 많은 가족이 헤어졌어요. 지금도 만나기를 기다리는 분들이 있어요.'}},
+    {title:'철길 잇기', deco:'🛤️', lines:[
+      ['gull','꾸꾸! 철길이 이어지면 어디까지 갈 수 있어?']],
+     quiz:{q:'남북의 철도가 이어지면 기차로 어디까지 갈 수 있을까요?', o:['북한을 지나 중국, 러시아를 거쳐 유럽까지','제주도까지만','일본까지만'], a:0, x:'한반도 철도가 대륙과 이어지면 부산에서 유럽까지 기차로 갈 수도 있어요. 통일은 새로운 기회를 열어 줘요.'}}
+  ],
+  truth:{title:'말은 조금 달라도 대부분 통해요', points:['남과 북은 같은 한글을 써요','떨어져 지낸 시간 때문에 일부 낱말이 달라졌어요 (도시락 = 곽밥)','분단으로 헤어진 이산가족이 있어요','평화 통일은 모두에게 새로운 기회예요']},
+  extra:[
+    {q:'6·25 전쟁이 일어난 해는?', o:['1950년','1945년','1988년'], a:0, x:'1950년 6월 25일 전쟁이 일어났고, 1953년 정전 협정을 맺었어요.'},
+    {q:'북한에서 "손전화"는 무엇을 뜻할까요?', o:['휴대 전화','장갑','손 편지'], a:0, x:'북한에서는 휴대 전화를 "손전화"라고 해요.'},
+    {q:'남과 북이 평화롭게 지내기 위해 우리가 할 수 있는 일은?', o:['북한의 생활과 문화를 바르게 알아본다','무조건 미워한다','관심을 끊는다'], a:0, x:'서로를 바르게 아는 것이 평화의 첫걸음이에요.'}
+  ],
+  tips:['남과 북은 같은 한글을 써요.','도시락 = 곽밥','휴대 전화 = 손전화','평화는 이해에서 시작돼요.']
+},
+{
+  id:'dokdo', theme:'독도 교육', place:'해 뜨는 전망대', icon:'🌅', tint:'#1D6FA3',
+  subjects:'사회(5학년 국토·역사), 창의적 체험활동',
+  npc:{face:'👩‍🔬', name:'강치 박사님'},
+  villagers:[{face:'👮', name:'해양 경찰관'},{face:'👦', name:'바다'}],
+  rumor:'독도는 주인 없는 작은 바위섬이래!',
+  chains:[
+    {gen:{e:'🎣', n:'고깃배'}, items:[
+      {e:'🐚', n:'조개', d:'독도 바다에는 다양한 생물이 살아요.'},
+      {e:'🦀', n:'게', d:'바위틈에 사는 독도의 게'},
+      {e:'🐟', n:'물고기', d:'난류와 한류가 만나 물고기가 많아요.'},
+      {e:'🐙', n:'문어', d:'독도 주변은 수산 자원이 풍부해요.'},
+      {e:'🦭', n:'강치', d:'독도에 살던 바다사자, 강치'}]},
+    {gen:{e:'🗃️', n:'역사 기록실'}, items:[
+      {e:'🧭', n:'나침반', d:'독도는 우리나라 가장 동쪽 끝 섬이에요.'},
+      {e:'🗺️', n:'옛 지도', d:'옛 지도에도 우산도(독도)가 그려져 있어요.'},
+      {e:'📜', n:'옛 기록', d:'「세종실록」 지리지에 우산과 무릉이 나와요.'},
+      {e:'🔭', n:'망원경', d:'맑은 날 울릉도에서 독도가 보여요.'},
+      {e:'🏝️', n:'독도', d:'대한민국의 아름다운 섬, 독도'}]}
+  ],
+  steps:[
+    {title:'전망대 망원경 닦기', deco:'🔭', lines:[
+      ['npc','반가워요 탐정님! 저는 독도 바다를 연구하고 있어요.'],
+      ['gull','꾸꾸! 독도는 주인 없는 작은 바위섬이래!'],
+      ['npc','증거를 하나씩 모아 볼까요? 먼저 주소부터요.']],
+     quiz:{q:'독도는 어느 지역에 속할까요?', o:['경상북도 울릉군','제주특별자치도','전라남도 신안군'], a:0, x:'독도의 주소는 경상북도 울릉군 울릉읍 독도리예요.'}},
+    {title:'독도 모형 만들기', deco:'🏝️', lines:[
+      ['npc','독도는 섬 하나가 아니랍니다.']],
+     quiz:{q:'독도는 어떻게 이루어져 있을까요?', o:['동도와 서도, 그리고 주변의 여러 작은 섬','섬 하나','모래사장 하나'], a:0, x:'독도는 큰 섬인 동도와 서도, 그리고 89개의 부속 섬으로 이루어져 있어요.'}},
+    {title:'옛 기록 전시하기', deco:'📜', lines:[
+      ['npc','옛사람들도 독도를 지키려고 애썼어요.']],
+     quiz:{q:'조선 숙종 때 일본에 건너가 울릉도와 독도가 조선 땅임을 밝힌 사람은?', o:['안용복','장영실','정약용'], a:0, x:'안용복은 일본에 가서 울릉도와 독도가 조선의 땅이라고 당당히 밝혔어요.'}},
+    {title:'강치 동상 세우기', deco:'🦭', lines:[
+      ['gull','꾸꾸… 옛날 독도에는 누가 살았어?']],
+     quiz:{q:'옛날 독도에 무리 지어 살다가 사라진 바다사자의 이름은?', o:['강치','해달','펭귄'], a:0, x:'강치는 일제 강점기 무분별한 사냥으로 독도에서 사라졌어요.'}}
+  ],
+  truth:{title:'독도는 대한민국의 소중한 영토예요', points:['주소: 경상북도 울릉군 울릉읍 독도리','동도·서도와 89개의 부속 섬','「세종실록」 지리지 등 옛 기록에 우리 땅으로 나와요','10월 25일은 독도의 날']},
+  extra:[
+    {q:'「세종실록」 지리지에 울릉도(무릉)와 함께 기록된 독도의 옛 이름은?', o:['우산','탐라','강화'], a:0, x:'「세종실록」 지리지에는 우산(독도)과 무릉(울릉도) 두 섬이 기록되어 있어요.'},
+    {q:'10월 25일은 무슨 날일까요?', o:['독도의 날','한글날','개천절'], a:0, x:'1900년 10월 25일 대한제국이 칙령 제41호로 독도를 울도군에 속하게 한 것을 기념해요.'},
+    {q:'독도 주변 바다에 물고기가 많은 까닭은?', o:['따뜻한 바닷물과 차가운 바닷물이 만나기 때문','바다가 아주 얕기 때문','사람이 물고기를 풀어 놓기 때문'], a:0, x:'독도 주변은 난류와 한류가 만나 먹이가 풍부하고 여러 해양 생물이 살아요.'}
+  ],
+  tips:['독도는 경상북도 울릉군!','동도·서도 + 89개 부속 섬','10월 25일은 독도의 날','강치를 기억해요.']
+},
+{
+  id:'money', theme:'경제·금융 교육', place:'반짝 저금 시장', icon:'🏦', tint:'#C9A227',
+  subjects:'사회(4학년 경제), 실과, 수학',
+  npc:{face:'👨‍💼', name:'저금통 사장님'},
+  villagers:[{face:'👧', name:'유나'},{face:'👦', name:'민호'}],
+  rumor:'갖고 싶은 건 전부 바로 사야 행복하대!',
+  chains:[
+    {gen:{e:'💰', n:'돈 주머니'}, items:[
+      {e:'🪙', n:'동전', d:'작은 돈도 모이면 커져요.'},
+      {e:'💵', n:'지폐', d:'돈은 일한 대가로 벌어요.'},
+      {e:'🐷', n:'저금통', d:'쓰기 전에 먼저 조금 저축해요.'},
+      {e:'🏦', n:'은행', d:'은행에 저축하면 이자가 붙어요.'},
+      {e:'💎', n:'보석', d:'꾸준한 저축은 보석 같은 습관!'}]},
+    {gen:{e:'👜', n:'장보기 가방'}, items:[
+      {e:'🧾', n:'영수증', d:'무엇을 샀는지 확인해요.'},
+      {e:'📒', n:'용돈 기입장', d:'들어온 돈과 쓴 돈을 적어요.'},
+      {e:'🛒', n:'장바구니', d:'살 물건 목록을 미리 정해요.'},
+      {e:'🏪', n:'가게', d:'가격과 품질을 비교해요.'},
+      {e:'🏬', n:'큰 시장', d:'현명한 소비자가 되어요.'}]}
+  ],
+  steps:[
+    {title:'가게 간판 달기', deco:'🏷️', lines:[
+      ['npc','탐정님, 아이들이 용돈을 하루 만에 다 써 버린대요.'],
+      ['gull','꾸꾸! 갖고 싶은 건 전부 바로 사야 행복하대!'],
+      ['npc','"필요한 것"과 "갖고 싶은 것"부터 구분해 봐요.']],
+     quiz:{q:'다음 중 "꼭 필요한 것"에 가장 가까운 것은?', o:['새 학기에 쓸 공책','이미 있는 것과 똑같은 인형','유행하는 스티커 100장'], a:0, x:'생활에 꼭 있어야 하는 것(필요)과 갖고 싶은 것(욕구)을 구분하면 현명하게 쓸 수 있어요.'}},
+    {title:'용돈 기입장 쓰기', deco:'✍️', lines:[
+      ['npc','돈이 어디로 갔는지 알아야 계획도 세우죠.']],
+     quiz:{q:'용돈 기입장을 쓰면 좋은 점은?', o:['돈을 어디에 얼마나 썼는지 알 수 있다','돈이 저절로 늘어난다','물건값이 싸진다'], a:0, x:'들어온 돈과 나간 돈을 기록하면 계획적으로 쓰는 습관이 생겨요.'}},
+    {title:'저금통 채우기', deco:'🧮', lines:[
+      ['gull','꾸꾸! 은행에 돈을 넣으면 사라진대!'],
+      ['npc','하하, 오히려 늘어난답니다.']],
+     quiz:{q:'은행에 돈을 저축하면 은행이 덤으로 더해 주는 돈은?', o:['이자','거스름돈','세금'], a:0, x:'저축한 돈에 은행이 더해 주는 돈을 이자라고 해요.'}},
+    {title:'알뜰 장터 열기', deco:'🎈', lines:[
+      ['npc','마지막으로, 물건을 고르는 지혜!']],
+     quiz:{q:'비슷한 연필 두 개 중 하나를 고를 때 가장 현명한 방법은?', o:['가격, 품질, 나에게 필요한지를 비교해서 고른다','포장이 제일 화려한 것을 고른다','광고에 나온 것이면 무조건 고른다'], a:0, x:'여러 조건을 비교해 가장 만족스러운 것을 고르는 것을 합리적 선택이라고 해요.'}}
+  ],
+  truth:{title:'필요와 욕구를 구분하고 계획적으로 써요', points:['필요한 것과 갖고 싶은 것을 구분해요','용돈 기입장으로 돈의 흐름을 살펴요','저축하면 이자가 붙어요','가격·품질·필요를 비교해 합리적으로 선택해요']},
+  extra:[
+    {q:'용돈 5,000원 중 2,000원을 저금했어요. 쓸 수 있는 돈은?', o:['3,000원','7,000원','2,000원'], a:0, x:'5,000 − 2,000 = 3,000원이에요. 쓰기 전에 먼저 저축하는 습관!'},
+    {q:'"기회비용"이란?', o:['하나를 고를 때 포기한 것 가운데 가장 아까운 것의 가치','물건을 산 뒤 받는 영수증','은행에 내는 돈'], a:0, x:'과자 대신 공책을 샀다면, 포기한 과자가 기회비용이에요.'},
+    {q:'물건을 사기 전에 해 두면 좋은 일은?', o:['살 물건의 목록과 쓸 돈을 미리 정한다','눈에 보이는 대로 담는다','친구가 산 것을 따라 산다'], a:0, x:'계획을 세우면 충동구매를 줄일 수 있어요.'}
+  ],
+  tips:['필요한 것부터 사요.','용돈 기입장을 써요.','저축하면 이자가 붙어요.','비교하고 고르세요.']
+},
+{
+  id:'eco', theme:'환경·지속가능발전 교육', place:'푸른 바닷가', icon:'🐢', tint:'#2F9E5B',
+  subjects:'과학(생태·환경), 사회, 실과',
+  npc:{face:'👩', name:'바다 지킴이 누리'},
+  villagers:[{face:'🐢', name:'거북이 씨'},{face:'🐬', name:'돌고래 동동'}],
+  rumor:'바다는 넓으니까 쓰레기를 조금 버려도 괜찮대!',
+  chains:[
+    {gen:{e:'🗑️', n:'분리수거함'}, items:[
+      {e:'🥫', n:'캔', d:'캔은 내용물을 비우고 납작하게!'},
+      {e:'🥤', n:'플라스틱 컵', d:'일회용 컵 대신 텀블러를 써요.'},
+      {e:'♻️', n:'재활용', d:'비우고, 헹구고, 분리하고, 섞지 않기'},
+      {e:'👜', n:'에코백', d:'비닐봉지 대신 장바구니!'},
+      {e:'🌏', n:'푸른 지구', d:'작은 실천이 지구를 지켜요.'}]},
+    {gen:{e:'🪣', n:'새싹 양동이'}, items:[
+      {e:'🌱', n:'새싹', d:'식물은 이산화탄소를 흡수해요.'},
+      {e:'🌿', n:'풀', d:'바닷가 풀은 모래가 날리지 않게 해요.'},
+      {e:'🌳', n:'나무', d:'나무 한 그루가 공기를 맑게 해요.'},
+      {e:'🌲', n:'숲', d:'숲은 많은 생물의 집이에요.'},
+      {e:'🐠', n:'살아나는 바다', d:'깨끗한 바다에 물고기가 돌아와요.'}]}
+  ],
+  steps:[
+    {title:'해변 청소하기', deco:'🧹', lines:[
+      ['npc','탐정님, 바닷가에 쓰레기가 자꾸 늘어나요.'],
+      ['gull','꾸꾸! 바다는 넓으니까 쓰레기 조금은 괜찮대!'],
+      ['npc','바다에 버린 플라스틱은 어떻게 될까요?']],
+     quiz:{q:'바다에 버려진 플라스틱은 어떻게 될까요?', o:['잘게 부서져 미세플라스틱이 되어 바다 생물 몸에 들어간다','금방 흙이 된다','물에 녹아 사라진다'], a:0, x:'플라스틱은 쉽게 썩지 않고 작게 부서져 물고기와 사람에게까지 돌아와요.'}},
+    {title:'분리배출 정거장', deco:'🚮', lines:[
+      ['npc','제대로 분리배출하면 쓰레기가 다시 자원이 돼요.']],
+     quiz:{q:'투명 페트병을 버리는 올바른 방법은?', o:['내용물을 비우고 라벨을 뗀 뒤 찌그러뜨려 뚜껑을 닫는다','음료가 남은 채로 버린다','일반 쓰레기와 섞어 버린다'], a:0, x:'비우고, 헹구고, 분리하고, 섞지 않는 것이 분리배출의 기본이에요.'}},
+    {title:'바다숲 가꾸기', deco:'🌊', lines:[
+      ['gull','꾸꾸… 바다가 점점 따뜻해진대.'],
+      ['npc','기후 변화를 늦추려면 에너지를 아껴야 해요.']],
+     quiz:{q:'에너지를 아끼는 행동은?', o:['쓰지 않는 전등과 전자 기기 끄기','냉장고 문 오래 열어 두기','가까운 거리도 자동차 타고 가기'], a:0, x:'에너지를 아끼면 온실가스가 줄어 기후 변화를 늦출 수 있어요.'}},
+    {title:'돌고래 돌아오다', deco:'🐬', lines:[
+      ['npc','바다가 다시 깨끗해지고 있어요! 마지막 단서예요.']],
+     quiz:{q:'"지속가능발전"의 뜻으로 알맞은 것은?', o:['미래 세대도 누릴 수 있도록 환경을 지키며 발전하는 것','지금 쓸 수 있는 자원을 모두 쓰는 것','모든 발전을 멈추는 것'], a:0, x:'지금 우리와 미래 세대가 함께 행복하도록 환경·사회·경제를 조화롭게 발전시키는 것이에요.'}}
+  ],
+  truth:{title:'작은 쓰레기도 바다로 흘러가 모두에게 돌아와요', points:['플라스틱은 미세플라스틱이 되어 돌아와요','비우고·헹구고·분리하고·섞지 않기','에너지를 아끼면 기후 변화를 늦춰요','미래 세대를 생각하는 지속가능발전']},
+  extra:[
+    {q:'장 보러 갈 때 일회용 비닐봉지 대신 쓸 수 있는 것은?', o:['장바구니(에코백)','종이컵','빨대'], a:0, x:'여러 번 쓸 수 있는 물건을 쓰면 쓰레기가 줄어요.'},
+    {q:'미세플라스틱은 보통 크기가 얼마보다 작은 플라스틱을 말할까요?', o:['5mm','5cm','5m'], a:0, x:'보통 5mm보다 작은 플라스틱 조각을 미세플라스틱이라고 해요.'},
+    {q:'가까운 곳에 갈 때 환경을 생각한 이동 방법은?', o:['걷거나 자전거 타기','혼자 자동차 타기','택시 타기'], a:0, x:'걷거나 자전거를 타면 온실가스를 줄일 수 있어요.'}
+  ],
+  tips:['쓰레기는 되가져가요.','비우고·헹구고·분리하기!','안 쓰는 전등은 꺼요.','텀블러를 써요.']
+}
+];
+/* ===== 구역별 미니게임 (2·4번째 이야기 단계) ===== */
+const GAMES = {
+safety:[
+  {type:'order', name:'대피 훈련', lines:[['npc','흔들림이 멈춘 뒤에는 어떻게 대피할까요? 순서대로 눌러서 대피 훈련을 해 봐요!']],
+   prompt:'지진 대피 순서대로 눌러요', items:['🪑 책상 아래로 들어가 몸 보호하기','⏳ 흔들림이 멈출 때까지 기다리기','🚶 계단으로 걸어서 내려가기','🏫 운동장처럼 넓은 곳으로 가기'],
+   x:'흔들릴 땐 몸 보호, 멈추면 계단으로 넓은 곳에! 엘리베이터는 타지 않아요.'},
+  {type:'sort', name:'119? 112?', lines:[['npc','위급할 때 어디에 전화해야 할까요? 알맞은 전화기로 보내 주세요!']],
+   prompt:'상황 카드를 알맞은 번호로 보내요', bins:[{e:'🚒',n:'119 소방·구급'},{e:'🚓',n:'112 경찰'}],
+   cards:[{t:'🔥 불이 났어요',b:0},{t:'🤕 친구가 크게 다쳤어요',b:0},{t:'🌊 물에 빠진 사람을 봤어요',b:0},{t:'🧭 길을 잃었어요',b:1},{t:'🦹 도둑을 봤어요',b:1},{t:'👀 모르는 사람이 계속 따라와요',b:1}],
+   x:'화재·구조·구급은 119, 범죄나 길 잃음처럼 경찰의 도움이 필요할 땐 112예요.'}
+],
+character:[
+  {type:'sort', name:'말 바구니', lines:[['npc','말에도 온도가 있단다. 따뜻한 말과 아픈 말을 나눠 볼까?']],
+   prompt:'말을 알맞은 바구니에 담아요', bins:[{e:'💗',n:'따뜻한 말'},{e:'💔',n:'아픈 말'}],
+   cards:[{t:'"도와줘서 고마워!"',b:0},{t:'"너는 그것도 못 하니?"',b:1},{t:'"괜찮아, 다시 해 보자"',b:0},{t:'"저리 가, 너랑 안 놀아"',b:1},{t:'"미안해, 내가 실수했어"',b:0},{t:'"네 옷 이상해"',b:1}],
+   x:'고운 말은 친구 마음에 꽃을 피워요.'},
+  {type:'match', name:'마음 짝꿍', lines:[['npc','마지막 단서! 행동과 어울리는 마음 이름을 짝지어 봐.']],
+   prompt:'행동과 인성 덕목을 짝지어요', pairs:[['잘못을 솔직하게 말했어요','정직'],['맡은 청소를 끝까지 했어요','책임'],['모둠 친구와 힘을 합쳤어요','협동'],['무거운 짐을 든 친구를 도왔어요','배려'],['부모님께 감사 편지를 썼어요','효']],
+   x:'인성의 8가지 핵심 가치: 예·효·정직·책임·존중·배려·소통·협동'}
+],
+career:[
+  {type:'match', name:'직업 짝꿍', lines:[['npc','공방에 여러 직업 손님이 왔어요! 누가 무슨 일을 하는지 짝지어 줄래요?']],
+   prompt:'직업과 하는 일을 짝지어요', pairs:[['🍳 요리사','새로운 음식을 만들어요'],['🚒 소방관','불을 끄고 사람을 구해요'],['🐶 수의사','아픈 동물을 치료해요'],['💻 프로그래머','컴퓨터 프로그램을 만들어요'],['🛸 드론 조종사','하늘에서 드론을 움직여요']],
+   x:'세상에는 정말 많은 직업이 있어요. 관심 있는 직업을 더 찾아봐요!'},
+  {type:'ox', name:'편견 깨기', lines:[['gull','꾸꾸! 직업에 대한 소문이 또 있어!'],['npc','맞는 말엔 ⭕, 틀린 말엔 ❌를 눌러 소문을 깨 봐요!']],
+   prompt:'맞으면 ⭕, 틀리면 ❌', cards:[{t:'간호사는 여자만 할 수 있어요',a:false},{t:'꿈은 자라면서 바뀔 수 있어요',a:true},{t:'축구 선수는 남자만 될 수 있어요',a:false},{t:'기술이 발전하면 새로운 직업이 생겨요',a:true},{t:'좋아하는 것을 알면 진로를 찾는 데 도움이 돼요',a:true}],
+   x:'직업에는 성별이 정해져 있지 않고, 꿈은 얼마든지 바뀔 수 있어요.'}
+],
+democracy:[
+  {type:'ox', name:'소문 탐지기', lines:[['npc','가짜 소문을 가려내는 탐지기를 켜 볼까요? 좋은 습관이면 ⭕!']],
+   prompt:'정보를 볼 때 좋은 습관이면 ⭕', cards:[{t:'글을 쓴 사람과 날짜를 확인해요',a:true},{t:'제목만 보고 친구들에게 바로 퍼뜨려요',a:false},{t:'학교 공식 안내와 비교해 봐요',a:true},{t:'사진이 있으면 무조건 진짜예요',a:false},{t:'여러 곳의 정보를 비교해 봐요',a:true}],
+   x:'출처·날짜 확인, 여러 정보 비교! 이것이 가짜 뉴스를 막는 방법이에요.'},
+  {type:'order', name:'마을 회의', lines:[['npc','드디어 놀이터를 정하는 마을 회의! 회의 순서대로 진행해 주세요.']],
+   prompt:'회의 순서대로 눌러요', items:['🔔 회의 시작 알리기','📋 오늘의 주제 알리기','💬 서로 의견 나누기','🗳️ 투표로 정하기','📢 결과 발표하고 마치기'],
+   x:'충분히 의견을 나눈 뒤 투표로 정하고, 결과는 모두 함께 지켜요.'}
+],
+rights:[
+  {type:'sort', name:'권리 상자', lines:[['npc','어린이에게는 4가지 권리가 있어요. 카드를 알맞은 권리 상자에 넣어 볼까요?']],
+   prompt:'카드를 알맞은 권리 상자에 넣어요', bins:[{e:'🍞',n:'생존권'},{e:'🛡️',n:'보호권'},{e:'📚',n:'발달권'},{e:'🙋',n:'참여권'}],
+   cards:[{t:'아플 때 치료를 받아요',b:0},{t:'깨끗한 물과 음식을 먹어요',b:0},{t:'폭력과 위험에서 지켜져요',b:1},{t:'학교에 다니며 배워요',b:2},{t:'마음껏 놀고 쉬어요',b:2},{t:'학급 회의에서 내 의견을 말해요',b:3}],
+   x:'생존권·보호권·발달권·참여권은 모든 어린이의 권리예요.'},
+  {type:'ox', name:'인권 OX', lines:[['gull','꾸꾸… 나 헷갈려. 같이 풀어 줘!']],
+   prompt:'맞으면 ⭕, 틀리면 ❌', cards:[{t:'인권은 어른만 가지고 있어요',a:false},{t:'장애가 있어도 똑같이 존중받아야 해요',a:true},{t:'친구의 일기장을 몰래 봐도 괜찮아요',a:false},{t:'세계 인권의 날은 12월 10일이에요',a:true}],
+   x:'인권은 누구에게나 태어날 때부터 있어요.'}
+],
+multi:[
+  {type:'match', name:'세계 인사', lines:[['npc','시장에 온 세계 친구들에게 그 나라 말로 인사해 볼까요?']],
+   prompt:'나라와 인사말을 짝지어요', pairs:[['베트남','씬 짜오'],['일본','곤니치와'],['중국','니하오'],['프랑스','봉주르'],['스페인','올라']],
+   x:'인사말을 알면 새 친구와 더 빨리 가까워져요.'},
+  {type:'ox', name:'다름 OX', lines:[['npc','축제의 마지막 관문! 맞는 말에 ⭕를 눌러요.']],
+   prompt:'맞으면 ⭕, 틀리면 ❌', cards:[{t:'문화는 틀린 것이 아니라 다른 거예요',a:true},{t:'피부색으로 사람을 판단해도 돼요',a:false},{t:'손으로 밥을 먹는 식사 문화도 있어요',a:true},{t:'외국에서 온 친구는 모두 한국어를 못해요',a:false}],
+   x:'생김새나 배경이 아니라 한 사람 한 사람을 봐요.'}
+],
+unify:[
+  {type:'match', name:'남북 낱말', lines:[['npc','남과 북에서 다르게 부르는 낱말이 있단다. 짝을 찾아 주겠니?']],
+   prompt:'남한말과 북한말을 짝지어요', pairs:[['도시락','곽밥'],['휴대 전화','손전화'],['볶음밥','기름밥'],['주스','과일단물'],['도넛','가락지빵']],
+   x:'조금 다른 말도 있지만, 남과 북은 같은 한글로 대부분 말이 통해요.'},
+  {type:'order', name:'평화 기차', lines:[['npc','철길이 이어지면 기차는 어디를 지나갈까? 부산에서 출발해 보자꾸나!']],
+   prompt:'기차가 지나갈 순서대로 눌러요', items:['🚉 부산','🏙️ 서울','🏯 평양','🌉 신의주','🐼 중국·러시아','🏰 유럽'],
+   x:'한반도 철길이 이어지면 부산에서 유럽까지 기차로 갈 수 있어요.'}
+],
+dokdo:[
+  {type:'ox', name:'독도 OX', lines:[['npc','독도 박사 시험이에요! 맞는 말엔 ⭕를 눌러요.']],
+   prompt:'맞으면 ⭕, 틀리면 ❌', cards:[{t:'독도는 경상북도 울릉군에 속해요',a:true},{t:'독도는 섬 하나로만 되어 있어요',a:false},{t:'독도의 날은 10월 25일이에요',a:true},{t:'강치는 독도에 살던 바다사자예요',a:true},{t:'독도는 우리나라 서쪽 끝 섬이에요',a:false}],
+   x:'독도는 우리나라 동쪽 끝, 동도·서도와 89개의 부속 섬으로 된 우리 땅이에요.'},
+  {type:'match', name:'독도 기록', lines:[['npc','전시관에 설명표를 붙여야 해요. 알맞게 짝지어 주세요!']],
+   prompt:'낱말과 설명을 짝지어요', pairs:[['안용복','일본에 가서 우리 땅임을 밝힌 조선 사람'],['우산','「세종실록」 지리지 속 독도의 옛 이름'],['강치','독도에 살던 바다사자'],['동도·서도','독도의 큰 두 섬'],['10월 25일','독도의 날']],
+   x:'옛 기록과 역사 속 인물들이 독도가 우리 땅임을 보여 줘요.'}
+],
+money:[
+  {type:'sort', name:'필요? 욕구?', lines:[['npc','장바구니에 담기 전에! 꼭 필요한 것과 갖고 싶은 것을 나눠 봐요.']],
+   prompt:'물건을 알맞은 쪽으로 보내요', bins:[{e:'✅',n:'꼭 필요해요'},{e:'💭',n:'갖고 싶어요'}],
+   cards:[{t:'📓 새 학기 공책',b:0},{t:'☂️ 비 오는 날 쓸 우산',b:0},{t:'🧸 이미 있는 것과 똑같은 인형',b:1},{t:'✨ 유행하는 스티커',b:1},{t:'👟 다 닳은 운동화 대신 새 운동화',b:0},{t:'🎮 게임 아이템',b:1}],
+   x:'필요와 욕구를 나누면 용돈을 현명하게 쓸 수 있어요.'},
+  {type:'budget', name:'소풍 장보기', lines:[['npc','내일은 소풍! 5,000원으로 꼭 필요한 것만 사고, 남은 돈은 저금해 볼까요?']],
+   prompt:'꼭 필요한 것만 골라 계산해요', budget:5000,
+   items:[{e:'💧',n:'물',p:1000,need:true},{e:'🍙',n:'김밥',p:2500,need:true},{e:'🧻',n:'물티슈',p:1000,need:true},{e:'🍭',n:'사탕 한 봉지',p:1500,need:false},{e:'🧸',n:'인형',p:3000,need:false}],
+   x:'물·김밥·물티슈 = 4,500원! 500원은 저금해요.'}
+],
+eco:[
+  {type:'sort', name:'분리배출 챌린지', lines:[['npc','바닷가 쓰레기를 알맞은 통에 넣어 주세요! 재활용되면 다시 자원이 돼요.']],
+   prompt:'쓰레기를 알맞은 통에 넣어요', bins:[{e:'🧴',n:'플라스틱'},{e:'🥫',n:'캔'},{e:'📦',n:'종이'},{e:'🗑️',n:'일반 쓰레기'}],
+   cards:[{t:'페트병',b:0},{t:'요구르트 병',b:0},{t:'음료 캔',b:1},{t:'참치 캔',b:1},{t:'신문지',b:2},{t:'택배 상자',b:2},{t:'사용한 휴지',b:3},{t:'물티슈',b:3}],
+   x:'물티슈와 사용한 휴지는 재활용이 안 돼서 일반 쓰레기예요.'},
+  {type:'ox', name:'지구 지킴 OX', lines:[['npc','돌고래가 돌아오려면 마지막 시험을 통과해야 해요!']],
+   prompt:'맞으면 ⭕, 틀리면 ❌', cards:[{t:'물티슈는 재활용이 돼요',a:false},{t:'페트병은 라벨을 떼고 버려요',a:true},{t:'안 쓰는 전등을 끄면 에너지를 아껴요',a:true},{t:'바다는 넓어서 쓰레기를 버려도 괜찮아요',a:false}],
+   x:'작은 실천이 모이면 바다와 지구를 지킬 수 있어요.'}
+]
+};
+/* 2·4번째 단계를 미니게임으로 바꾸고, 원래 퀴즈는 충전 퀴즈로 옮겨요 */
+CH.forEach(ch=>{
+  const g=GAMES[ch.id];
+  [1,3].forEach((si,k)=>{const st=ch.steps[si]; if(st.quiz) ch.extra.push(st.quiz); delete st.quiz; st.game=g[k]; st.lines=g[k].lines;});
+});
+/* 추가 문제 은행 — 챕터마다 20문제 (정답은 항상 첫 번째 보기, 화면에서는 섞여 나와요) */
+const QBANK={
+safety:[
+ ['불이 났을 때 연기가 가득해요. 알맞은 행동은?',['젖은 수건으로 코와 입을 막고 낮은 자세로 대피한다','엘리베이터를 타고 내려간다','옷장 안에 숨는다'],'연기는 위로 올라가요. 계단으로, 낮은 자세로 대피해요.'],
+ ['지진으로 땅이 흔들릴 때 교실에서 먼저 할 일은?',['책상 아래로 들어가 책상 다리를 꼭 잡는다','창문 옆에 선다','바로 복도로 뛰어나간다'],'흔들릴 때는 책상 아래에서 머리를 보호하고, 흔들림이 멈추면 운동장으로 대피해요.'],
+ ['화재 신고 전화번호는?',['119','112','114'],'119는 화재·구조·구급 신고 번호예요.'],
+ ['범죄 신고 전화번호는?',['112','119','1004'],'112는 경찰에 신고하는 번호예요.'],
+ ['모르는 어른이 "엄마가 데려오래" 하며 따라오라고 해요.',['따라가지 않고 부모님이나 선생님께 확인한다','사탕을 주면 따라간다','주소를 알려 준다'],'모르는 사람은 따라가지 않고, 믿을 수 있는 어른에게 바로 알려요.'],
+ ['물놀이 전에 꼭 해야 할 일은?',['준비 운동을 하고 구명조끼를 입는다','밥을 먹자마자 바로 들어간다','혼자 깊은 곳에 간다'],'준비 운동과 구명조끼는 물놀이 안전의 기본이에요.'],
+ ['감기에 걸려 기침이 나요. 바른 기침 예절은?',['옷소매나 휴지로 입과 코를 가린다','손바닥으로 가리고 그대로 문고리를 잡는다','친구 쪽을 보고 기침한다'],'옷소매로 가리면 손에 균이 묻지 않아 다른 사람에게 덜 옮겨요.'],
+ ['어린이에게 알맞은 잠자는 시간은 하루에 약 몇 시간일까요?',['9~12시간','3~4시간','15시간 이상'],'초등학생은 하루 9~12시간 정도 자는 것이 좋다고 해요.'],
+ ['건강한 간식으로 가장 알맞은 것은?',['과일과 우유','탄산음료와 과자만','사탕 한 봉지'],'과일과 우유는 몸에 필요한 영양소를 줘요.'],
+ ['스마트폰을 오래 볼 때 눈 건강을 지키는 방법은?',['잠깐씩 쉬며 먼 곳을 바라본다','어두운 곳에서 가까이 본다','쉬지 않고 계속 본다'],'자주 쉬면서 먼 곳을 보면 눈의 피로가 줄어요.'],
+ ['학교 앞 "어린이 보호구역"의 제한 속도는 보통 시속 몇 km일까요?',['30km','80km','100km'],'어린이 보호구역에서 자동차는 대부분 시속 30km 이하로 달려야 해요.'],
+ ['자동차에 탈 때 어린이가 꼭 해야 할 일은?',['뒷자리에 앉아 안전띠를 맨다','창밖으로 손을 내민다','안전띠를 풀고 일어선다'],'안전띠는 사고가 났을 때 몸을 지켜 줘요.'],
+ ['친구가 갑자기 쓰러졌어요. 먼저 할 일은?',['주변 어른에게 알리고 119에 신고한다','혼자 해결될 때까지 기다린다','모른 척 지나간다'],'위급할 때는 먼저 도움을 요청하는 것이 가장 중요해요.'],
+ ['뜨거운 물에 손을 데었어요. 알맞은 응급 처치는?',['시원한 흐르는 물에 식힌다','치약을 바른다','얼음을 바로 오래 댄다'],'화상을 입으면 흐르는 시원한 물로 10분 이상 식혀요.'],
+ ['미세먼지가 "나쁨"인 날 알맞은 행동은?',['바깥 활동을 줄이고 마스크를 쓴다','운동장에서 오래 뛴다','창문을 활짝 열어 둔다'],'미세먼지가 나쁜 날은 바깥 활동을 줄여요.'],
+ ['계단을 오르내릴 때 안전한 방법은?',['손잡이를 잡고 한 칸씩 걷는다','난간에 올라 미끄럼을 탄다','뛰어서 두 칸씩 내려간다'],'계단에서는 뛰지 않고 천천히 걸어요.'],
+ ['몸에 이상한 약이 든 병을 발견했어요.',['먹지 않고 어른에게 알린다','맛을 본다','친구와 나눠 먹는다'],'모르는 약은 절대 먹지 않아요.'],
+ ['놀이터에서 그네를 탈 때 안전한 행동은?',['차례를 지키고 그네 앞뒤로 지나가지 않는다','서서 높이 탄다','움직이는 그네 앞을 지나간다'],'움직이는 그네에 부딪히면 크게 다칠 수 있어요.'],
+ ['손을 꼭 씻어야 하는 때가 아닌 것은?',['손을 씻은 바로 뒤','밥 먹기 전','화장실에 다녀온 뒤'],'밥 먹기 전, 화장실 다녀온 뒤, 밖에서 돌아왔을 때 손을 씻어요.'],
+ ['마음이 너무 힘들고 속상할 때 좋은 방법은?',['믿을 수 있는 어른에게 이야기한다','혼자 꾹 참기만 한다','화를 물건에 푼다'],'마음 건강도 몸 건강만큼 중요해요. 이야기하면 도움을 받을 수 있어요.'],
+],
+character:[
+ ['친구가 새 신발을 자랑해요. 배려하는 말은?',['"와, 잘 어울린다!"','"별로다."','"내 게 더 좋아."'],'친구의 기쁨을 함께 나누는 말이 배려예요.'],
+ ['시험지를 채점하다 선생님이 점수를 잘못 더 주셨어요.',['선생님께 솔직하게 말씀드린다','모른 척한다','친구에게 자랑한다'],'정직은 손해처럼 보여도 믿음을 쌓아요.'],
+ ['친구와 다퉜을 때 화해하는 좋은 방법은?',['내 마음을 차분히 말하고 친구 말도 듣는다','계속 무시한다','다른 친구들에게 흉을 본다'],'서로의 마음을 말하고 들으면 오해가 풀려요.'],
+ ['내가 맡은 청소 구역을 끝까지 깨끗이 하는 것은 어떤 덕목일까요?',['책임','욕심','질투'],'맡은 일을 끝까지 해내는 것이 책임이에요.'],
+ ['어르신께 물건을 드릴 때 바른 예절은?',['두 손으로 드린다','던져서 드린다','한 손으로 툭 건넨다'],'두 손으로 드리는 것은 존중을 나타내요.'],
+ ['전학 온 친구가 혼자 있어요. 가장 좋은 행동은?',['먼저 다가가 함께 놀자고 한다','멀리서 쳐다보기만 한다','이상하다고 소문낸다'],'먼저 다가가는 작은 용기가 친구를 행복하게 해요.'],
+ ['친구의 물건을 망가뜨렸을 때 알맞은 행동은?',['사과하고 어떻게 해결할지 함께 이야기한다','몰래 제자리에 둔다','다른 친구가 했다고 한다'],'잘못을 인정하고 책임지는 것이 정직이에요.'],
+ ['"소통"을 잘하는 방법으로 알맞은 것은?',['상대의 눈을 보고 끝까지 듣는다','말을 자꾸 끊는다','휴대 전화를 보며 듣는다'],'잘 듣는 것이 소통의 시작이에요.'],
+ ['내 기분이 나쁠 때 친구에게 말하는 바른 방법은?',['"나는 네가 그렇게 말해서 속상했어."','"너 진짜 나빠!"','말없이 밀친다'],'"나" 전달법으로 말하면 싸우지 않고 마음을 전할 수 있어요.'],
+ ['공공장소에서 지켜야 할 예절은?',['작은 목소리로 이야기한다','큰 소리로 뛰어다닌다','쓰레기를 아무 데나 버린다'],'모두가 함께 쓰는 곳에서는 다른 사람을 배려해요.'],
+ ['인성 교육에서 말하는 8가지 핵심 가치가 아닌 것은?',['경쟁','정직','효'],'인성교육진흥법의 핵심 가치는 예·효·정직·책임·존중·배려·소통·협동이에요.'],
+ ['친구가 발표하다 실수했어요. 알맞은 반응은?',['"괜찮아, 잘했어!" 하고 응원한다','크게 웃는다','흉내 낸다'],'실수한 친구를 응원하면 모두가 용기를 낼 수 있어요.'],
+ ['할머니 댁에 갔을 때 효를 실천하는 행동은?',['반갑게 인사드리고 이야기를 나눈다','인사 없이 게임만 한다','심부름을 거절한다'],'어른을 공경하고 마음을 나누는 것이 효예요.'],
+ ['모둠 활동에서 협동을 잘하는 방법은?',['역할을 나누고 서로 도와준다','내 의견만 고집한다','아무것도 하지 않는다'],'각자 역할을 맡고 서로 도우면 더 잘할 수 있어요.'],
+ ['다른 사람의 생각이 나와 다를 때 존중하는 태도는?',['"그렇게 생각할 수도 있겠다."','"넌 틀렸어!"','무시한다'],'생각이 달라도 인정해 주는 것이 존중이에요.'],
+ ['친구의 비밀을 알게 되었어요.',['약속대로 지켜 준다','반 친구 모두에게 말한다','인터넷에 올린다'],'친구의 믿음을 지키는 것도 중요한 인성이에요.'],
+ ['급식 줄에서 바른 행동은?',['차례를 지켜 기다린다','친구 앞에 끼어든다','밀고 들어간다'],'차례를 지키는 것은 모두를 위한 약속이에요.'],
+ ['선생님이 안 계실 때도 규칙을 지키는 것은 어떤 마음일까요?',['스스로 지키는 책임감','들킬까 봐 무서운 마음','귀찮은 마음'],'보는 사람이 없어도 스스로 지키는 것이 진짜 책임이에요.'],
+ ['감사하는 마음을 표현하는 방법으로 알맞은 것은?',['감사 편지를 쓴다','당연하다고 생각한다','투덜거린다'],'고마움을 표현하면 서로의 마음이 따뜻해져요.'],
+ ['친구가 넘어져 다쳤어요.',['"괜찮아?" 하고 일으켜 주고 보건실에 데려간다','웃으며 지나간다','사진을 찍는다'],'어려운 친구를 돕는 것이 배려예요.'],
+],
+career:[
+ ['아픈 동물을 치료하는 직업은?',['수의사','요리사','건축가'],'수의사는 동물의 건강을 돌봐요.'],
+ ['건물을 설계하는 직업은?',['건축가','소방관','제빵사'],'건축가는 건물의 모양과 구조를 설계해요.'],
+ ['나의 강점을 알아보는 좋은 방법은?',['내가 즐겁게 잘했던 일을 떠올려 본다','친구의 꿈을 그대로 따라 한다','아무 생각도 하지 않는다'],'즐겁게 잘했던 경험 속에 나의 강점이 숨어 있어요.'],
+ ['새로운 직업이 생겨나는 까닭으로 알맞은 것은?',['기술과 사회가 변하기 때문에','사람들이 일을 싫어해서','직업은 절대 바뀌지 않는다'],'인공지능, 드론처럼 기술이 발전하면 새 직업이 생겨요.'],
+ ['"직업"에 대한 바른 생각은?',['모든 직업은 사회에 꼭 필요하고 소중하다','돈을 많이 버는 직업만 좋다','남자·여자 직업이 정해져 있다'],'모든 직업은 저마다 사회에 도움을 줘요.'],
+ ['간호사는 남자도 할 수 있을까요?',['누구나 할 수 있다','여자만 할 수 있다','어른 남자는 못 한다'],'직업은 성별이 아니라 흥미와 능력으로 선택해요.'],
+ ['불을 끄고 사람을 구하는 직업은?',['소방관','우편집배원','약사'],'소방관은 화재 진압과 구조, 구급 활동을 해요.'],
+ ['진로 체험 활동을 하는 까닭은?',['여러 일을 직접 경험해 보며 나에게 맞는 일을 찾으려고','시간을 때우려고','숙제를 줄이려고'],'직접 해 보면 내가 좋아하는 일을 더 잘 알 수 있어요.'],
+ ['꿈을 이루려고 매일 조금씩 연습하는 것은?',['꾸준함','포기','미루기'],'작은 노력이 쌓이면 큰 힘이 돼요.'],
+ ['프로그램이나 앱을 만드는 직업은?',['소프트웨어 개발자','조경사','미용사'],'소프트웨어 개발자는 컴퓨터 프로그램을 만들어요.'],
+ ['책을 쓰는 직업은?',['작가','요리사','조종사'],'작가는 이야기나 지식을 글로 써요.'],
+ ['실패했을 때 진로에 도움이 되는 생각은?',['"다음엔 이렇게 해 봐야지!"','"난 원래 안 돼."','"다시는 안 할래."'],'실패에서 배우면 더 성장할 수 있어요.'],
+ ['내 꿈이 자주 바뀌어요. 어떻게 생각하면 될까요?',['여러 가지를 탐색하는 자연스러운 과정이다','잘못된 것이다','꿈은 하나로 정해야만 한다'],'어릴 때는 다양한 꿈을 꾸며 탐색하는 것이 좋아요.'],
+ ['비행기를 운전하는 직업은?',['조종사','항해사','기관사'],'비행기는 조종사, 배는 항해사가 운항해요.'],
+ ['환자의 병을 진단하고 치료하는 직업은?',['의사','변호사','기자'],'의사는 사람의 병을 진단하고 치료해요.'],
+ ['어떤 일을 할지 정할 때 가장 중요하게 생각해야 할 것은?',['나의 흥미와 적성','친구가 고른 것','무조건 유명한 것'],'나를 잘 아는 것이 진로 선택의 첫걸음이에요.'],
+ ['뉴스를 취재하고 기사를 쓰는 직업은?',['기자','판사','농부'],'기자는 사실을 취재해 사람들에게 알려요.'],
+ ['농작물을 기르는 직업은?',['농부','어부','광부'],'농부는 곡식과 채소를 길러요.'],
+ ['여러 사람과 함께 일할 때 필요한 능력은?',['협력하고 소통하는 능력','혼자만 하려는 태도','남의 공을 가로채는 태도'],'대부분의 일은 여러 사람이 함께 해요.'],
+ ['나의 미래 모습을 그려 보는 활동을 무엇이라고 할까요?',['진로 설계','일기 예보','요리 계획'],'진로 설계는 꿈을 향한 길을 미리 그려 보는 거예요.'],
+],
+democracy:[
+ ['학급 회장 선거에서 누가 누구를 뽑았는지 모르게 투표하는 원칙은?',['비밀 선거','공개 선거','대리 선거'],'비밀 선거는 자유롭게 투표할 수 있게 해 줘요.'],
+ ['한 사람이 한 표씩 똑같이 투표하는 원칙은?',['평등 선거','비밀 선거','간접 선거'],'누구나 똑같이 한 표를 행사해요.'],
+ ['다수결로 정할 때 꼭 함께 생각해야 할 것은?',['소수의 의견도 존중한다','많은 쪽만 옳다','적은 쪽은 무시한다'],'다수결로 정하되 소수의 의견도 귀 기울여요.'],
+ ['우리나라의 최고법은?',['헌법','학급 규칙','교통 법규'],'헌법은 나라의 가장 기본이 되는 법이에요.'],
+ ['법을 만드는 곳은?',['국회','법원','소방서'],'국회에서 국회의원들이 법을 만들어요.'],
+ ['법에 따라 재판을 하는 곳은?',['법원','국회','우체국'],'법원은 법에 따라 옳고 그름을 판단해요.'],
+ ['대한민국 헌법 제1조에 나오는 말은?',['대한민국은 민주공화국이다','대한민국은 왕이 다스린다','대한민국은 섬나라이다'],'헌법 제1조 1항: 대한민국은 민주공화국이다.'],
+ ['공공장소에 쓰레기를 버리지 않는 것은 어떤 시민의 모습일까요?',['공공질서를 지키는 시민','욕심 많은 시민','무관심한 시민'],'함께 쓰는 곳을 아끼는 것이 민주 시민의 모습이에요.'],
+ ['투표하기 전에 후보를 고르는 좋은 방법은?',['공약을 꼼꼼히 비교한다','가장 친한 친구를 뽑는다','이름이 멋진 사람을 뽑는다'],'공약을 비교하면 우리 반에 필요한 사람을 뽑을 수 있어요.'],
+ ['인터넷에서 본 소식이 사실인지 확인하는 방법은?',['여러 믿을 만한 곳에서 확인한다','제목만 보고 믿는다','바로 친구들에게 퍼뜨린다'],'가짜 뉴스를 가려내는 것도 민주 시민의 힘이에요.'],
+ ['지방 자치란?',['지역 주민이 대표를 뽑아 지역의 일을 스스로 처리하는 것','대통령이 모든 동네 일을 정하는 것','외국이 우리 지역을 다스리는 것'],'지방 자치는 주민이 지역의 주인이 되는 제도예요.'],
+ ['학급 회의에서 의견이 서로 다를 때 좋은 방법은?',['까닭을 들어 이야기하고 서로 양보한다','목소리 큰 사람이 이긴다','회의를 그만둔다'],'대화와 타협은 민주주의의 중요한 방법이에요.'],
+ ['시민이 나라에 의견을 전하는 방법이 아닌 것은?',['남의 물건을 부수며 화내기','국민 신문고에 제안하기','투표하기'],'평화롭고 정해진 방법으로 의견을 전해요.'],
+ ['국민의 4대 의무가 아닌 것은?',['게임의 의무','납세의 의무','국방의 의무'],'국민의 기본 의무는 납세·국방·교육·근로의 의무예요.'],
+ ['우리 반 규칙을 정할 때 가장 민주적인 방법은?',['모두가 참여해 의논하고 정한다','반장 혼자 정한다','선생님 몰래 정한다'],'모두가 참여해야 모두가 지키기 쉬운 규칙이 돼요.'],
+ ['나라의 살림(행정)을 맡아 하는 곳은?',['정부','법원','국회'],'정부는 법에 따라 나라 살림을 해요.'],
+ ['권력을 국회·정부·법원으로 나누는 까닭은?',['한 곳이 권력을 마음대로 쓰지 못하게 하려고','일을 줄이려고','서로 싸우게 하려고'],'삼권 분립은 서로 견제하며 국민의 권리를 지켜요.'],
+ ['공정한 경기의 모습은?',['모두 같은 규칙을 지킨다','우리 팀만 규칙을 바꾼다','심판 몰래 반칙한다'],'공정함은 민주주의의 기본 가치예요.'],
+ ['어린이도 할 수 있는 민주 시민 활동은?',['학급 회의에 참여해 의견을 낸다','아무 관심을 갖지 않는다','남의 의견을 방해한다'],'어린이도 우리 반과 학교의 주인이에요.'],
+ ['"민주주의"에서 나라의 주인은?',['국민','대통령','군인'],'민주주의는 국민이 주인인 정치예요.'],
+],
+rights:[
+ ['인권이란?',['사람이라면 누구나 태어날 때부터 가지는 권리','어른만 가지는 권리','돈을 내야 받는 권리'],'인권은 모든 사람이 누려야 할 기본 권리예요.'],
+ ['유엔 아동권리협약에서 "아동"은 몇 살 미만일까요?',['18세 미만','10세 미만','25세 미만'],'유엔 아동권리협약은 18세 미만을 아동으로 봐요.'],
+ ['어린이가 놀고 쉴 권리는 어떤 권리에 들어갈까요?',['발달권','투표권','납세권'],'놀이와 여가, 교육은 어린이가 잘 자라기 위한 발달권이에요.'],
+ ['어린이가 자기 의견을 말할 권리는?',['참여권','소유권','운전권'],'어린이도 자신과 관련된 일에 의견을 말할 수 있어요.'],
+ ['친구 외모를 놀리는 것은 어떤 문제일까요?',['친구의 인격을 존중하지 않는 행동','재미있는 장난','칭찬'],'외모로 놀리는 것은 친구에게 큰 상처를 줘요.'],
+ ['휠체어를 탄 친구도 학교를 편하게 다니려면?',['경사로와 엘리베이터를 설치한다','계단만 만든다','다른 학교에 가라고 한다'],'모두가 불편 없이 이용할 수 있게 하는 것이 인권 존중이에요.'],
+ ['친구의 일기장을 몰래 보는 것은 어떤 권리를 침해할까요?',['사생활의 권리','투표권','교육받을 권리'],'다른 사람의 사생활은 허락 없이 보면 안 돼요.'],
+ ['세계 인권 선언이 발표된 해는?',['1948년','1988년','2002년'],'1948년 12월 10일 유엔에서 세계 인권 선언을 발표했어요.'],
+ ['"남자는 울면 안 돼"라는 말은 어떤 문제가 있을까요?',['성별로 감정 표현을 제한하는 고정관념이다','꼭 지켜야 할 규칙이다','칭찬하는 말이다'],'누구나 슬플 때 울 수 있어요.'],
+ ['친구가 괴롭힘을 당하는 것을 봤어요.',['선생님이나 어른에게 알린다','구경만 한다','함께 괴롭힌다'],'방관하지 않고 알리는 것이 친구를 지키는 행동이에요.'],
+ ['다른 사람의 사진을 허락 없이 인터넷에 올리면?',['초상권을 침해할 수 있다','아무 문제 없다','칭찬받는다'],'사진을 올리기 전에는 꼭 허락을 받아요.'],
+ ['인권을 존중하는 말은?',['"너의 생각도 소중해."','"넌 몰라도 돼."','"넌 빠져."'],'모든 사람의 생각은 소중해요.'],
+ ['어린이가 학대받지 않고 보호받을 권리는?',['보호권','선거권','재산권'],'어린이는 폭력과 위험으로부터 보호받아야 해요.'],
+ ['어린이가 건강하게 먹고 치료받을 권리는?',['생존권','운전권','결혼권'],'생존권은 살아가는 데 꼭 필요한 권리예요.'],
+ ['다른 나라에서 온 친구에게도 인권이 있을까요?',['누구나 똑같이 있다','우리나라 사람만 있다','어른만 있다'],'인권은 국적과 상관없이 모든 사람에게 있어요.'],
+ ['내 권리를 누릴 때 함께 생각해야 할 것은?',['다른 사람의 권리도 존중한다','내 권리만 중요하다','남의 권리는 상관없다'],'내 권리만큼 다른 사람의 권리도 소중해요.'],
+ ['나이가 어리다고 의견을 무시하는 것은?',['차별이다','당연하다','존중이다'],'나이로 사람을 무시하는 것도 차별이에요.'],
+ ['점자 블록은 누구를 위한 것일까요?',['시각 장애인','어린이만','운전자'],'점자 블록은 시각 장애인이 안전하게 걷도록 도와줘요.'],
+ ['단체 대화방에서 한 친구만 빼고 이야기하는 것은?',['사이버 따돌림','우정','배려'],'온라인에서의 따돌림도 친구에게 큰 상처를 줘요.'],
+ ['인권 문제를 해결하려고 우리나라에 만든 기관은?',['국가인권위원회','국세청','기상청'],'국가인권위원회는 인권 침해와 차별을 조사하고 개선을 권고해요.'],
+],
+multi:[
+ ['다문화 가정 친구에 대한 바른 생각은?',['우리 반의 소중한 친구다','우리와 다른 사람이다','놀리면 재미있다'],'모두가 똑같이 소중한 친구예요.'],
+ ['다른 나라 음식이 낯설 때 알맞은 태도는?',['"새로운 맛이네!" 하고 존중한다','"이상해!" 하고 뱉는다','놀린다'],'음식에는 그 나라의 문화가 담겨 있어요.'],
+ ['다른 문화를 이해하는 좋은 방법은?',['궁금한 것을 정중하게 물어본다','무조건 틀렸다고 한다','모른 척한다'],'관심을 갖고 물어보면 서로를 더 잘 알 수 있어요.'],
+ ['피부색이 다른 친구를 대하는 바른 태도는?',['똑같이 존중하고 함께 논다','따돌린다','피부색으로 별명을 짓는다'],'피부색으로 사람을 차별하면 안 돼요.'],
+ ['세계 여러 나라의 인사말을 배우면 좋은 점은?',['다른 문화 친구와 가까워질 수 있다','아무 쓸모가 없다','우리말을 잊는다'],'인사말 하나로 마음이 통할 수 있어요.'],
+ ['"편견"이란?',['잘 알지 못하면서 한쪽으로 치우쳐 판단하는 생각','정확한 사실','친절한 마음'],'편견을 버리고 사람 그 자체를 봐요.'],
+ ['한국어가 서툰 친구에게 도움이 되는 행동은?',['천천히 말하고 그림으로 설명한다','빨리 말하고 가 버린다','흉내 낸다'],'배려하는 작은 행동이 큰 힘이 돼요.'],
+ ['인도에서 많은 사람이 소고기를 먹지 않는 까닭은?',['종교와 문화 때문에','소고기가 없어서','법으로 음식이 정해져서'],'음식 문화에는 종교와 전통이 담겨 있어요.'],
+ ['세계 여러 나라에서 "고맙습니다"를 뜻하는 말은?',['땡큐, 씨에씨에, 아리가토','안녕, 잘 가, 배고파','사과, 배, 포도'],'영어·중국어·일본어의 고맙다는 말이에요.'],
+ ['다문화 사회의 좋은 점은?',['다양한 문화와 생각을 배울 수 있다','싸움이 늘어난다','한 가지 문화만 남는다'],'다양함은 우리 사회를 더 풍성하게 해요.'],
+ ['나와 다른 명절을 지내는 친구가 있어요.',['어떤 명절인지 관심을 갖고 들어 본다','이상하다고 한다','우리 명절만 옳다고 한다'],'여러 나라의 명절을 알면 세상이 넓어져요.'],
+ ['"우리 반은 모두 달라서 더 멋져!"와 어울리는 말은?',['다양성 존중','획일성','차별'],'서로 다른 점이 모여 더 멋진 반이 돼요.'],
+ ['외국인 노동자에 대한 바른 생각은?',['우리 사회에서 함께 일하는 이웃이다','무시해도 된다','일만 하면 된다'],'모든 이웃을 존중해요.'],
+ ['다른 나라 전통 옷을 입은 친구를 보면?',['멋지다고 말하고 관심을 가진다','비웃는다','사진을 몰래 찍어 올린다'],'전통 옷에는 그 나라의 역사가 담겨 있어요.'],
+ ['손으로 음식을 먹는 문화에 대한 바른 생각은?',['나라마다 식사 문화가 다를 수 있다','더럽고 틀린 문화다','따라 하면 안 된다'],'문화는 옳고 그름이 아니라 다름이에요.'],
+ ['"고정관념" 예시로 알맞은 것은?',['"그 나라 사람은 다 그럴 거야."','"사람마다 다르지."','"직접 알아봐야지."'],'한 사람을 보고 모두를 판단하면 안 돼요.'],
+ ['세계 지도에서 여러 나라를 찾아보는 활동은 어떤 도움이 될까요?',['다른 나라에 대한 관심과 이해가 커진다','아무 도움이 없다','싸움이 생긴다'],'알면 알수록 이해가 깊어져요.'],
+ ['친구 부모님의 나라 말을 배우면?',['친구가 기뻐하고 더 친해진다','친구가 슬퍼한다','우리말을 못 한다'],'상대의 언어를 배우는 것은 존중의 표현이에요.'],
+ ['다문화 가정 친구가 두 나라 말을 할 수 있다면?',['큰 장점이고 멋진 능력이다','숨겨야 할 일이다','놀림거리다'],'두 언어를 하는 것은 소중한 능력이에요.'],
+ ['세계 인종 차별 철폐의 날처럼 차별을 없애자는 날을 만든 까닭은?',['모든 사람이 평등하다는 것을 기억하려고','휴일을 늘리려고','차별을 늘리려고'],'차별 없는 세상을 함께 만들자는 뜻이에요.'],
+],
+unify:[
+ ['남한과 북한을 나누는 경계선은?',['군사 분계선(휴전선)','적도','날짜 변경선'],'6·25 전쟁 정전 협정으로 군사 분계선이 생겼어요.'],
+ ['6·25 전쟁이 일어난 해는?',['1950년','1945년','1988년'],'1950년 6월 25일에 전쟁이 시작되었어요.'],
+ ['6·25 전쟁의 정전 협정이 맺어진 해는?',['1953년','1950년','1960년'],'1953년 정전 협정 뒤 지금까지 분단이 이어지고 있어요.'],
+ ['남과 북이 헤어져 서로 만나지 못하는 가족을 무엇이라 할까요?',['이산가족','대가족','핵가족'],'이산가족의 아픔은 통일이 필요한 까닭 중 하나예요.'],
+ ['남과 북이 함께 쓰는 말은?',['한국어(우리말)','영어','중국어'],'남과 북은 같은 말과 글을 써요.'],
+ ['북한에서 "얼음보숭이"는 무엇을 뜻할까요?',['아이스크림','얼음 조각','눈사람'],'오랜 분단으로 남과 북의 낱말이 조금씩 달라졌어요.'],
+ ['남북한이 함께 즐기는 전통 명절은?',['설날과 추석','크리스마스','핼러윈'],'남과 북은 같은 명절 문화를 가지고 있어요.'],
+ ['통일이 되면 좋은 점으로 알맞은 것은?',['이산가족이 만나고 기차로 대륙까지 갈 수 있다','전쟁 걱정이 늘어난다','말이 통하지 않는다'],'통일은 평화와 새로운 기회를 가져와요.'],
+ ['평화 통일을 위해 어린이가 할 수 있는 일은?',['북한 친구들의 생활과 문화를 알아본다','북한을 무조건 미워한다','관심을 갖지 않는다'],'서로 이해하는 마음이 평화의 시작이에요.'],
+ ['남북 정상이 처음으로 만나 회담한 해는?',['2000년','1950년','1988년'],'2000년 평양에서 첫 남북 정상 회담이 열렸어요.'],
+ ['남북한 선수들이 올림픽 개회식에 함께 들고 입장한 깃발은?',['한반도기','태극기만','오륜기만'],'한반도기는 흰 바탕에 파란 한반도가 그려진 깃발이에요.'],
+ ['군사 분계선 남북으로 2km씩 무기를 두지 않기로 한 곳은?',['비무장 지대(DMZ)','국립 공원','경제 특구'],'DMZ는 사람의 손길이 적어 멸종 위기 동식물이 많이 살아요.'],
+ ['판문점은 어떤 곳일까요?',['남북 회담이 열리기도 하는 공동 경비 구역','놀이공원','해수욕장'],'판문점은 남북 대화의 상징적인 장소예요.'],
+ ['북한의 수도는?',['평양','개성','서울'],'북한의 수도는 평양이에요.'],
+ ['통일에 대한 바른 태도는?',['서로 다른 점을 이해하고 평화롭게 이루어야 한다','무력으로 해야 한다','생각할 필요가 없다'],'통일은 평화로운 방법으로 이루어야 해요.'],
+ ['남과 북이 함께 만든 공업 단지가 있던 곳은?',['개성','제주','부산'],'개성 공업 지구는 남북 경제 협력의 상징이었어요.'],
+ ['통일을 위해 필요한 마음이 아닌 것은?',['미움','이해','배려'],'미움보다 이해와 배려가 통일을 앞당겨요.'],
+ ['북한에서 "가락지빵"은 무엇일까요?',['도넛','식빵','햄버거'],'남과 북의 다른 낱말을 알면 서로를 더 잘 이해할 수 있어요.'],
+ ['한반도가 통일되면 기차를 타고 갈 수 있는 곳은?',['유럽까지 이어지는 대륙','달','바닷속'],'철길이 이어지면 중국·러시아를 거쳐 유럽까지 갈 수 있어요.'],
+ ['남과 북이 함께 조상으로 생각하는 우리 역사의 첫 나라는?',['고조선','조선','고려'],'남과 북은 오랜 역사를 함께한 한민족이에요.'],
+],
+dokdo:[
+ ['독도는 어느 바다에 있을까요?',['동해','서해','남해'],'독도는 우리나라 동해에 있는 섬이에요.'],
+ ['독도의 행정 주소는?',['경상북도 울릉군','제주특별자치도','전라남도 신안군'],'독도의 주소는 경상북도 울릉군 울릉읍 독도리예요.'],
+ ['독도는 크게 두 개의 섬으로 이루어져 있어요. 이름은?',['동도와 서도','남섬과 북섬','큰섬과 작은섬'],'독도는 동도, 서도와 여러 바위섬으로 이루어져 있어요.'],
+ ['독도에서 가장 가까운 우리 섬은?',['울릉도','제주도','강화도'],'울릉도에서 독도까지는 약 87.4km예요.'],
+ ['맑은 날 울릉도에서 독도를 맨눈으로 볼 수 있을까요?',['볼 수 있다','절대 볼 수 없다','망원경이 있어도 못 본다'],'맑은 날 울릉도에서 독도가 보여요. 옛날부터 우리 땅으로 알고 있었던 까닭이지요.'],
+ ['신라 때 우산국(울릉도·독도)을 신라 땅으로 만든 인물은?',['이사부','세종대왕','이순신'],'512년 이사부가 우산국을 신라에 복속시켰어요.'],
+ ['조선 숙종 때 일본에 건너가 울릉도와 독도가 조선 땅임을 주장한 사람은?',['안용복','김정호','장영실'],'안용복은 일본에 가서 울릉도와 독도가 조선 땅임을 밝혔어요.'],
+ ['1900년 대한제국이 독도를 울릉군 관할로 정한 칙령은?',['대한제국 칙령 제41호','훈민정음','경국대전'],'대한제국 칙령 제41호에 "석도(독도)"를 울릉군이 관할한다고 밝혔어요.'],
+ ['독도의 날은 언제일까요?',['10월 25일','3월 1일','8월 15일'],'10월 25일은 대한제국 칙령 제41호가 만들어진 날을 기념해요.'],
+ ['독도 주변 바다에 물고기가 많은 까닭은?',['따뜻한 바닷물과 차가운 바닷물이 만나서','바다가 얕아서','사람이 물고기를 풀어서'],'난류와 한류가 만나 좋은 어장이 만들어져요.'],
+ ['독도를 지키는 사람들은?',['독도 경비대','소방대','외국 군대'],'독도 경비대가 독도를 지키고 있어요.'],
+ ['독도는 무엇으로 만들어진 섬일까요?',['화산 활동','빙하','산호초'],'독도는 바닷속 화산 활동으로 만들어진 섬이에요.'],
+ ['독도에 사는 새로 알맞은 것은?',['괭이갈매기','펭귄','타조'],'독도는 괭이갈매기 등 바닷새의 보금자리예요.'],
+ ['독도는 천연기념물로 지정되어 있을까요?',['지정되어 있다','지정되지 않았다','외국이 지정했다'],'독도는 천연보호구역(천연기념물)으로 보호받아요.'],
+ ['독도 주변 바다에 묻혀 있어 미래 에너지로 주목받는 자원은?',['메탄 하이드레이트','금광','석탄'],'메탄 하이드레이트는 "불타는 얼음"이라 불려요.'],
+ ['독도를 사랑하는 마음을 나타내는 행동으로 알맞은 것은?',['독도의 역사와 자연을 바르게 알아본다','관심을 끊는다','소문만 믿는다'],'바르게 알아야 바르게 지킬 수 있어요.'],
+ ['조선 시대 기록에서 독도를 부르던 이름은?',['우산도','제주도','거문도'],'옛 기록에서는 독도를 우산도라고 불렀어요.'],
+ ['세종실록지리지에는 울릉도와 독도가 어느 고을에 속한다고 적혀 있을까요?',['울진현','한양','평양'],'세종실록지리지(1454)에 두 섬이 강원도 울진현에 속한다고 적혀 있어요.'],
+ ['독도에 사는 주민이 있을까요?',['있다','아무도 살 수 없다','외국인만 산다'],'독도에는 주민이 등록되어 살고 있고, 독도 경비대도 머물러요.'],
+ ['독도는 어느 나라의 고유 영토일까요?',['대한민국','일본','중국'],'독도는 역사적·지리적·국제법적으로 대한민국의 고유 영토예요.'],
+],
+money:[
+ ['사고 싶은 것은 많은데 돈은 한정되어 있는 것을 무엇이라 할까요?',['희소성','풍부함','기부'],'자원이 한정되어 있어서 우리는 선택을 해야 해요.'],
+ ['여러 가지 중 하나를 고를 때 포기한 것의 가치를 무엇이라 할까요?',['기회비용','세금','이자'],'게임기를 사면 포기한 자전거의 가치가 기회비용이에요.'],
+ ['용돈 기입장을 쓰면 좋은 점은?',['돈을 어디에 썼는지 알고 계획을 세울 수 있다','돈이 저절로 늘어난다','쓸 필요 없다'],'기록하면 현명한 소비를 할 수 있어요.'],
+ ['은행에 돈을 맡기면 더해서 받는 돈은?',['이자','세금','용돈'],'예금하면 은행이 이자를 줘요.'],
+ ['물건을 살 때 "필요"와 "욕구"를 구분하는 까닭은?',['꼭 필요한 것부터 사려고','돈을 더 쓰려고','아무 상관 없다'],'필요한 것을 먼저 사면 돈을 아낄 수 있어요.'],
+ ['광고를 볼 때 알맞은 태도는?',['정말 필요한지 따져 본다','광고한 것은 바로 산다','광고는 다 사실이다'],'광고는 물건을 팔려고 만든 것이라 꼼꼼히 따져 봐야 해요.'],
+ ['물건값이 계속 오르는 현상은?',['물가 상승(인플레이션)','저축','기부'],'물가가 오르면 같은 돈으로 살 수 있는 것이 줄어요.'],
+ ['나라 살림에 쓰려고 국민이 내는 돈은?',['세금','용돈','상금'],'세금으로 학교, 도로, 공원 등을 만들어요.'],
+ ['물건을 만드는 활동을 무엇이라 할까요?',['생산','소비','저축'],'생산은 물건이나 서비스를 만드는 활동이에요.'],
+ ['물건을 사서 쓰는 활동은?',['소비','생산','분배'],'소비는 필요한 물건과 서비스를 사서 쓰는 것이에요.'],
+ ['어려운 이웃을 위해 돈이나 물건을 나누는 것은?',['기부','대출','광고'],'나눔은 모두가 함께 잘 사는 사회를 만들어요.'],
+ ['1+1 행사 물건을 살 때 따져 봐야 할 것은?',['정말 필요한 양인지','무조건 이득이다','포장이 예쁜지만'],'필요 없는 것까지 사면 오히려 낭비예요.'],
+ ['은행에서 돈을 빌리면 나중에 해야 할 일은?',['빌린 돈과 이자를 갚는다','갚지 않아도 된다','더 빌린다'],'빌린 돈은 약속한 날에 이자와 함께 갚아야 해요.'],
+ ['인터넷에서 물건을 살 때 안전한 방법은?',['부모님과 함께 믿을 만한 곳에서 산다','모르는 사람에게 돈부터 보낸다','가족 카드 번호를 친구에게 알려 준다'],'온라인 거래는 사기에 주의해야 해요.'],
+ ['시장에서 물건값이 정해지는 데 영향을 주는 것은?',['사려는 사람과 팔려는 사람의 양','가게 간판 색깔','날짜의 숫자'],'수요와 공급에 따라 가격이 달라져요.'],
+ ['돈을 모으려고 목표를 세울 때 좋은 방법은?',['목표 금액과 기간을 정하고 조금씩 모은다','생각날 때만 모은다','목표 없이 쓴다'],'구체적인 목표가 저축을 도와줘요.'],
+ ['우리나라 돈의 단위는?',['원','달러','엔'],'우리나라 화폐 단위는 원이에요.'],
+ ['우리나라 화폐를 만드는 곳(발행하는 곳)은?',['한국은행','동네 슈퍼','우체국'],'우리나라 돈은 한국은행이 발행해요.'],
+ ['물건을 오래 아껴 쓰는 것은 어떤 도움이 될까요?',['돈도 아끼고 환경도 지킨다','아무 도움 없다','물건이 더 빨리 망가진다'],'아껴 쓰기는 경제와 환경 모두에 좋아요.'],
+ ['친구와 서로 필요한 물건을 바꾸는 것은?',['교환','기부','저축'],'돈이 생기기 전에는 물물 교환으로 필요한 것을 구했어요.'],
+],
+eco:[
+ ['지구의 평균 기온이 점점 올라가는 현상은?',['지구 온난화','지진','일식'],'온실가스가 늘어나 지구가 더워지고 있어요.'],
+ ['지구 온난화의 주요 원인이 되는 기체는?',['이산화 탄소','산소','질소'],'이산화 탄소 같은 온실가스가 열을 가둬요.'],
+ ['탄소 배출을 줄이는 생활 습관은?',['가까운 거리는 걷거나 자전거를 탄다','짧은 거리도 자동차를 탄다','불을 켜 둔 채 외출한다'],'걷기와 자전거는 탄소를 거의 내뿜지 않아요.'],
+ ['페트병을 분리배출하는 바른 방법은?',['내용물을 비우고 라벨을 떼어 찌그러뜨린다','뚜껑과 음료를 그대로 둔다','일반 쓰레기에 버린다'],'비우고, 헹구고, 분리하고, 섞지 않는 것이 분리배출 원칙이에요.'],
+ ['바다에 버려진 플라스틱이 잘게 부서진 것은?',['미세 플라스틱','모래','플랑크톤'],'미세 플라스틱은 물고기를 거쳐 우리 식탁에도 올 수 있어요.'],
+ ['텀블러를 쓰면 좋은 점은?',['일회용 컵 쓰레기를 줄인다','물이 더 맛있어진다','쓰레기가 늘어난다'],'다회용품을 쓰면 쓰레기가 줄어요.'],
+ ['해와 바람처럼 계속 쓸 수 있는 에너지는?',['재생 에너지','석유','석탄'],'태양광, 풍력 같은 재생 에너지는 고갈되지 않아요.'],
+ ['양치할 때 물을 아끼는 방법은?',['컵에 물을 받아 쓴다','물을 계속 틀어 놓는다','샤워기로 양치한다'],'컵을 쓰면 물을 많이 아낄 수 있어요.'],
+ ['급식을 남기지 않으면 환경에 어떤 도움이 될까요?',['음식물 쓰레기가 줄어든다','아무 도움이 없다','쓰레기가 늘어난다'],'음식물 쓰레기를 처리할 때도 많은 에너지가 들어요.'],
+ ['지구의 날은 언제일까요?',['4월 22일','12월 25일','5월 5일'],'4월 22일 지구의 날에는 전국에서 소등 행사를 해요.'],
+ ['세계 환경의 날은 언제일까요?',['6월 5일','3월 1일','10월 9일'],'6월 5일은 유엔이 정한 세계 환경의 날이에요.'],
+ ['멸종 위기 동물을 지키는 방법은?',['서식지를 보호한다','마구 잡는다','숲을 없앤다'],'동물이 사는 곳을 지켜야 동물도 살 수 있어요.'],
+ ['"지속가능발전"의 뜻으로 알맞은 것은?',['미래 세대도 누릴 수 있게 지금 자원을 아껴 쓰며 발전하는 것','지금만 편하면 되는 것','발전을 멈추는 것'],'지금 세대와 미래 세대가 함께 행복한 발전이에요.'],
+ ['유엔이 정한 지속가능발전목표(SDGs)는 몇 가지일까요?',['17가지','3가지','100가지'],'SDGs는 2030년까지 이루려는 17가지 목표예요.'],
+ ['안 쓰는 전기 제품 플러그를 뽑으면?',['대기 전력을 아낄 수 있다','제품이 망가진다','전기가 더 든다'],'꽂아만 두어도 새는 대기 전력이 있어요.'],
+ ['장을 볼 때 환경을 생각한 행동은?',['장바구니를 가져간다','비닐봉지를 여러 장 받는다','과대 포장된 물건만 산다'],'장바구니로 비닐 쓰레기를 줄여요.'],
+ ['나무를 심으면 좋은 점은?',['이산화 탄소를 흡수하고 산소를 만든다','공기가 더러워진다','비가 오지 않는다'],'숲은 지구의 허파예요.'],
+ ['우유갑(종이팩)은 어떻게 버릴까요?',['씻어서 펼친 뒤 종이팩으로 따로 모은다','일반 쓰레기에 버린다','플라스틱에 넣는다'],'종이팩은 따로 모으면 화장지 등으로 재활용돼요.'],
+ ['여름철 에어컨 적정 실내 온도는 몇 도 정도일까요?',['26~28도','16도','10도'],'적정 온도를 지키면 에너지를 아낄 수 있어요.'],
+ ['헌 옷이나 장난감을 버리지 않고 필요한 사람에게 나누면?',['자원 순환에 도움이 된다','쓰레기가 늘어난다','환경에 나쁘다'],'다시 쓰기(재사용)는 가장 좋은 쓰레기 줄이기예요.'],
+],
+};
+/* ===== 공통: 상태 · 소리 · 그림 · 화면 · 모달 · 퀴즈 · 미니게임 · 안내 ===== */
+const COLS=7, ROWS=8, N=COLS*ROWS, MAX_E=50, REGEN=4000;
+const STEP_COST=[2,4,6,8];
+const STAR={1:0,2:1,3:2,4:3,5:5};
+const GULL={name:'소문 갈매기 꾸꾸'};
+const KEY='soomun-harbor-v2', OLDKEY='soomun-harbor-v1';
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function mix(a,b,t){const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));const A=p(a),B=p(b);return '#'+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,'0')).join('')}
+CH.forEach(ch=>{ch.tintL=mix(ch.tint,'#ffffff',.82);ch.tintD=mix(ch.tint,'#ffffff',.45)});
+function tintVars(ch){return `--tint:${ch.tint};--tintL:${ch.tintL};--tintD:${ch.tintD}`}
+
+/* ---------- 저장 ---------- */
+let S;
+function freshState(){return {v:2,energy:MAX_E,last:Date.now(),coins:20,sound:true,unlimited:false,tut:{},ch:{}}}
+function load(){
+  try{const r=localStorage.getItem(KEY); if(r){const o=JSON.parse(r); if(o&&o.v===2) return Object.assign(freshState(),o);}}catch(e){}
+  try{const r=localStorage.getItem(OLDKEY); if(r){const o=JSON.parse(r); if(o&&o.v===1){const n=freshState(); n.coins=o.coins||20; n.sound=o.sound!==false; n.unlimited=!!o.unlimited;
+    Object.keys(o.ch||{}).forEach(id=>{const c=o.ch[id]; n.ch[id]={board:c.board,step:c.step||0,stars:c.stars||0,orders:c.orders||[],done:!!c.done,intro:!!c.intro}}); return n}}}catch(e){}
+  return freshState();
+}
+let saveT=0;
+function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}},200)}
+S=load();
+function chState(ci){
+  const id=CH[ci].id;
+  if(!S.ch[id]) S.ch[id]={step:0,stars:0,done:false,intro:false};
+  const c=S.ch[id];
+  if(!c.board) freshBoard(ci,c);
+  if(c.best==null) c.best=0; if(c.dBest==null) c.dBest=0; if(c.dWins==null) c.dWins=0;
+  return c;
+}
+
+/* ---------- 소리 ---------- */
+let AC=null;
+function beep(f=520,d=.09,type='sine',v=.08,slide=0){
+  if(!S.sound) return;
+  try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime;
+    o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(f*slide,t+d);
+    g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+d+.02)}catch(e){}
+}
+const sfx={
+  spawn:()=>beep(700,.07,'triangle',.06,1.3),
+  merge:l=>{beep(460+l*90,.1,'sine',.09,1.5);setTimeout(()=>beep(680+l*90,.12,'sine',.07,1.25),70)},
+  deliver:()=>[523,659,784].forEach((f,i)=>setTimeout(()=>beep(f,.12,'triangle',.08),i*80)),
+  ok:()=>[587,740,880,1175].forEach((f,i)=>setTimeout(()=>beep(f,.13,'sine',.08),i*85)),
+  no:()=>beep(220,.2,'square',.035,.7),
+  tap:()=>beep(420,.05,'sine',.045,1.2),
+  place:()=>beep(330,.06,'triangle',.07,1.4),
+  clear:n=>[660,880,1046,1318].slice(0,Math.min(4,n+1)).forEach((f,i)=>setTimeout(()=>beep(f,.12,'sine',.08),i*70)),
+  hit:()=>{beep(180,.12,'sawtooth',.05,.5);setTimeout(()=>beep(900,.08,'square',.04,1.5),60)},
+  hurt:()=>beep(160,.3,'triangle',.08,.5)
+};
+
+/* ---------- 그림 (인라인 SVG) ---------- */
+function harborSVG(ch,uid){
+  const t=ch?ch.tint:'#FF8FB1', icon=ch?ch.icon:'🔍';
+  return `<svg class="scene" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs><linearGradient id="sk${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9FD8FF"/><stop offset="1" stop-color="#E4F6FF"/></linearGradient>
+  <linearGradient id="se${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#86D5EC"/><stop offset="1" stop-color="#4FB2D3"/></linearGradient></defs>
+  <rect width="800" height="300" fill="url(#sk${uid})"/>
+  <g transform="translate(700 62)"><circle r="40" fill="#FFE38F"/><circle r="52" fill="#FFE38F" opacity=".25"/>
+   <path d="M-14 -4 q4 -5 8 0 M6 -4 q4 -5 8 0" stroke="#8B5E3C" stroke-width="3" fill="none" stroke-linecap="round"/>
+   <path d="M-6 8 q6 6 12 0" stroke="#8B5E3C" stroke-width="3" fill="none" stroke-linecap="round"/>
+   <ellipse cx="-20" cy="8" rx="7" ry="4" fill="#FFB0A0"/><ellipse cx="20" cy="8" rx="7" ry="4" fill="#FFB0A0"/></g>
+  <g fill="#fff"><g><circle cx="120" cy="70" r="22"/><circle cx="148" cy="60" r="28"/><circle cx="180" cy="72" r="20"/><rect x="110" y="70" width="84" height="22" rx="11"/>
+   <animateTransform attributeName="transform" type="translate" values="0 0;18 0;0 0" dur="14s" repeatCount="indefinite"/></g>
+   <g opacity=".9"><circle cx="440" cy="48" r="16"/><circle cx="462" cy="40" r="22"/><circle cx="488" cy="50" r="15"/><rect x="430" y="48" width="70" height="16" rx="8"/>
+   <animateTransform attributeName="transform" type="translate" values="0 0;-14 0;0 0" dur="11s" repeatCount="indefinite"/></g></g>
+  <path d="M0 200 Q120 150 240 185 T480 178 T800 170 V230 H0Z" fill="#BFEBC9"/>
+  <path d="M520 205 Q600 150 700 160 T800 150 V230 H520Z" fill="#A8E2B6"/>
+  <g transform="translate(560 140)">
+   <rect x="0" y="22" width="44" height="40" rx="6" fill="#FFF6E8"/><path d="M-6 26 L22 0 L50 26Z" fill="#FF9FB8"/><rect x="15" y="38" width="14" height="24" rx="4" fill="#C98E6B"/><circle cx="8" cy="34" r="4" fill="#9ED8FF"/>
+   <rect x="58" y="14" width="46" height="48" rx="6" fill="#FFFDF7"/><path d="M52 18 L81 -8 L110 18Z" fill="#FFD66B"/><rect x="66" y="26" width="12" height="12" rx="3" fill="#9ED8FF"/><rect x="84" y="26" width="12" height="12" rx="3" fill="#9ED8FF"/>
+   <rect x="118" y="26" width="40" height="36" rx="6" fill="#FFF6E8"/><path d="M112 30 L138 6 L164 30Z" fill="#BBA9FF"/><rect x="132" y="42" width="12" height="20" rx="4" fill="#C98E6B"/>
+  </g>
+  <g transform="translate(70 70)">
+   <path d="M-26 132 Q0 112 26 132 L30 150 H-30Z" fill="#B7A89C"/>
+   <path d="M-16 132 L-11 30 H11 L16 132Z" fill="#fff"/>
+   <path d="M-14.6 104 L-13.4 80 H13.4 L14.6 104Z M-12.8 60 L-11.8 40 H11.8 L12.8 60Z" fill="${t}"/>
+   <rect x="-17" y="18" width="34" height="14" rx="4" fill="#4A3845"/><rect x="-11" y="4" width="22" height="16" rx="4" fill="#FFE38F"/>
+   <path d="M-15 4 Q0 -14 15 4Z" fill="${t}"/><circle cx="0" cy="-8" r="3" fill="${t}"/>
+  </g>
+  <rect x="0" y="212" width="800" height="90" fill="url(#se${uid})"/>
+  <path d="M0 214 q25 -10 50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 V230 H0Z" fill="#A9E3F2"/>
+  <g fill="#fff" opacity=".7"><rect x="120" y="244" width="38" height="5" rx="2.5"/><rect x="430" y="262" width="52" height="5" rx="2.5"/><rect x="640" y="238" width="30" height="5" rx="2.5"/></g>
+  <g><g transform="translate(300 206)">
+   <path d="M-44 0 H44 L32 24 H-32Z" fill="#FF8C74"/><rect x="-32" y="8" width="64" height="5" fill="#fff" opacity=".7"/>
+   <rect x="-2" y="-62" width="4" height="62" fill="#8B5E3C"/><path d="M2 -60 L40 -8 H2Z" fill="#fff"/><path d="M-2 -56 L-30 -10 H-2Z" fill="#FFE1EA"/>
+   <rect x="2" y="-66" width="26" height="18" rx="4" fill="${t}"/><text x="15" y="-52" font-size="13" text-anchor="middle" font-family="Noto Color Emoji,Segoe UI Emoji,Apple Color Emoji,sans-serif">${icon}</text>
+  </g><animateTransform attributeName="transform" type="translate" values="0 0;0 5;0 0" dur="3s" repeatCount="indefinite"/></g>
+  <g stroke="#4A3845" stroke-width="3" fill="none" stroke-linecap="round"><path d="M230 95 q8 -8 16 0 q8 -8 16 0"/><path d="M380 120 q6 -6 12 0 q6 -6 12 0"/></g>
+  </svg>`;
+}
+function gullSVG(size=56,mood='happy'){
+  const brow=mood==='sad'?'<path d="M36 34 l10 4 M64 34 l-10 4" stroke="#4A3845" stroke-width="3" stroke-linecap="round"/>':'';
+  return `<svg class="gullsvg" width="${size}" height="${size}" viewBox="0 0 100 100" aria-hidden="true">
+   <ellipse cx="50" cy="94" rx="26" ry="5" fill="rgba(0,0,0,.08)"/>
+   <path d="M40 86 v8 M58 86 v8" stroke="#FF9E4A" stroke-width="5" stroke-linecap="round"/>
+   <ellipse cx="50" cy="62" rx="32" ry="28" fill="#fff" stroke="#D6E6F0" stroke-width="3"/>
+   <path d="M22 60 q-10 12 4 22 q10 -4 12 -16z" fill="#C9D8E4"/><path d="M78 60 q10 12 -4 22 q-10 -4 -12 -16z" fill="#C9D8E4"/>
+   <circle cx="50" cy="42" r="26" fill="#fff" stroke="#D6E6F0" stroke-width="3"/>
+   <path d="M44 17 q4 -12 10 -2" stroke="#D6E6F0" stroke-width="4" fill="none" stroke-linecap="round"/>
+   <ellipse cx="40" cy="42" rx="4" ry="5" fill="#4A3845"/><ellipse cx="60" cy="42" rx="4" ry="5" fill="#4A3845"/>
+   <circle cx="41.5" cy="40" r="1.6" fill="#fff"/><circle cx="61.5" cy="40" r="1.6" fill="#fff"/>
+   ${brow}
+   <ellipse cx="31" cy="50" rx="6" ry="3.5" fill="#FFB3C6"/><ellipse cx="69" cy="50" rx="6" ry="3.5" fill="#FFB3C6"/>
+   <path d="M43 50 q7 -4 14 0 q-7 9 -14 0z" fill="#FFB347"/>
+  </svg>`;
+}
+function faceHTML(ch,who,size){
+  if(who==='gull') return `<span class="avatar" style="--tintL:#FFF4D0;${size?`width:${size}px;height:${size}px`:''}">${gullSVG(size?size-8:50)}</span>`;
+  return `<span class="avatar em" style="${tintVars(ch)}">${ch.npc.face}</span>`;
+}
+
+/* ---------- 화면 ---------- */
+let CI=-1, SCREEN='map';
+function show(id){
+  ['map','hub','merge','match','block','dungeon'].forEach(s=>$('#'+s).hidden=s!==id); SCREEN=id;
+  const el=$('#'+id); if(CI>=0) el.setAttribute('style',tintVars(CH[CI])+';'+(el.dataset.st||''));
+  coachEnd(true);
+}
+function refresh(){({map:renderMap,hub:renderHub,merge:()=>renderMergeAll(),block:()=>renderBlockTop(),match:()=>renderMatchTop(),dungeon:()=>renderDungeonStatus()}[SCREEN]||(()=>{}))()}
+function goMap(){CI=-1;show('map');renderMap()}
+function goHub(ci){
+  if(ci!=null) CI=ci; show('hub'); renderHub();
+  const c=chState(CI);
+  const after=()=>{ if(!S.tut.hub) setTimeout(()=>coachStart(hubTutorial(),()=>{S.tut.hub=true;save()}),250) };
+  if(!c.intro) showIntro(CI,after); else after();
+}
+
+function renderMap(){
+  $('#hero').querySelector('svg')?.remove();
+  $('#hero').insertAdjacentHTML('afterbegin',harborSVG(null,'m'));
+  $('#tiles').innerHTML=CH.map((ch,i)=>{
+    const c=S.ch[ch.id]; const st=c?c.step:0;
+    return `<button class="tile" data-i="${i}" style="${tintVars(ch)}">
+      ${c&&c.done?'<span class="stamp">진실 확인!</span>':''}
+      <span class="ic em">${ch.icon}</span><span class="tag">${esc(ch.theme)}</span>
+      <span class="pl">${esc(ch.place)}</span><span class="rm">“${esc(ch.rumor)}”</span>
+      <span class="clues">${ch.steps.map((s,k)=>`<i class="em ${k<st?'on':''}">${s.deco}</i>`).join('')}</span></button>`}).join('');
+  const got=CH.filter(ch=>S.ch[ch.id]&&S.ch[ch.id].done).length;
+  $('#cardCount').textContent=`${got} / ${CH.length}장 모음`;
+  $('#tcards').innerHTML=CH.map((ch,i)=>{const g=S.ch[ch.id]&&S.ch[ch.id].done;
+    return `<button class="tcard ${g?'got':''}" data-i="${i}" style="${tintVars(ch)}" aria-label="${esc(ch.theme)} 진실 카드"><span class="em">${ch.icon}</span></button>`}).join('');
+}
+
+function renderHub(){
+  const ch=CH[CI], c=chState(CI);
+  const cost=STEP_COST[Math.min(c.step,3)], ready=!c.done&&c.stars>=cost;
+  const gauge=100-c.step*25;
+  let say;
+  if(c.done) say=`<b class="n">${esc(ch.npc.name)}</b><span class="solved">진실 확인!</span> ${esc(ch.truth.title)}. 놀이는 계속 할 수 있어요!`;
+  else if(c.step===0) say=`<b class="n">${esc(ch.npc.name)}</b>“${esc(ch.rumor)}”라는 소문이 돌아요. 진짜일까요? 놀이로 ⭐을 모아 단서를 찾아 주세요!`;
+  else say=`<b class="n">${esc(ch.npc.name)}</b>단서를 ${c.step}개 찾았어요! 조금만 더 모으면 소문의 진실이 밝혀져요.`;
+  $('#hubwrap').innerHTML=`
+   <div class="pillbar">
+     <button class="ibtn" id="hBack" aria-label="지도로"><span class="em">🗺️</span></button>
+     <span class="chipr"><span class="em">⭐</span><span class="sVal">${c.stars}</span><small>이 구역 별</small></span>
+     <span class="sp"></span>
+     <button class="ibtn" id="hHelp" aria-label="안내 다시 보기"><span class="em">❓</span></button>
+   </div>
+   <div class="stage" id="hStage">
+     ${harborSVG(ch,'h')}
+     <div class="place"><h2>${esc(ch.place)}</h2><span class="tag">${esc(ch.theme)}</span></div>
+     <div class="talkrow">${faceHTML(ch,'npc')}<div class="bubble">${say}</div></div>
+   </div>
+   <div class="card trail" id="hTrail">
+     <span class="lbl">🔍 단서</span>
+     <span class="slots">${ch.steps.map((s,k)=>`<span class="slot ${k<c.step?'on':'off'} ${k===c.step-1&&c._pop?'pop':''}" title="${esc(s.title)}"><span class="em">${s.deco}</span></span>`).join('')}</span>
+     <span class="meter"><small>소문 게이지 ${gauge}%</small><span class="bar"><i style="width:${gauge}%"></i></span></span>
+     ${c.done?`<button class="cbtn mint" id="hStory">🎴 진실 카드 보기</button>`:
+       `<button class="cbtn ${ready?'':'ghost'} storybtn ${ready?'ready':''}" id="hStory">${ready?'🔍 이야기 열기!':'🔒 다음 이야기'} · ⭐${cost}</button>`}
+   </div>
+   <div class="modes" id="hModes">
+     <button class="mode m1" id="mMerge"><span class="deco em">⚓</span><span class="big em">🧺</span><span class="mt2"><h3>항구 합치기</h3><p>똑같은 물건을 합쳐 이웃의 주문을 배달해요.</p></span><span class="rec">⚡ 에너지 ${S.unlimited?'∞':S.energy}</span></button>
+     <button class="mode m4" id="mMatch"><span class="deco em">🍬</span><span class="big em">💥</span><span class="mt2"><h3>소문 팡팡</h3><p>같은 그림 3개를 맞추면 팡! 아래로 떨어지며 연속 팡팡!</p></span><span class="rec">👑 최고 ${c.mBest||0}점</span></button>
+     <button class="mode m2" id="mBlock"><span class="deco em">🧩</span><span class="big em">🧩</span><span class="mt2"><h3>블록 퍼즐</h3><p>블록을 쌓아 줄을 없애요. 보너스 퀴즈를 맞히면 ⭐!</p></span><span class="rec">👑 최고 ${c.best}점</span></button>
+     <button class="mode m3" id="mDungeon"><span class="deco em">🗝️</span><span class="big em">🏰</span><span class="mt2"><h3>소문 던전</h3><p>문을 골라 소문 괴물을 퀴즈로 물리치는 모험!</p></span><span class="rec">🏆 ${c.dWins?`승리 ${c.dWins}번`:`최고 ${c.dBest}층`}</span></button>
+   </div>
+   <p class="hint">⭐ 별은 네 놀이 어디서든 모을 수 있어요 · 별로 이야기를 열고 퀴즈·미니게임을 풀면 단서를 얻어요</p>`;
+  c._pop=false;
+  $('#hBack').onclick=()=>{sfx.tap();goMap()};
+  $('#hHelp').onclick=()=>{sfx.tap();coachStart(hubTutorial())};
+  $('#hStory').onclick=()=>storyButton();
+  $('#mMerge').onclick=()=>{sfx.tap();openMerge()};
+  $('#mBlock').onclick=()=>{sfx.tap();openBlock()};
+  $('#mMatch').onclick=()=>{sfx.tap();openMatch()};
+  $('#mDungeon').onclick=()=>{sfx.tap();openDungeon()};
+}
+function storyButton(){
+  const c=chState(CI);
+  if(c.done){showTruth(CI,false);return}
+  const cost=STEP_COST[c.step];
+  if(c.stars<cost){toast(`⭐ ${cost-c.stars}개가 더 필요해요! 놀이에서 모아 와요`);sfx.no();return}
+  coachEmit('story'); startStory(CI,c.step);
+}
+function hubTutorial(){
+  const ch=CH[CI];
+  return [
+    {who:'gull',target:()=>$('#hStage .talkrow'),text:`여기는 ${ch.place}! ${ch.npc.name}이(가) 소문 때문에 걱정이 많대. 소문이 진짜인지 탐정님이 밝혀 줘!`,wait:'next'},
+    {who:'gull',target:()=>$('#hModes'),text:'네 가지 놀이 중 좋아하는 걸 골라! 어떤 놀이든 ⭐별을 모을 수 있어.',wait:'next'},
+    {who:'gull',target:()=>$('#hStory'),text:'⭐이 모이면 이 단추를 눌러 봐. 이야기 속 퀴즈와 미니게임을 풀면 🔍단서를 얻고, 단서 4개면 진실이 밝혀져!',wait:'next'}
+  ];
+}
+
+/* ---------- 모달 ---------- */
+const modal=$('#modal');
+function openModal(html,{onClose,closable=true}={}){
+  modal.innerHTML=`<div class="sheet" role="dialog" aria-modal="true">${closable?'<button class="x" aria-label="닫기">✕</button>':''}${html}</div>`;
+  modal.hidden=false; modal._close=onClose;
+  const x=modal.querySelector('.x'); if(x) x.onclick=closeModal;
+  return modal.querySelector('.sheet');
+}
+function closeModal(){modal.hidden=true;modal.innerHTML='';const f=modal._close;modal._close=null;if(f)f()}
+modal.addEventListener('click',e=>{if(e.target===modal&&modal.querySelector('.x'))closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden&&modal.querySelector('.x'))closeModal()});
+function talkHTML(ch,w,text){
+  const nm=w==='gull'?GULL.name:ch.npc.name;
+  return `<div class="talk">${faceHTML(ch,w)}<div class="bubble ${w==='gull'?'gull':''}"><b class="n">${esc(nm)}</b>${esc(text)}</div></div>`;
+}
+function showIntro(ci,after){
+  const ch=CH[ci];
+  const sh=openModal(`<div class="qhead"><span class="tag" style="background:${ch.tint}">${esc(ch.theme)}</span></div><h2 style="margin-top:8px">${esc(ch.place)}</h2>
+    ${talkHTML(ch,'gull','꾸꾸꾸! 큰일이야, 큰일! '+ch.rumor)}
+    ${talkHTML(ch,'npc','탐정님, 이 소문이 정말인지 밝혀 주세요! 놀이로 별을 모아 오면 단서를 알려 드릴게요.')}
+    <div class="row"><button class="cbtn" id="go">좋아요, 조사 시작!</button></div>`,{onClose:()=>{chState(ci).intro=true;save();after&&after()}});
+  sh.querySelector('#go').onclick=closeModal;
+}
+
+/* ---------- 퀴즈 ---------- */
+function runQuiz(qz,o){
+  // o: {title, tag, retry, onRight, onWrong, rightLabel, wrongLabel, hint:{n,use}, closable}
+  const order=shuffle(qz.o.map((_,i)=>i)); const L='가나다라마';
+  const sh=openModal(`<div class="qhead"><span class="tag">${esc(o.tag||'퀴즈')}</span><span style="font-family:var(--disp);color:var(--ink2)">${esc(o.title||'')}</span></div>
+    <div class="qq">${esc(qz.q)}</div>
+    <div class="opts">${order.map((oi,j)=>`<button class="opt" data-o="${oi}"><b>${L[j]}</b><span>${esc(qz.o[oi])}</span></button>`).join('')}</div>
+    ${o.hint&&o.hint.n>0&&qz.o.length>2?`<div class="row" style="justify-content:flex-start;margin-top:10px"><button class="cbtn butter" id="hintb" style="font-size:20px;padding:7px 14px">💡 힌트 쓰기 (${o.hint.n})</button></div>`:''}
+    <div id="res"></div>`,{closable:o.closable!==false});
+  const hb=sh.querySelector('#hintb');
+  if(hb) hb.onclick=()=>{o.hint.use(); const wrong=shuffle([...sh.querySelectorAll('.opt')].filter(b=>+b.dataset.o!==qz.a&&!b.disabled)); if(wrong[0]){wrong[0].disabled=true;wrong[0].classList.add('gone')} hb.remove(); sfx.tap()};
+  sh.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+    const pick=+b.dataset.o, right=pick===qz.a;
+    sh.querySelectorAll('.opt').forEach(x=>x.disabled=true); if(hb) hb.remove();
+    b.classList.add(right?'right':'wrong');
+    const res=sh.querySelector('#res');
+    if(right){
+      sfx.ok();
+      res.innerHTML=`<div class="explain good"><strong>딩동댕! 정답이에요</strong>${esc(qz.x||'')}</div><div class="row"><button class="cbtn mint" id="go">${esc(o.rightLabel||'좋아요!')}</button></div>`;
+      res.querySelector('#go').onclick=()=>{closeModal();o.onRight&&o.onRight()};
+    }else{
+      sfx.no();
+      if(o.retry){
+        res.innerHTML=`<div class="explain bad"><strong>앗, 다시 생각해 볼까요?</strong>힌트: ${esc(qz.x||'')}</div><div class="row"><button class="cbtn" id="go">다시 풀기</button></div>`;
+        res.querySelector('#go').onclick=()=>runQuiz(qz,o);
+      }else{
+        sh.querySelectorAll('.opt').forEach(x=>{if(+x.dataset.o===qz.a)x.classList.add('right')});
+        res.innerHTML=`<div class="explain bad"><strong>아쉬워요! 정답을 확인해요</strong>${esc(qz.x||'')}</div><div class="row"><button class="cbtn" id="go">${esc(o.wrongLabel||'계속하기')}</button></div>`;
+        res.querySelector('#go').onclick=()=>{closeModal();o.onWrong&&o.onWrong()};
+      }
+    }
+    res.scrollIntoView({block:'nearest',behavior:'smooth'});
+  });
+}
+/* 구역마다 문제 은행 (퀴즈 + 미니게임 카드에서 자동으로 만든 문제) */
+const POOL={};
+function poolOf(ci){
+  if(POOL[ci]) return POOL[ci];
+  const ch=CH[ci], qs=[];
+  ch.steps.forEach(s=>{if(s.quiz)qs.push(s.quiz)}); ch.extra.forEach(q=>qs.push(q));
+  (QBANK[ch.id]||[]).forEach(([q,o,x])=>qs.push({q,o,a:0,x}));
+  (GAMES[ch.id]||[]).forEach(g=>{
+    if(g.type==='ox') g.cards.forEach(c=>qs.push({q:`⭕❌ “${c.t}”`,o:['⭕ 맞아요','❌ 틀려요'],a:c.a?0:1,x:g.x}));
+    if(g.type==='sort') g.cards.forEach(c=>qs.push({q:`“${c.t}” 은(는) 어디에 들어갈까요?`,o:g.bins.map(b=>b.e+' '+b.n),a:c.b,x:g.x}));
+    if(g.type==='match') g.pairs.forEach(([l,r],i)=>{const others=shuffle(g.pairs.filter((_,j)=>j!==i).map(p=>p[1])).slice(0,2);qs.push({q:`“${l}”와(과) 짝이 되는 것은?`,o:[r,...others],a:0,x:g.x})});
+    if(g.type==='order'){const others=shuffle(g.items.slice(1)).slice(0,2);qs.push({q:`「${g.name}」 가장 먼저 할 일은?`,o:[g.items[0],...others],a:0,x:g.x})}
+  });
+  const seen=new Set(); return POOL[ci]=qs.filter(q=>!seen.has(q.q)&&seen.add(q.q));
+}
+/* 모든 놀이가 함께 쓰는 문제 덱: 한 바퀴 다 풀기 전에는 같은 문제가 다시 나오지 않아요 (저장됨) */
+function drawQ(ci){
+  const pool=poolOf(ci), c=chState(ci);
+  if(!Array.isArray(c.deck)||!c.deck.length||c.deck.some(i=>i>=pool.length)){
+    let d=shuffle(pool.map((_,i)=>i)); const r=c.recent||[];
+    d=d.filter(i=>!r.includes(i)).concat(d.filter(i=>r.includes(i)).reverse()); /* 방금 푼 문제는 새 덱의 맨 뒤로 */
+    c.deck=d.reverse(); /* pop()으로 앞에서부터 꺼냄 → 최근 문제는 가장 나중에 */
+  }
+  const i=c.deck.pop(); c.recent=[i,...(c.recent||[])].slice(0,12); save();
+  return pool[i];
+}
+
+/* ---------- 미니게임 ---------- */
+function runGame(g,o){
+  // o: {title, doneLabel, onDone(mistakes)}
+  let miss=0;
+  const head=`<div class="qhead"><span class="tag" style="background:var(--mint2)">🎮 미니게임</span><span style="font-family:var(--disp);font-size:24px">${esc(g.name)}</span><span class="gdots" id="gd"></span></div><div class="gprompt">${esc(g.prompt)}</div>`;
+  const dots=(n,k)=>{const d=modal.querySelector('#gd'); if(d) d.innerHTML=Array.from({length:n},(_,i)=>`<i class="${i<k?'on':''}"></i>`).join('')};
+  const finish=()=>{
+    const st=Math.max(1,3-miss);
+    sfx.ok(); confetti(26);
+    const sh=openModal(`${head.replace(/<span class="gdots".*?<\/span>/,'')}<div class="result"><h2>미션 성공!</h2><div class="stars">${[0,1,2].map(i=>`<span class="em ${i<st?'':'off'}">⭐</span>`).join('')}</div>
+      <div class="explain good" style="text-align:left">${esc(g.x||'')}</div></div><div class="row"><button class="cbtn mint" id="go">${esc(o.doneLabel||'좋아요!')}</button></div>`,{closable:false});
+    sh.querySelector('#go').onclick=()=>{closeModal();o.onDone&&o.onDone(miss)};
+  };
+  if(g.type==='order'){
+    let k=0; const opts=shuffle(g.items.map((t,i)=>i));
+    const sh=openModal(`${head}<div class="oslots">${g.items.map((_,i)=>`<div class="oslot" data-s="${i}"><b>${i+1}</b><span></span></div>`).join('')}</div>
+      <div class="gbtns">${opts.map(i=>`<button class="gbtn" data-i="${i}">${esc(g.items[i])}</button>`).join('')}</div>`);
+    dots(g.items.length,0);
+    sh.querySelectorAll('.gbtn').forEach(b=>b.onclick=()=>{
+      const i=+b.dataset.i;
+      if(i===k){const s=sh.querySelector(`.oslot[data-s="${k}"]`);s.classList.add('f');s.querySelector('span').textContent=g.items[i];b.remove();k++;sfx.place();dots(g.items.length,k);if(k===g.items.length)setTimeout(finish,500)}
+      else{miss++;sfx.no();b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad');toast('순서를 다시 생각해 봐요!')}
+    });
+  }
+  if(g.type==='sort'){
+    let k=0; const cards=shuffle(g.cards);
+    const draw=()=>{
+      const sh=openModal(`${head}<div class="scard">${esc(cards[k].t)}</div><div class="bins" style="${g.bins.length>2?'':'grid-template-columns:1fr 1fr'}">${g.bins.map((b,i)=>`<button class="bin" data-b="${i}"><span class="em">${b.e}</span>${esc(b.n)}</button>`).join('')}</div>`);
+      dots(cards.length,k);
+      sh.querySelectorAll('.bin').forEach(b=>b.onclick=()=>{
+        if(+b.dataset.b===cards[k].b){b.classList.add('good');sfx.place();k++;floatText('+1',b.getBoundingClientRect().left+40,b.getBoundingClientRect().top);if(k===cards.length)setTimeout(finish,350);else setTimeout(draw,280)}
+        else{miss++;sfx.no();b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad')}
+      });
+    };
+    draw();
+  }
+  if(g.type==='match'){
+    let sel=null, done=0; const L=g.pairs.map((p,i)=>i), R=shuffle(g.pairs.map((p,i)=>i));
+    const sh=openModal(`${head}<div class="mcols"><div class="gbtns" id="ml">${L.map(i=>`<button class="gbtn" data-l="${i}">${esc(g.pairs[i][0])}</button>`).join('')}</div>
+      <div class="gbtns" id="mr">${R.map(i=>`<button class="gbtn" data-r="${i}">${esc(g.pairs[i][1])}</button>`).join('')}</div></div>`);
+    dots(g.pairs.length,0);
+    sh.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{if(b.classList.contains('ok'))return;sh.querySelectorAll('[data-l]').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=+b.dataset.l;sfx.tap()});
+    sh.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{
+      if(b.classList.contains('ok'))return;
+      if(sel==null){toast('왼쪽에서 먼저 하나 골라요!');return}
+      const lb=sh.querySelector(`[data-l="${sel}"]`);
+      if(+b.dataset.r===sel){lb.classList.remove('sel');lb.classList.add('ok');b.classList.add('ok');lb.disabled=b.disabled=true;sel=null;done++;sfx.place();dots(g.pairs.length,done);if(done===g.pairs.length)setTimeout(finish,450)}
+      else{miss++;sfx.no();b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad')}
+    });
+  }
+  if(g.type==='ox'){
+    let k=0; const cards=shuffle(g.cards);
+    const draw=()=>{
+      const c=cards[k];
+      const sh=openModal(`${head}<div class="scard">${esc(c.t)}</div><div class="oxbtns"><button data-a="1" aria-label="맞아요">⭕</button><button data-a="0" aria-label="틀려요">❌</button></div><div id="res"></div>`);
+      dots(cards.length,k);
+      sh.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{
+        const right=(+b.dataset.a===1)===c.a; sh.querySelectorAll('[data-a]').forEach(x=>x.disabled=true);
+        if(right){sfx.place();b.style.background='var(--mintL)'}else{miss++;sfx.no();b.style.background='var(--pinkL)'}
+        const res=sh.querySelector('#res');
+        res.innerHTML=`<div class="explain ${right?'good':'bad'}"><strong>${right?'정답!':'앗, 정답은 '+(c.a?'⭕':'❌')+'예요'}</strong></div><div class="row"><button class="cbtn ${right?'mint':''}" id="go">${k+1<cards.length?'다음 ▶':'결과 보기'}</button></div>`;
+        res.querySelector('#go').onclick=()=>{k++;if(k<cards.length)draw();else finish()};
+      });
+    };
+    draw();
+  }
+  if(g.type==='budget'){
+    const on=new Set();
+    const sh=openModal(`${head}<div class="shop">${g.items.map((it,i)=>`<button class="item" data-i="${i}"><span class="em">${it.e}</span><b>${esc(it.n)}</b><small>${it.p.toLocaleString()}원</small></button>`).join('')}</div>
+      <div class="wallet"><span>👛 가진 돈 ${g.budget.toLocaleString()}원</span><span id="tot">장바구니 0원</span></div>
+      <div id="res"></div><div class="row"><button class="cbtn mint" id="pay">계산하기</button></div>`);
+    const upd=()=>{const t=[...on].reduce((s,i)=>s+g.items[i].p,0);sh.querySelector('#tot').textContent=`장바구니 ${t.toLocaleString()}원`;return t};
+    sh.querySelectorAll('.item').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;on.has(i)?on.delete(i):on.add(i);b.classList.toggle('on');sfx.tap();upd()});
+    sh.querySelector('#pay').onclick=()=>{
+      const t=upd(); const res=sh.querySelector('#res'); let msg='';
+      if(t>g.budget) msg='돈이 모자라요! 가진 돈보다 많이 담았어요.';
+      else if(g.items.some((it,i)=>it.need&&!on.has(i))) msg='소풍에 꼭 필요한 물건이 빠졌어요.';
+      else if(g.items.some((it,i)=>!it.need&&on.has(i))) msg='갖고 싶은 물건이 들어 있어요. 꼭 필요한 것만 사 볼까요?';
+      if(msg){miss++;sfx.no();res.innerHTML=`<div class="explain bad"><strong>다시 담아 볼까요?</strong>${msg}</div>`}
+      else{res.innerHTML='';toast(`${(g.budget-t).toLocaleString()}원 저금 성공!`);finish()}
+    };
+  }
+}
+
+/* ---------- 이야기 ---------- */
+function startStory(ci,k){
+  const ch=CH[ci], st=ch.steps[k]; let li=0;
+  const next=()=>{
+    if(li>=st.lines.length){
+      if(st.game) runGame(st.game,{doneLabel:'단서 얻기',onDone:()=>completeStep(ci,k)});
+      else runQuiz(st.quiz,{tag:`단서 ${k+1}/4`,title:st.title,retry:true,rightLabel:'단서 얻기',onRight:()=>completeStep(ci,k)});
+      return;
+    }
+    const [w,t]=st.lines[li];
+    const sh=openModal(`<div class="qhead"><span class="tag">🔍 단서 ${k+1} / 4</span><span style="font-family:var(--disp)">${esc(st.title)}</span></div>${talkHTML(ch,w,t)}
+      <div class="row"><button class="cbtn" id="go">다음 ▶</button></div>`);
+    sh.querySelector('#go').onclick=()=>{li++;next()};
+  };
+  next();
+}
+function completeStep(ci,k){
+  const c=chState(ci); if(c.step!==k) return;
+  c.stars-=STEP_COST[k]; c.step++; c._pop=true; if(c.step>=4) c.done=true;
+  save(); confetti(40); refresh();
+  if(c.done) setTimeout(()=>showTruth(ci,true),400);
+  else toast(`🔍 단서 ${c.step}/4 획득! ${CH[ci].steps[k].deco} ${CH[ci].steps[k].title}`);
+}
+function showTruth(ci,celebrate){
+  const ch=CH[ci];
+  if(celebrate){sfx.ok();confetti(70)}
+  const sh=openModal(`<h2>${celebrate?'소문의 진실을 밝혔어요!':'진실 카드'}</h2>
+    <div class="truth" style="${tintVars(ch)}"><span class="stampbig">진실 확인</span>
+      <div class="rm">🐦 소문: <q>${esc(ch.rumor)}</q></div>
+      <h3><span class="em">${ch.icon}</span> ${esc(ch.truth.title)}</h3>
+      <ul>${ch.truth.points.map(p=>`<li>${esc(p)}</li>`).join('')}</ul></div>
+    ${celebrate?talkHTML(ch,'gull','꾸꾸… 확인도 안 하고 퍼뜨려서 미안해. 앞으로는 사실인지 먼저 알아볼게!'):''}
+    <div class="row">${CI>=0?'<button class="cbtn ghost" id="stay">계속 놀기</button>':''}<button class="cbtn" id="go">지도로 가기</button></div>`);
+  const s=sh.querySelector('#stay'); if(s) s.onclick=closeModal;
+  sh.querySelector('#go').onclick=()=>{closeModal();goMap()};
+}
+function addStars(n,x,y){const c=chState(CI);c.stars+=n;save();if(x!=null)floatText(`+⭐${n}`,x,y);$$('.sVal').forEach(e=>e.textContent=c.stars)}
+
+/* ---------- 따라 하기 안내 (코치) ---------- */
+const coachEl=$('#coach'); let CO=null;
+function coachStart(steps,onDone){coachEnd(true);CO={steps,i:0,onDone,cnt:0};coachEl.hidden=false;coachStep();CO.t=setInterval(coachPos,250)}
+function coachEnd(silent){if(!CO)return;clearInterval(CO.t);const f=CO.onDone;CO=null;coachEl.hidden=true;coachEl.innerHTML='';if(!silent&&f)f()}
+function coachEmit(ev){if(!CO)return;const st=CO.steps[CO.i];if(st.wait!==ev)return;CO.cnt++;if(CO.cnt>=(st.count||1)){CO.i++;CO.cnt=0;if(CO.i>=CO.steps.length){const f=CO.onDone;CO.onDone=null;coachEnd();f&&f()}else setTimeout(coachStep,st.delay||350)}}
+function coachStep(){
+  if(!CO) return; const st=CO.steps[CO.i]; if(st.enter) st.enter();
+  const ch=CI>=0?CH[CI]:CH[0];
+  coachEl.innerHTML=`<div class="spot"></div><div class="ring"></div><div class="hand"></div>
+    <div class="cbox">${faceHTML(ch,st.who||'gull')}<div class="bubble ${st.who==='npc'?'':'gull'}"><b class="n">${st.who==='npc'?esc(ch.npc.name):GULL.name}</b>${esc(st.text)}
+    <div class="row" style="justify-content:space-between;align-items:center"><button class="skip" id="cSkip">안내 건너뛰기</button>${st.wait==='next'?'<button class="cbtn butter" id="cNext" style="font-size:21px;padding:7px 16px">알겠어! ▶</button>':''}</div></div></div>`;
+  coachEl.querySelector('#cSkip').onclick=()=>coachEnd(false);
+  const nb=coachEl.querySelector('#cNext'); if(nb) nb.onclick=()=>{sfx.tap();CO.cnt=0;coachEmit('next')};
+  coachPos();
+}
+function coachPos(){
+  if(!CO) return; const st=CO.steps[CO.i]; if(!st) return;
+  const spot=coachEl.querySelector('.spot'), ring=coachEl.querySelector('.ring'), hand=coachEl.querySelector('.hand'), box=coachEl.querySelector('.cbox');
+  if(!spot) return;
+  let el=st.target?st.target():null, pair=st.drag?st.drag():null;
+  let r=null;
+  if(pair&&pair[0]&&pair[1]){const a=pair[0].getBoundingClientRect(),b=pair[1].getBoundingClientRect();r={left:Math.min(a.left,b.left),top:Math.min(a.top,b.top),right:Math.max(a.right,b.right),bottom:Math.max(a.bottom,b.bottom)}}
+  else if(el){r=el.getBoundingClientRect()}
+  if(r){const p=8;Object.assign(spot.style,{left:r.left-p+'px',top:r.top-p+'px',width:(r.right-r.left)+2*p+'px',height:(r.bottom-r.top)+2*p+'px'});spot.classList.remove('none');
+    Object.assign(ring.style,{left:r.left-p+'px',top:r.top-p+'px',width:(r.right-r.left)+2*p+'px',height:(r.bottom-r.top)+2*p+'px',display:'block'})}
+  else{spot.classList.add('none');spot.removeAttribute('style');ring.style.display='none'}
+  hand.className='hand'; hand.textContent='';
+  if(pair&&pair[0]&&pair[1]){const a=pair[0].getBoundingClientRect(),b=pair[1].getBoundingClientRect();hand.textContent='👆';hand.classList.add('drag');
+    hand.style.left=a.left+a.width/2-14+'px';hand.style.top=a.top+a.height/2-4+'px';hand.style.setProperty('--dx',(b.left-a.left)+'px');hand.style.setProperty('--dy',(b.top-a.top)+'px')}
+  else if(el&&st.hand!==false&&st.wait!=='next'){const a=el.getBoundingClientRect();hand.textContent='👆';hand.classList.add('tap');hand.style.left=a.left+a.width/2-14+'px';hand.style.top=a.top+a.height/2+'px'}
+  const H=window.innerHeight; const mid=r?(r.top+r.bottom)/2:H;
+  const below=!r||mid<H*.5;
+  box.style.top=below?'':'calc(12px + env(safe-area-inset-top,0px))'; box.style.bottom=below?'calc(14px + env(safe-area-inset-bottom,0px))':'';
+  if(r&&!below&&r.top<box.offsetHeight+30){box.style.top='';box.style.bottom='calc(14px + env(safe-area-inset-bottom,0px))'}
+}
+window.addEventListener('resize',()=>coachPos());
+
+/* ---------- 알림 · 효과 ---------- */
+function toast(msg){const t=document.createElement('div');t.className='tst';t.textContent=msg;$('#toast').appendChild(t);const all=$('#toast').children;while(all.length>2)all[0].remove();setTimeout(()=>t.remove(),2600)}
+function floatText(s,x,y){const f=document.createElement('div');f.className='float';f.textContent=s;f.style.left=(x-24)+'px';f.style.top=(y-10)+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),1000)}
+function comboText(s,x,y){const f=document.createElement('div');f.className='combo';f.textContent=s;f.style.left=(x-60)+'px';f.style.top=(y-30)+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),900)}
+function confetti(n=40){
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cols=['#FF8FB1','#FFD66B','#7FDDB8','#9FD8FF','#BBA9FF','#FF8C74'];
+  for(let i=0;i<n;i++){const d=document.createElement('div');d.className='confetti';d.style.left=Math.random()*100+'vw';d.style.background=rnd(cols);
+    d.style.animationDuration=(1.6+Math.random()*1.4)+'s';d.style.animationDelay=(Math.random()*.4)+'s';document.body.appendChild(d);setTimeout(()=>d.remove(),3600)}
+}
+
+/* ---------- 선생님 안내 · 설정 ---------- */
+function guideModal(){
+  const sh=openModal(`<h2>선생님 안내</h2>
+    <p class="note">2022 개정 교육과정 총론의 범교과 학습 주제 10가지를 항구 마을 10개 구역에 하나씩 담았어요. 구역마다 <b>네 가지 놀이</b>(항구 합치기 · 소문 팡팡 · 블록 퍼즐 · 소문 던전)로 ⭐을 모으고, ⭐으로 <b>이야기 4단계</b>(퀴즈 2개 + 구역 전용 미니게임 2개)를 열면 진실 카드를 받아요.</p>
+    <div class="tw"><table class="tbl"><thead><tr><th>구역</th><th>범교과 주제</th><th>추천 연계 교과</th><th>미니게임</th></tr></thead>
+    <tbody>${CH.map(ch=>`<tr><td><span class="em">${ch.icon}</span> ${esc(ch.place)}</td><td>${esc(ch.theme)}</td><td>${esc(ch.subjects)}</td><td>${(GAMES[ch.id]||[]).map(g=>esc(g.name)).join(', ')}</td></tr>`).join('')}</tbody></table></div>
+    <h3 style="margin-top:16px;font-size:24px">수업 흐름 예시 (40분)</h3>
+    <p class="note">① 도입 5분: 구역의 소문을 함께 읽고 "진짜일까?" 예상하기 → ② 전개 25분: 좋아하는 놀이로 ⭐ 모으고 이야기 단계 풀기 → ③ 정리 10분: 진실 카드를 보며 알게 된 점 나누기, 확인 없이 소문을 퍼뜨리면 어떤 일이 생기는지 이야기하기</p>
+    <p class="note">처음 들어가면 꾸꾸가 놀이 방법을 따라 하기로 알려 줘요. 진행 기록은 각 기기의 브라우저에만 저장돼요. 시간이 짧으면 설정에서 <b>에너지 무제한</b>을 켜 주세요.</p>
+    <div class="row"><button class="cbtn" id="go">닫기</button></div>`);
+  sh.querySelector('#go').onclick=closeModal;
+}
+function settingsModal(){
+  const draw=()=>{
+    const sh=openModal(`<h2>설정</h2>
+      <div class="set"><span>에너지 무제한 <span class="note">(수업 시간이 짧을 때)</span></span><button class="sw" id="sw1" role="switch" aria-checked="${S.unlimited}" aria-label="에너지 무제한"></button></div>
+      <div class="set"><span>효과음</span><button class="sw" id="sw2" role="switch" aria-checked="${S.sound}" aria-label="효과음"></button></div>
+      <div class="set"><span>따라 하기 안내 다시 보기</span><button class="cbtn ghost" id="rt" style="font-size:20px;padding:6px 12px">다시 켜기</button></div>
+      <div class="set"><label for="selCh">한 구역만 처음부터</label><span style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><select id="selCh">${CH.map((c,i)=>`<option value="${i}">${esc(c.place)}</option>`).join('')}</select><button class="cbtn ghost" id="r1" style="font-size:20px;padding:6px 12px">초기화</button></span></div>
+      <div class="set"><span>모든 기록 지우기</span><button class="cbtn" id="r2" style="font-size:20px;padding:6px 12px">전체 초기화</button></div>
+      <div id="cf"></div><div class="row"><button class="cbtn mint" id="go">닫기</button></div>`);
+    sh.querySelector('#sw1').onclick=()=>{S.unlimited=!S.unlimited;save();draw()};
+    sh.querySelector('#sw2').onclick=()=>{S.sound=!S.sound;save();draw();sfx.tap()};
+    sh.querySelector('#rt').onclick=()=>{S.tut={};save();toast('안내를 다시 켰어요!')};
+    const confirmBox=(msg,fn)=>{const cf=sh.querySelector('#cf');cf.innerHTML=`<div class="explain bad"><strong>${esc(msg)}</strong>되돌릴 수 없어요.<div class="row"><button class="cbtn ghost" id="no">취소</button><button class="cbtn" id="yes">지우기</button></div></div>`;
+      cf.querySelector('#no').onclick=()=>{cf.innerHTML=''};cf.querySelector('#yes').onclick=fn};
+    sh.querySelector('#r1').onclick=()=>{const i=+sh.querySelector('#selCh').value;confirmBox(`${CH[i].place} 기록을 지울까요?`,()=>{delete S.ch[CH[i].id];save();closeModal();goMap();toast('초기화했어요.')})};
+    sh.querySelector('#r2').onclick=()=>confirmBox('모든 구역의 기록을 지울까요?',()=>{const keep={sound:S.sound,unlimited:S.unlimited};S=Object.assign(freshState(),keep);save();closeModal();goMap();toast('전체 초기화했어요.')});
+    sh.querySelector('#go').onclick=closeModal;
+  };
+  draw();
+}
+/* ===== 놀이 1: 항구 합치기 ===== */
+const C0='#FFC9DA', C1='#C4F0DE';
+function freshBoard(ci,c){
+  const b=Array(N).fill(null);
+  b[22]={t:'g',c:0}; b[26]={t:'g',c:1};
+  b[21]={t:'i',c:0,l:1}; b[15]={t:'i',c:0,l:1}; b[29]={t:'i',c:0,l:2};
+  b[27]={t:'i',c:1,l:1}; b[19]={t:'i',c:1,l:1}; b[33]={t:'i',c:1,l:2};
+  c.board=b; c.orders=[];
+  while(c.orders.length<3) c.orders.push(makeOrder(ci,c));
+}
+function tickEnergy(){const now=Date.now();if(S.energy>=MAX_E){S.last=now;return}const g=Math.floor((now-S.last)/REGEN);if(g>0){S.energy=Math.min(MAX_E,S.energy+g);S.last+=g*REGEN;if(S.energy>=MAX_E)S.last=now;save()}}
+function useEnergy(n){if(S.unlimited)return true;tickEnergy();if(S.energy<n)return false;if(S.energy>=MAX_E)S.last=Date.now();S.energy-=n;return true}
+function addEnergy(n){S.energy=Math.min(MAX_E+30,S.energy+n)}
+function makeOrder(ci,c){
+  const ch=CH[ci], people=[ch.npc,...ch.villagers];
+  const pools=[[2,2,3],[2,3,3],[2,3,4],[3,3,4],[3,4,4]];
+  const pool=pools[Math.min(c.step||0,4)], two=Math.random()<.4;
+  const needs=[];
+  for(let k=0;k<(two?2:1);k++){let l=rnd(pool);if(two&&k===1)l=Math.max(2,l-1);needs.push({c:Math.floor(Math.random()*2),l})}
+  const key=o=>o.needs.map(n=>n.c+'-'+n.l).sort().join('|');
+  const o={p:Math.floor(Math.random()*people.length),needs};
+  if(c.orders&&c.orders.some(x=>x&&key(x)===key(o))) return makeOrder(ci,c);
+  o.stars=needs.reduce((s,n)=>s+STAR[n.l],0); o.coins=needs.reduce((s,n)=>s+n.l*2,0);
+  return o;
+}
+function boardCounts(b){const m={};b.forEach(x=>{if(x&&x.t==='i'){const k=x.c+'-'+x.l;m[k]=(m[k]||0)+1}});return m}
+function orderStatus(o,cnt){const m=Object.assign({},cnt);const have=o.needs.map(n=>{const k=n.c+'-'+n.l;if(m[k]>0){m[k]--;return true}return false});return {have,ok:have.every(Boolean)}}
+
+let sel=-1, combo=0, lastMerge=0;
+const boardEl=$('#board');
+function openMerge(){
+  sel=-1; show('merge');
+  $('#merge').style.setProperty('--c0',C0);$('#merge').style.setProperty('--c1',C1);
+  $('#merge').style.setProperty('--c0d',mix(C0,'#E86A93',.35));$('#merge').style.setProperty('--c1d',mix(C1,'#3FB98A',.35));
+  if(boardEl.children.length!==N) boardEl.innerHTML=Array.from({length:N},(_,i)=>`<div class="cell" data-i="${i}"></div>`).join('');
+  renderMergeAll(); fitMerge();
+  if(!S.tut.merge) setTimeout(()=>coachStart(mergeTutorial(),()=>{S.tut.merge=true;save()}),300);
+}
+function itemOf(x){const ch=CH[CI];if(x.t==='b')return {e:'🎁',n:'깜짝 선물 상자',d:'톡 누르면 선물이 나와요!'};return x.t==='g'?ch.chains[x.c].gen:ch.chains[x.c].items[x.l-1]}
+function renderBoard(anim){
+  const c=chState(CI); const want={}; c.orders.forEach(o=>o.needs.forEach(n=>{want[n.c+'-'+n.l]=true}));
+  [...boardEl.children].forEach((cell,i)=>{
+    const x=c.board[i]; cell.classList.toggle('sel',i===sel);
+    if(!x){cell.innerHTML='';return}
+    const it=itemOf(x);
+    const cls=['tok',x.t==='g'?'gen':x.t==='b'?'box':'l'+x.l, x.c?'c1':''];
+    if(x.t==='i'&&want[x.c+'-'+x.l]) cls.push('match');
+    if(anim&&anim[i]) cls.push(anim[i]);
+    cell.innerHTML=`<div class="${cls.join(' ')}"><span class="em">${it.e}</span>${x.t==='i'?`<i class="lv">${x.l}</i>`:''}</div>`;
+  });
+}
+function nearestEmpty(from){
+  const b=chState(CI).board, fr=Math.floor(from/COLS), fc=from%COLS; let best=[],bd=1e9;
+  for(let i=0;i<N;i++){if(b[i])continue;const d=Math.hypot(Math.floor(i/COLS)-fr,i%COLS-fc);if(d<bd-1e-6){bd=d;best=[i]}else if(Math.abs(d-bd)<1e-6)best.push(i)}
+  return best.length?rnd(best):-1;
+}
+function spawn(gi){
+  const c=chState(CI), g=c.board[gi], t=nearestEmpty(gi);
+  if(t<0){toast('보드가 꽉 찼어요! 합치거나 팔아 보세요');sfx.no();return}
+  if(!useEnergy(1)){noEnergy();return}
+  c.board[t]=(S.tut.merge&&Math.random()<.05)?{t:'b'}:{t:'i',c:g.c,l:Math.random()<.18?2:1};
+  sfx.spawn(); save(); renderBoard({[t]:'spawn'}); renderMergeTop(); renderOrders(); coachEmit('spawn');
+}
+function openBox(i){
+  const c=chState(CI); c.board[i]=null; sel=-1;
+  const r=boardEl.children[i].getBoundingClientRect();
+  const pick=rnd(['e','e','c','s']);
+  if(pick==='e'){addEnergy(8);floatText('+⚡8',r.left+r.width/2,r.top)}
+  if(pick==='c'){S.coins+=10;floatText('+🪙10',r.left+r.width/2,r.top)}
+  if(pick==='s'){addStars(1,r.left+r.width/2,r.top)}
+  sfx.ok(); confetti(18); save(); renderMergeAll();
+}
+function drop(a,b){
+  const c=chState(CI), A=c.board[a], B=c.board[b];
+  if(a===b||!A) return;
+  if(!B){c.board[b]=A;c.board[a]=null;sel=b}
+  else if(A.t==='i'&&B.t==='i'&&A.c===B.c&&A.l===B.l&&A.l<5){
+    c.board[b]={t:'i',c:A.c,l:A.l+1}; c.board[a]=null; sel=b; sfx.merge(A.l);
+    const now=Date.now(); combo=(now-lastMerge<2500)?combo+1:1; lastMerge=now;
+    const r=boardEl.children[b].getBoundingClientRect();
+    if(combo>=2){comboText(`콤보 ×${combo}!`,r.left+r.width/2,r.top);if(combo>=3){S.coins+=combo;floatText(`+🪙${combo}`,r.left+r.width/2,r.top+30)}}
+    if(A.l+1===5){toast(`최고 단계 완성! ${itemOf(c.board[b]).e} ${itemOf(c.board[b]).n}`);confetti(20)}
+    save(); renderBoard({[b]:'pop'}); renderOrders(); renderInfo(); renderMergeTop(); coachEmit('merge'); return;
+  }
+  else{c.board[b]=A;c.board[a]=B;sel=b;if(A.t==='i'&&B.t==='i'&&A.c===B.c&&A.l===5)toast('최고 단계예요! 주문에 쓰거나 팔 수 있어요')}
+  save(); renderBoard(); renderOrders(); renderInfo();
+}
+/* 끌기와 톡 */
+let P=null; const ghost=$('#ghost');
+function cellAt(x,y){const el=document.elementFromPoint(x,y);const cell=el&&el.closest&&el.closest('.cell');return cell&&boardEl.contains(cell)?+cell.dataset.i:-1}
+boardEl.addEventListener('pointerdown',e=>{
+  if(CI<0||P) return; const cell=e.target.closest('.cell'); if(!cell) return;
+  const i=+cell.dataset.i, c=chState(CI);
+  if(!c.board[i]){sel=-1;renderBoard();renderInfo();return}
+  P={i,x:e.clientX,y:e.clientY,id:e.pointerId,drag:false,tgt:-1};
+  try{boardEl.setPointerCapture(e.pointerId)}catch(_){}
+});
+boardEl.addEventListener('pointermove',e=>{
+  if(!P||e.pointerId!==P.id) return;
+  if(!P.drag&&Math.hypot(e.clientX-P.x,e.clientY-P.y)>8){
+    P.drag=true; const x=chState(CI).board[P.i];
+    const tok=boardEl.children[P.i].firstElementChild;
+    const cs=tok.getBoundingClientRect().width;
+    ghost.innerHTML=tok.outerHTML; ghost.firstElementChild.classList.remove('pop','spawn','match');
+    ghost.style.width=ghost.style.height=cs*1.15+'px'; ghost.style.setProperty('--cell',getComputedStyle(boardEl).getPropertyValue('--cell'));
+    ghost.firstElementChild.style.width=ghost.firstElementChild.style.height='100%';
+    ghost.hidden=false; tok.classList.add('drag'); sel=P.i;
+  }
+  if(P.drag){
+    const cs=ghost.offsetWidth; ghost.style.transform=`translate(${e.clientX-cs/2}px,${e.clientY-cs/2}px)`;
+    const t=cellAt(e.clientX,e.clientY);
+    if(t!==P.tgt){if(P.tgt>=0)boardEl.children[P.tgt].classList.remove('tgt');if(t>=0&&t!==P.i)boardEl.children[t].classList.add('tgt');P.tgt=t}
+  }
+});
+function endPointer(e,cancel){
+  if(!P||e.pointerId!==P.id) return;
+  const p=P; P=null; ghost.hidden=true;
+  if(p.tgt>=0) boardEl.children[p.tgt].classList.remove('tgt');
+  if(cancel){renderBoard();return}
+  if(p.drag){const t=cellAt(e.clientX,e.clientY);if(t>=0&&t!==p.i)drop(p.i,t);else renderBoard()}
+  else{const x=chState(CI).board[p.i];
+    if(x&&x.t==='g'){sel=p.i;spawn(p.i);renderInfo()}
+    else if(x&&x.t==='b'){openBox(p.i)}
+    else{sel=p.i;sfx.tap();renderBoard();renderInfo()}}
+}
+boardEl.addEventListener('pointerup',e=>endPointer(e,false));
+boardEl.addEventListener('pointercancel',e=>endPointer(e,true));
+
+function renderMergeTop(){
+  tickEnergy(); const c=chState(CI);
+  $('#eVal').textContent=S.unlimited?'∞':S.energy;
+  $('#eTime').textContent=(!S.unlimited&&S.energy<MAX_E)?`+1 ${Math.ceil(Math.max(0,REGEN-(Date.now()-S.last))/1000)}초`:'';
+  $('#cVal').textContent=S.coins; $$('.sVal').forEach(e=>e.textContent=c.stars);
+  const ready=!c.done&&c.stars>=STEP_COST[c.step];
+  const mr=$('#mReady');
+  if(ready&&!mr.firstChild){mr.innerHTML='<button class="readypill" id="mStory">🔍 이야기 열기!</button>';$('#mStory').onclick=()=>storyButton()}
+  if(!ready) mr.innerHTML='';
+}
+function renderOrders(){
+  const ch=CH[CI], c=chState(CI), cnt=boardCounts(c.board), people=[ch.npc,...ch.villagers];
+  $('#orders').innerHTML=c.orders.map((o,k)=>{const st=orderStatus(o,cnt),p=people[o.p]||ch.npc;
+    return `<div class="order ${st.ok?'ready':''}" data-k="${k}"><span class="who"><span class="em">${p.face}</span>${esc(p.name)}</span>
+      <span class="needs">${o.needs.map((n,j)=>{const it=ch.chains[n.c].items[n.l-1];return `<span class="need ${n.c?'c1':''} ${st.have[j]?'have':''}" title="${esc(it.n)} (${n.l}단계)"><span class="em">${it.e}</span></span>`}).join('')}</span>
+      <span class="rw">⭐${o.stars} · 🪙${o.coins}</span><button class="give" data-k="${k}" ${st.ok?'':'disabled'}>전달</button></div>`}).join('');
+}
+$('#orders').addEventListener('click',e=>{const b=e.target.closest('.give');if(!b||b.disabled)return;deliver(+b.dataset.k,b)});
+function deliver(k,btnEl){
+  const ch=CH[CI], c=chState(CI), o=c.orders[k];
+  if(!orderStatus(o,boardCounts(c.board)).ok) return;
+  o.needs.forEach(n=>{let idx=-1;for(let i=0;i<N;i++){const x=c.board[i];if(x&&x.t==='i'&&x.c===n.c&&x.l===n.l&&i!==sel){idx=i;break}}
+    if(idx<0)idx=c.board.findIndex(x=>x&&x.t==='i'&&x.c===n.c&&x.l===n.l);if(idx>=0){c.board[idx]=null;if(idx===sel)sel=-1}});
+  S.coins+=o.coins; const people=[ch.npc,...ch.villagers], p=people[o.p]||ch.npc;
+  const r=btnEl.getBoundingClientRect(); addStars(o.stars,r.left+r.width/2,r.top);
+  toast(`${p.face} ${p.name}: 고마워요! ${rnd(ch.tips)}`);
+  c.orders[k]=makeOrder(CI,{step:c.step,orders:c.orders.filter((_,j)=>j!==k)});
+  sfx.deliver(); confetti(12); save(); renderMergeAll(); coachEmit('deliver');
+}
+function renderInfo(){
+  const el=$('#info'), c=chState(CI), x=sel>=0?c.board[sel]:null;
+  if(!x){el.innerHTML=`<span class="big em">👆</span><div class="txt"><div class="nm">✨상자를 톡! 같은 것끼리 끌어서 합체!</div><div class="ds">초록 ✓ 표시가 붙은 물건은 지금 주문에 쓰여요. 🎁 깜짝 상자가 나오면 톡 눌러 보세요!</div></div>`;return}
+  const ch=CH[CI];
+  if(x.t==='b'){el.innerHTML=`<span class="big em">🎁</span><div class="txt"><div class="nm">깜짝 선물 상자</div><div class="ds">톡 누르면 ⚡, 🪙, ⭐ 중 하나가 나와요!</div></div>`;return}
+  const chain=ch.chains[x.c];
+  if(x.t==='g'){el.innerHTML=`<span class="big em">${chain.gen.e}</span><div class="txt"><div class="nm">${esc(chain.gen.n)} <span class="chain">${chain.items.map(it=>`<span class="em">${it.e}</span>`).join('')}</span></div><div class="ds">톡 누를 때마다 ⚡1을 쓰고 ${chain.items[0].e} ${esc(chain.items[0].n)}이(가) 나와요.</div></div>`;return}
+  const it=chain.items[x.l-1], nx=chain.items[x.l];
+  el.innerHTML=`<span class="big em">${it.e}</span><div class="txt"><div class="nm">${esc(it.n)} · ${x.l}단계 <span class="chain">${chain.items.map((t,i)=>`<span class="em ${i===x.l-1?'me':''}">${t.e}</span>`).join('')}</span></div>
+    <div class="ds">${esc(it.d)}${nx?` 두 개를 합치면 → ${nx.e} ${esc(nx.n)}`:' (최고 단계!)'}</div></div><button class="sell" id="btnSell">팔기 🪙${x.l}</button>`;
+  $('#btnSell').onclick=()=>{const c=chState(CI);if(sel<0||!c.board[sel])return;S.coins+=c.board[sel].l;c.board[sel]=null;sel=-1;sfx.tap();save();renderMergeAll()};
+}
+function renderMergeAll(anim){renderMergeTop();renderOrders();renderBoard(anim);renderInfo();fitMerge()}
+function fitMerge(){
+  if(SCREEN!=='merge') return;
+  const m=$('#merge'), w=$('#boardwrap'), pad=20+10, gap=4;
+  m.classList.remove('scroll');
+  const r=w.getBoundingClientRect();
+  const land=window.matchMedia('(min-aspect-ratio:1/1) and (min-width:820px)').matches;
+  const avW=land?r.width:Math.min(r.width,m.clientWidth-32);
+  const byW=Math.floor((avW-pad-gap*(COLS-1))/COLS), byH=Math.floor((r.height-pad-gap*(ROWS-1))/ROWS);
+  let cs=Math.min(byW,byH);
+  if(cs<44){m.classList.add('scroll');cs=Math.min(byW,64)}
+  boardEl.style.setProperty('--cell',Math.max(34,Math.min(92,cs))+'px');
+}
+window.addEventListener('resize',()=>{fitMerge();fitBlock();fitMatch()});
+function quizCharge(){
+  const bag=quizCharge.bag||(quizCharge.bag={}); if(bag.ci!==CI){bag.ci=CI;bag.q=null}
+  runQuiz(drawQ(CI,bag),{tag:'📚 퀴즈 충전',title:'맞히면 ⚡15',rightLabel:'⚡15 받기',wrongLabel:'위로 ⚡3 받기',
+    onRight:()=>{addEnergy(15);save();renderMergeTop();toast('⚡15 충전!')},onWrong:()=>{addEnergy(3);save();renderMergeTop()}});
+}
+function noEnergy(){
+  sfx.no();
+  const sh=openModal(`<h2>에너지가 부족해요</h2><p class="note">에너지는 4초마다 1씩 저절로 차요. 기다리기 어렵다면 이렇게 해 봐요!</p>
+    <div class="row" style="justify-content:flex-start"><button class="cbtn butter" id="q">📚 퀴즈 풀고 ⚡15</button><button class="cbtn ghost" id="buy">🪙15로 ⚡10 사기</button></div>
+    <p class="note">블록 퍼즐이나 소문 던전은 에너지 없이 할 수 있어요!</p>`);
+  sh.querySelector('#q').onclick=()=>{closeModal();quizCharge()};
+  sh.querySelector('#buy').onclick=()=>{if(S.coins<15){toast('동전이 모자라요. 필요 없는 물건을 팔아 보세요');return}S.coins-=15;addEnergy(10);save();renderMergeTop();closeModal();toast('⚡10 충전!')};
+}
+function mergeTutorial(){
+  const tokAt=i=>boardEl.children[i]&&boardEl.children[i].firstElementChild;
+  const pair=()=>{const b=chState(CI).board;const m={};for(let i=0;i<N;i++){const x=b[i];if(x&&x.t==='i'){const k=x.c+'-'+x.l;if(m[k]!=null)return [tokAt(m[k]),tokAt(i)];m[k]=i}}return null};
+  return [
+    {who:'gull',text:'안녕! 나는 소문 갈매기 꾸꾸야. 항구 합치기 놀이를 같이 해 보자!',wait:'next'},
+    {who:'gull',target:()=>{const i=chState(CI).board.findIndex(x=>x&&x.t==='g');return tokAt(i)},text:'반짝이는 ✨상자를 톡! 두 번 눌러 봐. 물건이 톡톡 나와!',wait:'spawn',count:2},
+    {who:'gull',drag:pair,text:'똑같은 물건 두 개를 끌어다 겹쳐 봐. 한 단계 높은 물건으로 합체!',wait:'merge',
+      enter:()=>{if(!pair()){const c=chState(CI);const e=[];for(let i=0;i<N&&e.length<2;i++)if(!c.board[i])e.push(i);e.forEach(i=>c.board[i]={t:'i',c:0,l:1});renderBoard()}}},
+    {who:'gull',target:()=>$('#orders .order.ready .give')||$('#orders .order'),text:'주문 카드에 초록 ✓가 떴어! 전달을 눌러 ⭐별을 받아!',wait:'deliver',
+      enter:()=>{const c=chState(CI);const it=c.board.find(x=>x&&x.t==='i'&&x.l>=2)||(c.board[c.board.findIndex(x=>!x)]={t:'i',c:0,l:2});c.orders[0]={p:0,needs:[{c:it.c,l:it.l}],stars:2,coins:4};save();renderOrders();renderBoard()}},
+    {who:'gull',target:()=>$('#merge .topbar'),text:'잘했어! ⭐별이 모이면 🔍이야기 열기 단추가 나타나. 에너지⚡가 모자라면 📚퀴즈 충전! 이제 마음껏 놀아 봐!',wait:'next'}
+  ];
+}
+/* ===== 놀이 4: 소문 팡팡 (같은 그림 3개 맞추기 · 떨어지는 퍼즐) ===== */
+const MR=8, MC=7, MOVES=20, QSTEP=500;
+const MCOL=['#FFB3C8','#FFE08A','#9FE6C8','#A9D8FF','#CDBFFF','#FFC2A6'];
+let M=null, mid=0;
+const mboardEl=$('#mboard');
+function mTypes(){const ch=CH[CI];return [ch.chains[0].items[0],ch.chains[0].items[1],ch.chains[0].items[2],ch.chains[1].items[0],ch.chains[1].items[1],ch.chains[1].items[2]].map(x=>x.e)}
+function openMatch(){
+  show('match');
+  M={g:[],score:0,moves:MOVES,busy:false,sel:null,nextQ:QSTEP,starsWon:0,bag:{},types:mTypes(),cs:48};
+  fitMatch();
+  mboardEl.innerHTML='';
+  for(let r=0;r<MR;r++){M.g[r]=[];for(let c=0;c<MC;c++){let t;do{t=Math.floor(Math.random()*6)}while((c>=2&&M.g[r][c-1].t===t&&M.g[r][c-2].t===t)||(r>=2&&M.g[r-1][c].t===t&&M.g[r-2][c].t===t));M.g[r][c]=mkTile(t,r,c,r-MR)}}
+  requestAnimationFrame(()=>{placeAll();});
+  if(!hasMove()) shuffleBoard();
+  renderMatchTop();
+  $('#mHelp').onclick=matchHelp;
+  if(!S.tut.match) setTimeout(()=>coachStart(matchTutorial(),()=>{S.tut.match=true;save()}),500);
+}
+function mkTile(t,r,c,fromR){
+  const el=document.createElement('div'); el.className='mt';
+  const tile={id:++mid,t,sp:null,el};
+  el.dataset.id=tile.id; drawTile(tile);
+  el.style.transform=`translate(${c*pitch()}px,${(fromR==null?r:fromR)*pitch()}px)`;
+  mboardEl.appendChild(el); return tile;
+}
+function drawTile(tile){
+  const el=tile.el;
+  if(tile.sp==='rainbow'){el.style.background='conic-gradient(#FFB3C8,#FFE08A,#9FE6C8,#A9D8FF,#CDBFFF,#FFB3C8)';el.innerHTML='<span class="em">🌈</span>';return}
+  el.style.background=MCOL[tile.t];
+  el.innerHTML=`<span class="em">${M.types[tile.t]}</span>${tile.sp==='bomb'?'<i class="bomb em">💣</i>':''}`;
+}
+function pitch(){return M.cs+4}
+function placeAll(){for(let r=0;r<MR;r++)for(let c=0;c<MC;c++){const t=M.g[r]&&M.g[r][c];if(t)t.el.style.transform=`translate(${c*pitch()}px,${r*pitch()}px)`}}
+function fitMatch(){
+  if(SCREEN!=='match'||!M) return;
+  const W=window.innerWidth,H=window.innerHeight;
+  const cs=Math.max(34,Math.min(70,Math.floor(Math.min((W-32-24)/MC,(H-250)/MR))-4));
+  M.cs=cs; mboardEl.style.setProperty('--mc',cs+'px');
+  mboardEl.style.width=(MC*pitch()-4)+'px'; mboardEl.style.height=(MR*pitch()-4)+'px';
+  placeAll();
+}
+function renderMatchTop(){
+  if(!M) return; const c=chState(CI);
+  $('#mScore').textContent=M.score; $('#mMoves').textContent=M.moves; $$('.sVal').forEach(e=>e.textContent=c.stars);
+  const p=Math.min(1,1-(M.nextQ-M.score)/QSTEP);
+  $('#mQbar').style.width=Math.max(0,p*100)+'%';
+  $('#mBest').textContent=c.mBest||0;
+}
+function posOf(tile){for(let r=0;r<MR;r++)for(let c=0;c<MC;c++)if(M.g[r][c]===tile)return [r,c];return null}
+/* 입력: 끌기(스와이프) 또는 두 칸 톡톡 */
+let MP=null;
+mboardEl.addEventListener('pointerdown',e=>{
+  if(!M||M.busy) return; const el=e.target.closest('.mt'); if(!el) return;
+  const tile=[].concat(...M.g).find(t=>t&&t.el===el); if(!tile) return;
+  MP={tile,x:e.clientX,y:e.clientY,id:e.pointerId,done:false};
+  try{mboardEl.setPointerCapture(e.pointerId)}catch(_){}
+});
+mboardEl.addEventListener('pointermove',e=>{
+  if(!MP||MP.done||e.pointerId!==MP.id) return;
+  const dx=e.clientX-MP.x, dy=e.clientY-MP.y;
+  if(Math.max(Math.abs(dx),Math.abs(dy))<M.cs*.35) return;
+  MP.done=true; const p=posOf(MP.tile); if(!p) return;
+  const [r,c]=p; const [r2,c2]=Math.abs(dx)>Math.abs(dy)?[r,c+(dx>0?1:-1)]:[r+(dy>0?1:-1),c];
+  clearSel(); if(r2>=0&&r2<MR&&c2>=0&&c2<MC) trySwap(r,c,r2,c2);
+});
+mboardEl.addEventListener('pointerup',e=>{
+  if(!MP||e.pointerId!==MP.id) return; const mp=MP; MP=null;
+  if(mp.done||M.busy) return;
+  const p=posOf(mp.tile); if(!p) return;
+  if(M.sel){const q=posOf(M.sel);if(q&&Math.abs(q[0]-p[0])+Math.abs(q[1]-p[1])===1){clearSel();trySwap(q[0],q[1],p[0],p[1]);return}}
+  clearSel(); M.sel=mp.tile; mp.tile.el.classList.add('sel'); sfx.tap();
+});
+mboardEl.addEventListener('pointercancel',()=>{MP=null});
+function clearSel(){if(M.sel){M.sel.el.classList.remove('sel');M.sel=null}}
+function swapCells(r,c,r2,c2){const t=M.g[r][c];M.g[r][c]=M.g[r2][c2];M.g[r2][c2]=t}
+async function trySwap(r,c,r2,c2){
+  if(M.busy||M.moves<=0) return; M.busy=true;
+  const a=M.g[r][c], b=M.g[r2][c2];
+  swapCells(r,c,r2,c2); placeAll(); sfx.tap(); await wait(170);
+  if(a.sp==='rainbow'||b.sp==='rainbow'){
+    const rb=a.sp==='rainbow'?a:b, other=rb===a?b:a;
+    M.moves--; coachEmit('mswap');
+    const kill=new Set([rb]); for(const row of M.g)for(const t of row)if(t&&(other.sp==='rainbow'||t.t===other.t))kill.add(t);
+    comboText('🌈 무지개 팡!',...center(rb)); confetti(24);
+    await popTiles(kill,1); await resolve(1); return;
+  }
+  const found=findMatches();
+  if(!found.cells.size){swapCells(r,c,r2,c2);placeAll();sfx.no();a.el.classList.add('nope');b.el.classList.add('nope');await wait(250);a.el.classList.remove('nope');b.el.classList.remove('nope');M.busy=false;return}
+  M.moves--; coachEmit('mswap'); M.swapped=[b,a];
+  await resolve(0,found);
+}
+function center(tile){const r=tile.el.getBoundingClientRect();return [r.left+r.width/2,r.top]}
+function findMatches(){
+  const cells=new Set(), runs=[];
+  const T=(r,c)=>{const t=M.g[r][c];return t&&t.sp!=='rainbow'?t.t:-1};
+  for(let r=0;r<MR;r++){let s=0;for(let c=1;c<=MC;c++){if(c<MC&&T(r,c)===T(r,s)&&T(r,s)>=0)continue;if(c-s>=3&&T(r,s)>=0){const run=[];for(let k=s;k<c;k++){run.push(M.g[r][k]);cells.add(M.g[r][k])}runs.push(run)}s=c}}
+  for(let c=0;c<MC;c++){let s=0;for(let r=1;r<=MR;r++){if(r<MR&&T(r,c)===T(s,c)&&T(s,c)>=0)continue;if(r-s>=3&&T(s,c)>=0){const run=[];for(let k=s;k<r;k++){run.push(M.g[k][c]);cells.add(M.g[k][c])}runs.push(run)}s=r}}
+  return {cells,runs};
+}
+async function popTiles(set,cascade){
+  // 폭탄은 주변 3×3도 터뜨려요
+  let grew=true; while(grew){grew=false;for(const t of [...set]){if(t.sp==='bomb'&&!t._boom){t._boom=true;const p=posOf(t);if(!p)continue;for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){const R=p[0]+dr,C=p[1]+dc;if(R>=0&&R<MR&&C>=0&&C<MC&&M.g[R][C]&&!set.has(M.g[R][C])){set.add(M.g[R][C]);grew=true}}}}}
+  for(const t of set){t.el.classList.add('pang');const p=posOf(t);if(p)M.g[p[0]][p[1]]=null}
+  M.score+=set.size*10*Math.max(1,cascade); sfx.clear(Math.min(3,cascade));
+  await wait(240); for(const t of set) t.el.remove();
+}
+async function resolve(cascade,found){
+  found=found||findMatches();
+  while(found.cells.size){
+    cascade++;
+    const keep=new Set();
+    // 4개면 💣, 5개 이상이면 🌈 을 남겨요
+    for(const run of found.runs){ if(run.length>=4){const at=run.find(t=>M.swapped&&M.swapped.includes(t))||run[Math.floor(run.length/2)]; if(!keep.has(at)&&!at.sp){keep.add(at);at._make=run.length>=5?'rainbow':'bomb'}} }
+    const kill=new Set([...found.cells].filter(t=>!keep.has(t)));
+    const any=[...found.cells][0];
+    comboText(cascade>1?`${'팡'.repeat(Math.min(cascade,4))}! ×${cascade}`:'팡!',...center(any));
+    await popTiles(kill,cascade);
+    for(const t of keep){t.sp=t._make;delete t._make;drawTile(t);t.el.classList.add('pop');sfx.ok()}
+    M.swapped=null;
+    await gravity();
+    renderMatchTop();
+    found=findMatches();
+  }
+  M.busy=false; renderMatchTop();
+  if(M.score>=M.nextQ){M.nextQ+=QSTEP;await wait(200);return quizBubble()}
+  afterMove();
+}
+async function gravity(){
+  for(let c=0;c<MC;c++){
+    let w=MR-1;
+    for(let r=MR-1;r>=0;r--){if(M.g[r][c]){const t=M.g[r][c];M.g[r][c]=null;M.g[w][c]=t;w--}}
+    let n=0; for(let r=w;r>=0;r--){n++;M.g[r][c]=mkTile(Math.floor(Math.random()*6),r,c,-n)}
+  }
+  await wait(20); placeAll(); await wait(300);
+}
+function quizBubble(){
+  runQuiz(drawQ(CI,M.bag),{tag:'❓ 팡팡 보너스 퀴즈',title:'맞히면 ⭐1 + 이동 2번',closable:false,rightLabel:'⭐ 받기',wrongLabel:'계속하기',
+    onRight:()=>{M.moves+=2;M.starsWon++;const r=$('#mScore').getBoundingClientRect();addStars(1,r.left+r.width/2,r.top);renderMatchTop();afterMove()},
+    onWrong:()=>afterMove()});
+}
+function afterMove(){
+  if(M.moves<=0){setTimeout(matchOver,300);return}
+  if(!hasMove()){toast('움직일 곳이 없어서 섞을게요!');shuffleBoard()}
+}
+function hasMove(){
+  for(let r=0;r<MR;r++)for(let c=0;c<MC;c++){
+    if(M.g[r][c]&&M.g[r][c].sp==='rainbow')return true;
+    for(const [dr,dc] of [[0,1],[1,0]]){const R=r+dr,C=c+dc;if(R>=MR||C>=MC)continue;swapCells(r,c,R,C);const ok=findMatches().cells.size>0;swapCells(r,c,R,C);if(ok)return true}
+  }
+  return false;
+}
+function shuffleBoard(){
+  let n=0; do{const all=[].concat(...M.g);const ts=shuffle(all.map(t=>t.t));all.forEach((t,i)=>{t.t=ts[i];if(!t.sp)drawTile(t)});n++}while((findMatches().cells.size||!hasMove())&&n<50);
+  placeAll();
+}
+function matchOver(){
+  const c=chState(CI), goal=[600,1200,1800], st=goal.filter(g=>M.score>=g).length;
+  const rec=M.score>(c.mBest||0); if(rec)c.mBest=M.score;
+  if(st>=2){addStars(1)}; save(); if(st) confetti(20+st*15);
+  const sh=openModal(`<div class="result"><h2>${rec?'새 기록!':'이동 끝!'}</h2><div class="stars">${[0,1,2].map(i=>`<span class="em ${i<st?'':'off'}">⭐</span>`).join('')}</div>
+    <div class="score" style="margin:6px 0">${M.score}점</div>
+    <p class="note">별 2개 이상이면 보너스 ⭐1! · 이번 판에서 모은 별 ⭐${M.starsWon+(st>=2?1:0)} · 최고 ${c.mBest}점</p></div>
+    <div class="row" style="justify-content:center"><button class="cbtn ghost" id="hub">🏠 구역으로</button><button class="cbtn mint" id="again">한 판 더!</button></div>`,{closable:false});
+  sh.querySelector('#hub').onclick=()=>{closeModal();goHub()};
+  sh.querySelector('#again').onclick=()=>{closeModal();openMatch()};
+}
+function matchHelp(){
+  const sh=openModal(`<h2>소문 팡팡 방법</h2><div class="howto">
+    <span class="em">👉</span><div>옆 칸과 자리를 바꿔 같은 그림 3개를 한 줄로 맞추면 팡! (밀거나, 두 칸을 차례로 톡톡)</div>
+    <span class="em">⬇️</span><div>터진 자리로 위의 그림이 떨어져요. 연속으로 터지면 점수가 쑥쑥!</div>
+    <span class="em">💣</span><div>4개를 맞추면 폭탄! 폭탄이 터지면 주변 9칸이 함께 팡.</div>
+    <span class="em">🌈</span><div>5개를 맞추면 무지개! 아무 그림과 바꾸면 그 그림이 모두 사라져요.</div>
+    <span class="em">❓</span><div>점수 막대가 차면 보너스 퀴즈! 맞히면 ⭐1과 이동 2번 추가.</div></div>
+    <div class="row"><button class="cbtn" id="go">알겠어요</button></div>`);
+  sh.querySelector('#go').onclick=closeModal;
+}
+function findHint(){
+  for(let r=0;r<MR;r++)for(let c=0;c<MC;c++)for(const [dr,dc] of [[0,1],[1,0]]){const R=r+dr,C=c+dc;if(R>=MR||C>=MC)continue;swapCells(r,c,R,C);const ok=findMatches().cells.size>0;swapCells(r,c,R,C);if(ok)return [M.g[r][c].el,M.g[R][C].el]}
+  return null;
+}
+function matchTutorial(){
+  return [
+    {who:'gull',drag:()=>findHint(),text:'반짝이는 두 그림의 자리를 바꿔 봐! 손가락으로 쓱 밀면 돼. 같은 그림 3개가 모이면 팡!',wait:'mswap'},
+    {who:'gull',target:()=>$('#mTop'),text:'터진 자리엔 위에서 새 그림이 쏙쏙 떨어져! 이동은 20번. 점수 막대가 차면 ❓보너스 퀴즈로 ⭐을 받아!',wait:'next'}
+  ];
+}
+/* ===== 놀이 2: 블록 퍼즐 (줄 없애기 + 보너스 퀴즈) ===== */
+const BN=8;
+const SHAPES=[
+  [[0,0]],[[0,0],[0,1]],[[0,0],[1,0]],[[0,0],[0,1],[0,2]],[[0,0],[1,0],[2,0]],
+  [[0,0],[0,1],[1,0],[1,1]],[[0,0],[1,0],[1,1]],[[0,1],[1,0],[1,1]],[[0,0],[0,1],[1,1]],[[0,0],[0,1],[1,0]],
+  [[0,0],[0,1],[0,2],[0,3]],[[0,0],[1,0],[2,0],[3,0]],[[0,0],[1,0],[2,0],[2,1]],[[0,1],[1,1],[2,1],[2,0]],
+  [[0,0],[0,1],[0,2],[1,1]],[[0,0],[0,1],[1,1],[1,2]],[[0,1],[0,2],[1,0],[1,1]],
+  [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2]],[[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]]
+];
+const PCOL=['#FF9FBF','#FFD36E','#8FE0BE','#9DD2FF','#C4B5FF','#FFB08F'];
+let B=null;
+const bboardEl=$('#bboard'), trayEl=$('#tray'), bghost=$('#bghost');
+function newPiece(){
+  const ch=CH[CI]; const items=ch.chains.flatMap(c=>c.items);
+  let s=rnd(SHAPES); if(s.length===9&&Math.random()<.6) s=rnd(SHAPES.slice(0,10));
+  return {s,col:rnd(PCOL),e:rnd(items).e};
+}
+function fits(p,r,c){return p.s.every(([dr,dc])=>{const R=r+dr,C=c+dc;return R>=0&&C>=0&&R<BN&&C<BN&&!B.g[R*BN+C]})}
+function canPlace(p){for(let r=0;r<BN;r++)for(let c=0;c<BN;c++)if(fits(p,r,c))return true;return false}
+function refillTray(){B.tray=[newPiece(),newPiece(),newPiece()];let t=0;while(!B.tray.some(canPlace)&&t++<30)B.tray=[newPiece(),newPiece(),newPiece()]}
+function openBlock(){
+  show('block'); const c=chState(CI);
+  B={g:Array(BN*BN).fill(null),score:0,lines:0,gauge:0,streak:0,revived:false,starsWon:0,bag:{}};
+  const tut=!S.tut.block;
+  if(tut){for(let cc=0;cc<BN;cc++)if(cc!==3)B.g[5*BN+cc]={col:rnd(PCOL),e:'⭐'};
+    B.tray=[{s:[[0,0]],col:'#FFD36E',e:CH[CI].chains[0].items[0].e},newPiece(),newPiece()]}
+  else refillTray();
+  $('#bBest').textContent=c.best;
+  renderBlock(); fitBlock();
+  $('#bHelp').onclick=()=>blockHelp();
+  if(tut) setTimeout(()=>coachStart(blockTutorial(),()=>{S.tut.block=true;save()}),300);
+}
+function blockHelp(){
+  const sh=openModal(`<h2>블록 퍼즐 방법</h2><div class="howto">
+    <span class="em">✋</span><div>아래 블록을 끌어다 판 위에 놓아요.</div>
+    <span class="em">💥</span><div>가로줄이나 세로줄을 꽉 채우면 펑! 한 번에 여러 줄이면 점수가 쑥쑥.</div>
+    <span class="em">📚</span><div>줄을 3번 없애면 보너스 퀴즈! 맞히면 ⭐별과 +30점.</div>
+    <span class="em">🆘</span><div>놓을 곳이 없으면 한 번 구조 퀴즈 기회가 있어요.</div></div>
+    <div class="row"><button class="cbtn" id="go">알겠어요</button></div>`);
+  sh.querySelector('#go').onclick=closeModal;
+}
+function renderBlockTop(){const c=chState(CI);$('#bScore').textContent=B?B.score:0;$('#bBest').textContent=c.best;$$('.sVal').forEach(e=>e.textContent=c.stars);
+  $('#bGauge').innerHTML=`📚 보너스 퀴즈 ${[0,1,2].map(i=>`<i class="${B&&i<B.gauge?'on':''}"></i>`).join('')}`}
+function renderBlock(){
+  if(bboardEl.children.length!==BN*BN) bboardEl.innerHTML=Array.from({length:BN*BN},(_,i)=>`<div class="bcell" data-i="${i}"></div>`).join('');
+  [...bboardEl.children].forEach((el,i)=>{const v=B.g[i];el.className='bcell'+(v?' f':'');el.style.background=v?v.col:'';el.innerHTML=v?`<span class="em">${v.e}</span>`:''});
+  trayEl.innerHTML=B.tray.map((p,k)=>{
+    if(!p) return `<div class="piece used" data-k="${k}"></div>`;
+    const R=Math.max(...p.s.map(x=>x[0]))+1, C=Math.max(...p.s.map(x=>x[1]))+1;
+    const cells=[];for(let r=0;r<R;r++)for(let c=0;c<C;c++){const on=p.s.some(([a,b])=>a===r&&b===c);cells.push(`<div class="pcell ${on?'':'e'}" style="${on?`background:${p.col}`:''}">${on?`<span class="em">${p.e}</span>`:''}</div>`)}
+    return `<div class="piece ${canPlace(p)?'':'nofit'}" data-k="${k}" style="grid-template-columns:repeat(${C},var(--pc))">${cells.join('')}</div>`;
+  }).join('');
+  renderBlockTop();
+}
+function fitBlock(){
+  if(SCREEN!=='block') return;
+  const W=window.innerWidth, H=window.innerHeight;
+  const land=window.matchMedia('(min-aspect-ratio:1/1) and (min-width:820px)').matches;
+  let bc= land? Math.floor((H-190)/BN-3) : Math.floor(Math.min((W-32-18-21)/BN,(H-330)/BN-3));
+  bc=Math.max(30,Math.min(62,bc));
+  bboardEl.style.setProperty('--bc',bc+'px');
+  trayEl.style.setProperty('--pc',Math.max(18,Math.min(30,Math.round(bc*.62)))+'px');
+  $$('.piece').forEach(p=>p.style.setProperty('--pc',Math.max(18,Math.min(30,Math.round(bc*.62)))+'px'));
+}
+/* 끌어서 놓기 */
+let BP=null;
+trayEl.addEventListener('pointerdown',e=>{
+  const pe=e.target.closest('.piece'); if(!pe||pe.classList.contains('used')||BP) return;
+  const k=+pe.dataset.k, p=B.tray[k]; if(!p) return;
+  const bc=parseFloat(getComputedStyle(bboardEl).getPropertyValue('--bc'))||40;
+  const R=Math.max(...p.s.map(x=>x[0]))+1, C=Math.max(...p.s.map(x=>x[1]))+1;
+  bghost.style.gridTemplateColumns=`repeat(${C},${bc}px)`; bghost.style.gridAutoRows=bc+'px';
+  const cells=[];for(let r=0;r<R;r++)for(let c=0;c<C;c++){const on=p.s.some(([a,b])=>a===r&&b===c);cells.push(`<div class="pcell ${on?'':'e'}" style="width:${bc}px;height:${bc}px;font-size:${bc*.55}px;${on?`background:${p.col}`:''}">${on?`<span class="em">${p.e}</span>`:''}</div>`)}
+  bghost.innerHTML=cells.join('');
+  BP={k,p,bc,R,C,id:e.pointerId,w:C*(bc+3),h:R*(bc+3),at:null};
+  pe.style.opacity='.25'; bghost.hidden=false; moveBP(e.clientX,e.clientY);
+  try{trayEl.setPointerCapture(e.pointerId)}catch(_){}
+  sfx.tap();
+});
+function moveBP(x,y){
+  const lift=Math.max(50,BP.bc*1.3);
+  const gx=x-BP.w/2, gy=y-BP.h-lift;
+  bghost.style.transform=`translate(${gx}px,${gy}px)`;
+  const br=bboardEl.getBoundingClientRect(), pitch=BP.bc+3;
+  const col=Math.round((gx-(br.left+9))/pitch), row=Math.round((gy-(br.top+9))/pitch);
+  const ok=fits(BP.p,row,col);
+  [...bboardEl.children].forEach(el=>el.classList.remove('pv','pvl'));
+  BP.at=ok?[row,col]:null;
+  if(ok){
+    BP.p.s.forEach(([a,b])=>bboardEl.children[(row+a)*BN+col+b].classList.add('pv'));
+    const tmp=B.g.slice();BP.p.s.forEach(([a,b])=>tmp[(row+a)*BN+col+b]=1);
+    fullLines(tmp).cells.forEach(i=>{if(B.g[i])bboardEl.children[i].classList.add('pvl')});
+  }
+}
+trayEl.addEventListener('pointermove',e=>{if(BP&&e.pointerId===BP.id)moveBP(e.clientX,e.clientY)});
+function endBP(e,cancel){
+  if(!BP||e.pointerId!==BP.id) return;
+  const bp=BP; BP=null; bghost.hidden=true;
+  [...bboardEl.children].forEach(el=>el.classList.remove('pv','pvl'));
+  if(!cancel&&bp.at) placePiece(bp.k,bp.at[0],bp.at[1]); else renderBlock();
+}
+trayEl.addEventListener('pointerup',e=>endBP(e,false));
+trayEl.addEventListener('pointercancel',e=>endBP(e,true));
+function fullLines(g){
+  const rows=[],cols=[];
+  for(let r=0;r<BN;r++){let f=true;for(let c=0;c<BN;c++)if(!g[r*BN+c]){f=false;break}if(f)rows.push(r)}
+  for(let c=0;c<BN;c++){let f=true;for(let r=0;r<BN;r++)if(!g[r*BN+c]){f=false;break}if(f)cols.push(c)}
+  const cells=new Set();rows.forEach(r=>{for(let c=0;c<BN;c++)cells.add(r*BN+c)});cols.forEach(c=>{for(let r=0;r<BN;r++)cells.add(r*BN+c)});
+  return {n:rows.length+cols.length,cells:[...cells]};
+}
+function placePiece(k,r,c){
+  const p=B.tray[k];
+  p.s.forEach(([a,b])=>B.g[(r+a)*BN+c+b]={col:p.col,e:p.e});
+  B.tray[k]=null; B.score+=p.s.length; sfx.place(); coachEmit('place');
+  const L=fullLines(B.g);
+  renderBlock();
+  if(L.n){
+    B.streak++; const gain=10*L.n*L.n+(B.streak>1?B.streak*5:0); B.score+=gain; B.lines+=L.n;
+    L.cells.forEach(i=>bboardEl.children[i].classList.add('clr'));
+    sfx.clear(L.n);
+    const br=bboardEl.getBoundingClientRect();
+    comboText(L.n>1?`${L.n}줄 펑! +${gain}`:(B.streak>1?`콤보 ×${B.streak}! +${gain}`:`펑! +${gain}`),br.left+br.width/2,br.top+br.height/2);
+    if(L.n>=2) confetti(16);
+    setTimeout(()=>{L.cells.forEach(i=>B.g[i]=null);B.gauge=Math.min(3,B.gauge+L.n);afterPlace();coachEmit('clear')},330);
+  }else{B.streak=0;afterPlace()}
+}
+function afterPlace(){
+  if(B.tray.every(x=>!x)) refillTray();
+  renderBlock(); fitBlock();
+  if(B.gauge>=3){B.gauge=0;renderBlockTop();setTimeout(bonusQuiz,250);return}
+  checkOver();
+}
+function bonusQuiz(){
+  runQuiz(drawQ(CI,B.bag),{tag:'📚 보너스 퀴즈',title:'맞히면 ⭐1 + 30점',closable:false,rightLabel:'⭐ 받기',wrongLabel:'계속하기',
+    onRight:()=>{B.score+=30;B.starsWon++;const r=$('#bScore').getBoundingClientRect();addStars(1,r.left+r.width/2,r.top);renderBlockTop();checkOver()},
+    onWrong:()=>checkOver()});
+}
+function checkOver(){
+  if(B.tray.some(p=>p&&canPlace(p))) return;
+  if(!B.revived){
+    B.revived=true;
+    const sh=openModal(`<h2>놓을 곳이 없어요!</h2><p class="note">구조 퀴즈를 맞히면 가운데 네 줄을 싹 비워 줄게요. 한 번만 쓸 수 있어요.</p><div class="row"><button class="cbtn ghost" id="no">그만하기</button><button class="cbtn" id="go">구조 퀴즈 도전!</button></div>`,{closable:false});
+    sh.querySelector('#no').onclick=()=>{closeModal();blockOver()};
+    sh.querySelector('#go').onclick=()=>runQuiz(drawQ(CI,B.bag),{tag:'🆘 구조 퀴즈',closable:false,rightLabel:'판 비우기',wrongLabel:'결과 보기',
+      onRight:()=>{for(let r=2;r<6;r++)for(let c=0;c<BN;c++)B.g[r*BN+c]=null;sfx.clear(3);confetti(20);renderBlock();checkOver()},onWrong:()=>blockOver()});
+    return;
+  }
+  blockOver();
+}
+function blockOver(){
+  const c=chState(CI), rec=B.score>c.best; if(rec) c.best=B.score; save();
+  if(rec) confetti(50);
+  const sh=openModal(`<div class="result"><h2>${rec?'새 기록!':'게임 끝!'}</h2><div class="score" style="margin:12px 0">${B.score}점</div>
+    <p class="note">없앤 줄 ${B.lines}개 · 이번 판에서 모은 별 ⭐${B.starsWon} · 최고 ${c.best}점</p></div>
+    <div class="row" style="justify-content:center"><button class="cbtn ghost" id="hub">🏠 구역으로</button><button class="cbtn lav" id="again">한 판 더!</button></div>`,{closable:false});
+  sh.querySelector('#hub').onclick=()=>{closeModal();goHub()};
+  sh.querySelector('#again').onclick=()=>{closeModal();openBlock()};
+}
+function blockTutorial(){
+  return [
+    {who:'gull',drag:()=>[trayEl.querySelector('.piece[data-k="0"]'),bboardEl.children[5*BN+3]],text:'블록을 끌어다 판 위에 놓아 봐! 이 블록을 빈칸에 쏙 넣어 줘.',wait:'clear'},
+    {who:'gull',target:()=>$('#bGauge'),text:'펑! 한 줄을 꽉 채우면 사라져. 줄을 3번 없애면 📚보너스 퀴즈가 나오고, 맞히면 ⭐별을 받아!',wait:'next'}
+  ];
+}
+/* ===== 놀이 3: 소문 던전 (로그라이트) ===== */
+const FLOORS=7;
+const MONSTERS=[{e:'👻',n:'헛소문 유령'},{e:'🦇',n:'뜬소문 박쥐'},{e:'🐙',n:'카더라 문어'},{e:'👾',n:'와전 외계인'},{e:'🦊',n:'소곤소곤 여우'},{e:'🐸',n:'개굴 뒷말 개구리'}];
+const BOSS={e:'🐲',n:'카더라 대왕'};
+const DOOR={
+  monster:{e:'👻',n:'소문 괴물',d:'퀴즈로 물리치면 ⭐1'},
+  treasure:{e:'🎁',n:'보물 상자',d:'도움 아이템 하나 고르기'},
+  game:{e:'🎮',n:'도전의 방',d:'미니게임 성공하면 ⭐1 + 선물'},
+  rest:{e:'⛲',n:'쉼터 샘물',d:'❤️ 하트 1개 회복'},
+  boss:{e:'👑',n:'대왕의 방',d:'마지막 보스! 이기면 ⭐3'}
+};
+const BUFFS={
+  heart:{e:'❤️',n:'하트 +1',d:'목숨이 하나 늘어요'},
+  shield:{e:'🛡️',n:'방패',d:'틀려도 한 번 막아 줘요'},
+  hint:{e:'💡',n:'힌트',d:'오답 보기 하나를 지워요'},
+  star:{e:'⭐',n:'별 +1',d:'이 구역 별을 바로 받아요'}
+};
+let D=null;
+const dwrap=$('#dwrap');
+function openDungeon(){
+  show('dungeon');
+  D={floor:1,hp:3,maxHp:5,shield:0,hint:1,stars:0,kills:0,bag:{},phase:'doors',doors:null};
+  D.doors=makeDoors(); renderDungeon();
+  if(!S.tut.dungeon) setTimeout(()=>coachStart(dungeonTutorial(),()=>{S.tut.dungeon=true;save()}),300);
+}
+function makeDoors(){
+  if(D.floor===FLOORS) return ['boss'];
+  if(D.floor===1) return shuffle(['monster','treasure']);
+  const pool=['monster','monster','monster','treasure','treasure','game','game','rest'];
+  const out=['monster']; while(out.length<3){const t=rnd(pool); if(t==='monster'||!out.includes(t)) out.push(t)}
+  if(D.hp>=D.maxHp) for(let i=0;i<out.length;i++) if(out[i]==='rest') out[i]='treasure';
+  return shuffle(out);
+}
+function statusCard(){
+  return `<div class="card status" id="dStatus"><span class="hearts em" aria-label="하트 ${D.hp}개">${'❤️'.repeat(Math.max(0,D.hp))}${'🤍'.repeat(Math.max(0,D.maxHp-D.hp))}</span>
+    <span class="chipr" style="box-shadow:none;background:var(--lavL)"><span class="em">🛡️</span>${D.shield}</span><span class="chipr" style="box-shadow:none;background:var(--butterL)"><span class="em">💡</span>${D.hint}</span>
+    <span class="path">${Array.from({length:FLOORS},(_,i)=>i===FLOORS-1?`<i class="boss em">👑</i>`:`<i class="${i+1<D.floor?'done':i+1===D.floor?'now':''}"></i>`).join('')}</span></div>`;
+}
+function statusHTML(){
+  const ch=CH[CI];
+  return `<div class="pillbar"><button class="ibtn" id="dBack" aria-label="구역으로"><span class="em">🏠</span></button>
+    <span class="chipr"><span class="em">⭐</span><span class="sVal">${chState(CI).stars}</span></span><span class="sp"></span>
+    <span class="tag" style="background:${ch.tint}">${esc(ch.theme)}</span></div>`+statusCard();
+}
+function renderDungeonStatus(){if(SCREEN!=='dungeon'||!D)return;const s=$('#dStatus');if(s)s.outerHTML=statusCard();$$('.sVal').forEach(e=>e.textContent=chState(CI).stars)}
+function leaveDungeon(){
+  if(D&&D.phase!=='over'){
+    const sh=openModal(`<h2>모험을 그만할까요?</h2><p class="note">지금까지 모은 별 ⭐${D.stars}개는 그대로 남아요.</p><div class="row"><button class="cbtn ghost" id="no">계속 모험</button><button class="cbtn" id="yes">구역으로</button></div>`);
+    sh.querySelector('#no').onclick=closeModal; sh.querySelector('#yes').onclick=()=>{closeModal();endRun(false,true)};
+  } else goHub();
+}
+function renderDungeon(){
+  const ch=CH[CI];
+  let body='';
+  if(D.phase==='doors'){
+    body=`<div class="card dstage"><h2>${D.floor===FLOORS?'👑 마지막 층!':`${D.floor}층`} · 문을 골라요</h2>
+      <p class="note" style="margin:0">${D.floor===FLOORS?`${BOSS.n}이(가) 소문을 퍼뜨리고 있어요. 물리치면 승리!`:'어느 문으로 들어갈까요?'}</p>
+      <div class="doors" id="dDoors">${D.doors.map((t,i)=>`<button class="door t-${t}" data-i="${i}"><span class="em">${DOOR[t].e}</span><b>${DOOR[t].n}</b><small>${DOOR[t].d}</small></button>`).join('')}</div></div>`;
+  }
+  dwrap.innerHTML=statusHTML()+body;
+  $('#dBack').onclick=leaveDungeon;
+  $$('#dDoors .door').forEach(b=>b.onclick=()=>{sfx.tap();coachEmit('door');enterRoom(D.doors[+b.dataset.i])});
+}
+function nextFloor(){D.floor++;D.phase='doors';D.doors=makeDoors();renderDungeon();window.scrollTo(0,0)}
+function enterRoom(t){
+  if(t==='monster') fight(rnd(MONSTERS),D.floor>=4?2:1,false);
+  if(t==='boss') fight(BOSS,3,true);
+  if(t==='treasure') chooseBuff('보물 상자를 열었어요!',()=>nextFloor());
+  if(t==='rest'){D.hp=Math.min(D.maxHp,D.hp+1);sfx.ok();toast('샘물을 마셨어요! ❤️ +1');renderDungeon();setTimeout(nextFloor,700)}
+  if(t==='game'){const g=rnd(GAMES[CH[CI].id]);runGame(g,{doneLabel:'보상 받기',onDone:m=>{gainStar(1);if(m<=1)chooseBuff('실수 1번 이하! 선물을 골라요',()=>nextFloor());else{toast('수고했어요! ⭐1');nextFloor()}}})}
+}
+function gainStar(n){D.stars+=n;addStars(n);renderDungeonStatus()}
+function chooseBuff(title,then){
+  const keys=shuffle(Object.keys(BUFFS)).slice(0,3);
+  const sh=openModal(`<h2>${esc(title)}</h2><p class="note">하나만 고를 수 있어요.</p><div class="buffs">${keys.map(k=>`<button class="buff" data-k="${k}"><span class="em">${BUFFS[k].e}</span><b>${BUFFS[k].n}</b><small>${BUFFS[k].d}</small></button>`).join('')}</div>`,{closable:false});
+  sh.querySelectorAll('.buff').forEach(b=>b.onclick=()=>{
+    const k=b.dataset.k; if(k==='heart'){D.maxHp=Math.max(D.maxHp,D.hp+1);D.hp=Math.min(D.maxHp,D.hp+1)} if(k==='shield')D.shield++; if(k==='hint')D.hint++; if(k==='star')gainStar(1);
+    sfx.ok(); closeModal(); renderDungeon(); then&&then();
+  });
+}
+function fight(mon,hp,boss){
+  D.phase='fight'; let mhp=hp;
+  const ch=CH[CI];
+  const draw=(msg)=>{
+    dwrap.innerHTML=statusHTML()+`<div class="card dstage"><div class="monster em" id="mon">${mon.e}</div><h2>${boss?'👑 ':''}${esc(mon.n)}</h2>
+      <div class="hpbar">${Array.from({length:hp},(_,i)=>`<i class="${i<mhp?'':'off'}"></i>`).join('')}</div>
+      <div class="bubble" style="background:var(--lavL);box-shadow:none">${esc(msg)}</div>
+      ${mhp>0&&D.hp>0?'<div class="row" style="justify-content:center"><button class="cbtn lav" id="atk">⚔️ 퀴즈로 공격!</button></div>':''}</div>`;
+    $('#dBack').onclick=leaveDungeon;
+    const a=$('#atk'); if(a) a.onclick=ask;
+  };
+  const ask=()=>{
+    const q=drawQ(CI,D.bag);
+    runQuiz(q,{tag:`⚔️ ${mon.n}`,title:boss?'보스전!':`${D.floor}층`,closable:false,rightLabel:'공격!',wrongLabel:'으악!',
+      hint:{n:D.hint,use:()=>{D.hint--;renderDungeonStatus()}},
+      onRight:()=>{mhp--;sfx.hit();draw(mhp>0?`으윽! 아직 안 끝났다! (남은 체력 ${mhp})`:'으아악… 소문이 사라진다~!');const m=$('#mon');m.classList.add('hit');
+        if(mhp<=0){setTimeout(()=>win(),700)}},
+      onWrong:()=>{if(D.shield>0){D.shield--;toast('🛡️ 방패가 막아 줬어요!')}else{D.hp--;sfx.hurt()}
+        draw(D.hp>0?`카더라~ 확인도 안 했지? 히히!`:'');if(D.hp<=0)setTimeout(()=>endRun(false),600)}});
+  };
+  let won=false;
+  const win=()=>{
+    if(won) return; won=true; D.kills++; confetti(boss?80:20);
+    if(boss){gainStar(3);endRun(true)}else{gainStar(1);toast(`${mon.n}을(를) 물리쳤어요! ⭐1`);nextFloor()}
+  };
+  draw(boss?`크하하! 나는 ${mon.n}! "${ch.rumor}" 이 소문은 진짜라고!`:rnd(['카더라~ 내 말이 다 맞아!','소문은 원래 다 진짜야~','확인 같은 건 안 해도 돼~']));
+}
+function endRun(victory,quit){
+  D.phase='over'; const c=chState(CI);
+  const reached=victory?FLOORS:D.floor;
+  if(reached>c.dBest) c.dBest=reached; if(victory) c.dWins++; save();
+  if(quit){goHub();return}
+  const sh=openModal(`<div class="result"><div class="monster em" style="animation:none;font-size:81px">${victory?'🏆':'💫'}</div><h2>${victory?'카더라 대왕을 물리쳤어요!':'모험이 끝났어요'}</h2>
+    <p class="note">${victory?'소문 던전을 끝까지 통과했어요! 진짜 탐정이에요.':`${D.floor}층까지 갔어요. 틀린 문제의 해설을 기억하면 다음엔 더 멀리 갈 수 있어요!`}</p>
+    <p class="note">물리친 괴물 ${D.kills}마리 · 이번 모험에서 모은 별 ⭐${D.stars}</p></div>
+    <div class="row" style="justify-content:center"><button class="cbtn ghost" id="hub">🏠 구역으로</button><button class="cbtn lav" id="again">다시 모험!</button></div>`,{closable:false});
+  sh.querySelector('#hub').onclick=()=>{closeModal();goHub()};
+  sh.querySelector('#again').onclick=()=>{closeModal();openDungeon()};
+}
+function dungeonTutorial(){
+  return [
+    {who:'gull',target:()=>$('#dDoors'),text:'여기는 소문 던전! 문 하나를 골라 들어가. 👻는 퀴즈로 싸우는 소문 괴물, 🎁는 도움 아이템이야.',wait:'next'},
+    {who:'gull',target:()=>$('#dStatus'),text:'틀리면 ❤️가 줄어. 🛡️방패는 한 번 막아 주고, 💡힌트는 오답 하나를 지워 줘. 7층의 👑대왕을 물리치면 승리!',wait:'next'}
+  ];
+}
+/* ===== 연결 · 시작 ===== */
+$('#tiles').addEventListener('click',e=>{const t=e.target.closest('.tile');if(t){sfx.tap();goHub(+t.dataset.i)}});
+$('#tcards').addEventListener('click',e=>{const t=e.target.closest('.tcard');if(!t)return;const i=+t.dataset.i;
+  if(S.ch[CH[i].id]&&S.ch[CH[i].id].done)showTruth(i,false);else toast(`${CH[i].place}의 소문을 밝히면 받을 수 있어요`)});
+$$('[data-back]').forEach(b=>b.onclick=()=>{sfx.tap();goHub()});
+$('#btnQuiz').onclick=()=>{sfx.tap();quizCharge()};
+$('#btnGuide').onclick=()=>guideModal();
+$('#btnSet').onclick=()=>settingsModal();
+setInterval(()=>{if(SCREEN==='merge')renderMergeTop()},1000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)save()});
+goMap();
+</script></body></html>
