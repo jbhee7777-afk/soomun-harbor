@@ -104,6 +104,12 @@ isle_0 에서 섬 뒤에 분홍 하늘이 조금 남았던 점을 막으려고 �
 | npc_character 민들레 할머니 | MAHWz4Mbifc | 적용됨 · 70대, 은회색 쪽머리에 민들레 꽃, 발그레한 볼, 라일락 니트 카디건·분홍 정원 앞치마(모종삽·꽃), 하트 나무 브로치, 다정한 미소 |
 | npc_democracy 고래 이장님 | MAHWz5lXC5c | 적용됨 · 50대, 관자놀이 희끗한 짧은 머리·짙은 수염, 귀 기울이는 차분한 미소, 파란 조끼·흰 셔츠·남색 스카프, 은 고래 핀, 둘둘 만 안내문 |
 | npc_rights 해솔 사서님 | MAHWzxjtD3A | 적용됨 · 30대 초, 옆으로 땋은 긴 흑발·동그란 뿔테 안경, 보라 터틀넥·자두색 카디건, 무지개 리본 핀, 품에 펼친 책, 격려하는 미소 |
+| npc_multi 투이 아주머니 | MAHWzyg2SBw | 40대 베트남 출신 쌀국숫집 주인, 옥 비녀 쪽머리, 청록 차이나 칼라 상의·크림 앞치마, 빨간 등불 핀, 국자 |
+| npc_dokdo 강치 박사님 | MAHWz4hcGbE | 30대 중반 해양 생물학자, 하늘색 두건·짧은 머리, 카키 조사 조끼·줄무늬 셔츠, 황동 쌍안경, 강치 배지 |
+| npc_money 저금통 사장님 | MAHWz1HtE4A | 40대 후반 가게 주인, 옆가르마·말린 콧수염, 버건디 나비넥타이·겨자색 조끼, 돼지 저금통 핀, 금화 시곗줄 |
+| npc_eco 바다 지킴이 누리 | MAHWz6hrOtk | 20대 중반 해변 지킴이, 높은 포니테일·조개 귀걸이, 초록 레인저 재킷, 잎 배지, 파도색 스카프 |
+| 이웃 주민 묶음 A (4×3) | MAHWzzkYOWk | 박 할아버지·준이·소미·요리사 수아 / 우주인 지호·윤 선생님·서연·다은 / 김 할아버지·라훌 아저씨·소피아·한별 → npc_<구역>_1·_2 (준이는 safety_2 = character_2) |
+| 이웃 주민 묶음 B (4×2) | MAHWz0Nkszw | 여행객 미나·해양 경찰관·바다·유나 / 민호·거북이 씨·돌고래 동동·(꾸꾸, 안 씀) |
 
 초상화 프롬프트 틀: "Hand-painted storybook bust portrait for a children's fantasy adventure game: [나이·외모·표정·의상·구역 소품]. Head and shoulders only, three-quarter view facing slightly left/right, the face is large and clearly readable, filling the upper two-thirds of the image, nothing cropped at the top of the head. Same art style as a painted storybook detective hero: soft clean painted shapes, gentle warm outlines, expressive eyes, cute but not babyish, natural proportions. Warm golden rim light and soft cool indigo shadows, rich painterly texture. Isolated on a pure plain flat white background, no scenery, no frame, no text, no letters." (SQUARE_1_1)
 
@@ -160,3 +166,17 @@ isle_0 에서 섬 뒤에 분홍 하늘이 조금 남았던 점을 막으려고 �
 | items_eco (환경 · 푸른 바닷가) | MAHWvgwzvbY | 적용됨 — 자동 분리 12개 (분리배출 통, 캔, 플라스틱 컵, 재활용 묶음, 에코백, 푸른 지구 / 새싹 양동이, 새싹, 풀, 나무, 작은 숲, 산호 바다 방울) |
 
 묶음 프롬프트 틀: "Game item icon sprite sheet: twelve separate small objects arranged in a neat grid of 4 columns and 3 rows on a pure plain flat white background, each object isolated with generous empty white space around it, no overlapping, nothing cropped, all objects the same size and seen from the same slight three-quarter top-down view. Row 1, left to right: … Row 2 … Row 3 … Hand-painted storybook game item art, rich painterly texture, warm golden rim light and soft cool indigo shadows, cute but not babyish, consistent style for a children's fantasy adventure game. No people, no characters, no text, no letters, no numbers, no labels." (LANDSCAPE_4_3)
+
+## 놀이 그림 묶음 (2026-10-02)
+
+| 묶음 | Canva media | 결과 |
+|---|---|---|
+| block_bg (시장 창고 작업대, 16:9) | MAHWzwgzCvc | assets/block_bg.webp — 블록 퍼즐 배경 |
+| block 타일 (3×2) | MAHWz0m06pA | block/tile_0~5 — 분홍·노랑·민트·하늘·보라·주황 보석 블록 (PCOL 순서) |
+| match_bg (보물 해변, 16:9) | MAHWz5a5Wn4 | assets/match_bg.webp — 소문 팡팡 배경 |
+| match 조각 (4×2) | MAHWzwnMKO8 | match/piece_0~5 (조개·나침반·유리병 편지·닻·지도 조각·별 조각 = MART 순서), pearl(무지개 진주), whirl(소용돌이) |
+| drop_bg (등대 절벽, 16:9) | MAHWz2cgdwk | assets/drop_bg.webp — 소문 퐁당 배경 |
+| drop 바다 친구 (4×3) | MAHWzzxzMCM | drop/lv_00~09 (모래알→고래, 둥근 공 모양), fog(소문 안개), gold(황금 방울) |
+| monsters (4×3) | MAHWz8lKaW0 | monsters/<구역id> 10종 + mimic(보물상자 흉내쟁이) + raven(소문 까마귀 왕) — 던전 구역별 몬스터 |
+
+묶음 프롬프트는 물건 시트 틀과 같고, 몬스터는 "cute, bright, colorful, mischievous … same friendly style as a glossy round purple fog blob monster" 로 던전의 안개 먹보와 맞춘다 (처음 만든 어두운 버전 MAHWz7aOAFk 은 아이들에게 무서워 보여 쓰지 않음).

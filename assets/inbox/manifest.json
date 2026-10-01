@@ -1,50 +1,264 @@
 {
-  "batch": "npc-character-democracy-rights",
-  "createdAt": "2026-10-01T23:32:33.520Z",
+  "batch": "npc-rest-and-game-art",
+  "createdAt": "2026-10-01T23:49:32.098Z",
   "status": "processed",
   "items": [
     {
-      "target": "npc_character_src",
+      "target": "npc_multi_src",
       "kind": "npc",
-      "zone": "character",
-      "canvaMedia": "MAHWz4Mbifc",
-      "canvaName": "AaD5z2sT0ArziILFOsGOgw-AaD5z2sTpz8BxxeHqFEBBQ.jpg"
+      "zone": "multi",
+      "canvaMedia": "MAHWzyg2SBw",
+      "canvaName": "AaD52_iSp2FxPm9mND4_lw-AaD52_iSViKuwEgko7fxPw.jpg"
     },
     {
-      "target": "npc_democracy_src",
+      "target": "npc_dokdo_src",
       "kind": "npc",
-      "zone": "democracy",
-      "canvaMedia": "MAHWz5lXC5c",
-      "canvaName": "AaD5z204y90MMjyZVIwmtQ-AaD5z2057HqwyBNsCOrFDw.jpg"
+      "zone": "dokdo",
+      "canvaMedia": "MAHWz4hcGbE",
+      "canvaName": "AaD52_qqULf_t32NqMbIAw-AaD52_qq89L9s4k63l204g.jpg"
     },
     {
-      "target": "npc_rights_src",
+      "target": "npc_money_src",
       "kind": "npc",
-      "zone": "rights",
-      "canvaMedia": "MAHWzxjtD3A",
-      "canvaName": "AaD5z2_jiM32__-f60iQwA-AaD5z2_jUSTkSDT4xH2fcg.jpg"
+      "zone": "money",
+      "canvaMedia": "MAHWz1HtE4A",
+      "canvaName": "AaD52_1DTP2wN_TCdUpfBA-AaD52_1D6UZ9oeVjlCuoeg.jpg"
+    },
+    {
+      "target": "npc_eco_src",
+      "kind": "npc",
+      "zone": "eco",
+      "canvaMedia": "MAHWz6hrOtk",
+      "canvaName": "AaD52_-TsRB71QOObPEKgA-AaD52_-TURyoX-CsZBeqhw.jpg"
+    },
+    {
+      "target": "npc_sheet_a_src",
+      "kind": "sheet",
+      "cols": 4,
+      "rows": 3,
+      "size": 320,
+      "strict": true,
+      "canvaMedia": "MAHWzzkYOWk",
+      "canvaName": "AaD53AGzo1hO8yySOg1W8g-AaD53AGz9qfg5gRphVMlwQ.jpg",
+      "names": [
+        "npc_safety_1.webp",
+        "npc_safety_2.webp|npc_character_2.webp",
+        "npc_character_1.webp",
+        "npc_career_1.webp",
+        "npc_career_2.webp",
+        "npc_democracy_1.webp",
+        "npc_democracy_2.webp",
+        "npc_rights_1.webp",
+        "npc_rights_2.webp",
+        "npc_multi_1.webp",
+        "npc_multi_2.webp",
+        "npc_unify_1.webp"
+      ]
+    },
+    {
+      "target": "npc_sheet_b_src",
+      "kind": "sheet",
+      "cols": 4,
+      "rows": 2,
+      "size": 320,
+      "strict": true,
+      "canvaMedia": "MAHWz0Nkszw",
+      "canvaName": "AaD53APF-RxmIDGsOURX3A-AaD53APFuRFoBee6ijDVDw.jpg",
+      "names": [
+        "npc_unify_2.webp",
+        "npc_dokdo_1.webp",
+        "npc_dokdo_2.webp",
+        "npc_money_1.webp",
+        "npc_money_2.webp",
+        "npc_eco_1.webp",
+        "npc_eco_2.webp",
+        null
+      ]
+    },
+    {
+      "target": "block_bg_src",
+      "kind": "bg",
+      "out": "block_bg",
+      "canvaMedia": "MAHWzwgzCvc",
+      "canvaName": "AaD53AYTOCZf5GSZGonNyw-AaD53AYUuBxCNZwSVeXoEg.jpg"
+    },
+    {
+      "target": "match_bg_src",
+      "kind": "bg",
+      "out": "match_bg",
+      "canvaMedia": "MAHWz5a5Wn4",
+      "canvaName": "AaD53AhOIsbjGIzitq0Ogw-AaD53AhOwLXcWa-Ee_IBvA.jpg"
+    },
+    {
+      "target": "drop_bg_src",
+      "kind": "bg",
+      "out": "drop_bg",
+      "canvaMedia": "MAHWz2cgdwk",
+      "canvaName": "AaD53Apz5HihM5K2huPH7w-AaD53Apzo5RVnrwPQZ3ybg.jpg"
+    },
+    {
+      "target": "block_tiles_src",
+      "kind": "sheet",
+      "cols": 3,
+      "rows": 2,
+      "size": 192,
+      "canvaMedia": "MAHWz0m06pA",
+      "canvaName": "AaD53Aykp5TVUmbtzLtp5g-AaD53AykKB38-oJ8WIAWlA.jpg",
+      "names": [
+        "block/tile_0.webp",
+        "block/tile_1.webp",
+        "block/tile_2.webp",
+        "block/tile_3.webp",
+        "block/tile_4.webp",
+        "block/tile_5.webp"
+      ]
+    },
+    {
+      "target": "match_pieces_src",
+      "kind": "sheet",
+      "cols": 4,
+      "rows": 2,
+      "size": 192,
+      "canvaMedia": "MAHWzwnMKO8",
+      "canvaName": "AaD53A7HZwAYNFV7KmbUvQ-AaD53A7H34d4OpwgHMJz4A.jpg",
+      "names": [
+        "match/piece_0.webp",
+        "match/piece_1.webp",
+        "match/piece_2.webp",
+        "match/piece_3.webp",
+        "match/piece_4.webp",
+        "match/piece_5.webp",
+        "match/pearl.webp",
+        "match/whirl.webp"
+      ]
+    },
+    {
+      "target": "drop_lv_src",
+      "kind": "sheet",
+      "cols": 4,
+      "rows": 3,
+      "size": 320,
+      "canvaMedia": "MAHWzzxzMCM",
+      "canvaName": "AaD53BD5mC20SxGdMB_tiA-AaD53BD5e2Ev5F3l3BPDlQ.jpg",
+      "names": [
+        "drop/lv_00.webp",
+        "drop/lv_01.webp",
+        "drop/lv_02.webp",
+        "drop/lv_03.webp",
+        "drop/lv_04.webp",
+        "drop/lv_05.webp",
+        "drop/lv_06.webp",
+        "drop/lv_07.webp",
+        "drop/lv_08.webp",
+        "drop/lv_09.webp",
+        "drop/fog.webp",
+        "drop/gold.webp"
+      ]
+    },
+    {
+      "target": "monsters_src",
+      "kind": "sheet",
+      "cols": 4,
+      "rows": 3,
+      "size": 320,
+      "canvaMedia": "MAHWz8lKaW0",
+      "canvaName": "AaD53dWzs7eA-E1GGkbFMQ-AaD53dWzW4zvWVup_vyR2A.jpg",
+      "names": [
+        "monsters/safety.webp",
+        "monsters/character.webp",
+        "monsters/career.webp",
+        "monsters/democracy.webp",
+        "monsters/rights.webp",
+        "monsters/multi.webp",
+        "monsters/unify.webp",
+        "monsters/dokdo.webp",
+        "monsters/money.webp",
+        "monsters/eco.webp",
+        "monsters/mimic.webp",
+        "monsters/raven.webp"
+      ]
     }
   ],
-  "importedAt": "2026-10-01T23:33:58.8864349Z",
+  "importedAt": "2026-10-01T23:53:42.0405175Z",
   "imported": [
     {
-      "target": "npc_character_src",
-      "file": "npc_character_src.jpg",
-      "from": "AaD5z2sT0ArziILFOsGOgw-AaD5z2sTpz8BxxeHqFEBBQ.jpg",
+      "target": "npc_multi_src",
+      "file": "npc_multi_src.jpg",
+      "from": "AaD52_iSp2FxPm9mND4_lw-AaD52_iSViKuwEgko7fxPw.jpg",
       "how": "이름"
     },
     {
-      "target": "npc_democracy_src",
-      "file": "npc_democracy_src.jpg",
-      "from": "AaD5z204y90MMjyZVIwmtQ-AaD5z2057HqwyBNsCOrFDw.jpg",
+      "target": "npc_dokdo_src",
+      "file": "npc_dokdo_src.jpg",
+      "from": "AaD52_qqULf_t32NqMbIAw-AaD52_qq89L9s4k63l204g.jpg",
       "how": "이름"
     },
     {
-      "target": "npc_rights_src",
-      "file": "npc_rights_src.jpg",
-      "from": "AaD5z2_jiM32__-f60iQwA-AaD5z2_jUSTkSDT4xH2fcg.jpg",
+      "target": "npc_money_src",
+      "file": "npc_money_src.jpg",
+      "from": "AaD52_1DTP2wN_TCdUpfBA-AaD52_1D6UZ9oeVjlCuoeg.jpg",
+      "how": "이름"
+    },
+    {
+      "target": "npc_eco_src",
+      "file": "npc_eco_src.jpg",
+      "from": "AaD52_-TsRB71QOObPEKgA-AaD52_-TURyoX-CsZBeqhw.jpg",
+      "how": "이름"
+    },
+    {
+      "target": "npc_sheet_a_src",
+      "file": "npc_sheet_a_src.jpg",
+      "from": "AaD53AGzo1hO8yySOg1W8g-AaD53AGz9qfg5gRphVMlwQ.jpg",
+      "how": "이름"
+    },
+    {
+      "target": "npc_sheet_b_src",
+      "file": "npc_sheet_b_src.jpg",
+      "from": "AaD53APF-RxmIDGsOURX3A-AaD53APFuRFoBee6ijDVDw.jpg",
+      "how": "이름"
+    },
+    {
+      "target": "block_bg_src",
+      "file": "block_bg_src.jpg",
+      "from": "AaD53AYTOCZf5GSZGonNyw-AaD53AYUuBxCNZwSVeXoEg.jpg",
+      "how": "이름"
+    },
+    {
+      "target": "match_bg_src",
+      "file": "match_bg_src.jpg",
+      "from": "AaD53AhOIsbjGIzitq0Ogw-AaD53AhOwLXcWa-Ee_IBvA.jpg",
+      "how": "이름"
+    },
+    {
+      "target": "drop_bg_src",
+      "file": "drop_bg_src.jpg",
+      "from": "AaD53Apz5HihM5K2huPH7w-AaD53Apzo5RVnrwPQZ3ybg.jpg",
+      "how": "이름"
+    },
+    {
+      "target": "block_tiles_src",
+      "file": "block_tiles_src.jpg",
+      "from": "AaD53Aykp5TVUmbtzLtp5g-AaD53AykKB38-oJ8WIAWlA.jpg",
+      "how": "이름"
+    },
+    {
+      "target": "match_pieces_src",
+      "file": "match_pieces_src.jpg",
+      "from": "AaD53A7HZwAYNFV7KmbUvQ-AaD53A7H34d4OpwgHMJz4A.jpg",
+      "how": "이름"
+    },
+    {
+      "target": "drop_lv_src",
+      "file": "drop_lv_src.jpg",
+      "from": "AaD53BD5mC20SxGdMB_tiA-AaD53BD5e2Ev5F3l3BPDlQ.jpg",
+      "how": "이름"
+    },
+    {
+      "target": "monsters_src",
+      "file": "monsters_src.jpg",
+      "from": "AaD53dWzs7eA-E1GGkbFMQ-AaD53dWzW4zvWVup_vyR2A.jpg",
       "how": "이름"
     }
   ],
-  "processedAt": "2026-10-01T23:34:12.234Z"
+  "processedAt": "2026-10-01T23:53:59.214Z"
 }

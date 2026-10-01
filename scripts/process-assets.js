@@ -7,6 +7,9 @@
      bg         : webp 변환       → <out>.webp                   (hub_bg · map_sea · merge_bg …)
      item-sheet : 4열×3줄 묶음 → items/<zone>_00~11.webp      (합치기 물건)
      npc        : 흰 배경 투명화 → npc_<zone>.webp              (주민 초상화)
+     sheet      : cols열×rows줄 묶음 → names[k] (assets 기준 경로, null 은 건너뜀, "a|b" 는 같은 그림 두 곳)
+                  예) 이웃 주민 npc_safety_1.webp · block/tile_0.webp · match/piece_0.webp · drop/lv_00.webp · monsters/safety.webp
+                  size(기본 256) · strict(흰색만 엄격히 지우기, 흰 옷·모자가 있는 초상화용)
    마지막에 assets 폴더를 훑어 art-manifest.js 를 다시 만들고(그림 등록 · 섬 클릭 영역 크기), scripts/test-assets.js 로 확인해요. */
 const fs=require('fs'),path=require('path');
 const {chromium}=require('playwright-core');
@@ -39,10 +42,11 @@ async function toWebp(p,src,dst,q=.86){const r=await p.evaluate(async([d,q])=>{c
 async function cutout(p,src,dst){const r=await p.evaluate(async d=>{const {c,x,W,H}=await loadImg(d);const cl=clearWhite(x,W,H,[],true);const bb=bbox(x,W,H);return {W,H,cl,bb,u:c.toDataURL('image/webp',.88)}},dataUrl(src));
   writeUrl(dst,r.u);const m=r.bb.margin;const warn=Object.entries(m).filter(([,v])=>v<8).map(([k,v])=>`${k} ${v}px`);
   return `${r.W}×${r.H} · 투명 ${(r.cl*100|0)}% · 여백 위${m.top} 아래${m.bottom} 왼${m.left} 오${m.right}${warn.length?' · ⚠ 가장자리에 닿음('+warn.join(', ')+') 확인 필요':''}`}
-async function splitSheet(p,src,dir,prefix){const outs=await p.evaluate(async d=>{const {c,x,W,H}=await loadImg(d);
-    const seeds=[];for(let cx=1;cx<4;cx++){const X=Math.round(cx*W/4);for(let Y=0;Y<H;Y++)seeds.push(Y*W+X)}for(let cy=1;cy<3;cy++){const Y=Math.round(cy*H/3);for(let X=0;X<W;X++)seeds.push(Y*W+X)}
-    clearWhite(x,W,H,seeds,false);const id=x.getImageData(0,0,W,H),a=id.data,outs=[],S=256,pad=10;
-    for(let r=0;r<3;r++)for(let q=0;q<4;q++){const x0=Math.round(q*W/4),x1=Math.round((q+1)*W/4),y0=Math.round(r*H/3),y1=Math.round((r+1)*H/3),cw=x1-x0,ch=y1-y0;
+/* 묶음 그림을 cols×rows 칸으로 나눠 칸마다 가장 큰 덩어리(와 그 둘레 작은 조각)만 남겨 정사각 S px 로 */
+async function splitCells(p,src,cols,rows,S=256,strict=false){return p.evaluate(async([d,cols,rows,S,strict])=>{const {c,x,W,H}=await loadImg(d);
+    const seeds=[];for(let cx=1;cx<cols;cx++){const X=Math.round(cx*W/cols);for(let Y=0;Y<H;Y++)seeds.push(Y*W+X)}for(let cy=1;cy<rows;cy++){const Y=Math.round(cy*H/rows);for(let X=0;X<W;X++)seeds.push(Y*W+X)}
+    clearWhite(x,W,H,seeds,strict);const id=x.getImageData(0,0,W,H),a=id.data,outs=[],pad=Math.round(S*.04);
+    for(let r=0;r<rows;r++)for(let q=0;q<cols;q++){const x0=Math.round(q*W/cols),x1=Math.round((q+1)*W/cols),y0=Math.round(r*H/rows),y1=Math.round((r+1)*H/rows),cw=x1-x0,ch=y1-y0;
       const lab=new Int32Array(cw*ch).fill(-1),comps=[];
       for(let Y=0;Y<ch;Y++)for(let X=0;X<cw;X++){const k=Y*cw+X;if(lab[k]>=0||a[((Y+y0)*W+X+x0)*4+3]<=40)continue;const idn=comps.length,st=[k];lab[k]=idn;let n=0,edge=false;
         while(st.length){const m=st.pop();n++;const mx=m%cw,my=(m/cw)|0;if(mx===0||my===0||mx===cw-1||my===ch-1)edge=true;
@@ -54,9 +58,15 @@ async function splitSheet(p,src,dir,prefix){const outs=await p.evaluate(async d=
       if(rr<l){outs.push(null);continue}
       const w=rr-l+1,h=bt-t+1,sc=(S-pad*2)/Math.max(w,h),o=document.createElement('canvas');o.width=o.height=S;const ox=o.getContext('2d');ox.imageSmoothingQuality='high';
       ox.drawImage(c,l,t,w,h,(S-w*sc)/2,(S-h*sc)/2,w*sc,h*sc);outs.push({u:o.toDataURL('image/webp',.9),w,h,area:comps.length?big:0})}
-    return outs},dataUrl(src));
+    return outs},[dataUrl(src),cols,rows,S,strict])}
+async function splitSheet(p,src,dir,prefix){const outs=await splitCells(p,src,4,3,256,false);
   const msg=[];outs.forEach((o,k)=>{const f=path.join(dir,`${prefix}_${String(k).padStart(2,'0')}.webp`);if(!o){msg.push(`${k}: ⚠ 비어 있음`);return}writeUrl(f,o.u)});
   const empty=outs.filter(o=>!o).length;return `물건 ${12-empty}/12개${empty?' · ⚠ 빈 칸 '+empty+'개':''}`}
+async function splitNamed(p,src,it){const cols=it.cols||4,rows=it.rows||3,names=it.names||[];
+  if(names.length>cols*rows)throw new Error(`names ${names.length}개 > 칸 ${cols*rows}개`);
+  const outs=await splitCells(p,src,cols,rows,it.size||256,!!it.strict);let n=0,miss=[];
+  names.forEach((nm,k)=>{if(!nm)return;if(!outs[k]){miss.push(nm);return}String(nm).split('|').forEach(f=>{writeUrl(path.join(A,f),outs[k].u);n++})});
+  return `${cols}×${rows} 칸 → 그림 ${n}개${miss.length?' · ⚠ 빈 칸: '+miss.join(', '):''}`}
 
 /* ---------- 그림 목록 다시 만들기 (게임이 읽는 assets/art-manifest.js) ---------- */
 async function buildArtManifest(p){
@@ -68,11 +78,14 @@ async function buildArtManifest(p){
   const items={};const idir=path.join(A,'items');if(fs.existsSync(idir)){const fsn=fs.readdirSync(idir);const zones=new Set(fsn.map(n=>(n.match(/^([a-z]+)_\d\d\.webp$/)||[])[1]).filter(Boolean));
     zones.forEach(z=>{if([...Array(12)].every((_,k)=>fsn.includes(`${z}_${String(k).padStart(2,'0')}.webp`)))items[z]=true})}
   const npc={};fs.readdirSync(A).forEach(n=>{const m=n.match(/^npc_([a-z]+(?:_[12])?)\.webp$/);if(m)npc[m[1]]=rel(n)});
+  /* 놀이별 그림 묶음: assets/<묶음>/<이름>.webp → ART.pack[묶음][이름] (block · match · drop · monsters) */
+  const pack={};['block','match','drop','monsters'].forEach(d=>{const dir=path.join(A,d);if(!fs.existsSync(dir))return;const o={};fs.readdirSync(dir).filter(n=>/.webp$/.test(n)).sort().forEach(n=>o[n.replace(/.webp$/,'')]=rel(d+'/'+n));if(Object.keys(o).length)pack[d]=o});
   const ART={hub_bg:has('hub_bg.webp')?rel('hub_bg.webp'):null,map_sea:has('map_sea.webp')?rel('map_sea.webp'):null,merge_bg:has('merge_bg.webp')?rel('merge_bg.webp'):null,
-    isle_home:has('isle_home.webp')?rel('isle_home.webp'):null,isles,isleBox,items,npc};
+    isle_home:has('isle_home.webp')?rel('isle_home.webp'):null,isles,isleBox,items,npc,pack};
+  ['block_bg','match_bg','drop_bg'].forEach(k=>{ART[k]=has(k+'.webp')?rel(k+'.webp'):null});
   const js=`/* 자동 생성 파일 — scripts/process-assets.js 가 assets 폴더를 훑어서 만들어요. 손으로 고치지 마세요.\n   게임(index.html)은 이 목록에 있는 그림만 쓰고, 없는 것은 코드로 그린 그림을 대신 써요. */\nwindow.ART_FILES=${JSON.stringify(ART,null,1)};\n`;
   fs.writeFileSync(path.join(A,'art-manifest.js'),js);
-  return `그림 목록: 섬 ${isles.filter(Boolean).length}/10 · 물건 구역 ${Object.keys(items).length} (${Object.keys(items).join(', ')||'-'}) · 주민 ${Object.keys(npc).length} · 배경 ${['hub_bg','map_sea','merge_bg'].filter(k=>ART[k]).join(', ')}`;
+  return `그림 목록: 섬 ${isles.filter(Boolean).length}/10 · 물건 구역 ${Object.keys(items).length} (${Object.keys(items).join(', ')||'-'}) · 주민 ${Object.keys(npc).length} · 배경 ${['hub_bg','map_sea','merge_bg','block_bg','match_bg','drop_bg'].filter(k=>ART[k]).join(', ')} · 묶음 ${Object.entries(pack).map(([k,v])=>k+' '+Object.keys(v).length).join(', ')||'-'}`;
 }
 
 (async()=>{
@@ -87,6 +100,7 @@ async function buildArtManifest(p){
         else if(it.kind==='npc')r=await cutout(p,src,path.join(A,`npc_${it.zone}.webp`));
         else if(it.kind==='bg')r=await toWebp(p,src,path.join(A,`${it.out}.webp`));
         else if(it.kind==='item-sheet')r=await splitSheet(p,src,path.join(A,'items'),it.zone);
+        else if(it.kind==='sheet')r=await splitNamed(p,src,it);
         else {report.push(`⚠ ${it.target}: 모르는 종류 ${it.kind}`);fail++;continue}
         report.push(`✓ ${it.target} (${it.kind}) → ${r}`)}catch(e){report.push(`✗ ${it.target}: ${e.message}`);fail++}}
     report.push(await buildArtManifest(p));
