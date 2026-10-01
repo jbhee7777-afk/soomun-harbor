@@ -1,6 +1,50 @@
 {
-  "batch": "(없음)",
-  "createdAt": "2026-10-01T06:12:31.123Z",
-  "status": "idle",
-  "items": []
+  "batch": "items-character-career-democracy",
+  "createdAt": "2026-10-01T06:22:02.321Z",
+  "status": "processed",
+  "items": [
+    {
+      "target": "items_character_src",
+      "kind": "item-sheet",
+      "zone": "character",
+      "canvaMedia": "MAHWvl1px3c",
+      "canvaName": "AaD2Hg8kk8aXpdALON1-fg-AaD2Hg8kCyXAF-bWXDZR-A.jpg"
+    },
+    {
+      "target": "items_career_src",
+      "kind": "item-sheet",
+      "zone": "career",
+      "canvaMedia": "MAHWvn7iChc",
+      "canvaName": "AaD2HhFzdZ11YIUOsy1JPg-AaD2HhFzS_yzqF7NB1WARw.jpg"
+    },
+    {
+      "target": "items_democracy_src",
+      "kind": "item-sheet",
+      "zone": "democracy",
+      "canvaMedia": "MAHWvtO_zrM",
+      "canvaName": "AaD2HhO2aYa0He167-Ialw-AaD2HhO2urXSXmq0W95Dpw.jpg"
+    }
+  ],
+  "importedAt": "2026-10-01T06:24:18.9485597Z",
+  "imported": [
+    {
+      "target": "items_character_src",
+      "file": "items_character_src.jpg",
+      "from": "AaD2Hg8kk8aXpdALON1-fg-AaD2Hg8kCyXAF-bWXDZR-A.jpg",
+      "how": "이름"
+    },
+    {
+      "target": "items_career_src",
+      "file": "items_career_src.jpg",
+      "from": "AaD2HhFzdZ11YIUOsy1JPg-AaD2HhFzS_yzqF7NB1WARw.jpg",
+      "how": "이름"
+    },
+    {
+      "target": "items_democracy_src",
+      "file": "items_democracy_src.jpg",
+      "from": "AaD2HhO2aYa0He167-Ialw-AaD2HhO2urXSXmq0W95Dpw.jpg",
+      "how": "이름"
+    }
+  ],
+  "processedAt": "2026-10-01T06:24:30.304Z"
 }

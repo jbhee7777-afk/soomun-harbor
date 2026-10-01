@@ -80,6 +80,9 @@ window.ART_FILES={
   ]
  ],
  "items": {
+  "career": true,
+  "character": true,
+  "democracy": true,
   "safety": true
  },
  "npc": {}

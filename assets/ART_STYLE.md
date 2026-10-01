@@ -132,5 +132,8 @@ isle_0 에서 섬 뒤에 분홍 하늘이 조금 남았던 점을 막으려고 �
 | 묶음 | Canva media | 상태 |
 |---|---|---|
 | items_safety (안전·건강) | MAHWvQCBtvY | 적용됨 — 자동 분리 12개 → assets/items/safety_00~11.webp (256×256) |
+| items_character (인성 · 다정 꽃집) | MAHWvl1px3c | 적용됨 — 자동 분리 12개 (화분 상자, 씨앗, 새싹, 튤립, 해바라기, 꽃다발 / 하트 우체통, 연필, 쪽지, 하트 편지, 선물 상자, 하트 고리) |
+| items_career (진로 · 꿈틀 공방) | MAHWvn7iChc | 적용됨 — 자동 분리 12개 (서랍장, 크레용, 공책, 책 더미, 학사모, 트로피 / 발명 기계, 볼트, 렌치, 장난감 로봇, 로켓, 인공위성) |
+| items_democracy (민주시민 · 고래 마을회관) | MAHWvtO_zrM | 적용됨 — 자동 분리 12개 (서류 상자, 의견 쪽지, 클립보드, 투표함, 약속 두루마리, 마을회관 / 신문 가판대, 신문, 돋보기, 막대그래프, 확성기, 방송탑) |
 
 묶음 프롬프트 틀: "Game item icon sprite sheet: twelve separate small objects arranged in a neat grid of 4 columns and 3 rows on a pure plain flat white background, each object isolated with generous empty white space around it, no overlapping, nothing cropped, all objects the same size and seen from the same slight three-quarter top-down view. Row 1, left to right: … Row 2 … Row 3 … Hand-painted storybook game item art, rich painterly texture, warm golden rim light and soft cool indigo shadows, cute but not babyish, consistent style for a children's fantasy adventure game. No people, no characters, no text, no letters, no numbers, no labels." (LANDSCAPE_4_3)
