@@ -1,50 +1,50 @@
 {
-  "batch": "items-character-career-democracy",
-  "createdAt": "2026-10-01T06:22:02.321Z",
+  "batch": "items-rights-multi-unify",
+  "createdAt": "2026-10-01T06:36:04.977Z",
   "status": "processed",
   "items": [
     {
-      "target": "items_character_src",
+      "target": "items_rights_src",
       "kind": "item-sheet",
-      "zone": "character",
-      "canvaMedia": "MAHWvl1px3c",
-      "canvaName": "AaD2Hg8kk8aXpdALON1-fg-AaD2Hg8kCyXAF-bWXDZR-A.jpg"
+      "zone": "rights",
+      "canvaMedia": "MAHWvhhI318",
+      "canvaName": "AaD2LNG7dqfvoCbNwA9JQw-AaD2LNG7IsAp6SMvwmDp5w.jpg"
     },
     {
-      "target": "items_career_src",
+      "target": "items_multi_src",
       "kind": "item-sheet",
-      "zone": "career",
-      "canvaMedia": "MAHWvn7iChc",
-      "canvaName": "AaD2HhFzdZ11YIUOsy1JPg-AaD2HhFzS_yzqF7NB1WARw.jpg"
+      "zone": "multi",
+      "canvaMedia": "MAHWvvs-E8A",
+      "canvaName": "AaD2LNP65ift2unmxEMRAA-AaD2LNP65GdSwxPMG23u7w.jpg"
     },
     {
-      "target": "items_democracy_src",
+      "target": "items_unify_src",
       "kind": "item-sheet",
-      "zone": "democracy",
-      "canvaMedia": "MAHWvtO_zrM",
-      "canvaName": "AaD2HhO2aYa0He167-Ialw-AaD2HhO2urXSXmq0W95Dpw.jpg"
+      "zone": "unify",
+      "canvaMedia": "MAHWvpOCO2A",
+      "canvaName": "AaD2LNYolZwZNmSfUCVtCQ-AaD2LNYoth6R86Po6beHMQ.jpg"
     }
   ],
-  "importedAt": "2026-10-01T06:24:18.9485597Z",
+  "importedAt": "2026-10-01T06:38:06.8619022Z",
   "imported": [
     {
-      "target": "items_character_src",
-      "file": "items_character_src.jpg",
-      "from": "AaD2Hg8kk8aXpdALON1-fg-AaD2Hg8kCyXAF-bWXDZR-A.jpg",
+      "target": "items_rights_src",
+      "file": "items_rights_src.jpg",
+      "from": "AaD2LNG7dqfvoCbNwA9JQw-AaD2LNG7IsAp6SMvwmDp5w.jpg",
       "how": "이름"
     },
     {
-      "target": "items_career_src",
-      "file": "items_career_src.jpg",
-      "from": "AaD2HhFzdZ11YIUOsy1JPg-AaD2HhFzS_yzqF7NB1WARw.jpg",
+      "target": "items_multi_src",
+      "file": "items_multi_src.jpg",
+      "from": "AaD2LNP65ift2unmxEMRAA-AaD2LNP65GdSwxPMG23u7w.jpg",
       "how": "이름"
     },
     {
-      "target": "items_democracy_src",
-      "file": "items_democracy_src.jpg",
-      "from": "AaD2HhO2aYa0He167-Ialw-AaD2HhO2urXSXmq0W95Dpw.jpg",
+      "target": "items_unify_src",
+      "file": "items_unify_src.jpg",
+      "from": "AaD2LNYolZwZNmSfUCVtCQ-AaD2LNYoth6R86Po6beHMQ.jpg",
       "how": "이름"
     }
   ],
-  "processedAt": "2026-10-01T06:24:30.304Z"
+  "processedAt": "2026-10-01T06:38:19.784Z"
 }

@@ -83,7 +83,10 @@ window.ART_FILES={
   "career": true,
   "character": true,
   "democracy": true,
-  "safety": true
+  "multi": true,
+  "rights": true,
+  "safety": true,
+  "unify": true
  },
  "npc": {}
 };
