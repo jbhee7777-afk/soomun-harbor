@@ -101,6 +101,9 @@ isle_0 에서 섬 뒤에 분홍 하늘이 조금 남았던 점을 막으려고 �
 | npc_safety 하나 보건 선생님 | MAHWvnJicsg | 20대 후반, 단발 흑갈색 머리·빨간 십자 머리핀, 흰 가운·민트 블라우스·청진기, 작은 금색 등대 배지, 다정하고 믿음직한 미소 |
 | npc_career 공방지기 도윤 | MAHWvsdS6YE | 30대 초, 헝클어진 밤색 머리 위 황동 고글, 뺨의 그을음, 겨자색 셔츠·가죽 작업 앞치마(연필·렌치), 주황 톱니 배지, 신난 웃음 |
 | npc_unify 평화 역장 할아버지 | MAHWvg8NOI0 | 70대, 은백 머리·흰 콧수염·동그란 안경, 남색 역장 제복(금단추·하늘색 깃)과 금색 비둘기 모자, 은 회중시계 줄, 따뜻하고 그리운 미소 |
+| npc_character 민들레 할머니 | MAHWz4Mbifc | 적용됨 · 70대, 은회색 쪽머리에 민들레 꽃, 발그레한 볼, 라일락 니트 카디건·분홍 정원 앞치마(모종삽·꽃), 하트 나무 브로치, 다정한 미소 |
+| npc_democracy 고래 이장님 | MAHWz5lXC5c | 적용됨 · 50대, 관자놀이 희끗한 짧은 머리·짙은 수염, 귀 기울이는 차분한 미소, 파란 조끼·흰 셔츠·남색 스카프, 은 고래 핀, 둘둘 만 안내문 |
+| npc_rights 해솔 사서님 | MAHWzxjtD3A | 적용됨 · 30대 초, 옆으로 땋은 긴 흑발·동그란 뿔테 안경, 보라 터틀넥·자두색 카디건, 무지개 리본 핀, 품에 펼친 책, 격려하는 미소 |
 
 초상화 프롬프트 틀: "Hand-painted storybook bust portrait for a children's fantasy adventure game: [나이·외모·표정·의상·구역 소품]. Head and shoulders only, three-quarter view facing slightly left/right, the face is large and clearly readable, filling the upper two-thirds of the image, nothing cropped at the top of the head. Same art style as a painted storybook detective hero: soft clean painted shapes, gentle warm outlines, expressive eyes, cute but not babyish, natural proportions. Warm golden rim light and soft cool indigo shadows, rich painterly texture. Isolated on a pure plain flat white background, no scenery, no frame, no text, no letters." (SQUARE_1_1)
 

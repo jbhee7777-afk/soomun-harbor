@@ -1,50 +1,50 @@
 {
-  "batch": "npc-safety-career-unify",
-  "createdAt": "2026-10-01T06:57:51.685Z",
+  "batch": "npc-character-democracy-rights",
+  "createdAt": "2026-10-01T23:32:33.520Z",
   "status": "processed",
   "items": [
     {
-      "target": "npc_safety_src",
+      "target": "npc_character_src",
       "kind": "npc",
-      "zone": "safety",
-      "canvaMedia": "MAHWvnJicsg",
-      "canvaName": "AaD2P8Pao0o_-dU4QWEUnA-AaD2P8PaZtx8GPgOQJxyDw.jpg"
+      "zone": "character",
+      "canvaMedia": "MAHWz4Mbifc",
+      "canvaName": "AaD5z2sT0ArziILFOsGOgw-AaD5z2sTpz8BxxeHqFEBBQ.jpg"
     },
     {
-      "target": "npc_career_src",
+      "target": "npc_democracy_src",
       "kind": "npc",
-      "zone": "career",
-      "canvaMedia": "MAHWvsdS6YE",
-      "canvaName": "AaD2P8YCNBcSXhLNMwi-Wg-AaD2P8YCFG4eoko-3oUfBQ.jpg"
+      "zone": "democracy",
+      "canvaMedia": "MAHWz5lXC5c",
+      "canvaName": "AaD5z204y90MMjyZVIwmtQ-AaD5z2057HqwyBNsCOrFDw.jpg"
     },
     {
-      "target": "npc_unify_src",
+      "target": "npc_rights_src",
       "kind": "npc",
-      "zone": "unify",
-      "canvaMedia": "MAHWvg8NOI0",
-      "canvaName": "AaD2P8gkTJx8NOl5zYprcQ-AaD2P8gkOpqtGXBbdrKt1w.jpg"
+      "zone": "rights",
+      "canvaMedia": "MAHWzxjtD3A",
+      "canvaName": "AaD5z2_jiM32__-f60iQwA-AaD5z2_jUSTkSDT4xH2fcg.jpg"
     }
   ],
-  "importedAt": "2026-10-01T07:02:59.4061235Z",
+  "importedAt": "2026-10-01T23:33:58.8864349Z",
   "imported": [
     {
-      "target": "npc_safety_src",
-      "file": "npc_safety_src.jpg",
-      "from": "AaD2P8Pao0o_-dU4QWEUnA-AaD2P8PaZtx8GPgOQJxyDw.jpg",
+      "target": "npc_character_src",
+      "file": "npc_character_src.jpg",
+      "from": "AaD5z2sT0ArziILFOsGOgw-AaD5z2sTpz8BxxeHqFEBBQ.jpg",
       "how": "이름"
     },
     {
-      "target": "npc_career_src",
-      "file": "npc_career_src.jpg",
-      "from": "AaD2P8YCNBcSXhLNMwi-Wg-AaD2P8YCFG4eoko-3oUfBQ.jpg",
+      "target": "npc_democracy_src",
+      "file": "npc_democracy_src.jpg",
+      "from": "AaD5z204y90MMjyZVIwmtQ-AaD5z2057HqwyBNsCOrFDw.jpg",
       "how": "이름"
     },
     {
-      "target": "npc_unify_src",
-      "file": "npc_unify_src.jpg",
-      "from": "AaD2P8gkTJx8NOl5zYprcQ-AaD2P8gkOpqtGXBbdrKt1w.jpg",
+      "target": "npc_rights_src",
+      "file": "npc_rights_src.jpg",
+      "from": "AaD5z2_jiM32__-f60iQwA-AaD5z2_jUSTkSDT4xH2fcg.jpg",
       "how": "이름"
     }
   ],
-  "processedAt": "2026-10-01T07:03:10.781Z"
+  "processedAt": "2026-10-01T23:34:12.234Z"
 }

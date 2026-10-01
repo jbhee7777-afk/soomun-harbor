@@ -93,6 +93,9 @@ window.ART_FILES={
  },
  "npc": {
   "career": "assets/npc_career.webp",
+  "character": "assets/npc_character.webp",
+  "democracy": "assets/npc_democracy.webp",
+  "rights": "assets/npc_rights.webp",
   "safety": "assets/npc_safety.webp",
   "unify": "assets/npc_unify.webp"
  }
