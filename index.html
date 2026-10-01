@@ -667,6 +667,191 @@ body.tts-on .tts{display:inline-flex}
   .rsec q,.rsec b{font-size:21px}
   .clue li{font-size:18px}
 }
+/* ===== 구역 허브: 해 질 녘 항구 장면 (던전 아트 방향) ===== */
+#hub{position:relative;overflow:hidden;padding:0;background:#120C22}
+#hub .hubwrap{max-width:none;margin:0;display:block;height:100%}
+.hx{position:relative;height:100%;width:100%;overflow:hidden;background:#120C22;font-family:var(--disp);color:#fff;
+  --wood1:#C98F55;--wood2:#8A552B;--wood3:#4E2C14;--gold:#FFD24A;--ink:#2A1A0E}
+.hxscroll{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.hxscroll::-webkit-scrollbar{display:none}
+.hxworld{display:block;width:100%;height:100%}
+.hxworld.port{width:auto;height:100%;aspect-ratio:1680/774}
+.hxswipe{position:absolute;top:50%;width:34px;height:64px;margin-top:-32px;pointer-events:none;opacity:.75;animation:hxsw 1.6s ease-in-out infinite}
+.hxswipe::before{content:"";position:absolute;inset:14px 8px;border:solid #FFE27A;border-width:0 0 6px 6px;border-radius:3px;transform:rotate(45deg);filter:drop-shadow(0 0 6px #FFB000)}
+.hxswipe.l{left:4px}.hxswipe.r{right:4px;transform:scaleX(-1)}
+@keyframes hxsw{50%{opacity:.25}}
+.hxvig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 52%,transparent 50%,rgba(10,4,20,.45) 82%,rgba(6,2,12,.8) 100%)}
+/* 장면 움직임 */
+.hxtw{animation:hxtw 3s ease-in-out infinite;animation-delay:var(--dl)}
+@keyframes hxtw{50%{opacity:.25}}
+.hxflick{animation:hxflick 1.4s ease-in-out infinite alternate}
+@keyframes hxflick{0%{opacity:.72}45%{opacity:1}75%{opacity:.84}100%{opacity:.95}}
+.hxbeam{animation:hxbeam 7s ease-in-out infinite alternate}
+@keyframes hxbeam{0%{transform:rotate(-14deg)}100%{transform:rotate(24deg)}}
+.hxdrift{animation:hxdrift 26s ease-in-out infinite alternate}
+@keyframes hxdrift{to{transform:translateX(60px)}}
+.hxdrift2{animation:hxdrift2 12s ease-in-out infinite alternate}
+@keyframes hxdrift2{to{transform:translate(40px,-6px)}}
+.hxfogtail{animation:hxfogtail 5s ease-in-out infinite alternate}
+@keyframes hxfogtail{to{transform:translateX(-40px)}}
+.hxshim{animation:hxshim 2.2s ease-in-out infinite;animation-delay:var(--dl)}
+@keyframes hxshim{50%{opacity:.35}}
+.hxwaves{animation:hxwv 6s ease-in-out infinite alternate}
+@keyframes hxwv{to{transform:translateX(22px)}}
+.hxbob{animation:hxbob 4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes hxbob{50%{transform:translateY(-5px) rotate(-1.2deg)}}
+.hxsmoke{animation:hxsmoke 4s ease-in-out infinite}
+@keyframes hxsmoke{to{transform:translateY(-14px);opacity:.2}}
+.hxblink{transform-box:fill-box;transform-origin:center;animation:hxblink 4.4s infinite}
+@keyframes hxblink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+.hxhero{transform-box:fill-box;transform-origin:50% 100%;animation:hxbreathe 3.2s ease-in-out infinite}
+@keyframes hxbreathe{50%{transform:scale(1.012,1.028)}}
+.hxgull{transform-box:fill-box;transform-origin:50% 100%;animation:hxgull 2.6s ease-in-out infinite}
+@keyframes hxgull{0%,70%,100%{transform:rotate(0)}80%{transform:rotate(-6deg)}90%{transform:rotate(4deg)}}
+.hxsparkle{animation:hxflick 1.8s ease-in-out infinite alternate}
+.hx .mote{animation:mote var(--d) linear infinite;animation-delay:var(--dl)}
+@keyframes mote{0%{transform:translate(0,0);opacity:0}15%{opacity:.9}100%{transform:translate(30px,-140px);opacity:0}}
+.hx .dust{animation:hxdust 1.8s ease-in-out infinite;animation-delay:var(--dl);transform-box:fill-box;transform-origin:center}
+@keyframes hxdust{0%,100%{opacity:.35;transform:scale(.7)}50%{opacity:1;transform:scale(1.2)}}
+.hxsign{font-family:var(--disp);font-size:18px;fill:#FFE27A}
+/* 놀이 장소: 던전과 같은 반짝 고리 + 양피지 이름표 */
+.hxspot{cursor:pointer;outline:none}
+.hxspot .ring{fill:none;stroke:#FFE27A;stroke-width:5;opacity:.9;transform-box:fill-box;transform-origin:center;animation:hxring 1.6s ease-out infinite}
+.hxspot .ring2{fill:rgba(255,226,122,.25);stroke:#FFF3C0;stroke-width:3}
+@keyframes hxring{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.35);opacity:0}}
+.hxspot .tag{animation:hxtag 1.4s ease-in-out infinite alternate}
+@keyframes hxtag{to{transform:translateY(-8px)}}
+.hxspot .tagbg{fill:#F7E9C9;stroke:#6B3D1F;stroke-width:4;filter:drop-shadow(0 5px 0 rgba(0,0,0,.4))}
+.hxspot:hover .tagbg,.hxspot:focus-visible .tagbg{fill:#FFF3C4}
+.hxspot:hover .ring2,.hxspot:focus-visible .ring2{fill:rgba(255,226,122,.5)}
+.hxspot:focus-visible .tagbg{stroke:#FFD24A;stroke-width:6}
+.hxt1{font-family:var(--disp);font-size:27px;fill:#3A1F0C}
+.hxt2{font-family:var(--disp);font-size:16px;fill:#8A552B}
+.hxt3{font-family:var(--disp);font-size:15px;fill:#A3303C}
+/* HUD (던전과 같은 액자 · 명판 · 임무 띠 · 슬롯) */
+.hxhud{position:absolute;left:0;right:0;top:0;display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:max(10px,env(safe-area-inset-top)) 12px 0;pointer-events:none}
+.hxL,.hxR{display:flex;align-items:center;gap:6px;pointer-events:auto}
+.hxC{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;min-width:0}
+.hxportrait{width:74px;height:74px;border-radius:50%;flex:none;overflow:hidden;background:radial-gradient(circle at 40% 35%,#4B3A6A,#1B1230);border:5px solid #D9A441;box-shadow:0 0 0 3px #4E2C14,0 6px 14px rgba(0,0,0,.6),inset 0 0 12px rgba(0,0,0,.6)}
+.hxportrait img{width:170%;margin:-6% 0 0 -35%;display:block}
+.hxslot{position:relative;width:60px;height:60px;border-radius:14px;flex:none;display:grid;place-items:center;padding:0;background:radial-gradient(circle at 50% 40%,#3A2A4C,#140C1E);border:4px solid #8A5B1C;box-shadow:0 0 0 2px #2A1A0A,0 6px 10px rgba(0,0,0,.5),inset 0 0 10px rgba(0,0,0,.7)}
+.hxslot svg{width:64%;height:64%}
+.hxbtn{cursor:pointer;transition:transform .08s}.hxbtn:active{transform:translateY(2px)}
+.hxbtn:focus-visible{outline:3px solid #FFD24A;outline-offset:2px}
+.hxstars b{position:absolute;right:-8px;bottom:-9px;min-width:30px;height:28px;padding:0 6px;box-sizing:border-box;border-radius:999px;background:linear-gradient(#FFE27A,#E0A020);color:#3A1F0C;display:grid;place-items:center;font-weight:400;font-size:18px;border:2px solid #4E2C14}
+.hxclues{display:flex;gap:3px;padding:6px 8px;border-radius:14px;background:linear-gradient(#3B2A1C,#24170E);border:3px solid #8A5B1C;box-shadow:0 4px 0 rgba(0,0,0,.4)}
+.hxclue{width:26px;height:32px;display:grid;place-items:center}
+.hxclue img{width:100%;height:100%;object-fit:contain;filter:grayscale(1) brightness(.45);opacity:.6}
+.hxclue.on img{filter:drop-shadow(0 0 6px #FFE27A);opacity:1}
+.hxclue.pop{animation:hxpop .9s cubic-bezier(.2,1.6,.4,1)}
+@keyframes hxpop{0%{transform:scale(.3)}60%{transform:scale(1.4)}100%{transform:none}}
+.hxplaque{position:relative;min-width:210px;text-align:center;padding:6px 26px 8px;background:linear-gradient(180deg,#6A5A78,#3B2D4C);border:3px solid #A894B8;border-radius:10px 10px 22px 22px;box-shadow:0 0 0 3px #1A1224,0 8px 16px rgba(0,0,0,.5),inset 0 2px 0 rgba(255,255,255,.2)}
+.hxplaque::before,.hxplaque::after{content:"";position:absolute;top:10px;width:8px;height:8px;border-radius:50%;background:radial-gradient(#FFF4C0,#B8862A);box-shadow:0 1px 0 #000}
+.hxplaque::before{left:10px}.hxplaque::after{right:10px}
+.hxplaque small{display:block;font-size:15px;color:#CBB8FF;letter-spacing:.06em}
+.hxplaque b{font-weight:400;font-size:24px;text-shadow:0 2px 0 #1A1224}
+.hxquest{display:flex;align-items:center;gap:8px;max-width:min(560px,92vw);padding:6px 16px 6px 8px;background:linear-gradient(90deg,rgba(40,18,6,.92),rgba(70,36,12,.85));border:2px solid #D9A441;border-radius:999px;box-shadow:0 4px 12px rgba(0,0,0,.5);font-size:18px}
+.hxquest .qi{flex:none;background:linear-gradient(#FFE27A,#D9A441);color:#3A1F0C;border-radius:999px;padding:2px 10px;font-size:15px}
+.hxquest .qt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hxlesson{display:flex;flex-direction:column;padding:4px 12px;border-radius:12px;background:linear-gradient(#3B2A1C,#24170E);border:2px solid #8A5B1C;font-size:18px}
+.hxlesson small{font-size:13px;color:#FFE9A8}
+/* 주민 대화 (던전 양피지 대화창) */
+.hxdlg{position:absolute;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(860px,calc(100% - 20px));box-sizing:border-box;display:flex;gap:12px;align-items:center;padding:10px 14px;border-radius:22px;
+  background:linear-gradient(180deg,#FBF0D4,#ECD5A4);color:#2A1A0E;border:4px solid #6B3D1F;box-shadow:0 0 0 3px #D9A441,0 14px 28px rgba(0,0,0,.6),inset 0 0 30px rgba(150,100,40,.25);animation:hxdlgin .4s cubic-bezier(.2,1.4,.4,1)}
+@keyframes hxdlgin{from{transform:translate(-50%,40px);opacity:0}}
+.hxpframe{flex:none;width:80px;height:80px;border-radius:18px;overflow:hidden;border:4px solid #8A5B1C;line-height:0}
+.hxpframe svg{width:100%;height:100%}
+.hxdbody{flex:1;min-width:0;display:flex;flex-direction:column}
+.hxdname{font-weight:400;font-size:18px;color:#A3303C}
+.hxdtext{margin:1px 0 6px;font-size:clamp(17px,2vw,21px);line-height:1.4}
+.hxdbtns{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;flex-direction:row-reverse}
+.hxplank{min-height:44px;padding:6px 16px;border-radius:12px;font-family:var(--disp);font-size:18px;color:#FFF8E6;text-shadow:0 2px 0 #3A1F0C;cursor:pointer;
+  background:linear-gradient(180deg,#C98F55,#8A552B);border:3px solid #4E2C14;box-shadow:inset 0 2px 0 rgba(255,255,255,.25),0 5px 0 #3A1F0C;display:inline-flex;align-items:center;gap:6px;transition:transform .08s}
+.hxplank:active{transform:translateY(3px);box-shadow:inset 0 2px 0 rgba(255,255,255,.25),0 2px 0 #3A1F0C}
+.hxplank.hot{background:linear-gradient(180deg,#FFCF5A,#E08A1A);animation:hxhot 1.2s ease-in-out infinite alternate}
+@keyframes hxhot{to{box-shadow:inset 0 2px 0 rgba(255,255,255,.3),0 5px 0 #3A1F0C,0 0 22px #FFCF5A}}
+.hxplank .cnt{font-weight:400;background:#FFF3D6;color:#8A552B;border-radius:999px;padding:0 8px;text-shadow:none}
+.hxcost{display:inline-flex;align-items:center;gap:2px}.hxcost svg{width:20px;height:20px}
+@media (max-width:640px){
+  .hxportrait{width:54px;height:54px}.hxslot{width:46px;height:46px}.hxclue{width:20px;height:26px}
+  .hxhud{flex-wrap:wrap}.hxC{order:3;flex-basis:100%}
+  .hxplaque{min-width:0;padding:4px 18px 6px}.hxplaque b{font-size:19px}.hxplaque small{font-size:13px}
+  .hxquest{font-size:15px}.hxpframe{width:58px;height:58px}.hxplank{font-size:16px;padding:5px 11px;min-height:40px}
+  .hxdlg{padding:8px 10px;gap:8px;align-items:flex-start}.hxdtext{font-size:15px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .hxdbtns{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;margin-left:-66px;padding-bottom:4px;scrollbar-width:none}.hxdbtns .hxplank{flex:none}
+}
+
+/* ===== 게임 전체: 던전과 같은 양피지 · 나무 단추 (파스텔 카드 대신) ===== */
+#modal{background:rgba(10,6,20,.62)}
+.sheet{background:linear-gradient(180deg,#FBF0D4,#ECD5A4);background-image:linear-gradient(180deg,#FBF0D4,#ECD5A4);color:#2A1A0E;border:4px solid #6B3D1F;border-radius:24px;
+  box-shadow:0 0 0 3px #D9A441,0 18px 36px rgba(0,0,0,.6),inset 0 0 40px rgba(150,100,40,.22)}
+.sheet h2{color:#4A240E;text-shadow:0 2px 0 rgba(255,255,255,.5)}
+.sheet .note,.note{color:#6B4A2E}
+.x{background:#6B3D1F;color:#FFE9C2;box-shadow:0 3px 0 #3A1F0C}
+.cbtn{background:linear-gradient(180deg,#C98F55,#8A552B);border:3px solid #4E2C14;box-shadow:inset 0 2px 0 rgba(255,255,255,.25),0 5px 0 #3A1F0C;color:#FFF8E6;text-shadow:0 2px 0 #3A1F0C;border-radius:14px}
+.cbtn:active{box-shadow:inset 0 2px 0 rgba(255,255,255,.25),0 2px 0 #3A1F0C}
+.cbtn.mint{background:linear-gradient(180deg,#5FC79E,#2E7D60);border-color:#173F30;box-shadow:inset 0 2px 0 rgba(255,255,255,.3),0 5px 0 #173F30}
+.cbtn.butter{background:linear-gradient(180deg,#FFCF5A,#E08A1A);border-color:#6B3D0C;color:#3A1F0C;text-shadow:0 1px 0 rgba(255,255,255,.4);box-shadow:inset 0 2px 0 rgba(255,255,255,.35),0 5px 0 #6B3D0C}
+.cbtn.lav{background:linear-gradient(180deg,#9A82E6,#5A44A8);border-color:#2A1C5A;box-shadow:inset 0 2px 0 rgba(255,255,255,.3),0 5px 0 #2A1C5A}
+.cbtn.ghost{background:linear-gradient(180deg,#F7E9C9,#E2C796);color:#4A240E;text-shadow:none;border-color:#8A5B1C;box-shadow:0 5px 0 #8A5B1C}
+.opt{background:linear-gradient(180deg,#FFF6E0,#F3E0B8);border:2px solid #C9A46A;box-shadow:0 4px 0 #A8834A;color:#2A1A0E}
+.opt b{background:#6B3D1F;color:#FFE9C2}
+.opt.right{background:linear-gradient(180deg,#B9F0D2,#7FD6A8);box-shadow:0 4px 0 #2E7D60}
+.opt.wrong{background:linear-gradient(180deg,#FFC9C9,#F09090);box-shadow:0 4px 0 #A33A3A}
+.explain.good{background:rgba(127,214,168,.3);border:2px solid #2E7D60}
+.explain.bad{background:rgba(240,144,144,.25);border:2px solid #A33A3A}
+.qhead .tag{background:#6B3D1F!important;color:#FFE9C2}
+.tst{background:linear-gradient(90deg,rgba(40,18,6,.95),rgba(70,36,12,.92));color:#FFF3D6;border:2px solid #D9A441;box-shadow:0 6px 16px rgba(0,0,0,.45)}
+#coach .cbox .bubble{background:linear-gradient(180deg,#FBF0D4,#ECD5A4);border:4px solid #6B3D1F;box-shadow:0 0 0 3px #D9A441,0 10px 20px rgba(0,0,0,.5);color:#2A1A0E}
+#coach .spot{box-shadow:0 0 0 9999px rgba(8,4,18,.62)}
+#coach .ring{border-color:#FFD24A}
+
+/* ===== 첫 화면: 해 질 녘 군도 지도 ===== */
+#map{position:relative;overflow:hidden;padding:0;background:#0E1334}
+.mx{position:relative;height:100%;width:100%;overflow:hidden;font-family:var(--disp);color:#fff;background:#0E1334}
+.mxscroll{position:absolute;inset:0;overflow:hidden}
+.mxscroll.port{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.mxscroll.port::-webkit-scrollbar{display:none}
+.mxworld{display:block;width:100%;height:100%}
+.mxscroll.port .mxworld{height:auto}
+.mxroute{fill:none;stroke:#FFE27A;stroke-width:5;stroke-linecap:round;stroke-dasharray:2 16;opacity:.45}
+.mxroute.hot{opacity:.95;stroke-width:7;filter:drop-shadow(0 0 6px #FFCC33);animation:march 1s linear infinite}
+@keyframes march{to{stroke-dashoffset:-18}}
+.mxsurf{animation:hxshim 3s ease-in-out infinite}
+.mxz{cursor:pointer;outline:none}
+.mxz .ring{fill:none;stroke:#FFE27A;stroke-width:5;opacity:.85;transform-box:fill-box;transform-origin:center;animation:hxring 1.8s ease-out infinite}
+.mxz .ring2{fill:rgba(255,226,122,.18);stroke:#FFF3C0;stroke-width:3}
+.mxz .tag{animation:hxtag 1.5s ease-in-out infinite alternate}
+.mxz .tagbg{fill:#F7E9C9;stroke:#6B3D1F;stroke-width:4;filter:drop-shadow(0 5px 0 rgba(0,0,0,.4))}
+.mxz .mxb{transition:transform .18s;transform-box:fill-box;transform-origin:50% 100%}
+.mxz:hover .mxb,.mxz:focus-visible .mxb{transform:translateY(-6px) scale(1.06)}
+.mxz:hover .tagbg,.mxz:focus-visible .tagbg{fill:#FFF3C4}
+.mxz:focus-visible .tagbg{stroke:#FFD24A;stroke-width:6}
+.mxz.done .ring{stroke:#9FF5C8}
+.mxz.rec .ring{stroke-width:7}
+.mxfog{animation:hxdrift2 7s ease-in-out infinite alternate}
+.mxflag .mxpen{transform-box:fill-box;transform-origin:0 50%;animation:mxwave 1.4s ease-in-out infinite alternate}
+@keyframes mxwave{to{transform:skewY(-6deg) scaleX(.94)}}
+.mxflagt{font-family:var(--disp);font-size:15px;fill:#3A1F0C}
+.mxseal{font-family:var(--disp);font-size:12px;fill:#FFE0D8}
+.mxhome{fill:rgba(40,18,6,.88);stroke:#D9A441;stroke-width:3;rx:20}
+.mxhomet{font-family:var(--disp);font-size:20px;fill:#FFE9A8}
+.mxgrade{display:flex!important;flex-direction:column;align-items:center;justify-content:center;line-height:1;color:#FFE27A}
+.mxgrade b{font-weight:400;font-size:26px}.mxgrade small{font-size:12px;color:#FFE9C2}
+.mxshelf{position:absolute;left:50%;bottom:max(10px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;gap:10px;max-width:calc(100% - 20px);box-sizing:border-box;padding:6px 12px;border-radius:18px;
+  background:linear-gradient(180deg,#FBF0D4,#ECD5A4);border:4px solid #6B3D1F;box-shadow:0 0 0 3px #D9A441,0 10px 22px rgba(0,0,0,.55)}
+.mxshelft{display:flex;flex-direction:column;color:#4A240E;line-height:1.1;flex:none}
+.mxshelft small{font-size:13px;color:#8A552B}.mxshelft b{font-weight:400;font-size:18px;white-space:nowrap}
+.mxcards b{position:absolute;right:-10px;bottom:-9px;min-width:34px;height:24px;padding:0 5px;box-sizing:border-box;border-radius:999px;background:linear-gradient(#FFE27A,#E0A020);color:#3A1F0C;display:grid;place-items:center;font-weight:400;font-size:14px;border:2px solid #4E2C14}
+.mxcardgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;margin-top:12px}
+.mxcardgrid .mxmed{width:auto;height:auto;border-radius:16px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 4px 8px;font-family:var(--disp);font-size:14px;color:#FFE9C2;line-height:1.2}
+.mxcardgrid .mxmed svg{width:70px;height:70px}
+.mxmed{width:46px;height:46px;flex:none;border-radius:50%;padding:0;border:3px solid #5A3A20;background:#1B1230;overflow:hidden;box-shadow:inset 0 0 8px rgba(0,0,0,.7);cursor:pointer}
+.mxmed svg{width:100%;height:100%;display:block}
+.mxmed:not(.got) svg{filter:grayscale(1) brightness(.4)}
+.mxmed.got{border-color:#E0A020;box-shadow:0 0 0 2px #FFE27A,0 0 12px rgba(255,210,74,.8)}
+
+
 </style>
 </head><body>
 <!-- 소문 팡팡 보물 그림 (SVG symbol: mt0~mt5, 진주 mtP, 특수 효과 mspLine·mspWhirl, 목표 별 miStar) -->
@@ -771,24 +956,7 @@ body.tts-on .tts{display:inline-flex}
 </svg>
 
 <div id="app">
-  <section id="map" class="screen">
-    <div class="mapwrap">
-      <div class="hero" id="hero">
-        <div class="logo"><h1>소문 항구 탐정단</h1><br><p>합치고 · 쌓고 · 모험하며 소문의 진실을 밝혀요!</p></div>
-        <div class="herobtns">
-          <button class="ibtn gradeb" id="btnGrade" aria-label="학년 바꾸기" title="학년 바꾸기"><b id="gradeV">?</b><small>학년</small></button>
-          <button class="ibtn" id="btnGuide" aria-label="선생님 수업 모드" title="선생님 수업 모드"><span class="em">🍎</span></button>
-          <button class="ibtn" id="btnSet" aria-label="설정" title="설정"><span class="em">⚙️</span></button>
-        </div>
-      </div>
-      <div class="sect"><h2>항구 마을 지도</h2><span>건물을 눌러 들어가요 · 작은 화면에서는 옆으로 밀어 봐요</span></div>
-      <div class="hmap" id="hmap"></div>
-      <div class="sect"><h2>구역 안내판</h2><span>소문과 단서 진행을 한눈에</span></div>
-      <div class="tiles" id="tiles"></div>
-      <div class="sect"><h2>진실 카드 도감</h2><span id="cardCount"></span></div>
-      <div class="tcards" id="tcards"></div>
-    </div>
-  </section>
+  <section id="map" class="screen"><div class="mx" id="mx"></div></section>
 
   <section id="hub" class="screen" hidden><div class="hubwrap" id="hubwrap"></div></section>
 
@@ -1787,12 +1955,9 @@ function goHub(ci){
   if(!c.intro) showIntro(CI,after); else after();
 }
 
-/* ---------- 항구 마을 그림 지도 (SVG): 10개 구역 건물 · 단서 진행 · 학년 추천 ---------- */
-const HPOS=[[150,170],[300,250],[470,165],[640,240],[820,165],[150,420],[345,445],[880,390],[560,405],[725,500]];
-/* 구역마다 다른 건물 (색은 구역 색) */
 function hBuilding(k,t,d){
-  const wall='#FFF7EA', st=`stroke="${d}" stroke-width="3" stroke-linejoin="round"`;
-  const win=(x,y)=>`<rect x="${x}" y="${y}" width="12" height="12" rx="3" fill="#9FD8FF" ${st}/>`;
+  const wall='url(#mxWall)', st=`stroke="${d}" stroke-width="3" stroke-linejoin="round"`;
+  const win=(x,y)=>`<rect x="${x}" y="${y}" width="12" height="12" rx="3" fill="#FFD27A" ${st}/>`;
   switch(k){
     case 0: return `<path d="M-14 0 L-10 -78 H10 L14 0Z" fill="${wall}" ${st}/><path d="M-12.5 -26 H12.5 L13.3 -12 H-13.3Z M-11 -54 H11 L11.8 -40 H-11.8Z" fill="${t}"/><rect x="-14" y="-92" width="28" height="16" rx="4" fill="#FFE27A" ${st}/><path d="M-17 -92 L0 -108 L17 -92Z" fill="${t}" ${st}/><circle class="hbeam" cx="0" cy="-84" r="22" fill="url(#hgGlow)"/>`;
     case 1: return `<rect x="-26" y="-36" width="52" height="36" rx="4" fill="${wall}" ${st}/><path d="M-32 -34 L0 -60 L32 -34Z" fill="${t}" ${st}/><rect x="-7" y="-20" width="14" height="20" rx="3" fill="${d}"/>${win(-21,-28)}${win(9,-28)}<g fill="#FF8FB1"><circle cx="-24" cy="-2" r="5"/><circle cx="-16" cy="-1" r="4" fill="#FFD66B"/><circle cx="18" cy="-2" r="5"/><circle cx="26" cy="-1" r="4" fill="#BBA9FF"/></g>`;
@@ -1807,109 +1972,354 @@ function hBuilding(k,t,d){
   }
   return '';
 }
-function renderHarborMap(){
-  const el=$('#hmap'); if(!el) return;
-  const g=curGrade();
-  const zones=CH.map((ch,i)=>{
-    const [x,y]=HPOS[i]||[500,300], lw=Math.max(110,[...ch.place].length*17+26), ay=i===0?-124:i===7?-108:-84, c=S.ch[ch.id], st=c?c.step:0, done=!!(c&&c.done), rec=g&&(ch.grades||[]).includes(g);
-    return `<g class="hz ${done?'done':''} ${rec?'rec':''}" data-i="${i}" transform="translate(${x} ${y})" tabindex="0" role="button" aria-label="${esc(ch.place)} 들어가기">
-      <ellipse cx="0" cy="4" rx="46" ry="12" fill="rgba(40,70,40,.18)"/>
-      ${rec?`<ellipse class="hrec" cx="0" cy="2" rx="52" ry="15" fill="none" stroke="#FFE27A" stroke-width="4"/>`:''}
-      <g class="hb">${hBuilding(i,ch.tint,ch.tintD||mix(ch.tint,'#000000',.35))}</g>
-      <g transform="translate(0 30)"><rect x="${-lw/2}" y="-14" width="${lw}" height="28" rx="14" fill="#fff" stroke="${ch.tint}" stroke-width="3"/>
-        <text y="6" text-anchor="middle" class="hname">${esc(ch.place)}</text></g>
-      <g transform="translate(0 56)">${[0,1,2,3].map(k=>`<circle cx="${-21+k*14}" r="5.5" fill="${k<st?ch.tint:'#fff'}" stroke="${ch.tint}" stroke-width="2.5"/>`).join('')}</g>
-      ${done?`<g transform="translate(40 -54) rotate(10)"><circle r="17" fill="#3FB98A" stroke="#fff" stroke-width="3"/><path d="M-7 0 L-2 6 L8 -6" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>`:''}
-      ${rec&&!done?`<g transform="translate(0 ${ay})"><g class="harrow"><path d="M-30 -24 H30 V0 H8 L0 9 L-8 0 H-30Z" fill="#8E77EE" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><text y="-7" text-anchor="middle" class="hrec-t">${g}학년 추천</text></g></g>`:''}
-    </g>`}).join('');
-  el.innerHTML=`<svg viewBox="0 0 1000 580" class="hsvg" role="group" aria-label="항구 마을 지도">
-    <defs><linearGradient id="hgSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ED8EC"/><stop offset="1" stop-color="#3FA3C8"/></linearGradient>
-      <linearGradient id="hgLand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C7EDB0"/><stop offset="1" stop-color="#9ED68A"/></linearGradient>
-      <radialGradient id="hgGlow"><stop offset="0" stop-color="#FFF6B0" stop-opacity=".9"/><stop offset="1" stop-color="#FFF6B0" stop-opacity="0"/></radialGradient></defs>
-    <rect width="1000" height="580" fill="url(#hgSea)"/>
-    <g class="hwaves" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".5">${[[90,330],[520,320],[700,330],[960,250],[470,540],[880,520],[600,560],[40,560]].map(([x,y])=>`<path d="M${x-26} ${y} q13 -9 26 0 t26 0"/>`).join('')}</g>
-    <path d="M0 0 H1000 V250 C 950 285 900 270 850 285 C 790 302 760 290 720 312 C 690 330 690 345 640 346 C 590 347 560 318 500 322 C 440 326 420 300 360 318 C 300 336 260 318 200 334 C 140 350 80 330 0 350Z" fill="#F2D8A2"/>
-    <path d="M0 0 H1000 V236 C 950 270 900 256 850 270 C 790 288 760 276 720 298 C 690 316 690 330 640 331 C 590 332 560 304 500 308 C 440 312 420 286 360 304 C 300 322 260 304 200 320 C 140 336 80 316 0 336Z" fill="url(#hgLand)"/>
-    <path d="M0 372 C 70 356 150 372 230 392 C 300 410 340 392 420 410 C 470 420 480 470 440 500 C 390 530 300 512 220 530 C 150 545 60 524 0 534Z" fill="#F2D8A2"/>
-    <path d="M0 384 C 70 368 150 384 228 404 C 296 420 336 404 412 420 C 456 430 462 470 428 494 C 384 520 300 502 220 518 C 150 532 60 512 0 522Z" fill="url(#hgLand)"/>
-    <path d="M640 498 C 668 462 760 456 800 486 C 822 512 772 540 712 538 C 660 536 624 520 640 498Z" fill="#F2D8A2"/>
-    <g fill="#B8A48C" stroke="#7E6A55" stroke-width="3"><path d="M842 404 C 846 372 866 360 880 366 C 896 372 902 394 900 408Z"/><path d="M898 410 C 902 384 920 378 932 386 C 942 394 942 408 940 412Z"/></g>
-    <path d="M505 380 H620 V420 H505Z" fill="#C99A5A" stroke="#8C6A4E" stroke-width="3"/><path d="M515 420 V440 M545 420 V440 M580 420 V440 M610 420 V440" stroke="#8C6A4E" stroke-width="5"/>
-    <g class="hboat"><path d="M420 556 h70 l-12 16 h-46Z" fill="#E2513A" stroke="#7A2A1C" stroke-width="3"/><path d="M452 556 V516 L478 548Z" fill="#fff" stroke="#9AA" stroke-width="2"/></g>
-    <g class="hboat b2"><path d="M920 470 h50 l-9 12 h-32Z" fill="#3C6FD1" stroke="#1F3A80" stroke-width="3"/><path d="M944 470 V440 L962 464Z" fill="#FFE27A" stroke="#C9A227" stroke-width="2"/></g>
-    <g class="hgull" fill="none" stroke="#4A3845" stroke-width="3" stroke-linecap="round"><path d="M0 0 q8 -8 16 0 q8 -8 16 0"/></g>
-    ${zones}</svg>`;
-  if(el.scrollWidth>el.clientWidth&&!el.dataset.sc){el.dataset.sc=1;el.scrollLeft=0}
+/* ===== 첫 화면: 해 질 녘 군도 지도 (항구 허브·던전과 같은 아트 방향) =====
+   가운데 탐정단 항구 섬 · 구역마다 섬 하나 · 금빛 뱃길 · 학년 추천 깃발 · 진실 확인 봉인 · 아직 안 가 본 섬엔 안개
+   가로 화면(1680×944)과 세로 화면(760×2160, 위아래로 스크롤) 배치가 따로 있어요 */
+const MXL={W:1680,H:960,s:1,home:[840,610],z:[[240,420],[620,390],[1060,390],[1440,420],[1500,660],[180,660],[400,880],[1450,890],[1100,880],[760,895]]};
+const MXP={W:760,H:2600,s:1.25,home:[380,1390],z:[[200,660],[560,700],[190,1020],[570,1060],[580,1770],[190,1740],[200,2100],[560,2480],[570,2120],[210,2460]]};
+function mxIsland(x,y,rx,ry,seed){
+  const n=18, pts=[];
+  for(let k=0;k<n;k++){const a=k/n*Math.PI*2, w=1+.13*Math.sin(seed*1.7+k*1.9)+.08*Math.sin(seed*3.1+k*3.7);pts.push([x+Math.cos(a)*rx*w,y+Math.sin(a)*ry*w])}
+  const path=(dx,dy,sc)=>{const P=pts.map(([px,py])=>[x+(px-x)*sc+dx,y+(py-y)*sc+dy]);const m=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+    let d=`M${m(P[n-1],P[0]).map(v=>v.toFixed(1)).join(' ')}`;for(let k=0;k<n;k++){const q=m(P[k],P[(k+1)%n]);d+=` Q${P[k][0].toFixed(1)} ${P[k][1].toFixed(1)} ${q[0].toFixed(1)} ${q[1].toFixed(1)}`}return d+'Z'};
+  return `<g><path d="${path(0,22,1.12)}" fill="#0A1030" opacity=".5" filter="url(#mxSoft)"/><path d="${path(0,14,1)}" fill="url(#mxCliff)"/>
+    <path d="${path(0,0,1)}" fill="#E2B27A"/><path d="${path(0,-4,.86)}" fill="url(#mxGrass)"/>
+    <path d="${path(-3,-6,.86)}" fill="none" stroke="#B9E08A" stroke-width="3" opacity=".35" stroke-dasharray="${(rx*1.2).toFixed(0)} ${(rx*6).toFixed(0)}"/>
+    <path d="${path(0,0,1.06)}" fill="none" stroke="#F7E3C0" stroke-width="3" opacity=".35" class="mxsurf"/></g>`;
 }
-function renderMap(){
-  renderHarborMap();
-  $('#hero').querySelector('svg')?.remove();
-  $('#hero').insertAdjacentHTML('afterbegin',harborSVG(null,'m'));
-  const gv=$('#gradeV'); if(gv) gv.textContent=curGrade()||'?';
-  $('#tiles').innerHTML=CH.map((ch,i)=>{
-    const c=S.ch[ch.id]; const st=c?c.step:0; const rec=curGrade()&&(ch.grades||[]).includes(curGrade());
-    return `<button class="tile" data-i="${i}" style="${tintVars(ch)}">
-      ${c&&c.done?'<span class="stamp">진실 확인!</span>':rec?`<span class="recg">${curGrade()}학년 추천</span>`:''}
-      <span class="ic em">${ch.icon}</span><span class="tag">${esc(ch.theme)}</span>
-      <span class="pl">${esc(ch.place)}</span><span class="rm">“${esc(ch.rumor)}”</span>
-      <span class="clues">${ch.steps.map((s,k)=>`<i class="em ${k<st?'on':''}">${s.deco}</i>`).join('')}</span></button>`}).join('');
+function mxZone(i,x,y,s,g){
+  const ch=CH[i], c=S.ch[ch.id], st=c?c.step:0, done=!!(c&&c.done), rec=g&&(ch.grades||[]).includes(g), fog=!(c&&c.intro)&&!done;
+  const name=ch.place, w=Math.max(200,[...name].length*24+40);
+  return `<g class="mxz hz ${done?'done':''} ${rec?'rec':''}" data-i="${i}" tabindex="0" role="button" aria-label="${esc(name)} 들어가기" transform="translate(${x} ${y}) scale(${s})">
+    <ellipse cy="16" rx="88" ry="26" class="ring"/><ellipse cy="16" rx="56" ry="17" class="ring2"/>
+    <circle cy="-44" r="78" fill="url(#hxTorch)" class="hxflick" style="mix-blend-mode:screen"/>
+    <g class="mxb" transform="scale(1.35)">${hBuilding(i,mix(ch.tint,'#2A1A2A',.12),ch.tintD||mix(ch.tint,'#000000',.4))}</g>
+    ${rec&&!done?`<g transform="translate(64 -10)" class="mxflag"><path d="M0 0 V-104" stroke="#4E2C14" stroke-width="5" stroke-linecap="round"/><path class="mxpen" d="M2 -102 Q30 -96 58 -102 Q50 -88 58 -74 Q30 -80 2 -74Z" fill="#FFCF5A" stroke="#6B3D0C" stroke-width="3" stroke-linejoin="round"/><text x="28" y="-82" text-anchor="middle" class="mxflagt">${g}학년</text></g>`:''}
+    ${done?`<g transform="translate(-66 -64) rotate(-12)"><circle r="26" fill="#B8242E" stroke="#6E0E16" stroke-width="3"/><circle r="19" fill="none" stroke="#FFB0A0" stroke-width="2" stroke-dasharray="3 3"/><text y="-2" text-anchor="middle" class="mxseal">진실</text><text y="13" text-anchor="middle" class="mxseal">확인</text></g>`:''}
+    ${fog?`<g class="mxfog" filter="url(#mxBlur)"><ellipse cx="-40" cy="-30" rx="70" ry="34" fill="#C9B6E8" opacity=".55"/><ellipse cx="44" cy="-50" rx="64" ry="30" fill="#B8A2DE" opacity=".5"/><ellipse cx="0" cy="6" rx="90" ry="24" fill="#D8C8F0" opacity=".45"/></g>`:''}
+    <g class="tag"><g transform="translate(0 -150)"><path d="M${-w/2} -38 h${w} v66 h${-w/2+15} l-15 15 l-15 -15 h${-w/2+15}z" class="tagbg"/>
+      <text y="-10" text-anchor="middle" class="hxt1">${esc(name)}</text>
+      ${[0,1,2,3].map(k=>`<image href="assets/shard.webp" x="${-34+k*18-6}" y="2" width="14" height="18" ${k<st?'':'filter="url(#mxGray)" opacity=".55"'}/>`).join('')}
+      <text x="${w/2-12}" y="16" text-anchor="end" class="hxt3">${done?'완료':fog?'처음':`${st}/4`}</text></g></g>
+    <ellipse cy="-50" rx="110" ry="110" fill="transparent"/></g>`;
+}
+function mxRoute(h,z,i,hot){
+  const [x1,y1]=h,[x2,y2]=z, cx=(x1+x2)/2+(i%2?60:-60), cy=(y1+y2)/2-40;
+  return `<path d="M${x1} ${y1} Q${cx} ${cy} ${x2} ${y2+18}" class="mxroute ${hot?'hot':''}"/>`;
+}
+function mxWorld(L){
+  const g=curGrade(), R=(()=>{let v=41;return ()=>{v=(v*16807)%2147483647;return v/2147483647}})();
+  const glints=Array.from({length:40},()=>`<ellipse class="hxshim" style="--dl:${(R()*2).toFixed(1)}s" cx="${(R()*L.W).toFixed(0)}" cy="${(R()*L.H).toFixed(0)}" rx="${(6+R()*16).toFixed(0)}" ry="1.6" fill="#BFD8FF" opacity=".5"/>`).join('');
+  const waves=Array.from({length:44},()=>{const x=R()*L.W,y=R()*L.H,w=18+R()*40;return `<path d="M${x.toFixed(0)} ${y.toFixed(0)} q${(w/2).toFixed(0)} -6 ${w.toFixed(0)} 0"/>`}).join('');
+  const motes=Array.from({length:28},()=>`<circle class="mote" style="--d:${(7+R()*8).toFixed(1)}s;--dl:${(-R()*10).toFixed(1)}s" cx="${(R()*L.W).toFixed(0)}" cy="${(R()*L.H).toFixed(0)}" r="${(1.5+R()*2.5).toFixed(1)}" fill="${R()>.5?'#FFE9A8':'#C9E0FF'}"/>`).join('');
+  const nextI=CH.findIndex(ch=>!(S.ch[ch.id]&&S.ch[ch.id].done)&&g&&(ch.grades||[]).includes(g));
+  const islands=L.z.map(([x,y],i)=>mxIsland(x,y+12,128*L.s,58*L.s,i+1)).join('');
+  const [hx,hy]=L.home, s=L.s;
+  return `<svg class="mxworld" viewBox="0 0 ${L.W} ${L.H}" preserveAspectRatio="xMidYMid meet" role="group" aria-label="소문 항구 군도 지도">
+  <defs>
+    <radialGradient id="mxSea" cx="${(hx/L.W).toFixed(2)}" cy="${(hy/L.H).toFixed(2)}" r="${L.W>L.H?.8:1}"><stop offset="0" stop-color="#3D5C9E"/><stop offset=".45" stop-color="#26387A"/><stop offset="1" stop-color="#0E1334"/></radialGradient>
+    <radialGradient id="mxMoon"><stop offset="0" stop-color="#FFF4D8" stop-opacity=".9"/><stop offset=".3" stop-color="#C9B6FF" stop-opacity=".35"/><stop offset="1" stop-color="#6B5BB0" stop-opacity="0"/></radialGradient>
+    <linearGradient id="mxCliff" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7A5A62"/><stop offset="1" stop-color="#2E2238"/></linearGradient>
+    <radialGradient id="mxGrass" cx=".38" cy=".3" r=".9"><stop offset="0" stop-color="#8FBF6A"/><stop offset=".6" stop-color="#4E7A4E"/><stop offset="1" stop-color="#2E4A3A"/></radialGradient>
+    <linearGradient id="mxWall" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F3D2A6"/><stop offset="1" stop-color="#B98C76"/></linearGradient>
+    <radialGradient id="hxTorch"><stop offset="0" stop-color="#FFD27A" stop-opacity=".7"/><stop offset=".45" stop-color="#FF9A3C" stop-opacity=".22"/><stop offset="1" stop-color="#FF7A1A" stop-opacity="0"/></radialGradient>
+    <filter id="mxBlur" x="-60%" y="-80%" width="220%" height="260%"><feGaussianBlur stdDeviation="12"/></filter>
+    <filter id="mxSoft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="8"/></filter>
+    <filter id="mxGray"><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope=".5"/><feFuncG type="linear" slope=".5"/><feFuncB type="linear" slope=".55"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="${L.W}" height="${L.H}" fill="url(#mxSea)"/>
+  <circle cx="${L.W*.88}" cy="${L.H*.08}" r="${L.W*.3}" fill="url(#mxMoon)" style="mix-blend-mode:screen"/>
+  <g>${glints}</g><g class="hxwaves" stroke="#A9C4FF" stroke-width="3" fill="none" stroke-linecap="round" opacity=".22">${waves}</g>
+  <g filter="url(#mxBlur)" class="hxdrift2" opacity=".5">${[[.15,.22],[.62,.12],[.85,.5],[.3,.7],[.7,.9]].map(([u,v])=>`<ellipse cx="${(u*L.W).toFixed(0)}" cy="${(v*L.H).toFixed(0)}" rx="${(L.W*.16).toFixed(0)}" ry="26" fill="#8E7BC8"/>`).join('')}</g>
+  <g>${L.z.map((z,i)=>mxRoute([hx,hy+30],z,i,i===nextI)).join('')}</g>
+  ${islands}
+  ${mxIsland(hx,hy+20,190*s,92*s,99)}
+  <g transform="translate(${hx} ${hy}) scale(${s})">
+    <path d="M-150 54 L-40 40 L-30 64 L-146 80Z" fill="#9A6A3E" stroke="#3A2010" stroke-width="3"/>
+    <g class="hxbob"><path d="M-190 70 H-110 L-122 92 H-180Z" fill="#7A3A2A" stroke="#2A1610" stroke-width="3"/><path d="M-150 70 V0" stroke="#4A2A12" stroke-width="5"/><path d="M-146 6 C-120 24 -114 50 -120 66 L-146 66Z" fill="#FFE9C9" stroke="#6E4222" stroke-width="2.5"/></g>
+    <path d="M70 30 L78 -70 H98 L106 30Z" fill="#FFF1DE" stroke="#3A2230" stroke-width="3"/><path d="M75 -22 H102 L103.5 -4 H73.5Z" fill="#C8453E"/>
+    <rect x="76" y="-88" width="24" height="20" rx="3" fill="#FFE9A0" stroke="#3A2230" stroke-width="3"/><path d="M72 -88 L88 -104 L104 -88Z" fill="#8A2E2E" stroke="#2A1626" stroke-width="3"/>
+    <circle cx="88" cy="-78" r="70" fill="url(#hxTorch)" class="hxflick" style="mix-blend-mode:screen"/>
+    <ellipse cx="-4" cy="44" rx="34" ry="8" fill="#000" opacity=".3"/>
+    <circle cx="-20" cy="0" r="56" fill="url(#hxTorch)" class="hxflick" style="mix-blend-mode:screen"/>
+    <image href="assets/hero.webp" x="-34" y="-62" width="66" height="105" class="hxhero"/>
+    <image href="assets/gull.webp" x="26" y="-6" width="44" height="44" class="hxgull"/>
+    <g transform="translate(-150 -46)"><path d="M-98 -20 h196 v40 h-196z" class="mxhome"/><text y="7" text-anchor="middle" class="mxhomet">탐정단 항구</text></g>
+  </g>
+  <g id="hmap">${L.z.map(([x,y],i)=>mxZone(i,x,y,s,g)).join('')}</g>
+  <g>${motes}</g>
+  </svg>`;
+}
+function truthCardsModal(){
   const got=CH.filter(ch=>S.ch[ch.id]&&S.ch[ch.id].done).length;
-  $('#cardCount').textContent=`${got} / ${CH.length}장 모음`;
-  $('#tcards').innerHTML=CH.map((ch,i)=>{const g=S.ch[ch.id]&&S.ch[ch.id].done;
-    return `<button class="tcard ${g?'got':''}" data-i="${i}" style="${tintVars(ch)}" aria-label="${esc(ch.theme)} 진실 카드"><span class="em">${ch.icon}</span></button>`}).join('');
+  const sh=openModal(`<h2>진실 카드 도감</h2><p class="note">소문의 진실을 밝힌 섬의 카드가 반짝여요 · ${got} / ${CH.length}장</p>
+    <div class="tcards mxcardgrid" id="tcards">${CH.map((ch,i)=>{const gt=S.ch[ch.id]&&S.ch[ch.id].done;
+      return `<button class="tcard mxmed ${gt?'got':''}" data-i="${i}" aria-label="${esc(ch.place)} 진실 카드${gt?'':' (아직 없음)'}"><svg viewBox="-48 -86 96 96" aria-hidden="true"><circle cx="0" cy="-38" r="46" fill="${gt?mix(ch.tint,'#1B1230',.55):'#1B1230'}"/><g transform="translate(0 -6) scale(.78)">${hBuilding(i,ch.tint,ch.tintD||mix(ch.tint,'#000000',.4))}</g></svg><span>${esc(ch.place)}</span></button>`}).join('')}</div>`);
+  sh.querySelector('#tcards').onclick=e=>{const t=e.target.closest('.tcard');if(!t)return;const i=+t.dataset.i;
+    if(S.ch[CH[i].id]&&S.ch[CH[i].id].done){closeModal();showTruth(i,false)}else toast(`${CH[i].place}의 소문을 밝히면 받을 수 있어요`)};
 }
+function mxStar(){return `<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#miStar"/></svg>`}
+function renderHarborMap(){}
+function renderMap(){
+  const port=window.innerWidth/window.innerHeight<1, L=port?MXP:MXL;
+  const got=CH.filter(ch=>S.ch[ch.id]&&S.ch[ch.id].done).length;
+  const sc0=$('#mxScroll'), keepY=sc0&&sc0.dataset.port===String(port)?sc0.scrollTop:0;
+  $('#mx').innerHTML=`
+  <div class="mxscroll ${port?'port':''}" id="mxScroll" data-port="${port}">${mxWorld(L)}</div>
+  <div class="hxvig"></div>
+  <div class="hxhud">
+    <div class="hxL"><div class="hxportrait"><img src="assets/hero.webp" alt=""></div>
+      <button class="hxslot hxbtn mxgrade" id="btnGrade" aria-label="학년 바꾸기" title="학년 바꾸기"><b id="gradeV">${curGrade()||'?'}</b><small>학년</small></button></div>
+    <div class="hxC"><div class="hxplaque"><small>모험 지도</small><b>소문 항구 탐정단</b></div>
+      <div class="hxquest"><span class="qi">임무</span><span class="qt">섬마다 퍼진 소문의 진실을 밝혀라 · 진실 카드 ${got}/${CH.length}</span></div></div>
+    <div class="hxR">
+      <button class="hxslot hxbtn mxcards" id="btnCards" aria-label="진실 카드 도감" title="진실 카드 도감"><svg viewBox="0 0 40 40"><rect x="7" y="9" width="20" height="26" rx="3" fill="#C9A2FF" stroke="#4E2C14" stroke-width="2.5" transform="rotate(-10 17 22)"/><rect x="13" y="6" width="20" height="26" rx="3" fill="#FFE27A" stroke="#4E2C14" stroke-width="2.5"/><path d="M23 12 l2 4.5 l4.5 .6 l-3.3 3 l.9 4.6 l-4.1 -2.3 l-4.1 2.3 l.9 -4.6 l-3.3 -3 l4.5 -.6z" fill="#E0A020" stroke="#6B3D0C" stroke-width="1.2"/></svg><b id="cardCount">${got}/${CH.length}</b></button>
+      <button class="hxslot hxbtn" id="btnGuide" aria-label="선생님 수업 모드" title="선생님 수업 모드"><svg viewBox="0 0 40 40"><path d="M6 10 Q20 4 20 10 Q20 4 34 10 V32 Q20 26 20 32 Q20 26 6 32Z" fill="#FFE27A" stroke="#4E2C14" stroke-width="2.5"/><path d="M20 10 V32" stroke="#4E2C14" stroke-width="2"/><path d="M10 15 Q14 13 17 15 M10 20 Q14 18 17 20 M23 15 Q26 13 30 15" stroke="#8A552B" stroke-width="1.6" fill="none"/></svg></button>
+      <button class="hxslot hxbtn" id="btnSet" aria-label="설정" title="설정"><svg viewBox="0 0 40 40"><g fill="#FFE27A" stroke="#4E2C14" stroke-width="2">${Array.from({length:8},(_,k)=>`<rect x="17" y="3" width="6" height="9" rx="2" transform="rotate(${k*45} 20 20)"/>`).join('')}<circle cx="20" cy="20" r="11"/></g><circle cx="20" cy="20" r="4.5" fill="#4E2C14"/></svg></button>
+    </div>
+  </div>
+`;
+  const sc=$('#mxScroll'); if(port) sc.scrollTop=keepY;
+  const go=e=>{const z=e.target.closest&&e.target.closest('.mxz');if(!z)return false;sfx.tap();goHub(+z.dataset.i);return true};
+  sc.onclick=go; sc.onkeydown=e=>{if((e.key==='Enter'||e.key===' ')&&go(e))e.preventDefault()};
+  $('#btnCards').onclick=()=>{sfx.tap();truthCardsModal()};
+  $('#btnGuide').onclick=()=>teacherModal(); $('#btnSet').onclick=()=>settingsModal(); $('#btnGrade').onclick=()=>{sfx.tap();gradeModal(false)};
+}
+let MXP_=null; window.addEventListener('resize',()=>{const p=window.innerWidth/window.innerHeight<1;if(SCREEN==='map'&&MXP_!==null&&MXP_!==p)renderMap();MXP_=p});
 
+/* ===== 구역 허브: 해 질 녘 항구 한 장면 (던전과 같은 아트 방향) =====
+   장소를 눌러 놀이에 들어가요: 부두=합치기 · 시장 창고=블록 · 보물 해변=팡팡 · 등대 절벽=퐁당 · 먼 동굴 성=던전
+   그림: SVG(배경·건물·바다·빛·안개) + assets/*.webp(던전과 같은 주인공·갈매기·보물상자) */
+const HXW=1680, HXH=944;
+/* 주민 얼굴 (이모지 대신 그린 인물) */
+function villagerSVG(p,tint,size=92){
+  const nm=p.name||'', h=[...nm].reduce((a,c)=>a*31+c.charCodeAt(0)|0,7)>>>0;
+  const old=/할아버지|할머니|역장/.test(nm), skin=['#F6D2B5','#EBBF9C','#D49C78','#F3C9A8'][h%4];
+  const hair=old?'#C9C6D2':['#3A2418','#6B3E22','#1E1A2A','#8A4B2A'][(h>>3)%4], st=(h>>6)%3, lip='#C9635A';
+  const hairBack=st===0?`<path d="M22 50 C20 22 72 14 78 46 L80 74 C70 60 30 60 20 74Z" fill="${hair}"/>`:st===1?`<path d="M20 52 C18 18 82 16 80 52 C82 72 76 86 70 92 L30 92 C24 86 18 72 20 52Z" fill="${hair}"/>`:`<path d="M24 46 C26 22 74 20 76 46Z" fill="${hair}"/>`;
+  const hairFront=st===2?`<path d="M26 42 C34 24 66 22 74 40 C64 34 46 32 30 46Z" fill="${hair}"/>`:`<path d="M24 44 C30 22 70 20 76 44 C68 30 50 34 40 30 C34 38 28 40 24 44Z" fill="${hair}"/>`;
+  return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" aria-hidden="true"><defs><radialGradient id="vg${h}" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#5a4a78"/><stop offset="1" stop-color="#1b1230"/></radialGradient></defs>
+    <rect width="100" height="100" fill="url(#vg${h})"/><circle cx="50" cy="40" r="44" fill="${tint}" opacity=".18"/>
+    ${hairBack}<path d="M14 100 C16 78 32 70 50 70 C68 70 84 78 86 100Z" fill="${tint}"/><path d="M40 70 L50 82 L60 70" fill="#FFF6E6"/>
+    <rect x="43" y="58" width="14" height="14" rx="5" fill="${skin}"/><ellipse cx="50" cy="48" rx="23" ry="25" fill="${skin}"/>
+    ${hairFront}${old?`<path d="M34 60 Q50 70 66 60" stroke="#E6E3EC" stroke-width="5" fill="none" stroke-linecap="round"/>`:''}
+    <ellipse cx="41" cy="50" rx="3.4" ry="4.2" fill="#2A1F2E"/><ellipse cx="59" cy="50" rx="3.4" ry="4.2" fill="#2A1F2E"/><circle cx="40" cy="48.5" r="1.3" fill="#fff"/><circle cx="58" cy="48.5" r="1.3" fill="#fff"/>
+    <ellipse cx="34" cy="58" rx="5" ry="3" fill="#FF8C8C" opacity=".45"/><ellipse cx="66" cy="58" rx="5" ry="3" fill="#FF8C8C" opacity=".45"/>
+    <path d="M44 61 Q50 66 56 61" stroke="${lip}" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>`;
+}
+/* 작은 소품 */
+const hxCrate=(x,y,s=1,c='#B07A45')=>`<g transform="translate(${x} ${y}) scale(${s})"><rect x="-30" y="-56" width="60" height="56" rx="3" fill="${c}" stroke="#4A2A12" stroke-width="3"/><path d="M-30 -56 L30 0 M30 -56 L-30 0" stroke="#5E3A1C" stroke-width="5"/><rect x="-30" y="-56" width="60" height="9" fill="#D8A066"/><path d="M-30 -56 H30" stroke="#FFD9A0" stroke-width="2" opacity=".6"/><rect x="-30" y="-56" width="12" height="56" fill="#000" opacity=".12"/></g>`;
+const hxBarrel=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><path d="M-24 0 C-30 -20 -30 -50 -24 -70 H24 C30 -50 30 -20 24 0Z" fill="#9A5E30" stroke="#4A2A12" stroke-width="3"/><ellipse cx="0" cy="-70" rx="24" ry="7" fill="#C98A50" stroke="#4A2A12" stroke-width="3"/><path d="M-27 -18 H27 M-28 -52 H28" stroke="#5B5B66" stroke-width="5"/><path d="M-14 -66 C-18 -40 -18 -24 -14 -4" stroke="#FFD9A0" stroke-width="3" opacity=".4" fill="none"/></g>`;
+const hxLamp=(x,y,r=70)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="url(#hxTorch)" class="hxflick" style="mix-blend-mode:screen"/><circle cx="${x}" cy="${y}" r="5" fill="#FFF4C8"/>`;
+function hxHouse(x,w,h,roof,i){
+  const y=500, top=y-h, rid=top-w*.42;
+  const wins=[];for(let k=0;k<Math.floor(w/34);k++){const wx=x+12+k*34,lit=(i+k)%3!==1;wins.push(`<rect x="${wx}" y="${top+20}" width="16" height="20" rx="3" fill="${lit?'#FFD27A':'#3A2E4A'}" stroke="#3A2230" stroke-width="2"/>${lit?`<circle cx="${wx+8}" cy="${top+30}" r="26" fill="url(#hxTorch)" opacity=".7" style="mix-blend-mode:screen"/>`:''}`)}
+  return `<g><rect x="${x}" y="${top}" width="${w}" height="${h}" fill="url(#hxWall)" stroke="#3A2230" stroke-width="3"/>
+    <rect x="${x+w*.62}" y="${top}" width="${w*.38}" height="${h}" fill="#2A1830" opacity=".28"/>
+    <path d="M${x-8} ${top+2} L${x+w/2} ${rid} L${x+w+8} ${top+2}Z" fill="${roof}" stroke="#2A1626" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M${x-8} ${top+2} L${x+w/2} ${rid}" stroke="#FFB58A" stroke-width="3" opacity=".55"/>
+    ${i%2?`<rect x="${x+w*.68}" y="${rid+8}" width="12" height="${top-rid}" fill="#5A3A3A" stroke="#2A1626" stroke-width="2"/><g class="hxsmoke"><circle cx="${x+w*.68+6}" cy="${rid}" r="9" fill="#C9B6C8" opacity=".35"/><circle cx="${x+w*.68+14}" cy="${rid-18}" r="12" fill="#C9B6C8" opacity=".22"/></g>`:''}
+    ${wins.join('')}<rect x="${x+w/2-9}" y="${y-28}" width="18" height="28" rx="8" fill="#4A2A1E" stroke="#2A1626" stroke-width="2"/></g>`;
+}
+/* 놀이 장소 (던전과 같은 반짝 고리 + 양피지 이름표) */
+function hxSpot(id,x,y,title,sub,rec,tagY=150,rx=74){
+  const w=Math.max(150,Math.max([...title].length*26,[...sub].length*15,[...rec].length*14)+40);
+  return `<g class="hot hxspot mode" id="${id}" tabindex="0" role="button" aria-label="${esc(sub)} · ${esc(title)}" transform="translate(${x} ${y})">
+    <ellipse rx="${rx}" ry="${rx*.33}" class="ring"/><ellipse rx="${rx*.62}" ry="${rx*.21}" class="ring2"/>
+    <g class="tag"><path d="M${-w/2} ${-tagY-34} h${w} v74 h${-w/2+16} l-16 16 l-16 -16 h${-w/2+16}z" class="tagbg"/>
+      <text y="${-tagY-8}" text-anchor="middle" class="hxt1">${esc(title)}</text>
+      <text y="${-tagY+14}" text-anchor="middle" class="hxt2">${esc(sub)}</text>
+      <text y="${-tagY+33}" text-anchor="middle" class="hxt3 rec">${esc(rec)}</text></g>
+    <ellipse rx="${rx+30}" ry="${tagY*.62}" cy="${-tagY*.45}" fill="transparent"/></g>`;
+}
+function hubWorld(ch,c,port){
+  const R=(n,s)=>{let v=s;return ()=>{v=(v*16807)%2147483647;return v/2147483647}};const rnd1=R(0,97);
+  const stars=Array.from({length:60},()=>{const x=rnd1()*HXW,y=rnd1()*300,r=.8+rnd1()*1.8;return `<circle class="hxtw" style="--dl:${(rnd1()*4).toFixed(1)}s" cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${r.toFixed(1)}" fill="#FFF6D8"/>`}).join('');
+  const motes=Array.from({length:26},()=>`<circle class="mote" style="--d:${(7+rnd1()*8).toFixed(1)}s;--dl:${(-rnd1()*10).toFixed(1)}s" cx="${(rnd1()*HXW).toFixed(0)}" cy="${(420+rnd1()*500).toFixed(0)}" r="${(1.5+rnd1()*2.5).toFixed(1)}" fill="${rnd1()>.5?'#FFE9A8':'#FFC9E0'}"/>`).join('');
+  const shimmer=Array.from({length:22},(_,k)=>{const y=482+k*k*1.05, w=14+k*5;return `<rect class="hxshim" style="--dl:${(k%5)*.3}s" x="${1010-w/2+((k*37)%23-11)}" y="${y.toFixed(0)}" width="${w}" height="${2+k*.18}" rx="2" fill="#FFE3A0"/>`}).join('');
+  const waves=Array.from({length:26},()=>{const x=rnd1()*HXW,y=520+rnd1()*400,w=20+rnd1()*50;return `<path d="M${x.toFixed(0)} ${y.toFixed(0)} q${(w/2).toFixed(0)} -6 ${w.toFixed(0)} 0" />`}).join('');
+  const houses=[[560,70,104,'#8E3B46'],[640,84,140,'#3F5D8C'],[736,66,96,'#6E4A8A'],[812,92,128,'#A0522D'],[914,72,110,'#3F5D8C'],[996,64,92,'#8E3B46']].map((h,i)=>hxHouse(...h,i)).join('');
+  const t=ch.tint;
+  const rec={merge:`에너지 ${S.unlimited?'∞':S.energy}`,match:`최고 ${(c.mBest||0).toLocaleString()}점`,drop:`최고 ${(c.pBest||0).toLocaleString()}점`,block:`최고 ${(c.best||0).toLocaleString()}점`,
+    cave:c.caveWins?`정복 ${c.caveWins}번`:c.caveBest?`지하 ${c.caveBest}층까지`:'처음 모험'};
+  return `<svg class="hxworld${port?' port':''}" viewBox="${port?`0 170 ${HXW} ${HXH-170}`:`0 0 ${HXW} ${HXH}`}" preserveAspectRatio="xMidYMid slice" role="group" aria-label="${esc(ch.place)} 항구">
+  <defs>
+    <linearGradient id="hxSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#17143F"/><stop offset=".32" stop-color="#3B2D70"/><stop offset=".58" stop-color="#8B4E86"/><stop offset=".8" stop-color="#E07E72"/><stop offset="1" stop-color="#FFC47C"/></linearGradient>
+    <linearGradient id="hxSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F4A979"/><stop offset=".12" stop-color="#B57A8E"/><stop offset=".36" stop-color="#5B5994"/><stop offset=".72" stop-color="#2C3876"/><stop offset="1" stop-color="#131A42"/></linearGradient>
+    <radialGradient id="hxSunGlow"><stop offset="0" stop-color="#FFE9AE" stop-opacity=".95"/><stop offset=".22" stop-color="#FFB46A" stop-opacity=".55"/><stop offset=".6" stop-color="#E0706A" stop-opacity=".16"/><stop offset="1" stop-color="#E0706A" stop-opacity="0"/></radialGradient>
+    <radialGradient id="hxSun" cx=".45" cy=".4"><stop offset="0" stop-color="#FFFCEB"/><stop offset=".55" stop-color="#FFDE8E"/><stop offset="1" stop-color="#FFAE4E"/></radialGradient>
+    <radialGradient id="hxTorch"><stop offset="0" stop-color="#FFD27A" stop-opacity=".85"/><stop offset=".45" stop-color="#FF9A3C" stop-opacity=".3"/><stop offset="1" stop-color="#FF7A1A" stop-opacity="0"/></radialGradient>
+    <radialGradient id="hxGold"><stop offset="0" stop-color="#FFF2B0" stop-opacity=".95"/><stop offset=".4" stop-color="#FFC84A" stop-opacity=".45"/><stop offset="1" stop-color="#FFB000" stop-opacity="0"/></radialGradient>
+    <radialGradient id="hxViolet"><stop offset="0" stop-color="#E2C9FF" stop-opacity=".9"/><stop offset=".5" stop-color="#9B6BFF" stop-opacity=".32"/><stop offset="1" stop-color="#6B3BFF" stop-opacity="0"/></radialGradient>
+    <linearGradient id="hxBeamG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFF4C0" stop-opacity=".8"/><stop offset="1" stop-color="#FFE08A" stop-opacity="0"/></linearGradient>
+    <linearGradient id="hxCliffL" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6A4766"/><stop offset=".55" stop-color="#43304F"/><stop offset="1" stop-color="#241A36"/></linearGradient>
+    <linearGradient id="hxCliffR" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3E2C58"/><stop offset="1" stop-color="#1C1432"/></linearGradient>
+    <linearGradient id="hxTower" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFF3E2"/><stop offset=".55" stop-color="#F2D6C2"/><stop offset="1" stop-color="#A88A90"/></linearGradient>
+    <linearGradient id="hxWall" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F3D2A6"/><stop offset="1" stop-color="#C69A80"/></linearGradient>
+    <linearGradient id="hxQuay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9C7A78"/><stop offset=".25" stop-color="#5E4658"/><stop offset="1" stop-color="#2E2238"/></linearGradient>
+    <linearGradient id="hxWood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C98F55"/><stop offset="1" stop-color="#6E4222"/></linearGradient>
+    <linearGradient id="hxSand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2BE7E"/><stop offset=".5" stop-color="#B88358"/><stop offset="1" stop-color="#5E3E38"/></linearGradient>
+    <linearGradient id="hxSail" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFE9C9"/><stop offset="1" stop-color="#E0A88E"/></linearGradient>
+    <linearGradient id="hxHaze" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7A27A" stop-opacity="0"/><stop offset=".6" stop-color="#F7A27A" stop-opacity=".35"/><stop offset="1" stop-color="#F7A27A" stop-opacity="0"/></linearGradient>
+    <filter id="hxBlur" x="-50%" y="-80%" width="200%" height="260%"><feGaussianBlur stdDeviation="16"/></filter>
+    <filter id="hxSoft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
+  </defs>
+  <!-- 하늘 · 해 · 구름 -->
+  <rect width="${HXW}" height="520" fill="url(#hxSky)"/>${stars}
+  <circle cx="1010" cy="470" r="420" fill="url(#hxSunGlow)" style="mix-blend-mode:screen"/><circle cx="1010" cy="462" r="58" fill="url(#hxSun)"/>
+  <g class="hxdrift" fill="#6B4A7E" opacity=".9">
+    <path d="M100 172 q60 -40 140 -20 q40 -30 110 -6 q70 -8 92 26 q-170 16 -342 0Z"/><path d="M640 120 q80 -46 170 -18 q60 -32 130 0 q60 4 60 30 q-190 14 -360 -12Z"/>
+    <path d="M1180 210 q70 -36 150 -14 q50 -24 110 4 q40 10 40 26 q-160 10 -300 -16Z"/></g>
+  <g fill="none" stroke="#FFB58A" stroke-width="4" opacity=".55" stroke-linecap="round" class="hxdrift"><path d="M110 172 q160 12 330 0"/><path d="M650 122 q170 22 350 12"/><path d="M1190 212 q140 18 290 10"/></g>
+  <!-- 먼 산 · 대기 -->
+  <path d="M0 500 L0 392 Q90 340 172 368 Q262 310 362 356 Q432 328 522 376 Q602 346 702 394 L780 500Z" fill="#4E3A6E" opacity=".9"/>
+  <path d="M560 500 Q690 412 820 428 Q930 390 1050 436 Q1150 408 1270 446 L1330 500Z" fill="#5E4478" opacity=".75"/>
+  <rect y="390" width="${HXW}" height="130" fill="url(#hxHaze)"/>
+  <!-- 바다 -->
+  <rect y="496" width="${HXW}" height="${HXH-496}" fill="url(#hxSea)"/>
+  <g class="hxshimmer">${shimmer}</g>
+  <g class="hxwaves" stroke="#FFD9B0" stroke-width="3" fill="none" stroke-linecap="round" opacity=".28">${waves}</g>
+  <!-- 먼 절벽 · 안개 성 · 동굴 (소문 던전) -->
+  <path d="M1330 500 C1350 430 1376 360 1418 326 C1440 272 1470 222 1500 210 L1528 172 L1560 182 C1600 170 1640 190 1680 178 V600 H1330Z" fill="url(#hxCliffR)"/>
+  <path d="M1330 500 C1350 430 1376 360 1418 326 C1440 272 1470 222 1500 210" stroke="#FF9F7A" stroke-width="4" fill="none" opacity=".5"/>
+  <g transform="translate(-50 96)"><g filter="url(#hxBlur)" class="hxdrift2"><ellipse cx="1560" cy="150" rx="190" ry="70" fill="#1A0F2E" opacity=".75"/><ellipse cx="1480" cy="230" rx="140" ry="50" fill="#2A1846" opacity=".7"/></g>
+  <g fill="#1E1533" stroke="#0E0A1C" stroke-width="3">
+    <rect x="1520" y="96" width="44" height="90"/><path d="M1514 98 L1542 40 L1570 98Z"/><rect x="1580" y="70" width="52" height="118"/><path d="M1574 72 L1606 6 L1638 72Z"/>
+    <rect x="1556" y="128" width="40" height="60"/><path d="M1552 130 h48 v-12 h-8 v6 h-8 v-6 h-8 v6 h-8 v-6 h-8 v6 h-8z"/></g>
+  <g fill="#C9A2FF">${[[1534,120],[1548,150],[1596,100],[1612,130],[1596,160],[1566,150]].map(([x,y])=>`<rect x="${x}" y="${y}" width="9" height="14" rx="4"/><circle cx="${x+4}" cy="${y+7}" r="26" fill="url(#hxViolet)" class="hxflick" style="mix-blend-mode:screen"/>`).join('')}</g></g>
+  <path d="M1438 500 C1440 452 1462 420 1490 420 C1518 420 1540 452 1542 500Z" fill="#0B0714"/>
+  <ellipse cx="1490" cy="478" rx="44" ry="30" fill="url(#hxViolet)" class="hxflick" style="mix-blend-mode:screen"/>
+  <ellipse cx="1474" cy="470" rx="5" ry="7" fill="#E2C9FF" class="hxblink"/><ellipse cx="1504" cy="470" rx="5" ry="7" fill="#E2C9FF" class="hxblink"/>
+  <g filter="url(#hxBlur)" class="hxfogtail"><ellipse cx="1420" cy="512" rx="160" ry="26" fill="#6B3BB0" opacity=".45"/><ellipse cx="1280" cy="530" rx="140" ry="20" fill="#4A2A8A" opacity=".35"/></g>
+  <!-- 왼쪽 절벽 · 등대 (소문 퐁당) -->
+  <path d="M0 236 C60 226 120 240 170 256 C230 268 270 278 300 306 C330 346 350 424 380 478 C402 526 410 566 400 606 C380 646 300 666 200 686 L0 706Z" fill="url(#hxCliffL)"/>
+  <path d="M170 256 C230 268 270 278 300 306 C330 346 350 424 380 478 C402 526 410 566 400 606" stroke="#FFB07A" stroke-width="5" fill="none" opacity=".55"/>
+  <g stroke="#2A1C38" stroke-width="4" opacity=".45" fill="none"><path d="M40 400 Q160 380 300 420"/><path d="M20 520 Q170 500 360 540"/><path d="M60 620 Q200 600 380 610"/></g>
+  <path d="M0 236 C60 226 120 240 170 256 C230 268 270 278 300 306 L300 318 C250 296 160 270 0 254Z" fill="#4E7A58"/><path d="M0 236 C60 226 120 240 170 256" stroke="#8FBF7A" stroke-width="4" fill="none" opacity=".7"/>
+  <g transform="translate(-170 -16)"><rect x="246" y="250" width="58" height="44" fill="url(#hxWall)" stroke="#3A2230" stroke-width="3"/><path d="M238 252 L275 222 L312 252Z" fill="#8E3B46" stroke="#2A1626" stroke-width="3"/><rect x="266" y="262" width="16" height="16" rx="3" fill="#FFD27A"/>${hxLamp(274,270,40)}</g>
+  <g transform="translate(110 48)"><g class="hxbeam" style="transform-origin:190px 66px"><path d="M190 66 L820 6 L820 150Z" fill="url(#hxBeamG)" style="mix-blend-mode:screen"/></g>
+  <circle cx="190" cy="66" r="120" fill="url(#hxGold)" class="hxflick" style="mix-blend-mode:screen"/>
+  <path d="M160 258 L172 92 H208 L220 258Z" fill="url(#hxTower)" stroke="#3A2230" stroke-width="3"/>
+  <path d="M168.5 140 H211.5 L213.3 166 H166.7Z M164.8 196 H215.2 L217 222 H163Z" fill="#C8453E"/>
+  <rect x="158" y="82" width="64" height="12" rx="3" fill="#3A2A3A"/><rect x="170" y="50" width="40" height="32" rx="4" fill="#FFE9A0" stroke="#3A2230" stroke-width="3"/>
+  <path d="M164 52 L190 26 L216 52Z" fill="#8A2E2E" stroke="#2A1626" stroke-width="3"/><circle cx="190" cy="24" r="5" fill="#FFD27A"/></g>
+  <!-- 부두 앞 마을 · 시장 창고 (블록 퍼즐) -->
+  <path d="M520 512 C600 500 700 496 800 498 L1386 500 C1404 520 1404 566 1384 586 L560 604Z" fill="url(#hxQuay)"/>
+  <path d="M520 512 C600 500 700 496 800 498 L1386 500" stroke="#FFC09A" stroke-width="4" fill="none" opacity=".5"/>
+  <g stroke="#241A2C" stroke-width="2" opacity=".4">${Array.from({length:12},(_,k)=>`<path d="M${580+k*68} 520 V596"/>`).join('')}<path d="M540 548 H1390 M550 574 H1390"/></g>
+  ${houses}
+  <g><rect x="1080" y="388" width="250" height="112" fill="#8A5A36" stroke="#3A2010" stroke-width="3"/>
+    <g stroke="#5E3A1C" stroke-width="3" opacity=".7">${Array.from({length:9},(_,k)=>`<path d="M${1100+k*26} 392 V500"/>`).join('')}</g>
+    <path d="M1066 392 L1205 318 L1344 392Z" fill="#5A3A2A" stroke="#2A1610" stroke-width="3" stroke-linejoin="round"/><path d="M1066 392 L1205 318" stroke="#FFB58A" stroke-width="4" opacity=".55"/>
+    <path d="M1170 500 V452 C1170 428 1240 428 1240 452 V500Z" fill="#FFC060"/><circle cx="1205" cy="470" r="90" fill="url(#hxTorch)" class="hxflick" style="mix-blend-mode:screen"/>
+    <rect x="1150" y="344" width="110" height="30" rx="6" fill="#3A2010" stroke="#FFD27A" stroke-width="2"/><text x="1205" y="366" text-anchor="middle" class="hxsign">시장 창고</text>
+    <path d="M1330 420 L1400 420 L1392 446 L1338 446Z" fill="#C8453E"/><path d="M1344 420 V446 M1358 420 V446 M1372 420 V446 M1386 420 V446" stroke="#FFF1DE" stroke-width="7"/>
+    ${[['#E86A93',1338,500],['#FFD36E',1372,500],['#7FD69A',1355,470],['#9DD2FF',1088,500],['#C4B5FF',1120,500],['#FF9F7A',1104,470]].map(([col,x,y])=>`<g transform="translate(${x} ${y})"><rect x="-15" y="-28" width="30" height="28" rx="5" fill="${col}" stroke="#3A2010" stroke-width="2.5"/><rect x="-11" y="-25" width="10" height="7" rx="3" fill="#fff" opacity=".55"/></g>`).join('')}</g>
+  <path d="M1040 380 Q1110 410 1180 392 Q1250 410 1350 384" stroke="#2A1610" stroke-width="2" fill="none"/>${[[1070,392],[1110,404],[1150,398],[1190,394],[1230,402],[1270,400],[1310,392]].map(([x,y])=>hxLamp(x,y,30)).join('')}
+  <!-- 낮은 안개 -->
+  <g filter="url(#hxBlur)" class="hxdrift2" opacity=".45"><ellipse cx="560" cy="566" rx="260" ry="20" fill="#D9AEDC"/><ellipse cx="900" cy="610" rx="320" ry="22" fill="#E8C3E0"/><ellipse cx="1500" cy="600" rx="260" ry="22" fill="#D8B8E8"/></g>
+  <!-- 부두 (항구 합치기) -->
+  <g class="hxbob"><path d="M420 612 H650 L620 662 H452Z" fill="#7A3A2A" stroke="#2A1610" stroke-width="3"/><path d="M430 618 H640" stroke="#FFB58A" stroke-width="3" opacity=".6"/>
+    <path d="M535 612 V420" stroke="#4A2A12" stroke-width="7"/><path d="M541 432 C600 470 612 540 600 600 L541 600Z" fill="url(#hxSail)" stroke="#6E4222" stroke-width="3"/><path d="M529 440 C490 480 482 548 490 596 L529 596Z" fill="url(#hxSail)" stroke="#6E4222" stroke-width="3" opacity=".9"/>
+    <path d="M535 420 L568 430 L535 440Z" fill="${t}"/></g>
+  <path d="M330 716 L870 650 L930 700 L392 786Z" fill="url(#hxWood)" stroke="#3A2010" stroke-width="3"/>
+  <g stroke="#4A2A12" stroke-width="2.5" opacity=".7">${Array.from({length:11},(_,k)=>`<path d="M${352+k*50} ${712-k*6} L${410+k*50} ${782-k*8}"/>`).join('')}</g>
+  <path d="M330 716 L870 650" stroke="#FFD9A0" stroke-width="3" opacity=".55"/>
+  ${[[360,760],[480,746],[600,730],[720,716],[840,700],[910,712]].map(([x,y])=>`<rect x="${x-7}" y="${y}" width="14" height="80" fill="#4A2A12"/><rect x="${x-7}" y="${y+80}" width="14" height="40" fill="#4A2A12" opacity=".35"/>`).join('')}
+  ${hxCrate(700,668,1)}${hxCrate(760,658,1.05,'#C08850')}${hxCrate(728,616,.9,'#A06A3A')}${hxBarrel(452,724,.95)}${hxBarrel(508,714,.8)}
+  <path d="M842 420 V650" stroke="#4A2A12" stroke-width="10"/><path d="M842 430 L960 470" stroke="#4A2A12" stroke-width="8"/><path d="M950 468 V540" stroke="#2A1610" stroke-width="2"/>${hxCrate(950,574,.6,'#C08850')}
+  ${hxLamp(842,412,60)}
+  <!-- 보물 해변 (소문 팡팡) -->
+  <path d="M1130 ${HXH} C1160 846 1290 790 1420 782 C1520 776 1620 790 ${HXW} 798 V${HXH}Z" fill="url(#hxSand)"/>
+  <path d="M1160 846 C1220 806 1330 784 1420 782 C1520 776 1620 790 ${HXW} 798" stroke="#FFD6A0" stroke-width="4" fill="none" opacity=".6"/>
+  <g fill="#3A2A3A" stroke="#1E1424" stroke-width="3"><path d="M1240 860 C1250 830 1290 822 1310 840 C1322 856 1300 872 1260 872Z"/><path d="M1600 870 C1606 846 1640 838 1660 852 C1672 866 1650 880 1616 880Z"/></g>
+  <path d="M1250 836 C1262 828 1290 826 1302 836" stroke="#FFB58A" stroke-width="3" fill="none" opacity=".6"/>
+  <path d="M1640 800 C1630 720 1600 650 1560 610" stroke="#4A3020" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <g fill="#2E5A44" stroke="#1C3A2C" stroke-width="2"><path d="M1560 610 C1500 590 1460 610 1430 650 C1480 620 1520 620 1560 620Z"/><path d="M1560 610 C1540 560 1500 540 1460 548 C1510 566 1540 590 1556 618Z"/><path d="M1560 610 C1600 570 1650 566 1680 580 C1640 590 1600 600 1566 620Z"/><path d="M1560 610 C1590 640 1610 680 1612 720 C1590 680 1570 650 1554 622Z"/></g>
+  <circle cx="1440" cy="770" r="150" fill="url(#hxGold)" class="hxflick" style="mix-blend-mode:screen"/>
+  <image href="assets/chest.webp" x="1366" y="682" width="150" height="131"/>
+  ${[[1320,880,'mt0',.5],[1530,880,'mt5',.45],[1590,910,'mt0',.38],[1270,910,'mt5',.4]].map(([x,y,s,k])=>`<use href="#${s}" x="${x}" y="${y}" width="${100*k}" height="${100*k}" class="hxsparkle"/>`).join('')}
+  ${[[1400,700],[1480,690],[1520,740],[1360,740]].map(([x,y],i)=>`<path class="dust" style="--dl:${i*.4}s" d="M${x} ${y-9} l3 6 l6 3 l-6 3 l-3 6 l-3 -6 l-6 -3 l6 -3z" fill="#FFF1A8"/>`).join('')}
+  <!-- 놀이 장소 -->
+  <g id="hModes">
+    ${hxSpot('mMerge',640,712,'항구 합치기','부두 · 주민 의뢰',rec.merge,150,80)}
+    ${hxSpot('mBlock',1205,532,'블록 퍼즐','시장 창고',rec.block,180,74)}
+    ${hxSpot('mMatch',1440,826,'소문 팡팡','보물 해변',rec.match,170,80)}
+    ${hxSpot('mDrop',300,470,'소문 퐁당','등대 절벽',rec.drop,120,70)}
+    ${hxSpot('mDungeon',1490,512,'소문 던전','안개 동굴 성',rec.cave,128,60)}
+  </g>
+  <!-- 앞쪽: 주인공 · 갈매기 -->
+  <path d="M884 694 L1150 690 L1186 770 L904 778Z" fill="#5E4E62" stroke="#241A2C" stroke-width="3"/><path d="M884 694 L1150 690" stroke="#FFC09A" stroke-width="4" opacity=".55"/>
+  <path d="M894 722 L1164 718 M900 750 L1176 746" stroke="#2E2238" stroke-width="3" opacity=".6"/><path d="M904 778 L1186 770 L1190 800 L908 808Z" fill="#2E2238"/>
+  <ellipse cx="1012" cy="706" rx="62" ry="13" fill="#000" opacity=".35"/>
+  <circle cx="982" cy="622" r="110" fill="url(#hxTorch)" class="hxflick" style="mix-blend-mode:screen"/>
+  <image href="assets/hero.webp" x="950" y="512" width="122" height="194" class="hxhero"/>
+  <rect x="1104" y="640" width="24" height="56" rx="6" fill="#4A2A12" stroke="#2A1610" stroke-width="3"/><ellipse cx="1116" cy="642" rx="15" ry="6" fill="#6E4222"/>
+  <image href="assets/gull.webp" x="1078" y="572" width="76" height="75" class="hxgull"/>
+  <g id="hxMotes">${motes}</g>
+  <path d="M0 ${HXH} V820 C40 800 70 830 90 860 C110 830 150 820 170 850 C190 880 200 910 210 ${HXH}Z" fill="#120C1E" opacity=".9"/>
+  </svg>`;
+}
+function hxPort(){return window.innerWidth/window.innerHeight<1.25}
+let HXP=null; window.addEventListener('resize',()=>{if(SCREEN==='hub'&&HXP!==hxPort())renderHub()});
+function hxStarIcon(){return `<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#miStar"/></svg>`}
 function renderHub(){
   const ch=CH[CI], c=chState(CI);
   const cost=STEP_COST[Math.min(c.step,3)], ready=!c.done&&c.stars>=cost;
-  const gauge=100-c.step*25;
-  let say;
-  if(c.done) say=`<b class="n">${esc(ch.npc.name)}</b><span class="solved">진실 확인!</span> ${esc(ch.truth.title)}. 놀이는 계속 할 수 있어요!`;
-  else if(c.step===0) say=`<b class="n">${esc(ch.npc.name)}</b>“${esc(ch.rumor)}”라는 소문이 돌아요. 진짜일까요? 놀이로 ⭐을 모아 단서를 찾아 주세요!`;
-  else say=`<b class="n">${esc(ch.npc.name)}</b>단서를 ${c.step}개 찾았어요! 조금만 더 모으면 소문의 진실이 밝혀져요.`;
+  const prev=$('#hxScroll'), keepX=prev&&HXP===hxPort()?prev.scrollLeft:null; HXP=hxPort();
+  let say, questT;
+  if(c.done){say=`진실을 밝혀 줘서 고마워요! “${ch.truth.title}” 놀이는 계속 할 수 있어요.`;questT='진실 확인 완료! 더 놀면서 별을 모아요'}
+  else if(c.step===0){say=`“${ch.rumor}” 이런 소문이 돌아요. 진짜일까요? 놀이로 ⭐을 모아 단서를 찾아 주세요!`;questT='소문의 진실을 밝혀라 · 단서 0/4'}
+  else{say=`단서를 ${c.step}개 찾았어요! 조금만 더 모으면 소문의 진실이 밝혀져요.`;questT=`소문의 진실을 밝혀라 · 단서 ${c.step}/4`}
   $('#hubwrap').innerHTML=`
-   <div class="pillbar">
-     ${S.lesson?`<button class="ibtn" id="hBack" aria-label="수업 모드"><span class="em">🍎</span></button><span class="chipr lessonchip"><small>오늘의 수업</small>${S.lesson.dur?`<span id="lessonT">${lessonLeft()}</span>`:'<span>자유 놀이</span>'}</span>`:
-       `<button class="ibtn" id="hBack" aria-label="지도로"><span class="em">🗺️</span></button>`}
-     <span class="chipr"><span class="em">⭐</span><span class="sVal">${c.stars}</span><small>이 구역 별</small></span>
-     <span class="sp"></span>
-     <button class="ibtn" id="hHelp" aria-label="안내 다시 보기"><span class="em">❓</span></button>
-   </div>
-   <div class="stage" id="hStage">
-     ${harborSVG(ch,'h')}
-     <div class="place"><h2>${esc(ch.place)}</h2><span class="tag">${esc(ch.theme)}</span></div>
-     <div class="talkrow">${faceHTML(ch,'npc')}<div class="bubble">${say}</div></div>
-   </div>
-   <div class="card trail" id="hTrail">
-     <span class="lbl">🔍 단서</span>
-     <span class="slots">${ch.steps.map((s,k)=>`<span class="slot ${k<c.step?'on':'off'} ${k===c.step-1&&c._pop?'pop':''}" title="${esc(s.title)}"><span class="em">${s.deco}</span></span>`).join('')}</span>
-     <span class="meter"><small>소문 게이지 ${gauge}%</small><span class="bar"><i style="width:${gauge}%"></i></span></span>
-     ${c.done?`<button class="cbtn mint" id="hStory">🎴 진실 카드 보기</button>`:
-       `<button class="cbtn ${ready?'':'ghost'} storybtn ${ready?'ready':''}" id="hStory">${ready?'🔍 이야기 열기!':'🔒 다음 이야기'} · ⭐${cost}</button>`}
-   </div>
-   ${(c.wrong&&c.wrong.length)?`<div class="row" style="justify-content:center;margin:0 0 12px"><button class="cbtn butter reviewbtn" id="hReview">🔁 헷갈린 문제 다시 풀기 <span class="cnt">${c.wrong.length}</span></button></div>`:''}
-   <div class="modes" id="hModes">
-     <button class="mode m1" id="mMerge"><span class="deco em">⚓</span><span class="big em">🧺</span><span class="mt2"><h3>항구 합치기</h3><p>똑같은 물건을 합쳐 이웃의 주문을 배달해요.</p></span><span class="rec">⚡ 에너지 ${S.unlimited?'∞':S.energy}</span></button>
-     <button class="mode m4" id="mMatch"><span class="deco mdeco">${mPieceHTML(0)}</span><span class="big mbig">${mPieceHTML(0,'rainbow')}</span><span class="mt2"><h3>소문 팡팡</h3><p>항구 보물 3개를 맞추면 팡! 4개·5개면 특수 블록, 연쇄 COMBO!</p></span><span class="rec">👑 최고 ${c.mBest||0}점</span></button>
-     <button class="mode m5" id="mDrop"><span class="deco mdeco pdcard" data-l="9"></span><span class="big mbig pdcard" data-l="3"></span><span class="mt2"><h3>소문 퐁당</h3><p>바다 친구를 떨어뜨려 똑같은 친구끼리 합체! 고래까지 키워요.</p></span><span class="rec">👑 최고 ${(c.pBest||0).toLocaleString()}점</span></button>
-     <button class="mode m2" id="mBlock"><span class="deco em">🧩</span><span class="big em">🧩</span><span class="mt2"><h3>블록 퍼즐</h3><p>블록을 쌓아 줄을 없애요. 보너스 퀴즈를 맞히면 ⭐!</p></span><span class="rec">👑 최고 ${c.best}점</span></button>
-     <button class="mode m3" id="mDungeon"><span class="deco em">🗝️</span><span class="big em">🏰</span><span class="mt2"><h3>소문 던전</h3><p>갈림길을 골라 동굴을 탐험! 안개 괴물을 퀴즈로 물리치고 심해의 눈을 봉인해요.</p></span><span class="rec">🏆 ${c.caveWins?`정복 ${c.caveWins}번`:c.caveBest?`지하 ${c.caveBest}층까지`:'처음 모험'}</span></button>
-   </div>
-   <div class="row" style="justify-content:center;margin-top:0"><button class="cbtn ghost classicb" id="hClassic">🃏 빠른 카드 던전 (문 고르기 · 최고 ${c.dWins?`승리 ${c.dWins}번`:`${c.dBest}층`})</button></div>
-   <p class="hint">⭐ 별은 다섯 놀이 어디서든 모을 수 있어요 · 별로 이야기를 열고 퀴즈·미니게임을 풀면 단서를 얻어요</p>`;
+  <div class="hx" style="${tintVars(ch)}">
+    <div class="hxscroll" id="hxScroll">${hubWorld(ch,c,hxPort())}</div>
+    <div class="hxvig"></div>${hxPort()?'<div class="hxswipe l" aria-hidden="true"></div><div class="hxswipe r" aria-hidden="true"></div>':''}
+    <div class="hxhud">
+      <div class="hxL">
+        <div class="hxportrait"><img src="assets/hero.webp" alt=""></div>
+        ${S.lesson?`<button class="hxslot hxbtn" id="hBack" aria-label="수업 모드" title="수업 모드"><svg viewBox="0 0 40 40"><path d="M6 10 Q20 4 20 10 Q20 4 34 10 V32 Q20 26 20 32 Q20 26 6 32Z" fill="#FFE27A" stroke="#4E2C14" stroke-width="2.5"/><path d="M20 10 V32" stroke="#4E2C14" stroke-width="2"/></svg></button><span class="hxlesson"><small>오늘의 수업</small>${S.lesson.dur?`<span id="lessonT">${lessonLeft()}</span>`:'<span>자유 놀이</span>'}</span>`:
+          `<button class="hxslot hxbtn" id="hBack" aria-label="항구 지도로" title="항구 지도로"><svg viewBox="0 0 40 40"><path d="M5 9 L14 6 L26 10 L35 7 V31 L26 34 L14 30 L5 33Z" fill="#F7E9C9" stroke="#4E2C14" stroke-width="2.5" stroke-linejoin="round"/><path d="M14 6 V30 M26 10 V34" stroke="#4E2C14" stroke-width="2"/><path d="M9 20 Q16 14 22 22 T31 18" stroke="#C8453E" stroke-width="2.5" fill="none" stroke-dasharray="2 3"/></svg></button>`}
+      </div>
+      <div class="hxC">
+        <div class="hxplaque"><small>${esc(ch.theme)}</small><b>${esc(ch.place)}</b></div>
+        <div class="hxquest"><span class="qi">임무</span><span class="qt">${esc(questT)}</span></div>
+      </div>
+      <div class="hxR">
+        <div class="hxslot hxstars" title="이 구역의 별">${hxStarIcon()}<b class="sVal">${c.stars}</b></div>
+        <div class="hxclues" id="hTrail" title="찾은 단서">${ch.steps.map((s,k)=>`<span class="hxclue ${k<c.step?'on':''} ${k===c.step-1&&c._pop?'pop':''}" title="${esc(s.title)}"><img src="assets/shard.webp" alt=""></span>`).join('')}</div>
+        <button class="hxslot hxbtn" id="hHelp" aria-label="안내 다시 보기" title="안내 다시 보기"><svg viewBox="0 0 40 40"><text x="20" y="29" text-anchor="middle" font-family="Jua" font-size="26" fill="#FFE27A">?</text></svg></button>
+      </div>
+    </div>
+    <div class="hxdlg" id="hDlg">
+      <div class="hxpframe">${villagerSVG(ch.npc,ch.tint)}</div>
+      <div class="hxdbody"><b class="hxdname">${esc(ch.npc.name)}</b><p class="hxdtext">${esc(say)}</p>
+        <div class="hxdbtns">
+          ${c.done?`<button class="hxplank hot" id="hStory">진실 카드 보기</button>`:
+            `<button class="hxplank ${ready?'hot':''}" id="hStory">${ready?'이야기 열기!':'다음 이야기'} · <span class="hxcost">${hxStarIcon()}${cost}</span></button>`}
+          ${(c.wrong&&c.wrong.length)?`<button class="hxplank" id="hReview">헷갈린 문제 다시 풀기 <b class="cnt">${c.wrong.length}</b></button>`:''}
+          <button class="hxplank" id="hClassic" title="문을 골라 싸우는 빠른 던전">빠른 카드 던전 · ${c.dWins?`승리 ${c.dWins}번`:`최고 ${c.dBest}층`}</button>
+        </div></div>
+    </div>
+  </div>`;
   c._pop=false;
+  const sc=$('#hxScroll');
+  requestAnimationFrame(()=>{if(sc.scrollWidth>sc.clientWidth)sc.scrollLeft=keepX!=null?keepX:Math.max(0,sc.scrollWidth*(1010/HXW)-sc.clientWidth/2)});
   $('#hBack').onclick=()=>{sfx.tap();if(S.lesson)teacherModal();else goMap()};
   const rv=$('#hReview'); if(rv) rv.onclick=()=>{sfx.tap();reviewWrong()};
   $('#hHelp').onclick=()=>{sfx.tap();coachStart(hubTutorial())};
   $('#hStory').onclick=()=>storyButton();
-  $('#mMerge').onclick=()=>{sfx.tap();openMerge()};
-  $('#mBlock').onclick=()=>{sfx.tap();openBlock()};
-  $('#mMatch').onclick=()=>{sfx.tap();openMatch()};
-  $('#mDrop').onclick=()=>{sfx.tap();openDrop()};
-  $$('#hModes .pdcard').forEach(e=>e.appendChild(pdIcon(+e.dataset.l,e.classList.contains('mbig')?58:70)));
-  $('#mDungeon').onclick=()=>{sfx.tap();openCave()};
   $('#hClassic').onclick=()=>{sfx.tap();openDungeon()};
+  const go={mMerge:openMerge,mBlock:openBlock,mMatch:openMatch,mDrop:openDrop,mDungeon:openCave};
+  Object.entries(go).forEach(([id,fn])=>{const el=$('#'+id); if(!el)return;
+    const run=()=>{if(sc._drag&&sc._drag.moved)return;sfx.tap();fn()};
+    el.addEventListener('click',run); el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();run()}})});
+  /* 좁은 화면: 손가락/마우스로 끌어서 항구를 둘러봐요 */
+  sc.onpointerdown=e=>{if(e.pointerType==='touch')return;sc._drag={x:e.clientX,l:sc.scrollLeft,moved:false}};
+  sc.onpointermove=e=>{const d=sc._drag;if(!d)return;const dx=e.clientX-d.x;if(Math.abs(dx)>6)d.moved=true;if(d.moved)sc.scrollLeft=d.l-dx};
+  sc.onpointerup=sc.onpointerleave=()=>{setTimeout(()=>{sc._drag=null},0)};
 }
+
 function storyButton(){
   const c=chState(CI);
   if(c.done){showTruth(CI,false);return}
@@ -1920,8 +2330,8 @@ function storyButton(){
 function hubTutorial(){
   const ch=CH[CI];
   return [
-    {who:'gull',target:()=>$('#hStage .talkrow'),text:`여기는 ${ch.place}! ${ch.npc.name}이(가) 소문 때문에 걱정이 많대. 소문이 진짜인지 탐정님이 밝혀 줘!`,wait:'next'},
-    {who:'gull',target:()=>$('#hModes'),text:'다섯 가지 놀이 중 좋아하는 걸 골라! 어떤 놀이든 ⭐별을 모을 수 있어.',wait:'next'},
+    {who:'gull',target:()=>$('#hDlg'),text:`여기는 ${ch.place}! ${ch.npc.name}이(가) 소문 때문에 걱정이 많대. 소문이 진짜인지 탐정님이 밝혀 줘!`,wait:'next'},
+    {who:'gull',target:()=>$('#mMerge'),text:'반짝이는 고리가 있는 곳이 놀이터야! 부두, 시장 창고, 보물 해변, 등대 절벽, 안개 동굴 성 — 어디든 눌러서 ⭐별을 모아!',wait:'next'},
     {who:'gull',target:()=>$('#hStory'),text:'⭐이 모이면 이 단추를 눌러 봐. 이야기 속 퀴즈와 미니게임을 풀면 🔍단서를 얻고, 단서 4개면 진실이 밝혀져!',wait:'next'}
   ];
 }
@@ -3548,19 +3958,10 @@ function dungeonTutorial(){
   ];
 }
 /* ===== 연결 · 시작 ===== */
-{const hz=e=>{const g=e.target.closest&&e.target.closest('.hz');if(!g)return null;return +g.dataset.i};
-  $('#hmap').addEventListener('click',e=>{const i=hz(e);if(i!=null){sfx.tap();goHub(i)}});
-  $('#hmap').addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const i=hz(e);if(i!=null){e.preventDefault();sfx.tap();goHub(i)}});}
-$('#tiles').addEventListener('click',e=>{const t=e.target.closest('.tile');if(t){sfx.tap();goHub(+t.dataset.i)}});
-$('#tcards').addEventListener('click',e=>{const t=e.target.closest('.tcard');if(!t)return;const i=+t.dataset.i;
-  if(S.ch[CH[i].id]&&S.ch[CH[i].id].done)showTruth(i,false);else toast(`${CH[i].place}의 소문을 밝히면 받을 수 있어요`)});
 $$('[data-back]').forEach(b=>b.onclick=()=>{sfx.tap();goHub()});
 $('#btnQuiz').onclick=()=>{sfx.tap();quizCharge()};
-$('#btnGuide').onclick=()=>teacherModal();
-$('#btnSet').onclick=()=>settingsModal();
 setInterval(()=>{if(SCREEN==='merge')renderMergeTop()},1000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)save()});
-$('#btnGrade').onclick=()=>{sfx.tap();gradeModal(false)};
 function boot(){if(S.lesson&&CH[S.lesson.ci])goHub(S.lesson.ci);else{S.lesson=null;goMap()}}
 if(curGrade()) boot(); else {CI=-1;show('map');renderMap();gradeModal(true,boot)}
 </script></body></html>
