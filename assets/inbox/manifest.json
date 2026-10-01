@@ -1,50 +1,50 @@
 {
-  "batch": "items-dokdo-money-eco",
-  "createdAt": "2026-10-01T06:46:18.457Z",
+  "batch": "npc-safety-career-unify",
+  "createdAt": "2026-10-01T06:57:51.685Z",
   "status": "processed",
   "items": [
     {
-      "target": "items_dokdo_src",
-      "kind": "item-sheet",
-      "zone": "dokdo",
-      "canvaMedia": "MAHWvkFEW_Y",
-      "canvaName": "AaD2NfVYto6IiwQPNTlb0w-AaD2NfVYe9u2nhkiqrndhw.jpg"
+      "target": "npc_safety_src",
+      "kind": "npc",
+      "zone": "safety",
+      "canvaMedia": "MAHWvnJicsg",
+      "canvaName": "AaD2P8Pao0o_-dU4QWEUnA-AaD2P8PaZtx8GPgOQJxyDw.jpg"
     },
     {
-      "target": "items_money_src",
-      "kind": "item-sheet",
-      "zone": "money",
-      "canvaMedia": "MAHWvhJhvqU",
-      "canvaName": "AaD2Nfeju69L3l7NaA2gzA-AaD2NfejdKMV5xJtHBBPBA.jpg"
+      "target": "npc_career_src",
+      "kind": "npc",
+      "zone": "career",
+      "canvaMedia": "MAHWvsdS6YE",
+      "canvaName": "AaD2P8YCNBcSXhLNMwi-Wg-AaD2P8YCFG4eoko-3oUfBQ.jpg"
     },
     {
-      "target": "items_eco_src",
-      "kind": "item-sheet",
-      "zone": "eco",
-      "canvaMedia": "MAHWvgwzvbY",
-      "canvaName": "AaD2Nfn2ZbQArpBvoJ078Q-AaD2Nfn2Y0IsFUfMy-ZUoA.jpg"
+      "target": "npc_unify_src",
+      "kind": "npc",
+      "zone": "unify",
+      "canvaMedia": "MAHWvg8NOI0",
+      "canvaName": "AaD2P8gkTJx8NOl5zYprcQ-AaD2P8gkOpqtGXBbdrKt1w.jpg"
     }
   ],
-  "importedAt": "2026-10-01T06:47:33.9539464Z",
+  "importedAt": "2026-10-01T07:02:59.4061235Z",
   "imported": [
     {
-      "target": "items_dokdo_src",
-      "file": "items_dokdo_src.jpg",
-      "from": "AaD2NfVYto6IiwQPNTlb0w-AaD2NfVYe9u2nhkiqrndhw.jpg",
+      "target": "npc_safety_src",
+      "file": "npc_safety_src.jpg",
+      "from": "AaD2P8Pao0o_-dU4QWEUnA-AaD2P8PaZtx8GPgOQJxyDw.jpg",
       "how": "이름"
     },
     {
-      "target": "items_money_src",
-      "file": "items_money_src.jpg",
-      "from": "AaD2Nfeju69L3l7NaA2gzA-AaD2NfejdKMV5xJtHBBPBA.jpg",
+      "target": "npc_career_src",
+      "file": "npc_career_src.jpg",
+      "from": "AaD2P8YCNBcSXhLNMwi-Wg-AaD2P8YCFG4eoko-3oUfBQ.jpg",
       "how": "이름"
     },
     {
-      "target": "items_eco_src",
-      "file": "items_eco_src.jpg",
-      "from": "AaD2Nfn2ZbQArpBvoJ078Q-AaD2Nfn2Y0IsFUfMy-ZUoA.jpg",
+      "target": "npc_unify_src",
+      "file": "npc_unify_src.jpg",
+      "from": "AaD2P8gkTJx8NOl5zYprcQ-AaD2P8gkOpqtGXBbdrKt1w.jpg",
       "how": "이름"
     }
   ],
-  "processedAt": "2026-10-01T06:47:45.983Z"
+  "processedAt": "2026-10-01T07:03:10.781Z"
 }

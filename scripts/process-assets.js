@@ -67,7 +67,7 @@ async function buildArtManifest(p){
     const r=await p.evaluate(async d=>{const {x,W,H}=await loadImg(d);const b=bbox(x,W,H);return [b.l/W,b.t/H,(b.r+1)/W,(b.b+1)/H].map(v=>+v.toFixed(3))},dataUrl(path.join(A,`isle_${i}.webp`)));isleBox.push(r)}
   const items={};const idir=path.join(A,'items');if(fs.existsSync(idir)){const fsn=fs.readdirSync(idir);const zones=new Set(fsn.map(n=>(n.match(/^([a-z]+)_\d\d\.webp$/)||[])[1]).filter(Boolean));
     zones.forEach(z=>{if([...Array(12)].every((_,k)=>fsn.includes(`${z}_${String(k).padStart(2,'0')}.webp`)))items[z]=true})}
-  const npc={};fs.readdirSync(A).forEach(n=>{const m=n.match(/^npc_([a-z]+)\.webp$/);if(m)npc[m[1]]=rel(n)});
+  const npc={};fs.readdirSync(A).forEach(n=>{const m=n.match(/^npc_([a-z]+(?:_[12])?)\.webp$/);if(m)npc[m[1]]=rel(n)});
   const ART={hub_bg:has('hub_bg.webp')?rel('hub_bg.webp'):null,map_sea:has('map_sea.webp')?rel('map_sea.webp'):null,merge_bg:has('merge_bg.webp')?rel('merge_bg.webp'):null,
     isle_home:has('isle_home.webp')?rel('isle_home.webp'):null,isles,isleBox,items,npc};
   const js=`/* 자동 생성 파일 — scripts/process-assets.js 가 assets 폴더를 훑어서 만들어요. 손으로 고치지 마세요.\n   게임(index.html)은 이 목록에 있는 그림만 쓰고, 없는 것은 코드로 그린 그림을 대신 써요. */\nwindow.ART_FILES=${JSON.stringify(ART,null,1)};\n`;

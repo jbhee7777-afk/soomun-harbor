@@ -91,5 +91,9 @@ window.ART_FILES={
   "safety": true,
   "unify": true
  },
- "npc": {}
+ "npc": {
+  "career": "assets/npc_career.webp",
+  "safety": "assets/npc_safety.webp",
+  "unify": "assets/npc_unify.webp"
+ }
 };

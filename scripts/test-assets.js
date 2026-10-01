@@ -42,6 +42,11 @@ const IDS=['safety','character','career','democracy','rights','multi','unify','d
   for(const z of Object.keys(art.items||{})){const zi=IDS.indexOf(z);if(zi<0)continue;
     const r=await p.evaluate(zi=>{goHub(zi);closeModal();openMerge();const t=$$('#board .tok');return {all:t.length,mgt:$$('#board .tok.mgt').length}},zi);await p.waitForTimeout(300);
     ok(`합치기 [${z}] 판의 물건이 모두 그림이에요`,r.all>0&&r.all===r.mgt,JSON.stringify(r))}
+  /* 3-2) 주민 그림 초상화: 허브 액자 · 이야기 대화 · 합치기 의뢰 카드 */
+  for(const k of Object.keys(art.npc||{})){const [z,n]=k.split('_');const zi=IDS.indexOf(z);if(zi<0)continue;
+    const r=await p.evaluate(([zi,n,src])=>{goHub(zi);closeModal();const ch=CH[zi],who=[ch.npc,...ch.villagers][+n||0];
+      return {hub:!n&&!!$('.hxpframe img.npcimg[src="'+src+'"]'),talk:!n&&faceHTML(ch,'npc').includes(src),card:personFace(ch,who,54).includes(src)}},[zi,n,art.npc[k]]);
+    ok(`주민 초상화 [${k}] 가 ${n?'의뢰 카드':'허브 · 대화 · 의뢰 카드'}에 쓰여요`,n?r.card:(r.hub&&r.talk&&r.card),JSON.stringify(r))}
   await c.close();
   /* 4) 그림 섬 실제 누르기: 데스크톱 · 휴대폰 */
   for(const [w,h,mob,name] of [[1280,720,0,'데스크톱'],[390,844,1,'휴대폰']]){

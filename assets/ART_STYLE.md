@@ -92,7 +92,21 @@ isle_0 에서 섬 뒤에 분홍 하늘이 조금 남았던 점을 막으려고 �
 
 섬 프롬프트 틀 (3차부터): "A single small island seen from a high three-quarter top-down view, isolated in the center on a pure plain flat white background, no sky, no clouds, no horizon, with generous empty white margin on all sides so the whole island, its shoreline, building and flag are fully visible and nothing is cropped. On the island stands [구역 건물·소품]. " + 꼬리말
 
-## 다음 계획: 주민 초상화도 같은 painted style 로
+## 주민 초상화 (painted style)
+
+대표 3명 먼저 (2026-10-01, SQUARE_1_1, 흰 배경 → 자동 투명화 → `assets/npc_<구역id>.webp`):
+
+| 주민 | Canva media | 설명 |
+|---|---|---|
+| npc_safety 하나 보건 선생님 | MAHWvnJicsg | 20대 후반, 단발 흑갈색 머리·빨간 십자 머리핀, 흰 가운·민트 블라우스·청진기, 작은 금색 등대 배지, 다정하고 믿음직한 미소 |
+| npc_career 공방지기 도윤 | MAHWvsdS6YE | 30대 초, 헝클어진 밤색 머리 위 황동 고글, 뺨의 그을음, 겨자색 셔츠·가죽 작업 앞치마(연필·렌치), 주황 톱니 배지, 신난 웃음 |
+| npc_unify 평화 역장 할아버지 | MAHWvg8NOI0 | 70대, 은백 머리·흰 콧수염·동그란 안경, 남색 역장 제복(금단추·하늘색 깃)과 금색 비둘기 모자, 은 회중시계 줄, 따뜻하고 그리운 미소 |
+
+초상화 프롬프트 틀: "Hand-painted storybook bust portrait for a children's fantasy adventure game: [나이·외모·표정·의상·구역 소품]. Head and shoulders only, three-quarter view facing slightly left/right, the face is large and clearly readable, filling the upper two-thirds of the image, nothing cropped at the top of the head. Same art style as a painted storybook detective hero: soft clean painted shapes, gentle warm outlines, expressive eyes, cute but not babyish, natural proportions. Warm golden rim light and soft cool indigo shadows, rich painterly texture. Isolated on a pure plain flat white background, no scenery, no frame, no text, no letters." (SQUARE_1_1)
+
+게임 연결: `personFace(ch,p)` — `ART.npc[구역id]`(대표 주민) · `ART.npc[구역id_1|_2]`(이웃 주민)가 있으면 그림, 없으면 `villagerSVG`. 허브 액자 · 이야기 대화 · 합치기 의뢰 카드 공통. 액자 배경은 던전 같은 밤빛 보라 그라데이션. 이웃 주민은 manifest 의 zone 을 `safety_1` 처럼 적으면 `npc_safety_1.webp` 로 등록된다.
+
+### (예전 계획 메모)
 
 지금 대화창의 주민 얼굴(`villagerSVG`)은 코드로 그린 벡터라 배경 그림과 결이 다르다. 섬 묶음이 끝난 뒤 진행:
 
