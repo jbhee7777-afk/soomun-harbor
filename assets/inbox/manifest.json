@@ -1,50 +1,50 @@
 {
-  "batch": "items-rights-multi-unify",
-  "createdAt": "2026-10-01T06:36:04.977Z",
+  "batch": "items-dokdo-money-eco",
+  "createdAt": "2026-10-01T06:46:18.457Z",
   "status": "processed",
   "items": [
     {
-      "target": "items_rights_src",
+      "target": "items_dokdo_src",
       "kind": "item-sheet",
-      "zone": "rights",
-      "canvaMedia": "MAHWvhhI318",
-      "canvaName": "AaD2LNG7dqfvoCbNwA9JQw-AaD2LNG7IsAp6SMvwmDp5w.jpg"
+      "zone": "dokdo",
+      "canvaMedia": "MAHWvkFEW_Y",
+      "canvaName": "AaD2NfVYto6IiwQPNTlb0w-AaD2NfVYe9u2nhkiqrndhw.jpg"
     },
     {
-      "target": "items_multi_src",
+      "target": "items_money_src",
       "kind": "item-sheet",
-      "zone": "multi",
-      "canvaMedia": "MAHWvvs-E8A",
-      "canvaName": "AaD2LNP65ift2unmxEMRAA-AaD2LNP65GdSwxPMG23u7w.jpg"
+      "zone": "money",
+      "canvaMedia": "MAHWvhJhvqU",
+      "canvaName": "AaD2Nfeju69L3l7NaA2gzA-AaD2NfejdKMV5xJtHBBPBA.jpg"
     },
     {
-      "target": "items_unify_src",
+      "target": "items_eco_src",
       "kind": "item-sheet",
-      "zone": "unify",
-      "canvaMedia": "MAHWvpOCO2A",
-      "canvaName": "AaD2LNYolZwZNmSfUCVtCQ-AaD2LNYoth6R86Po6beHMQ.jpg"
+      "zone": "eco",
+      "canvaMedia": "MAHWvgwzvbY",
+      "canvaName": "AaD2Nfn2ZbQArpBvoJ078Q-AaD2Nfn2Y0IsFUfMy-ZUoA.jpg"
     }
   ],
-  "importedAt": "2026-10-01T06:38:06.8619022Z",
+  "importedAt": "2026-10-01T06:47:33.9539464Z",
   "imported": [
     {
-      "target": "items_rights_src",
-      "file": "items_rights_src.jpg",
-      "from": "AaD2LNG7dqfvoCbNwA9JQw-AaD2LNG7IsAp6SMvwmDp5w.jpg",
+      "target": "items_dokdo_src",
+      "file": "items_dokdo_src.jpg",
+      "from": "AaD2NfVYto6IiwQPNTlb0w-AaD2NfVYe9u2nhkiqrndhw.jpg",
       "how": "이름"
     },
     {
-      "target": "items_multi_src",
-      "file": "items_multi_src.jpg",
-      "from": "AaD2LNP65ift2unmxEMRAA-AaD2LNP65GdSwxPMG23u7w.jpg",
+      "target": "items_money_src",
+      "file": "items_money_src.jpg",
+      "from": "AaD2Nfeju69L3l7NaA2gzA-AaD2NfejdKMV5xJtHBBPBA.jpg",
       "how": "이름"
     },
     {
-      "target": "items_unify_src",
-      "file": "items_unify_src.jpg",
-      "from": "AaD2LNYolZwZNmSfUCVtCQ-AaD2LNYoth6R86Po6beHMQ.jpg",
+      "target": "items_eco_src",
+      "file": "items_eco_src.jpg",
+      "from": "AaD2Nfn2ZbQArpBvoJ078Q-AaD2Nfn2Y0IsFUfMy-ZUoA.jpg",
       "how": "이름"
     }
   ],
-  "processedAt": "2026-10-01T06:38:19.784Z"
+  "processedAt": "2026-10-01T06:47:45.983Z"
 }

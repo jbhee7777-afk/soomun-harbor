@@ -138,5 +138,8 @@ isle_0 에서 섬 뒤에 분홍 하늘이 조금 남았던 점을 막으려고 �
 | items_rights (인권 · 누구나 도서관) | MAHWvhhI318 | 적용됨 — 자동 분리 12개 (책 상자, 종이, 펼친 책, 깃펜·잉크, 학교, 무지개 / 보금자리 오두막, 빵, 사과, 집, 하트 방패, 올리브 화환 비둘기) |
 | items_multi (다문화 · 알록달록 세계 시장) | MAHWvvs-E8A | 적용됨 — 자동 분리 12개 (시장 부엌, 밥, 주먹밥, 쌀국수, 커리, 잔치 케이크 / 축제 천막, 인사 카드, 말풍선, 북과 음표, 팔레트, 등불 축제) |
 | items_unify (통일 · 평화 기차역) | MAHWvpOCO2A | 적용됨 — 자동 분리 12개 (매표소, 기차표, 여행 가방, 객차, 기관차, 고속 열차 / 우체통, 편지, 사진기, 고향 그림 액자, 악수 조각상, 평화 비둘기) |
+| items_dokdo (독도 · 해 뜨는 전망대) | MAHWvkFEW_Y | 적용됨 — 자동 분리 12개 (고깃배, 조개, 게, 물고기, 문어, 강치 / 기록 보관장, 나침반, 옛 바다 지도, 옛 기록책, 망원경, 두 바위섬) |
+| items_money (경제·금융 · 반짝 저금 시장) | MAHWvhJhvqU | 적용됨 — 자동 분리 12개 (돈 주머니, 금화, 지폐 묶음, 돼지 저금통, 은행, 보석 / 장바구니 가방, 영수증, 용돈 기입장, 수레, 가게, 큰 시장) |
+| items_eco (환경 · 푸른 바닷가) | MAHWvgwzvbY | 적용됨 — 자동 분리 12개 (분리배출 통, 캔, 플라스틱 컵, 재활용 묶음, 에코백, 푸른 지구 / 새싹 양동이, 새싹, 풀, 나무, 작은 숲, 산호 바다 방울) |
 
 묶음 프롬프트 틀: "Game item icon sprite sheet: twelve separate small objects arranged in a neat grid of 4 columns and 3 rows on a pure plain flat white background, each object isolated with generous empty white space around it, no overlapping, nothing cropped, all objects the same size and seen from the same slight three-quarter top-down view. Row 1, left to right: … Row 2 … Row 3 … Hand-painted storybook game item art, rich painterly texture, warm golden rim light and soft cool indigo shadows, cute but not babyish, consistent style for a children's fantasy adventure game. No people, no characters, no text, no letters, no numbers, no labels." (LANDSCAPE_4_3)
