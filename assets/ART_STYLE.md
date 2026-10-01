@@ -115,3 +115,22 @@ isle_0 에서 섬 뒤에 분홍 하늘이 조금 남았던 점을 막으려고 �
 그림 섬 7개부터는 1680×960 한 화면에 겹치지 않게 넣기 어려워 가로 지도도 세 줄 · 위아래 스크롤로 바꿨다 (MXL 1680×1340, 섬 280px). 그림 섬 클릭 영역은 그림의 투명 모서리가 아닌 섬 모양 타원(.mxhit). 검사: 이름표↔다른 섬 클릭 영역·클릭 영역끼리 겹침 없음, 그림 섬 건물·물가 실제 클릭 (1280×720 · 1920×1080 · 휴대폰).
 
 10개 구역 섬 모두 그림으로 교체 완료 (2026-10-01). 겹침·클릭 검사: 3개 화면 크기 × 10섬 × 건물/물가 = 60번 실제 클릭 모두 정상.
+
+## Stage B · 항구 합치기 (2026-10-01)
+
+### merge_bg (Canva MAHWvbY3RKU, LANDSCAPE_16_9)
+
+해 질 녘 항구 창고 작업장 실내, 약간 높은 정면 시점. 가운데 앞쪽 큰 나무 작업대(윗면 가운데는 비워 둠 → 합치기 판이 올라감), 왼쪽 벽 코르크 게시판(비어 있음 → 주민 의뢰), 뒤쪽 상자·통 선반, 큰 아치 창으로 해 질 녘 항구와 먼 등대 불빛, 천장 기름 등불. 꼬리말 동일.
+
+게임 연결: `ART.merge_bg` 등록 시 합치기 화면 배경으로 사용(없으면 어두운 나무색). 판은 작업대 위 나무 상자판(황동 모서리·홈 칸)으로 그림과 어울리게.
+
+### 물건 그림 (구역별 묶음 그림 → 자동 분리)
+
+구역마다 12개(만드는 상자 2 + 사슬 2개 × 5단계)를 4열×3줄 흰 배경 한 장으로 생성 → 흰 배경 위 덩어리를 자동으로 잘라 `assets/items/<구역id>_<번호>.webp` 로 저장. 10장이면 120개 전부.
+배치 순서: 1줄 = 상자0, 사슬0 1~3단계 / 2줄 = 사슬0 4~5단계, 상자1, 사슬1 1단계 / 3줄 = 사슬1 2~5단계.
+
+| 묶음 | Canva media | 상태 |
+|---|---|---|
+| items_safety (안전·건강) | MAHWvQCBtvY | 적용됨 — 자동 분리 12개 → assets/items/safety_00~11.webp (256×256) |
+
+묶음 프롬프트 틀: "Game item icon sprite sheet: twelve separate small objects arranged in a neat grid of 4 columns and 3 rows on a pure plain flat white background, each object isolated with generous empty white space around it, no overlapping, nothing cropped, all objects the same size and seen from the same slight three-quarter top-down view. Row 1, left to right: … Row 2 … Row 3 … Hand-painted storybook game item art, rich painterly texture, warm golden rim light and soft cool indigo shadows, cute but not babyish, consistent style for a children's fantasy adventure game. No people, no characters, no text, no letters, no numbers, no labels." (LANDSCAPE_4_3)

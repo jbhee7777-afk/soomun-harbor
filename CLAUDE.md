@@ -12,6 +12,16 @@ There is no build system, package manager, linter, or test suite. The app is `in
 
 `index.backup-*.html` files are manual snapshots taken before large changes — do not edit them; the live file is `index.html`. `preview/` holds byte-for-byte copies of two claude.ai artifacts from 2026-09-30 (the original dungeon preview, and a parallel whole-game version with an image-based match-3) — keep them as untouched originals; `dungeon.html` was generated from `preview/dungeon-preview-20260930.html`. Commit messages are written in Korean.
 
+## Painted art assets (Canva → asset inbox)
+
+The final art direction is hand-painted art matching the dungeon (rules, prompts, Canva media ids in `assets/ART_STYLE.md`). Images are generated with the Canva connector; the user only downloads them (original names, default Downloads folder) and says "다운로드했어" — never ask them to rename or move files.
+
+1. When generating a batch, call `get-assets` for each media id and write `assets/inbox/manifest.json` (`target`, `kind`: isle/isle_home/bg/item-sheet/npc, `index`/`out`/`zone`, `canvaMedia`, `canvaName`). Give the user only the Canva links.
+2. On "다운로드했어": run `powershell -ExecutionPolicy Bypass -File scripts/import-assets.ps1` (preview), then with `-Apply` — it copies by Canva name (or exact-count time order), runs `scripts/process-assets.js` (cutout/webp/sheet split → regenerates `assets/art-manifest.js`), then `scripts/test-assets.js`. Exit code 2 = ambiguous (show candidates, don't guess), 3 = would overwrite.
+3. `index.html` loads `assets/art-manifest.js` (`window.ART_FILES`) into `ART`; registering art never needs hand edits. Hub hotspot positions on the painted background are manual (`HOT.hubPainted`).
+
+Tools need `npm install` (playwright-core, uses system Chrome). `npm run assets:test` re-checks all registered art.
+
 ## Architecture (all inside `index.html`)
 
 The script is ordered as: content data → shared engine → per-game engines → event wiring/boot (bottom of file). Search by the section comments (`/* ===== ... ===== */`, `/* ---------- ... ---------- */`).

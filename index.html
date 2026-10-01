@@ -785,6 +785,112 @@ body.tts-on .tts{display:inline-flex}
 @media (min-width:641px){.hx.painted .hxdbtns{flex-wrap:nowrap}}
 @media (max-width:640px){.hx.painted .hxdbtns{flex-wrap:wrap;overflow:visible;margin-left:0;justify-content:flex-start}.hx.painted .hxworld.port{aspect-ratio:1680/944}}
 .hx.painted .hxvig{background:radial-gradient(ellipse at 50% 50%,transparent 60%,rgba(10,4,20,.35) 88%,rgba(6,2,12,.6) 100%)}
+/* ===== 항구 합치기: 창고 작업대 (painted art 기준) ===== */
+#merge{background-color:#1E140E;background-image:radial-gradient(ellipse at 60% 30%,#5A3A24 0%,#2A1A10 60%,#140C08 100%);background-size:cover;background-position:center 40%;position:relative;color:#FFF3D6;font-family:var(--disp)}
+#merge.painted::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 55%,transparent 45%,rgba(10,4,2,.45) 85%,rgba(6,2,0,.7) 100%)}
+#merge>*{position:relative;z-index:1}
+.mghud{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.mgstat{display:inline-flex;align-items:center;gap:4px;height:44px;padding:0 12px 0 6px;border-radius:14px;background:linear-gradient(#3B2A1C,#24170E);border:3px solid #8A5B1C;box-shadow:0 4px 0 rgba(0,0,0,.45),inset 0 0 8px rgba(0,0,0,.6);font-size:22px;font-variant-numeric:tabular-nums}
+.mgstat svg{width:30px;height:30px}.mgstat b{font-weight:400}.mgstat small{font-size:13px;color:#FFE9A8;margin-left:2px}
+#merge .readypill{background:linear-gradient(180deg,#FFCF5A,#E08A1A);color:#3A1F0C;text-shadow:0 1px 0 rgba(255,255,255,.4);box-shadow:0 4px 0 #6B3D0C;border:3px solid #6B3D0C;border-radius:12px}
+/* 작업대 위 나무 상자판 */
+#merge .board{background:linear-gradient(180deg,#6E4426,#4A2C16);border-radius:18px;
+  box-shadow:inset 0 2px 0 rgba(255,214,160,.35),inset 0 0 18px rgba(0,0,0,.55),0 0 0 4px #2A170A,0 0 0 7px #B8862A,0 0 0 9px #2A170A,0 14px 26px rgba(0,0,0,.6)}
+#merge .board::before{opacity:.5;background:repeating-linear-gradient(90deg,transparent 0 calc(var(--cell) + 1px),rgba(20,10,4,.45) calc(var(--cell) + 1px) calc(var(--cell) + 4px))}
+#merge .board::after{content:"";position:absolute;inset:-9px;border-radius:24px;pointer-events:none;
+  background:radial-gradient(circle at 12px 12px,#FFE27A 0 4px,#8A5410 5px,transparent 6px),radial-gradient(circle at calc(100% - 12px) 12px,#FFE27A 0 4px,#8A5410 5px,transparent 6px),radial-gradient(circle at 12px calc(100% - 12px),#FFE27A 0 4px,#8A5410 5px,transparent 6px),radial-gradient(circle at calc(100% - 12px) calc(100% - 12px),#FFE27A 0 4px,#8A5410 5px,transparent 6px)}
+#merge .cell{background:radial-gradient(ellipse at 50% 40%,rgba(120,80,46,.55),rgba(40,22,10,.75));box-shadow:inset 0 4px 8px rgba(0,0,0,.6),inset 0 -2px 0 rgba(255,214,160,.18);border-radius:12px}
+#merge .cell:nth-child(odd){background:radial-gradient(ellipse at 50% 40%,rgba(132,90,52,.55),rgba(46,26,12,.75))}
+#merge .cell.tgt{box-shadow:inset 0 0 0 3px #FFD24A,0 0 14px 3px rgba(255,210,74,.75)}
+/* 의뢰·안내는 양피지 */
+#merge .order{background:linear-gradient(180deg,#FBF0D4,#ECD5A4);color:#2A1A0E;border:3px solid #6B3D1F;border-radius:14px;box-shadow:0 0 0 2px #D9A441,0 8px 14px rgba(0,0,0,.45)}
+#merge .order.ready{box-shadow:0 0 0 3px #FFD24A,0 0 18px 4px rgba(255,210,74,.6),0 8px 14px rgba(0,0,0,.45)}
+#merge .order .who{color:#6B4A2E}#merge .order .rw{color:#6B4A2E}
+#merge .order .give{border-radius:12px;background:linear-gradient(180deg,#C98F55,#8A552B);border:3px solid #4E2C14;box-shadow:0 4px 0 #3A1F0C;text-shadow:0 2px 0 #3A1F0C}
+#merge .order.ready .give{background:linear-gradient(180deg,#FFCF5A,#E08A1A);color:#3A1F0C;text-shadow:none;animation:hxhot 1.2s ease-in-out infinite alternate}
+#merge .order .give[disabled]{background:#D8C6A0;color:#8A7558;border-color:#A8916A;box-shadow:none;text-shadow:none}
+#merge .info{background:linear-gradient(180deg,#FBF0D4,#ECD5A4);color:#2A1A0E;border:4px solid #6B3D1F;border-radius:18px;box-shadow:0 0 0 3px #D9A441,0 10px 20px rgba(0,0,0,.5)}
+#merge .info .ds{color:#6B4A2E}
+#merge .sell{background:linear-gradient(180deg,#C98F55,#8A552B);color:#FFF8E6;border:3px solid #4E2C14;border-radius:12px;box-shadow:0 4px 0 #3A1F0C;text-shadow:0 2px 0 #3A1F0C}
+/* 물건 그림 토큰: 단계마다 액자가 확실히 달라요 (1 나무 · 2 놋쇠 · 3 은+보석 · 4 금+빛 · 5 금+햇살+왕관) */
+.tok.mgt{background:none!important;box-shadow:none!important;border-radius:0;width:100%;height:100%;overflow:visible}
+.tok.mgt .mgf{position:absolute;inset:8%;border-radius:50%;background:radial-gradient(circle at 50% 36%,#7A5232,#3E2614 74%);border:3px solid #2A170A;box-shadow:inset 0 3px 0 rgba(255,214,160,.25),inset 0 -4px 8px rgba(0,0,0,.5),0 3px 6px rgba(0,0,0,.55)}
+.tok.mgt .mgi{position:absolute;left:14%;top:12%;width:72%;height:72%;object-fit:contain;filter:drop-shadow(0 3px 2px rgba(0,0,0,.6));pointer-events:none;z-index:1;-webkit-user-drag:none}
+.tok.mgt.l2 .mgi{left:11%;top:9%;width:78%;height:78%}.tok.mgt.l3 .mgi{left:9%;top:7%;width:82%;height:82%}
+.tok.mgt.l4 .mgi{left:6%;top:4%;width:88%;height:88%}.tok.mgt.l5 .mgi{left:3%;top:1%;width:94%;height:94%}
+.tok.mgt.l2 .mgf{border:4px solid #C99A4A;box-shadow:0 0 0 2px #4A2A0C,inset 0 -4px 8px rgba(0,0,0,.5),0 3px 6px rgba(0,0,0,.55)}
+.tok.mgt.l3 .mgf{border:4px solid #DCE6F2;background:radial-gradient(circle at 50% 36%,#4F6A8A,#1E2C44 74%);box-shadow:0 0 0 2px #2A3A55,0 0 10px rgba(180,220,255,.45),inset 0 -4px 8px rgba(0,0,0,.5)}
+.tok.mgt.l3 .mgf::after{content:"";position:absolute;left:50%;bottom:-8px;width:11px;height:11px;margin-left:-6px;background:linear-gradient(135deg,#BFF4FF,#3FB8E0);transform:rotate(45deg);border:2px solid #fff;box-shadow:0 0 6px #7FE0F0}
+.tok.mgt.l4 .mgf{border:5px solid #FFD24A;background:radial-gradient(circle at 50% 36%,#8A5A24,#3E2208 74%);box-shadow:0 0 0 2px #6B3D0C,0 0 16px 4px rgba(255,210,74,.7),inset 0 -4px 8px rgba(0,0,0,.5)}
+.tok.mgt.l5 .mgf{border:6px solid #FFE27A;background:radial-gradient(circle at 50% 36%,#C9962E,#5A3410 74%);box-shadow:0 0 0 2px #6B3D0C,0 0 26px 8px rgba(255,214,90,.9),inset 0 -4px 8px rgba(0,0,0,.4)}
+.tok.mgt.l5::after{content:"";position:absolute;inset:-16%;border-radius:50%;z-index:-1;pointer-events:none;background:repeating-conic-gradient(rgba(255,236,160,.6) 0 8deg,transparent 8deg 22deg);-webkit-mask:radial-gradient(circle,#000 32%,transparent 70%);mask:radial-gradient(circle,#000 32%,transparent 70%);animation:mgspin 7s linear infinite}
+@keyframes mgspin{to{transform:rotate(360deg)}}
+.tok.mgt .mgp{position:absolute;left:50%;bottom:-3%;transform:translateX(-50%);display:flex;gap:2px;z-index:3}
+.tok.mgt .mgp b{width:calc(var(--cell)*.1);height:calc(var(--cell)*.1);min-width:6px;min-height:6px;background:linear-gradient(135deg,#FFF6C0,#E0A020);border:1.5px solid #5A3008;transform:rotate(45deg);box-shadow:0 1px 2px rgba(0,0,0,.5)}
+.tok.mgt.l5 .mgp b{background:linear-gradient(135deg,#FFFFFF,#FFD24A);box-shadow:0 0 6px #FFE27A}
+.tok.mgt.gen .mgf{border-radius:24%;inset:4%;border:4px solid #B8862A;background:radial-gradient(circle at 50% 28%,#FFE9A8,#B87A3E 58%,#5A3418);box-shadow:0 0 16px 3px rgba(255,210,74,.65),0 3px 6px rgba(0,0,0,.55)}
+.tok.mgt.gen .mgi{left:6%;top:4%;width:88%;height:88%}
+.tok.mgt.gen::after{content:none}
+.tok.mgt.box .mgf{display:none}.tok.mgt.box .mgi{left:4%;top:4%;width:92%;height:92%;filter:drop-shadow(0 0 8px rgba(255,210,74,.8)) drop-shadow(0 3px 2px rgba(0,0,0,.6))}
+.tok.mgt.match::before{z-index:4}
+.tok.mgt.drag{opacity:.25}
+.tok.born{animation:mgborn .6s cubic-bezier(.3,1.6,.5,1) .23s backwards}
+@keyframes mgborn{0%{transform:scale(0);filter:brightness(2.4)}55%{transform:scale(1.32);filter:brightness(1.5)}100%{transform:scale(1);filter:none}}
+.mgfly{position:fixed;z-index:46;pointer-events:none;will-change:transform}
+.mgfly .tok{width:100%;height:100%}
+.mglight{position:fixed;z-index:47;pointer-events:none;width:var(--s);height:var(--s);margin:calc(var(--s)/-2) 0 0 calc(var(--s)/-2);border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,240,.95) 0 12%,rgba(255,226,122,.75) 30%,rgba(255,176,74,.25) 55%,transparent 70%);animation:mglight .6s ease-out forwards;mix-blend-mode:screen}
+.mglight.big{animation-duration:.8s}
+@keyframes mglight{0%{transform:scale(.2);opacity:1}40%{opacity:1}100%{transform:scale(1.15);opacity:0}}
+#ghost.lift{filter:drop-shadow(0 18px 12px rgba(0,0,0,.45))}
+#ghost .tok.mgt{animation:none}
+/* 주민 의뢰 쪽지 */
+#merge .order.mgq{position:relative;display:grid;grid-template-columns:auto 1fr auto;column-gap:8px;align-items:center;padding:12px 10px 10px;text-align:left}
+#merge .order.mgq .mgpin{position:absolute;top:-7px;left:50%;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FF9A8A,#B8242E);box-shadow:0 2px 2px rgba(0,0,0,.5)}
+#merge .order.mgq .mgqp{width:54px;height:54px;border-radius:14px;overflow:hidden;border:3px solid #8A5B1C;flex:none;display:block;line-height:0;padding:0}
+#merge .order.mgq .mgqp svg{width:100%;height:100%}
+#merge .order.mgq.ready .mgqp{animation:mgnod 1s ease-in-out infinite}
+@keyframes mgnod{50%{transform:translateY(-4px) rotate(-4deg)}}
+#merge .mgqb{display:flex;flex-direction:column;gap:3px;min-width:0}
+#merge .mgqn{font-weight:400;font-size:16px;color:#A3303C;line-height:1.1}
+#merge .mgqs{font-size:14px;line-height:1.25;color:#4A2E18;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+#merge .mgqr{display:inline-flex;align-items:center;gap:2px;font-size:15px;color:#6B3D0C}
+#merge .mgqr svg{width:18px;height:18px}
+#merge .order.mgq .give{padding:6px 10px;font-size:17px;align-self:center;min-height:44px}
+/* 좁은 화면: 쪽지를 작게 (얼굴+이름 한 줄 → 물건 → 보상 → 전달) */
+@media not all and (min-aspect-ratio:1/1) and (min-width:820px){
+  #merge .order.mgq{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 5px 7px;text-align:center}
+  #merge .order.mgq .mgqp{width:40px;height:40px;border-width:2px;border-radius:10px}
+  #merge .mgqb{align-items:center;gap:2px;width:100%}
+  #merge .mgqn{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  #merge .mgqs{display:none}
+  #merge .need{width:34px;height:34px}
+  #merge .order.mgq .give{margin-top:3px;font-size:15px;padding:3px 10px;min-height:0}
+  #merge .info .nm{font-size:17px}#merge .info .ds{font-size:14px}
+  #merge .mginfo{width:46px;height:46px}
+}
+#merge .info{padding:6px 12px;min-height:60px;box-sizing:border-box}
+#merge .need{width:40px;height:40px;background:radial-gradient(circle at 50% 38%,#FFF8E6,#E0C08A 75%);border:2px solid #8A5B1C;box-shadow:inset 0 -3px 0 rgba(0,0,0,.12)}
+#merge .need.mgneed img{width:86%;height:86%;object-fit:contain;filter:drop-shadow(0 2px 1px rgba(0,0,0,.45))}
+#merge .need.mgneed.l4,#merge .need.mgneed.l5{border-color:#E0A020;box-shadow:0 0 8px rgba(255,210,74,.7)}
+#merge .need.have{border-color:#2E7D60}
+#merge .order.thanks{animation:mgthanks .7s ease-out}
+#merge .order.thanks .mgqp{animation:mgjump .5s ease-out 2}
+@keyframes mgthanks{30%{transform:scale(1.05) rotate(-1deg);box-shadow:0 0 0 3px #9FF5C8,0 0 26px 6px rgba(159,245,200,.7)}}
+@keyframes mgjump{40%{transform:translateY(-12px) scale(1.08)}}
+#merge .order.enter{animation:mgenter .5s cubic-bezier(.3,1.5,.5,1)}
+@keyframes mgenter{from{transform:translateY(-30px) rotate(-6deg) scale(.8);opacity:0}}
+.mgcoin{position:fixed;z-index:48;pointer-events:none;width:30px;height:30px;transform:translate(-50%,-50%)}
+.mgcoin svg{width:100%;height:100%;filter:drop-shadow(0 0 6px rgba(255,220,100,.9))}
+.mgstat.bump{animation:mgbump .35s ease-out}
+@keyframes mgbump{40%{transform:scale(1.18)}}
+/* 안내 띠 그림 */
+#merge .mginfo{flex:none;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 50% 36%,#7A5232,#3E2614 74%);border:3px solid #C99A4A}
+#merge .mginfo.gen{border-radius:24%}#merge .mginfo.l4,#merge .mginfo.l5{border-color:#FFD24A;box-shadow:0 0 12px rgba(255,210,74,.7)}
+#merge .mginfo img{width:84%;height:84%;object-fit:contain}
+#merge .mgchain{display:inline-flex;gap:2px;vertical-align:middle;margin-left:4px}
+#merge .mgchain img{width:24px;height:24px;object-fit:contain;opacity:.55}
+#merge .mgchain img.me{opacity:1;filter:drop-shadow(0 0 4px #FFD24A);transform:scale(1.15)}
 /* ===== 게임 전체: 던전과 같은 양피지 · 나무 단추 (파스텔 카드 대신) ===== */
 #modal{background:rgba(10,6,20,.62)}
 .sheet{background:linear-gradient(180deg,#FBF0D4,#ECD5A4);background-image:linear-gradient(180deg,#FBF0D4,#ECD5A4);color:#2A1A0E;border:4px solid #6B3D1F;border-radius:24px;
@@ -966,14 +1072,14 @@ body.tts-on .tts{display:inline-flex}
   <section id="hub" class="screen" hidden><div class="hubwrap" id="hubwrap"></div></section>
 
   <section id="merge" class="screen" hidden>
-    <div class="topbar pillbar">
-      <button class="ibtn" data-back aria-label="구역으로"><span class="em">🏠</span></button>
-      <span class="chipr" title="에너지"><span class="em">⚡</span><span id="eVal">50</span><small id="eTime"></small></span>
-      <span class="chipr" title="동전"><span class="em">🪙</span><span id="cVal">0</span></span>
-      <span class="chipr" title="이 구역의 별"><span class="em">⭐</span><span class="sVal">0</span></span>
+    <div class="topbar mghud">
+      <button class="hxslot hxbtn" data-back aria-label="구역으로" title="구역으로"><svg viewBox="0 0 40 40"><path d="M6 20 L20 7 L34 20" fill="none" stroke="#FFE27A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 18 V33 H30 V18" fill="#F7E9C9" stroke="#4E2C14" stroke-width="2.5" stroke-linejoin="round"/><rect x="17" y="23" width="7" height="10" rx="1.5" fill="#8A552B"/></svg></button>
+      <span class="mgstat" title="에너지"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M23 3 L9 23 H19 L16 37 L31 15 H21Z" fill="#FFE27A" stroke="#6B3D0C" stroke-width="2.5" stroke-linejoin="round"/></svg><b id="eVal">50</b><small id="eTime"></small></span>
+      <span class="mgstat" title="동전"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#FFD24A" stroke="#8A5410" stroke-width="2.5"/><circle cx="20" cy="20" r="10" fill="none" stroke="#E0A020" stroke-width="2.5"/><path d="M14 13 Q17 9 22 9" stroke="#fff" stroke-width="2.5" fill="none" opacity=".7"/></svg><b id="cVal">0</b></span>
+      <span class="mgstat" title="이 구역의 별"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#miStar"/></svg><b class="sVal">0</b></span>
       <span class="sp"></span>
       <span id="mReady"></span>
-      <button class="cbtn butter" id="btnQuiz" style="font-size:15px;padding:8px 14px"><span class="em">📚</span>퀴즈 충전</button>
+      <button class="hxplank" id="btnQuiz" title="퀴즈를 맞히면 에너지와 별을 받아요">퀴즈 충전</button>
     </div>
     <div class="orders" id="orders"></div>
     <div class="boardwrap" id="boardwrap"><div class="board" id="board"></div></div>
@@ -1045,6 +1151,7 @@ body.tts-on .tts{display:inline-flex}
 <div id="toast"></div>
 <div id="ghost" hidden></div>
 <div id="bghost" hidden></div>
+<script src="assets/art-manifest.js"></script>
 <script>
 /* ===== 범교과 10개 주제 콘텐츠 (2022 개정 교육과정 총론) ===== */
 const CH = [
@@ -1998,7 +2105,7 @@ function mxZone(i,x,y,s,g){
   return `<g class="mxz hz ${done?'done':''} ${rec?'rec':''}" data-i="${i}" tabindex="0" role="button" aria-label="${esc(name)} 들어가기" transform="translate(${x} ${y}) scale(${s})">
     ${ART.isles[i]?'':'<ellipse cy="16" rx="88" ry="26" class="ring"/><ellipse cy="16" rx="56" ry="17" class="ring2"/>'}
     <circle cy="-44" r="78" fill="url(#hxTorch)" class="hxflick" style="mix-blend-mode:screen"/>
-    ${ART.isles[i]?`<g class="mxb"><image href="${ART.isles[i]}" x="-140" y="-150" width="280" height="280" preserveAspectRatio="xMidYMid meet" pointer-events="none"/></g><ellipse cy="14" rx="122" ry="58" class="ring mxpring" pointer-events="none"/><ellipse class="mxhit" cy="-12" rx="128" ry="118" fill="transparent"/>`:`<g class="mxb" transform="scale(1.35)">${hBuilding(i,mix(ch.tint,'#2A1A2A',.12),ch.tintD||mix(ch.tint,'#000000',.4))}</g>`}
+    ${ART.isles[i]?`<g class="mxb"><image href="${ART.isles[i]}" x="-140" y="-150" width="280" height="280" preserveAspectRatio="xMidYMid meet" pointer-events="none"/></g><ellipse cy="14" rx="122" ry="58" class="ring mxpring" pointer-events="none"/>${(()=>{const b=ART.isleBox&&ART.isleBox[i];if(!b)return '<ellipse class="mxhit" cy="-12" rx="128" ry="118" fill="transparent"/>';const x0=-140+b[0]*280,y0=-150+b[1]*280,x1=-140+b[2]*280,y1=-150+b[3]*280;return `<ellipse class="mxhit" cx="${((x0+x1)/2).toFixed(1)}" cy="${((y0+y1)/2).toFixed(1)}" rx="${((x1-x0)/2*.94).toFixed(1)}" ry="${((y1-y0)/2*.94).toFixed(1)}" fill="transparent"/>`})()}`:`<g class="mxb" transform="scale(1.35)">${hBuilding(i,mix(ch.tint,'#2A1A2A',.12),ch.tintD||mix(ch.tint,'#000000',.4))}</g>`}
     ${rec&&!done?`<g transform="translate(64 -10)" class="mxflag"><path d="M0 0 V-104" stroke="#4E2C14" stroke-width="5" stroke-linecap="round"/><path class="mxpen" d="M2 -102 Q30 -96 58 -102 Q50 -88 58 -74 Q30 -80 2 -74Z" fill="#FFCF5A" stroke="#6B3D0C" stroke-width="3" stroke-linejoin="round"/><text x="28" y="-82" text-anchor="middle" class="mxflagt">${g}학년</text></g>`:''}
     ${done?`<g transform="translate(-66 -64) rotate(-12)"><circle r="26" fill="#B8242E" stroke="#6E0E16" stroke-width="3"/><circle r="19" fill="none" stroke="#FFB0A0" stroke-width="2" stroke-dasharray="3 3"/><text y="-2" text-anchor="middle" class="mxseal">진실</text><text y="13" text-anchor="middle" class="mxseal">확인</text></g>`:''}
     ${fog?`<g class="mxfog" filter="url(#mxBlur)" ${ART.isles[i]?'opacity=".38"':''}><ellipse cx="-40" cy="-30" rx="70" ry="34" fill="#C9B6E8" opacity=".55"/><ellipse cx="44" cy="-50" rx="64" ry="30" fill="#B8A2DE" opacity=".5"/><ellipse cx="0" cy="6" rx="90" ry="24" fill="#D8C8F0" opacity=".45"/></g>`:''}
@@ -2097,7 +2204,8 @@ let MXP_=null; window.addEventListener('resize',()=>{const p=window.innerWidth/w
    assets/ 폴더에 넣은 그림만 여기에 경로를 적어요. 없는 항목(null)은 코드로 그린 그림을 대신 써요(404 없음).
    hub_bg: 항구 허브 배경(16:9) · map_sea: 첫 지도 바다(16:9) · isle_0~9: 구역 섬(투명 PNG/webp, 건물 포함) · isle_home: 탐정단 항구 섬
    HOT: 그림 위 장소 위치(1680×944 좌표) — 그림이 바뀌면 여기만 고치면 돼요 */
-const ART={hub_bg:'assets/hub_bg.webp',map_sea:'assets/map_sea.webp',isle_home:'assets/isle_home.webp',isles:['assets/isle_0.webp','assets/isle_1.webp','assets/isle_2.webp','assets/isle_3.webp','assets/isle_4.webp','assets/isle_5.webp','assets/isle_6.webp','assets/isle_7.webp','assets/isle_8.webp','assets/isle_9.webp']};
+/* 기본값 (art-manifest.js 가 없을 때) — 보통은 scripts/process-assets.js 가 만든 window.ART_FILES 를 그대로 써요 */
+const ART=Object.assign({merge_bg:'assets/merge_bg.webp',items:{safety:true},hub_bg:'assets/hub_bg.webp',map_sea:'assets/map_sea.webp',isle_home:'assets/isle_home.webp',isles:['assets/isle_0.webp','assets/isle_1.webp','assets/isle_2.webp','assets/isle_3.webp','assets/isle_4.webp','assets/isle_5.webp','assets/isle_6.webp','assets/isle_7.webp','assets/isle_8.webp','assets/isle_9.webp'],isleBox:[],npc:{}},window.ART_FILES||{});
 const HOT={hub:{mMerge:[640,712],mBlock:[1205,532],mMatch:[1440,826],mDrop:[300,470],mDungeon:[1490,512],hero:[950,512]},
   /* hub_bg.webp (Canva 생성 그림) 위 장소 좌표 */
   hubPainted:{mMerge:[300,846],mBlock:[1172,612],mMatch:[1380,812],mDrop:[250,572],mDungeon:[1552,452],chest:[1380,800],hero:[1000,648],gull:[1084,652],tag:{mMerge:150,mBlock:186,mMatch:168,mDrop:118,mDungeon:122}}};
@@ -2921,6 +3029,7 @@ let sel=-1, combo=0, lastMerge=0;
 const boardEl=$('#board');
 function openMerge(){
   sel=-1; show('merge');
+  $('#merge').classList.toggle('painted',!!ART.merge_bg); $('#merge').style.backgroundImage=ART.merge_bg?`url(${ART.merge_bg})`:'';
   $('#merge').style.setProperty('--c0',C0);$('#merge').style.setProperty('--c1',C1);
   $('#merge').style.setProperty('--c0d',mix(C0,'#E86A93',.35));$('#merge').style.setProperty('--c1d',mix(C1,'#3FB98A',.35));
   if(boardEl.children.length!==N) boardEl.innerHTML=Array.from({length:N},(_,i)=>`<div class="cell" data-i="${i}"></div>`).join('');
@@ -2928,6 +3037,15 @@ function openMerge(){
   if(!S.tut.merge) setTimeout(()=>coachStart(mergeTutorial(),()=>{S.tut.merge=true;save()}),300);
 }
 function itemOf(x){const ch=CH[CI];if(x.t==='b')return {e:'🎁',n:'깜짝 선물 상자',d:'톡 누르면 선물이 나와요!'};return x.t==='g'?ch.chains[x.c].gen:ch.chains[x.c].items[x.l-1]}
+/* ===== 항구 합치기 물건 그림 =====
+   assets/items/<구역id>_NN.webp : 00 만드는 상자0 · 01~05 사슬0 1~5단계 · 06 만드는 상자1 · 07~11 사슬1 1~5단계
+   그림이 있는 구역만 그림을 쓰고, 없는 구역은 예전 모양을 그대로 써요. 깜짝 상자는 던전 보물상자 그림. */
+function mgSrc(x,ci){const ch=CH[ci==null?CI:ci];if(!x||!ART.items||!ART.items[ch.id])return null;
+  if(x.t==='b')return 'assets/chest.webp';const k=(x.c?6:0)+(x.t==='g'?0:x.l);return `assets/items/${ch.id}_${String(k).padStart(2,'0')}.webp`}
+function mgTokInner(x){const s=mgSrc(x);if(!s)return null;
+  return `<span class="mgf"></span><img class="mgi" src="${s}" alt="" draggable="false">${x.t==='i'?`<i class="mgp">${'<b></b>'.repeat(x.l)}</i>`:''}`}
+const MG_STAR='<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#miStar"/></svg>';
+const MG_COIN='<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#FFD24A" stroke="#8A5410" stroke-width="2.5"/><circle cx="20" cy="20" r="10" fill="none" stroke="#E0A020" stroke-width="2.5"/><path d="M14 13 Q17 9 22 9" stroke="#fff" stroke-width="2.5" fill="none" opacity=".7"/></svg>';
 function renderBoard(anim){
   const c=chState(CI); const want={}; c.orders.forEach(o=>o.needs.forEach(n=>{want[n.c+'-'+n.l]=true}));
   [...boardEl.children].forEach((cell,i)=>{
@@ -2937,7 +3055,8 @@ function renderBoard(anim){
     const cls=['tok',x.t==='g'?'gen':x.t==='b'?'box':'l'+x.l, x.c?'c1':''];
     if(x.t==='i'&&want[x.c+'-'+x.l]) cls.push('match');
     if(anim&&anim[i]) cls.push(anim[i]);
-    cell.innerHTML=`<div class="${cls.join(' ')}"><span class="em">${it.e}</span>${x.t==='i'?`<i class="lv">${x.l}</i>`:''}</div>`;
+    const art=mgTokInner(x); if(art) cls.push('mgt');
+    cell.innerHTML=`<div class="${cls.join(' ')}">${art||`<span class="em">${it.e}</span>${x.t==='i'?`<i class="lv">${x.l}</i>`:''}`}</div>`;
   });
   mergeIdle();
 }
@@ -2965,41 +3084,60 @@ function spawn(gi){
   c.board[t]=(S.tut.merge&&Math.random()<.05)?{t:'b'}:{t:'i',c:g.c,l:Math.random()<.18?2:1};
   sfx.spawn(); save(); renderBoard({[t]:'fly'});
   {const tk=boardEl.children[t].firstElementChild, gr=boardEl.children[gi].getBoundingClientRect(), tr=boardEl.children[t].getBoundingClientRect();
-   if(tk){tk.style.setProperty('--fx',(gr.left-tr.left)+'px');tk.style.setProperty('--fy',(gr.top-tr.top)+'px')}} renderMergeTop(); renderOrders(); coachEmit('spawn');
+   if(tk){tk.style.setProperty('--fx',(gr.left-tr.left)+'px');tk.style.setProperty('--fy',(gr.top-tr.top)+'px')}
+   setTimeout(()=>fxBurst(tr.left+tr.width/2,tr.top+tr.height/2,['#FFE27A','#FFFFFF','#FFB04A'],6,tr.width*1.1),380)} renderMergeTop(); renderOrders(); coachEmit('spawn');
 }
 function openBox(i){
   const c=chState(CI); c.board[i]=null; sel=-1;
   const r=boardEl.children[i].getBoundingClientRect();
   const pick=rnd(['e','e','c','s']);
-  if(pick==='e'){addEnergy(8);floatText('+⚡8',r.left+r.width/2,r.top)}
-  if(pick==='c'){S.coins+=10;floatText('+🪙10',r.left+r.width/2,r.top)}
+  if(pick==='e'){addEnergy(8);floatText('+에너지 8',r.left+r.width/2,r.top)}
+  if(pick==='c'){S.coins+=10;floatText('+동전 10',r.left+r.width/2,r.top)}
   if(pick==='s'){addStars(1,r.left+r.width/2,r.top)}
   sfx.ok(); confetti(18); save(); renderMergeAll();
 }
-function drop(a,b){
+function drop(a,b,from){
   const c=chState(CI), A=c.board[a], B=c.board[b];
   if(a===b||!A) return;
   if(!B){c.board[b]=A;c.board[a]=null;sel=b}
   else if(A.t==='i'&&B.t==='i'&&A.c===B.c&&A.l===B.l&&A.l<5){
+    const ca=boardEl.children[a].getBoundingClientRect(), cb=boardEl.children[b].getBoundingClientRect(), html=boardEl.children[b].innerHTML;
     c.board[b]={t:'i',c:A.c,l:A.l+1}; c.board[a]=null; sel=b; sfx.merge(A.l);
     const now=Date.now(); combo=(now-lastMerge<2500)?combo+1:1; lastMerge=now;
-    const r=boardEl.children[b].getBoundingClientRect();
-    fxBurst(r.left+r.width/2,r.top+r.height/2,[A.c?'#3FB98A':'#E86A93','#FFE066','#FFFFFF'],A.l+1===5?22:11,r.width*1.4);
-    if(combo>=2){comboText(`콤보 ×${combo}!`,r.left+r.width/2,r.top);if(combo>=3){S.coins+=combo;floatText(`+🪙${combo}`,r.left+r.width/2,r.top+30)}}
-    if(A.l+1===5){toast(`최고 단계 완성! ${itemOf(c.board[b]).e} ${itemOf(c.board[b]).n}`);confetti(20)}
-    save(); renderBoard({[b]:'pop'}); renderOrders(); renderInfo(); renderMergeTop(); coachEmit('merge'); return;
+    const fr=from?{left:from.x-ca.width/2,top:from.y-ca.height/2,width:ca.width,height:ca.height}:ca;
+    mgSuck(fr,cb,html); mgSuck(cb,cb,html,true);
+    const nx=itemOf(c.board[b]), lv=A.l+1, cx=cb.left+cb.width/2, cy=cb.top+cb.height/2;
+    setTimeout(()=>{mgFlash(cx,cy,cb.width,lv);
+      fxBurst(cx,cy,[A.c?'#7FE0C0':'#FFB0C8','#FFE066','#FFFFFF'],lv>=4?20:12,cb.width*1.5);
+      floatText(`${nx.n}${lv===5?' 완성!':''}`,cx,cb.top);
+      if(navigator.vibrate)try{navigator.vibrate(lv>=4?[20,30,20]:15)}catch(_){}},230);
+    if(combo>=2){setTimeout(()=>{comboText(`콤보 ×${combo}!`,cx,cb.top-24);if(combo>=3){S.coins+=combo;floatText(`+동전 ${combo}`,cx,cb.top+30);renderMergeTop()}},260)}
+    if(lv===5){setTimeout(()=>{toast(`최고 단계 완성! ${nx.n}`);confetti(24)},400)}
+    save(); renderBoard({[b]:'born'}); renderOrders(); renderInfo(); renderMergeTop(); coachEmit('merge'); return;
   }
-  else{c.board[b]=A;c.board[a]=B;sel=b;if(A.t==='i'&&B.t==='i'&&A.c===B.c&&A.l===5)toast('최고 단계예요! 주문에 쓰거나 팔 수 있어요')}
+  else{c.board[b]=A;c.board[a]=B;sel=b;if(A.t==='i'&&B.t==='i'&&A.c===B.c&&A.l===5)toast('최고 단계예요! 의뢰에 쓰거나 팔 수 있어요')}
   save(); renderBoard(); renderOrders(); renderInfo();
 }
+/* 화면 위를 나는 복제본: from → to 가운데로 빨려 들어가며 작아짐 */
+function mgSuck(from,to,html,stay){
+  const d=document.createElement('div');d.className='mgfly';d.innerHTML=html;const w=to.width;
+  d.style.cssText=`left:${from.left}px;top:${from.top}px;width:${w}px;height:${w}px;--cell:${w}px`;document.body.appendChild(d);
+  const dx=(to.left+to.width/2)-(from.left+from.width/2), dy=(to.top+to.height/2)-(from.top+from.height/2);
+  const anim=stay?[{transform:'scale(1)'},{transform:'scale(1.18)',filter:'brightness(1.4)',offset:.4},{transform:'scale(.15) rotate(-30deg)',filter:'brightness(2.2)',opacity:.4}]
+    :[{transform:'translate(0,0) scale(1.08)'},{transform:`translate(${dx*.6}px,${dy*.6}px) scale(.8) rotate(25deg)`,offset:.55},{transform:`translate(${dx}px,${dy}px) scale(.15) rotate(60deg)`,filter:'brightness(2.2)',opacity:.4}];
+  if(d.animate)d.animate(anim,{duration:240,easing:'cubic-bezier(.5,0,.8,.6)',fill:'forwards'});
+  setTimeout(()=>d.remove(),260);
+}
+/* 합체 순간의 빛: 단계가 높을수록 크고 오래 */
+function mgFlash(x,y,s,lv){const e=document.createElement('div');e.className='mglight'+(lv>=4?' big':'');e.style.cssText=`left:${x}px;top:${y}px;--s:${s*(1.6+lv*.25)}px`;document.body.appendChild(e);setTimeout(()=>e.remove(),700)}
 /* 끌기와 톡 */
 let P=null; const ghost=$('#ghost');
 function cellAt(x,y){const el=document.elementFromPoint(x,y);const cell=el&&el.closest&&el.closest('.cell');return cell&&boardEl.contains(cell)?+cell.dataset.i:-1}
 boardEl.addEventListener('pointerdown',e=>{
   if(CI<0||P) return; const cell=e.target.closest('.cell'); if(!cell) return;
   const i=+cell.dataset.i, c=chState(CI);
-  if(!c.board[i]){sel=-1;renderBoard();renderInfo();return}
-  P={i,x:e.clientX,y:e.clientY,id:e.pointerId,drag:false,tgt:-1};
+  if(!c.board[i]){if(sel>=0&&c.board[sel]&&c.board[sel].t==='i'){drop(sel,i)}else{sel=-1;renderBoard();renderInfo()}return}
+  P={i,x:e.clientX,y:e.clientY,id:e.pointerId,drag:false,tgt:-1,lift:0,touch:e.pointerType==='touch'||e.pointerType==='pen'};
   try{boardEl.setPointerCapture(e.pointerId)}catch(_){}
 });
 boardEl.addEventListener('pointermove',e=>{
@@ -3011,11 +3149,11 @@ boardEl.addEventListener('pointermove',e=>{
     ghost.innerHTML=tok.outerHTML; ghost.firstElementChild.classList.remove('pop','spawn','match');
     ghost.style.width=ghost.style.height=cs*1.15+'px'; ghost.style.setProperty('--cell',getComputedStyle(boardEl).getPropertyValue('--cell'));
     ghost.firstElementChild.style.width=ghost.firstElementChild.style.height='100%';
-    ghost.hidden=false; tok.classList.add('drag'); sel=P.i; markMates(P.i);
+    ghost.hidden=false; tok.classList.add('drag'); sel=P.i; markMates(P.i); P.lift=P.touch?Math.max(36,cs*.9):0; ghost.classList.toggle('lift',P.touch);
   }
   if(P.drag){
-    const cs=ghost.offsetWidth; ghost.style.transform=`translate(${e.clientX-cs/2}px,${e.clientY-cs/2}px)`;
-    const t=cellAt(e.clientX,e.clientY);
+    const cs=ghost.offsetWidth; ghost.style.transform=`translate(${e.clientX-cs/2}px,${e.clientY-cs/2-P.lift}px)`;
+    const t=cellAt(e.clientX,e.clientY-P.lift);
     if(t!==P.tgt){if(P.tgt>=0)boardEl.children[P.tgt].classList.remove('tgt');if(t>=0&&t!==P.i)boardEl.children[t].classList.add('tgt');P.tgt=t}
   }
 });
@@ -3024,11 +3162,13 @@ function endPointer(e,cancel){
   const p=P; P=null; ghost.hidden=true; markMates(-1);
   if(p.tgt>=0) boardEl.children[p.tgt].classList.remove('tgt');
   if(cancel){renderBoard();return}
-  if(p.drag){const t=cellAt(e.clientX,e.clientY);if(t>=0&&t!==p.i)drop(p.i,t);else renderBoard()}
+  if(p.drag){const t=cellAt(e.clientX,e.clientY-p.lift);if(t>=0&&t!==p.i)drop(p.i,t,{x:e.clientX,y:e.clientY-p.lift});else renderBoard()}
   else{const x=chState(CI).board[p.i];
     if(x&&x.t==='g'){sel=p.i;spawn(p.i);renderInfo()}
     else if(x&&x.t==='b'){openBox(p.i)}
-    else{sel=p.i;sfx.tap();renderBoard();renderInfo()}}
+    else{const b=chState(CI).board,s=sel>=0?b[sel]:null;
+      if(s&&x&&sel!==p.i&&s.t==='i'&&x.t==='i'&&s.c===x.c&&s.l===x.l&&s.l<5){drop(sel,p.i)}
+      else{sel=p.i;sfx.tap();renderBoard();renderInfo()}}}
 }
 boardEl.addEventListener('pointerup',e=>endPointer(e,false));
 boardEl.addEventListener('pointercancel',e=>endPointer(e,true));
@@ -3043,33 +3183,61 @@ function renderMergeTop(){
   if(ready&&!mr.firstChild){mr.innerHTML='<button class="readypill" id="mStory">🔍 이야기 열기!</button>';$('#mStory').onclick=()=>storyButton()}
   if(!ready) mr.innerHTML='';
 }
+/* 받침에 맞춰 이/가 (물이 · 샐러드가) */
+function josaIGA(w){const ch=String(w).trim().slice(-1),c=ch.charCodeAt(0);return c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28?'이':'가'}
+function mgNeedHTML(n,have){const ch=CH[CI],it=ch.chains[n.c].items[n.l-1],s=mgSrc({t:'i',c:n.c,l:n.l});
+  return `<span class="need ${n.c?'c1':''} ${have?'have':''} ${s?'mgneed l'+n.l:''}" title="${esc(it.n)} (${n.l}단계)">${s?`<img src="${s}" alt="${esc(it.n)}">`:`<span class="em">${it.e}</span>`}</span>`}
 function renderOrders(){
   const ch=CH[CI], c=chState(CI), cnt=boardCounts(c.board), people=[ch.npc,...ch.villagers];
   $('#orders').innerHTML=c.orders.map((o,k)=>{const st=orderStatus(o,cnt),p=people[o.p]||ch.npc;
-    return `<div class="order ${st.ok?'ready':''}" data-k="${k}"><span class="who"><span class="em">${p.face}</span>${esc(p.name)}</span>
-      <span class="needs">${o.needs.map((n,j)=>{const it=ch.chains[n.c].items[n.l-1];return `<span class="need ${n.c?'c1':''} ${st.have[j]?'have':''}" title="${esc(it.n)} (${n.l}단계)"><span class="em">${it.e}</span></span>`}).join('')}</span>
-      <span class="rw">⭐${o.stars} · 🪙${o.coins}</span><button class="give" data-k="${k}" ${st.ok?'':'disabled'}>전달</button></div>`}).join('');
+    const want=o.needs.map(n=>ch.chains[n.c].items[n.l-1].n).join(', ');
+    return `<div class="order mgq ${st.ok?'ready':''}" data-k="${k}">
+      <span class="mgpin" aria-hidden="true"></span>
+      <span class="who mgqp">${villagerSVG(p,ch.tint,54)}</span>
+      <span class="mgqb"><b class="mgqn">${esc(p.name)}</b><span class="mgqs">${st.ok?'다 모였어요! 전달해 줄래요?':`${esc(want)}${josaIGA(want)} 필요해요`}</span>
+        <span class="needs">${o.needs.map((n,j)=>mgNeedHTML(n,st.have[j])).join('')}</span>
+        <span class="rw mgqr">${MG_STAR}${o.stars}${MG_COIN}${o.coins}</span></span>
+      <button class="give" data-k="${k}" ${st.ok?'':'disabled'}>전달</button></div>`}).join('');
 }
 $('#orders').addEventListener('click',e=>{const b=e.target.closest('.give');if(!b||b.disabled)return;deliver(+b.dataset.k,b)});
 function deliver(k,btnEl){
-  const ch=CH[CI], c=chState(CI), o=c.orders[k];
-  if(!orderStatus(o,boardCounts(c.board)).ok) return;
+  const ch=CH[CI], c=chState(CI), o=c.orders[k], card=btnEl.closest('.order');
+  if(!o||!orderStatus(o,boardCounts(c.board)).ok||(card&&card.classList.contains('thanks'))) return;
   o.needs.forEach(n=>{let idx=-1;for(let i=0;i<N;i++){const x=c.board[i];if(x&&x.t==='i'&&x.c===n.c&&x.l===n.l&&i!==sel){idx=i;break}}
     if(idx<0)idx=c.board.findIndex(x=>x&&x.t==='i'&&x.c===n.c&&x.l===n.l);if(idx>=0){c.board[idx]=null;if(idx===sel)sel=-1}});
   S.coins+=o.coins; const people=[ch.npc,...ch.villagers], p=people[o.p]||ch.npc;
-  const r=btnEl.getBoundingClientRect(); addStars(o.stars,r.left+r.width/2,r.top);
-  toast(`${p.face} ${p.name}: 고마워요! ${rnd(ch.tips)}`);
+  const r=btnEl.getBoundingClientRect(); addStars(o.stars);
   c.orders[k]=makeOrder(CI,{step:c.step,orders:c.orders.filter((_,j)=>j!==k)});
-  sfx.deliver(); confetti(12); save(); renderMergeAll(); coachEmit('deliver');
+  sfx.deliver(); save();
+  if(card){card.classList.add('thanks');btnEl.disabled=true;const s=card.querySelector('.mgqs');if(s)s.textContent='고마워요! '+rnd(ch.tips);
+    const pr=card.querySelector('.mgqp').getBoundingClientRect();fxBurst(pr.left+pr.width/2,pr.top+pr.height/2,['#FF8FB1','#FFE066','#FFFFFF'],10,pr.width*1.4);
+    const sv=$('#merge .mgstat .sVal'),cv=$('#cVal');
+    for(let i=0;i<Math.min(6,o.stars);i++)setTimeout(()=>mgFlyTo(MG_STAR,r,sv),i*90);
+    for(let i=0;i<Math.min(5,Math.ceil(o.coins/3));i++)setTimeout(()=>mgFlyTo(MG_COIN,r,cv),120+i*80)}
+  else toast(`${p.name}: 고마워요! ${rnd(ch.tips)}`);
+  renderBoard(); renderInfo(); renderMergeTop(); coachEmit('deliver');
+  setTimeout(()=>{if(SCREEN!=='merge')return;renderOrders();const nc=$(`#orders .order[data-k="${k}"]`);if(nc)nc.classList.add('enter')},card?1300:0);
 }
+/* 보상 아이콘이 버튼에서 HUD 슬롯으로 날아가 톡 */
+function mgFlyTo(svg,fromRect,toEl){if(!toEl)return;const t=(toEl.closest('.mgstat')||toEl).getBoundingClientRect();
+  const d=document.createElement('div');d.className='mgcoin';d.innerHTML=svg;const x0=fromRect.left+fromRect.width/2,y0=fromRect.top,x1=t.left+t.width/2,y1=t.top+t.height/2;
+  d.style.cssText=`left:${x0}px;top:${y0}px`;document.body.appendChild(d);
+  if(d.animate)d.animate([{transform:'translate(-50%,-50%) scale(.6)',opacity:0},{transform:`translate(calc(-50% + ${(x1-x0)*.3}px),calc(-50% + ${(y1-y0)*.3-60}px)) scale(1.25)`,opacity:1,offset:.35},{transform:`translate(calc(-50% + ${x1-x0}px),calc(-50% + ${y1-y0}px)) scale(.7)`,opacity:1}],{duration:700,easing:'cubic-bezier(.3,0,.6,1)',fill:'forwards'});
+  setTimeout(()=>{d.remove();const s=toEl.closest('.mgstat');if(s){s.classList.remove('bump');void s.offsetWidth;s.classList.add('bump')}beep(990,.05,'triangle',.04,1.3)},700)}
 function renderInfo(){
   const el=$('#info'), c=chState(CI), x=sel>=0?c.board[sel]:null;
+  if(!x&&mgSrc({t:'g',c:0})){el.innerHTML=`<span class="mginfo gen"><img src="${mgSrc({t:'g',c:0})}" alt=""></span><div class="txt"><div class="nm">빛나는 상자를 톡! 같은 물건끼리 끌어서 합쳐요</div><div class="ds">물건을 톡 누른 뒤 같은 물건을 톡 눌러도 합쳐져요. 게시판의 주민 의뢰에 필요한 물건엔 초록 표시가 붙어요.</div></div>`;return}
   if(!x){el.innerHTML=`<span class="big em">👆</span><div class="txt"><div class="nm">✨상자를 톡! 같은 것끼리 끌어서 합체!</div><div class="ds">초록 ✓ 표시가 붙은 물건은 지금 주문에 쓰여요. 🎁 깜짝 상자가 나오면 톡 눌러 보세요!</div></div>`;return}
   const ch=CH[CI];
+  if(x.t==='b'&&mgSrc(x)){el.innerHTML=`<span class="mginfo"><img src="assets/chest.webp" alt=""></span><div class="txt"><div class="nm">깜짝 보물상자</div><div class="ds">톡 누르면 에너지, 동전, 별 중 하나가 나와요!</div></div>`;return}
   if(x.t==='b'){el.innerHTML=`<span class="big em">🎁</span><div class="txt"><div class="nm">깜짝 선물 상자</div><div class="ds">톡 누르면 ⚡, 🪙, ⭐ 중 하나가 나와요!</div></div>`;return}
   const chain=ch.chains[x.c];
+  if(x.t==='g'&&mgSrc(x)){el.innerHTML=`<span class="mginfo gen"><img src="${mgSrc(x)}" alt=""></span><div class="txt"><div class="nm">${esc(chain.gen.n)} <span class="chain mgchain">${chain.items.map((t,i)=>`<img src="${mgSrc({t:'i',c:x.c,l:i+1})}" alt="${esc(t.n)}" title="${esc(t.n)}">`).join('')}</span></div><div class="ds">톡 누를 때마다 에너지 1을 쓰고 ${esc(chain.items[0].n)}이(가) 나와요.</div></div>`;return}
   if(x.t==='g'){el.innerHTML=`<span class="big em">${chain.gen.e}</span><div class="txt"><div class="nm">${esc(chain.gen.n)} <span class="chain">${chain.items.map(it=>`<span class="em">${it.e}</span>`).join('')}</span></div><div class="ds">톡 누를 때마다 ⚡1을 쓰고 ${chain.items[0].e} ${esc(chain.items[0].n)}이(가) 나와요.</div></div>`;return}
-  const it=chain.items[x.l-1], nx=chain.items[x.l];
+  const it=chain.items[x.l-1], nx=chain.items[x.l], s=mgSrc(x);
+  if(s){el.innerHTML=`<span class="mginfo l${x.l}"><img src="${s}" alt=""></span><div class="txt"><div class="nm">${esc(it.n)} · ${x.l}단계 <span class="chain mgchain">${chain.items.map((t,i)=>`<img class="${i===x.l-1?'me':''}" src="${mgSrc({t:'i',c:x.c,l:i+1})}" alt="${esc(t.n)}" title="${esc(t.n)}">`).join('')}</span></div>
+    <div class="ds">${esc(it.d)}${nx?` 두 개를 합치면 → ${esc(nx.n)}`:' (최고 단계!)'}</div></div><button class="sell" id="btnSell">팔기 · 동전 ${x.l}</button>`;
+    $('#btnSell').onclick=()=>{const c=chState(CI);if(sel<0||!c.board[sel])return;S.coins+=c.board[sel].l;c.board[sel]=null;sel=-1;sfx.tap();save();renderMergeAll()};return}
   el.innerHTML=`<span class="big em">${it.e}</span><div class="txt"><div class="nm">${esc(it.n)} · ${x.l}단계 <span class="chain">${chain.items.map((t,i)=>`<span class="em ${i===x.l-1?'me':''}">${t.e}</span>`).join('')}</span></div>
     <div class="ds">${esc(it.d)}${nx?` 두 개를 합치면 → ${nx.e} ${esc(nx.n)}`:' (최고 단계!)'}</div></div><button class="sell" id="btnSell">팔기 🪙${x.l}</button>`;
   $('#btnSell').onclick=()=>{const c=chState(CI);if(sel<0||!c.board[sel])return;S.coins+=c.board[sel].l;c.board[sel]=null;sel=-1;sfx.tap();save();renderMergeAll()};
@@ -3991,6 +4159,11 @@ $$('[data-back]').forEach(b=>b.onclick=()=>{sfx.tap();goHub()});
 $('#btnQuiz').onclick=()=>{sfx.tap();quizCharge()};
 setInterval(()=>{if(SCREEN==='merge')renderMergeTop()},1000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)save()});
-function boot(){if(S.lesson&&CH[S.lesson.ci])goHub(S.lesson.ci);else{S.lesson=null;goMap()}}
+function boot(){if(S.lesson&&CH[S.lesson.ci])goHub(S.lesson.ci);else{S.lesson=null;goMap();bootHash()}}
+/* 바로가기: index.html#play=merge&zone=0 → 그 구역의 놀이 화면 (학년을 고른 뒤, 수업 모드가 아닐 때만) */
+function bootHash(){const h=new URLSearchParams(location.hash.slice(1)),z=+h.get('zone'),play=h.get('play');if(!play||!CH[z])return;
+  const go={merge:openMerge,match:openMatch,drop:openDrop,block:openBlock,hub:null}[play];if(go===undefined)return;
+  const c=chState(z);if(!c.intro||needGuess(z)){goHub(z);return} /* 첫 소개·첫 예상은 건너뛰지 않아요 (저장 값도 바꾸지 않음) */
+  CI=z;show('hub');renderHub();if(go)go()}
 if(curGrade()) boot(); else {CI=-1;show('map');renderMap();gradeModal(true,boot)}
 </script></body></html>
