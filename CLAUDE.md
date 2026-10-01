@@ -22,6 +22,23 @@ The final art direction is hand-painted art matching the dungeon (rules, prompts
 
 Tools need `npm install` (playwright-core, uses system Chrome). `npm run assets:test` re-checks all registered art.
 
+## Redesign progress (`game-redesign` branch, as of 2026-10-01)
+
+Done (painted art):
+- 지도 · 항구 허브 painted art
+- 10개 구역 지도 섬
+- 머지게임 10개 구역 painted 아이템 (120개)
+- 대표 주민 초상화 3명 (npc_safety · npc_career · npc_unify)
+
+Next, in order:
+1. 나머지 주민 초상화 (대표 7명 → 이웃 주민 `npc_<zone>_1/_2`)
+2. 블록 퍼즐 리디자인
+3. 3매치 비주얼 리디자인
+4. 소문 퐁당 리디자인
+5. 던전 마무리
+6. 전체 통합 및 모바일 테스트
+7. 최종 GitHub push/배포 — push only when the user explicitly asks
+
 ## Architecture (all inside `index.html`)
 
 The script is ordered as: content data → shared engine → per-game engines → event wiring/boot (bottom of file). Search by the section comments (`/* ===== ... ===== */`, `/* ---------- ... ---------- */`).
