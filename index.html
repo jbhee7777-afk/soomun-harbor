@@ -307,6 +307,23 @@ section#hub{overflow-y:auto;padding:12px 16px 30px}
 .pdlv{display:grid;place-items:center;line-height:0}
 .pdhelp{display:grid;place-items:center;line-height:0}
 .mode.m5{background:linear-gradient(160deg,#DDF1FF,#A8D8F5);box-shadow:0 6px 0 #6FB2DA}
+/* ===== 소문 퐁당: 등대 절벽의 유리 항아리 (painted art 기준) ===== */
+#drop.painted{background-color:#140C26;background-size:cover;background-position:center 45%;color:#FFF3D6}
+#drop.painted::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 55%,transparent 40%,rgba(10,4,20,.42) 80%,rgba(6,2,12,.74) 100%)}
+#drop.painted>*{position:relative;z-index:1}
+#drop.painted .mwrap{justify-content:center}
+#drop.painted .mplank{border-radius:14px;background:linear-gradient(180deg,#5A3A22,#2E1C10);border:3px solid #B8862A;color:#FFF3D6;box-shadow:0 0 0 2px #2A170A,0 8px 14px rgba(0,0,0,.5),inset 0 2px 0 rgba(255,214,160,.3)}
+#drop.painted .mplank::before{opacity:.18}
+#drop.painted .mstat small,#drop.painted .mgoal small{color:#FFE9A8}
+#drop.painted .mstat b{color:#FFF3C4;-webkit-text-stroke:1.5px #6B3D0C;paint-order:stroke fill;text-shadow:0 2px 0 #3A1F0C}
+#pdScore.pop{animation:bpop .45s cubic-bezier(.3,1.7,.5,1)}
+#drop.painted .pdframe{border-radius:40px 40px 34px 34px;padding:10px;background:linear-gradient(100deg,rgba(255,255,255,.22) 0,rgba(255,255,255,.04) 18%,rgba(255,255,255,0) 60%,rgba(255,255,255,.12) 88%,rgba(255,255,255,.05) 100%);
+  box-shadow:inset 0 0 0 2px rgba(220,245,255,.45),inset 0 0 24px rgba(160,220,255,.25),0 0 0 4px #2A170A,0 0 0 7px #B8862A,0 0 0 9px #2A170A,0 18px 30px rgba(0,0,0,.6)}
+#drop.painted .pdframe::before{left:18px;right:18px;top:-16px;height:18px;border-radius:12px;background:linear-gradient(180deg,#FFE27A,#B8862A 55%,#6B3D0C);box-shadow:0 0 0 3px #2A170A,0 4px 8px rgba(0,0,0,.5)}
+#drop.painted .pdframe::after{content:"";position:absolute;left:16px;top:22px;width:10px;bottom:40px;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));pointer-events:none}
+#drop.painted #pdCv{border-radius:32px 32px 26px 26px;box-shadow:none}
+#drop.painted .pdchain{background:linear-gradient(180deg,rgba(74,44,22,.9),rgba(42,24,12,.92));border:3px solid #8A5B1C;box-shadow:0 0 0 2px #2A170A,0 6px 12px rgba(0,0,0,.45);border-radius:18px;padding:4px 10px}
+.pdframe.shk{animation:bshk .35s ease-in-out}.pdframe.shk2{animation:bshk2 .5s ease-in-out}
 .mode .pdcard canvas{display:block}
 /* ---------- 항구 그림 지도 ---------- */
 .hmap{border-radius:30px;overflow:hidden;line-height:0;box-shadow:0 8px 0 rgba(79,183,214,.35),0 18px 40px rgba(60,130,170,.2),inset 0 0 0 4px #fff}
@@ -1201,13 +1218,13 @@ section#hub{position:relative;overflow:hidden;padding:0;background:#120C22}
   </section>
 
   <section id="drop" class="screen" hidden>
-    <div class="topbar pillbar">
-      <button class="ibtn" data-back aria-label="구역으로"><span class="em">🏠</span></button>
-      <span class="chipr" title="최고 점수"><span class="em">👑</span><span id="pdBest">0</span></span>
-      <span class="chipr" title="이 구역의 별"><span class="em">⭐</span><span class="sVal">0</span></span>
+    <div class="topbar mghud">
+      <button class="hxslot hxbtn" data-back aria-label="구역으로" title="구역으로"><svg viewBox="0 0 40 40"><path d="M6 20 L20 7 L34 20" fill="none" stroke="#FFE27A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 18 V33 H30 V18" fill="#F7E9C9" stroke="#4E2C14" stroke-width="2.5" stroke-linejoin="round"/><rect x="17" y="23" width="7" height="10" rx="1.5" fill="#8A552B"/></svg></button>
+      <span class="mgstat" title="최고 점수"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 30 L8 12 L15 20 L20 8 L25 20 L32 12 L34 30Z" fill="#FFD24A" stroke="#6B3D0C" stroke-width="2.5" stroke-linejoin="round"/><circle cx="20" cy="24" r="3" fill="#FF7FA6" stroke="#6B3D0C" stroke-width="1.5"/></svg><b id="pdBest">0</b></span>
+      <span class="mgstat" title="이 구역의 별"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#miStar"/></svg><b class="sVal">0</b></span>
       <span class="sp"></span>
-      <button class="cbtn butter" id="pdBonus" hidden>❓ 보너스 퀴즈 <span id="pdBonusN"></span></button>
-      <button class="ibtn" id="pdHelp" aria-label="도움말"><span class="em">❓</span></button>
+      <button class="hxplank hot" id="pdBonus" hidden>보너스 퀴즈 병 <span id="pdBonusN"></span></button>
+      <button class="hxslot hxbtn" id="pdHelp" aria-label="도움말" title="도움말"><svg viewBox="0 0 40 40"><text x="20" y="29" text-anchor="middle" font-family="Jua" font-size="26" fill="#FFE27A">?</text></svg></button>
     </div>
     <div class="mwrap pdwrap">
       <div class="mhud" id="pdTop">
@@ -3439,9 +3456,9 @@ function renderMatchTop(){
   const b=$('#mBonus'); b.hidden=!M.bonus||M.over; $('#mBonusN').textContent=M.bonus>1?`×${M.bonus}`:'';
 }
 /* 숫자가 굴러 올라가고 크게 오르면 통 튀어요 (팡팡 · 퐁당 점수) */
-function numTo(el,v){const from=el._v||0;cancelAnimationFrame(el._raf);if(v<=from){el._v=v;el.textContent=v.toLocaleString();return}
+function numTo(el,v){if(el._t===v&&el._raf)return;el._t=v;const from=el._v||0;cancelAnimationFrame(el._raf);el._raf=0;if(v<=from){el._v=v;el.textContent=v.toLocaleString();return}
   if(v-from>=60){el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop')}
-  const t0=performance.now(),d=Math.min(800,260+(v-from)*.8);const step=t=>{const k=Math.min(1,(t-t0)/d),n=Math.round(from+(v-from)*(1-Math.pow(1-k,3)));el.textContent=n.toLocaleString();el._v=n;if(k<1)el._raf=requestAnimationFrame(step)};el._raf=requestAnimationFrame(step)}
+  const t0=performance.now(),d=Math.min(800,260+(v-from)*.8);const step=t=>{const k=Math.min(1,(t-t0)/d),n=Math.round(from+(v-from)*(1-Math.pow(1-k,3)));el.textContent=n.toLocaleString();el._v=n;el._raf=k<1?requestAnimationFrame(step):0};el._raf=requestAnimationFrame(step)}
 function posOf(tile){for(let r=0;r<MR;r++)for(let c=0;c<MC;c++)if(M.g[r][c]===tile)return [r,c];return null}
 /* 입력: 밀기(스와이프·마우스 끌기) 또는 두 칸을 차례로 톡톡 */
 let MP=null;
@@ -3901,8 +3918,18 @@ const PLV=[
 const PGOAL=[500,1300,2600], PBONUS=900;
 let PD=null, pdRaf=0;
 const pdCv=$('#pdCv'), pdCtx=pdCv.getContext('2d');
-/* ---------- 그림: 바다 친구들 (캔버스 path · gradient) ---------- */
+/* ---------- 그림: 바다 친구들 (painted 그림 · 없으면 캔버스 path) ---------- */
+let PIMG=null;
+function pdPk(){const P=ART.pack&&ART.pack.drop;return P&&P.lv_00?P:null}
+function pdImgs(){const P=pdPk();if(!P)return null;if(!PIMG){PIMG=PLV.map((_,i)=>{const im=new Image();im.decoding='async';im.src=P['lv_'+String(i).padStart(2,'0')];return im});
+    PIMG.fog=new Image();if(P.fog)PIMG.fog.src=P.fog;
+    Promise.all(PIMG.map(im=>im.decode().catch(()=>{}))).then(()=>{PSPR={};if(SCREEN==='drop'&&PD){pdChainBuild();$('#pdNext').dataset.l=''}})}
+  return PIMG}
+const pdReady=im=>im&&im.complete&&im.naturalWidth>0;
 function pdDraw(ctx,l,x,y,r,a,noHi){
+  const IM=pdImgs();
+  /* 그림 속 둥근 공은 정사각 그림의 약 92% → 지름 2r 이 되도록 2.17r 로 그려요 */
+  if(IM&&pdReady(IM[l])){ctx.save();ctx.translate(x,y);ctx.rotate(a);const z=r*2.17;ctx.drawImage(IM[l],-z/2,-z/2,z,z);ctx.restore();return}
   const L=PLV[l], c=L.c;
   ctx.save(); ctx.translate(x,y);
   ctx.save(); ctx.shadowColor='rgba(0,25,45,.35)'; ctx.shadowBlur=r*.25; ctx.shadowOffsetY=noHi?0:r*.12;
@@ -3959,12 +3986,14 @@ function openDrop(){
   show('drop'); cancelAnimationFrame(pdRaf);
   const c=chState(CI); if(c.pBest==null) c.pBest=0;
   PD={b:[],fx:[],txt:[],score:0,aim:PW/2,cur:pdPick(),next:pdPick(),cool:0,danger:0,over:false,bonus:0,nextB:PBONUS,starsWon:0,maxL:0,merges:0,id:0,t:0,bub:Array.from({length:14},()=>({x:Math.random()*PW,y:Math.random()*PH,r:2+Math.random()*4,s:.2+Math.random()*.5}))};
-  const ch=$('#pdChain'); ch.innerHTML=''; PLV.forEach((L,i)=>{const w=document.createElement('span');w.className='pdlv';w.title=L.n;w.appendChild(pdIcon(i,30));ch.appendChild(w)});
+  const ds=$('#drop'),pa=!!(ART.drop_bg&&pdPk());ds.classList.toggle('painted',pa);ds.style.backgroundImage=pa?`url("${ART.drop_bg}")`:'';pdImgs();
+  $('#pdScore')._v=0;$('#pdScore')._t=0;$('#pdScore').textContent='0';pdChainBuild();
   fitDrop(); renderDropTop();
   $('#pdHelp').onclick=dropHelp; $('#pdBonus').onclick=dropBonus;
   pdRaf=requestAnimationFrame(pdLoop);
   if(!S.tut.drop) setTimeout(()=>coachStart(dropTutorial(),()=>{S.tut.drop=true;save()}),500);
 }
+function pdChainBuild(){const ch=$('#pdChain'); ch.innerHTML=''; PLV.forEach((L,i)=>{const w=document.createElement('span');w.className='pdlv';w.title=L.n;w.appendChild(pdIcon(i,pdPk()?(innerWidth<440?28:34):30));ch.appendChild(w)})}
 function pdPick(){const r=Math.random();return r<.36?0:r<.64?1:r<.84?2:r<.96?3:4}
 function fitDrop(){
   if(SCREEN!=='drop'||!PD) return;
@@ -3976,7 +4005,7 @@ function fitDrop(){
 }
 function renderDropTop(){
   if(!PD) return; const c=chState(CI);
-  $('#pdScore').textContent=PD.score.toLocaleString(); $$('.sVal').forEach(e=>e.textContent=c.stars);
+  numTo($('#pdScore'),PD.score); $$('.sVal').forEach(e=>e.textContent=c.stars);
   const st=PGOAL.filter(g=>PD.score>=g).length;
   $('#pdGbar').style.width=Math.min(100,PD.score/PGOAL[2]*100)+'%';
   $('#pdGoalT').textContent=st>=3?'목표 모두 달성!':`다음 목표 ${PGOAL[st].toLocaleString()}점`;
@@ -4024,10 +4053,11 @@ function pdPhysics(){
   for(const [a,b] of merges){
     if(a.dead||b.dead) continue; a.dead=b.dead=1;
     const x=(a.x*a.r*a.r+b.x*b.r*b.r)/(a.r*a.r+b.r*b.r), y=(a.y+b.y)/2, l=a.l+1;
-    if(l>=PLV.length){PD.score+=1500;pdBurst(x,y,'#FFFFFF',40);pdText('고래 둘이 만나 바다 축제! +1500',x,y);confetti(60);sfx.ok();continue}
+    if(l>=PLV.length){PD.score+=1500;pdBurst(x,y,'#FFFFFF',40);pdRing(x,y,80,'#FFE27A');pdShake(true);pdText('고래 둘이 만나 바다 축제! +1500',x,y);confetti(60);sfx.ok();continue}
     const n={id:++PD.id,l,r:PLV[l].r,x,y,vx:(a.vx+b.vx)/2,vy:Math.min(a.vy,b.vy)-1.2,a:0,age:3,grow:.55};
     PD.b.push(n); const gain=(l+1)*(l+1)*5; PD.score+=gain; PD.merges++;
-    pdBurst(x,y,PLV[l].c[1],8+l*2); pdText(`+${gain}`,x,y);
+    pdBurst(x,y,PLV[l].c[1],10+l*3); pdText(`+${gain}`,x,y); n.flash=1; pdRing(x,y,PLV[l].r,PLV[l].c[1]);
+    if(l>=3)pdShake(l>=6);
     if(l>PD.maxL){PD.maxL=l;if(l>=4){pdText(`${PLV[l].n} 등장!`,x,y-PLV[l].r-10,1);sfx.ok()}}
     beep(380+l*70,.12,'sine',.08,1.4);
   }
@@ -4038,12 +4068,16 @@ function pdPhysics(){
   PD.danger=high?PD.danger+1:Math.max(0,PD.danger-3);
   if(PD.danger>130&&!PD.over){PD.over=true;setTimeout(()=>{if(SCREEN==='drop')dropOver()},700)}
 }
+function pdRing(x,y,r,col){(PD.rings=PD.rings||[]).push({x,y,r,col,life:1})}
+function pdShake(big){const f=$('.pdframe');if(!f)return;f.classList.remove('shk','shk2');void f.offsetWidth;f.classList.add(big?'shk2':'shk');setTimeout(()=>f.classList.remove('shk','shk2'),520);if(navigator.vibrate)try{navigator.vibrate(big?[30,30,40]:18)}catch(_){}}
 function pdBurst(x,y,col,n){for(let i=0;i<n;i++){const a=Math.random()*7,s=1.5+Math.random()*3.5;PD.fx.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-1,life:1,col:i%3?col:'#FFFFFF',r:2+Math.random()*3})}}
 function pdText(t,x,y,big){PD.txt.push({t,x,y,life:1,big})}
 /* ---------- 그리기 ---------- */
 function pdRender(){
-  const ctx=pdCtx, k=PD.scale*PD.dpr; ctx.setTransform(k,0,0,k,0,0);
-  const bg=ctx.createLinearGradient(0,0,0,PH); bg.addColorStop(0,'#6CC6E2'); bg.addColorStop(.5,'#2E8DB4'); bg.addColorStop(1,'#165273');
+  const ctx=pdCtx, k=PD.scale*PD.dpr, pa=!!pdPk(); ctx.setTransform(k,0,0,k,0,0);
+  const bg=ctx.createLinearGradient(0,0,0,PH);
+  if(pa){ctx.clearRect(0,0,PW,PH);bg.addColorStop(0,'rgba(40,90,120,.38)');bg.addColorStop(.55,'rgba(16,52,82,.62)');bg.addColorStop(1,'rgba(8,26,46,.82)')}
+  else{bg.addColorStop(0,'#6CC6E2'); bg.addColorStop(.5,'#2E8DB4'); bg.addColorStop(1,'#165273')}
   ctx.fillStyle=bg; ctx.fillRect(0,0,PW,PH);
   ctx.fillStyle='rgba(255,255,255,.08)'; for(let i=0;i<5;i++){ctx.beginPath();ctx.moveTo(40+i*70,0);ctx.lineTo(70+i*70,0);ctx.lineTo(10+i*70+PD.t%40*.2,PH);ctx.lineTo(-20+i*70,PH);ctx.fill()}
   for(const u of PD.bub){u.y-=u.s;if(u.y<-10){u.y=PH+10;u.x=Math.random()*PW}ctx.strokeStyle='rgba(255,255,255,.35)';ctx.lineWidth=1.2;ctx.beginPath();ctx.arc(u.x+Math.sin((PD.t+u.y)*.03)*3,u.y,u.r,0,7);ctx.stroke()}
@@ -4053,13 +4087,18 @@ function pdRender(){
   const warn=PD.danger>0; ctx.save(); ctx.setLineDash([10,8]); ctx.lineWidth=3;
   ctx.strokeStyle=warn?`rgba(255,${90+Math.sin(PD.t*.3)*60|0},90,.95)`:'rgba(255,255,255,.45)'; ctx.beginPath(); ctx.moveTo(0,PLINE); ctx.lineTo(PW,PLINE); ctx.stroke(); ctx.restore();
   if(warn){ctx.fillStyle=`rgba(255,80,80,${Math.min(.25,PD.danger/400)})`;ctx.fillRect(0,0,PW,PLINE)}
+  /* 소문 안개: 위험할수록 위험선 근처에 짙어져요 */
+  const IM=pa&&pdImgs();if(IM&&pdReady(IM.fog)&&PD.danger>0){const al=Math.min(.75,PD.danger/120);ctx.save();ctx.globalAlpha=al;for(let i=0;i<4;i++){const fx=((i*110+PD.t*.6)%(PW+120))-60;ctx.drawImage(IM.fog,fx-40,PLINE-62+Math.sin(PD.t*.05+i)*6,80,80)}ctx.restore()}
   /* 조준선 + 지금 떨어뜨릴 친구 */
   if(!PD.over){const r=PLV[PD.cur].r, ax=pdClamp(PD.aim);
     ctx.save(); ctx.setLineDash([3,9]); ctx.strokeStyle='rgba(255,255,255,.7)'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(ax,PDROP+r); ctx.lineTo(ax,PH); ctx.stroke(); ctx.restore();
     ctx.globalAlpha=PD.cool>0?.45:1; pdDraw(ctx,PD.cur,ax,PDROP-6+Math.sin(PD.t*.08)*2,r,0); ctx.globalAlpha=1}
   for(const o of PD.b){const g=o.grow?(.55+.45*o.grow+(o.grow<1?Math.sin(o.grow*Math.PI)*.15:0)):1, sp=pdSprite(o.l), h=sp.half*g, r=o.r*g;
     ctx.save(); ctx.translate(o.x,o.y); ctx.rotate(o.a); ctx.drawImage(sp.cv,-h,-h,h*2,h*2); ctx.restore();
-    ctx.fillStyle='rgba(255,255,255,.55)'; ctx.beginPath(); ctx.ellipse(o.x-r*.38,o.y-r*.45,r*.26,r*.14,-.6,0,7); ctx.fill()}
+    if(!pa){ctx.fillStyle='rgba(255,255,255,.55)'; ctx.beginPath(); ctx.ellipse(o.x-r*.38,o.y-r*.45,r*.26,r*.14,-.6,0,7); ctx.fill()}
+    if(o.flash>0){ctx.save();ctx.globalCompositeOperation='lighter';const g2=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,r*1.3);g2.addColorStop(0,`rgba(255,250,220,${o.flash*.85})`);g2.addColorStop(1,'rgba(255,220,120,0)');ctx.fillStyle=g2;ctx.beginPath();ctx.arc(o.x,o.y,r*1.3,0,7);ctx.fill();ctx.restore();o.flash-=.06}}
+  if(PD.rings)for(const g of PD.rings){const R=g.r*(1+(1-g.life)*1.6);ctx.save();ctx.globalCompositeOperation='lighter';ctx.globalAlpha=g.life;ctx.lineWidth=3+5*g.life;ctx.strokeStyle='#FFF6D0';ctx.shadowColor=g.col;ctx.shadowBlur=18;ctx.beginPath();ctx.arc(g.x,g.y,R,0,7);ctx.stroke();
+    for(let q=0;q<8;q++){const an=q*Math.PI/4+g.life;ctx.beginPath();ctx.moveTo(g.x+Math.cos(an)*R*.75,g.y+Math.sin(an)*R*.75);ctx.lineTo(g.x+Math.cos(an)*R*1.25,g.y+Math.sin(an)*R*1.25);ctx.stroke()}ctx.restore()}
   for(const f of PD.fx){ctx.globalAlpha=f.life;ctx.fillStyle=f.col;ctx.beginPath();ctx.arc(f.x,f.y,f.r*f.life+.5,0,7);ctx.fill()} ctx.globalAlpha=1;
   ctx.textAlign='center'; ctx.lineJoin='round';
   for(const t of PD.txt){ctx.globalAlpha=Math.min(1,t.life*2);ctx.font=`${t.big?26:20}px Jua, sans-serif`;ctx.lineWidth=5;ctx.strokeStyle=t.big?'#2B4C94':'#8C4E12';ctx.strokeText(t.t,t.x,t.y);ctx.fillStyle=t.big?'#fff':'#FFF3B3';ctx.fillText(t.t,t.x,t.y)} ctx.globalAlpha=1;
@@ -4069,6 +4108,7 @@ function pdLoop(){
   PD.t++; if(PD.cool>0)PD.cool--;
   if(!PD.over&&!PD.pause) pdPhysics();
   for(const f of PD.fx){f.x+=f.vx;f.y+=f.vy;f.vy+=.12;f.life-=.03} PD.fx=PD.fx.filter(f=>f.life>0);
+  if(PD.rings){for(const g of PD.rings)g.life-=.045;PD.rings=PD.rings.filter(g=>g.life>0)}
   for(const t of PD.txt){t.y-=.7;t.life-=.016} PD.txt=PD.txt.filter(t=>t.life>0);
   if(PD.score>=PD.nextB&&!PD.over){while(PD.score>=PD.nextB){PD.bonus++;PD.nextB+=PBONUS}toast('보너스 퀴즈 병이 떠올랐어요! 풀고 싶을 때 눌러요')}
   if(PD.t%6===0) renderDropTop();
@@ -4078,10 +4118,10 @@ function pdLoop(){
 function dropOver(){
   const c=chState(CI), st=PGOAL.filter(g=>PD.score>=g).length, rec=PD.score>(c.pBest||0);
   if(rec)c.pBest=PD.score; if(st)addStars(st); save(); renderDropTop(); if(st)confetti(20+st*15);
-  const sh=openModal(`<div class="result"><h2>${rec?'새 기록!':'항아리가 꽉 찼어요!'}</h2><div class="stars">${[0,1,2].map(i=>`<span class="em ${i<st?'':'off'}">⭐</span>`).join('')}</div>
+  const sh=openModal(`<div class="result"><h2>${rec?'새 기록!':'항아리가 꽉 찼어요!'}</h2><div class="stars rstars">${[0,1,2].map(i=>`<span class="rstar ${i<st?'on':'off'}" style="--d:${.25+i*.28}s"><svg viewBox="0 0 100 100"><use href="#miStar"/></svg></span>`).join('')}</div>
     <div class="score" style="margin:6px 0">${PD.score.toLocaleString()}점</div>
-    <p class="note">목표 ${PGOAL.map(g=>g.toLocaleString()).join(' · ')}점을 넘을 때마다 ⭐1 · 이번 판에서 모은 별 ⭐${PD.starsWon+st}<br>합체 ${PD.merges}번 · 가장 큰 친구: ${PLV[PD.maxL].n} · 최고 ${c.pBest.toLocaleString()}점</p></div>
-    <div class="row" style="justify-content:center"><button class="cbtn ghost" id="hub">🏠 구역으로</button><button class="cbtn mint" id="again">한 판 더!</button></div>`,{closable:false});
+    <p class="note">목표 ${PGOAL.map(g=>g.toLocaleString()).join(' · ')}점을 넘을 때마다 별 1개 · 이번 판에서 모은 별 ${PD.starsWon+st}개<br>합체 ${PD.merges}번 · 가장 큰 친구: ${PLV[PD.maxL].n} · 최고 ${c.pBest.toLocaleString()}점</p></div>
+    <div class="row" style="justify-content:center"><button class="cbtn ghost" id="hub">구역으로</button><button class="cbtn mint" id="again">한 판 더!</button></div>`,{closable:false});
   sh.querySelector('#hub').onclick=()=>{closeModal();goHub()};
   sh.querySelector('#again').onclick=()=>{closeModal();openDrop()};
 }
