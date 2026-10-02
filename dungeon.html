@@ -227,6 +227,26 @@ body.quake #world{animation:quake .7s}
 .qopts.two{grid-template-columns:1fr 1fr}.qopts.two .plank{justify-content:center;text-align:center;font-size:clamp(20px,2.6vw,26px);min-height:72px}
 .qq.rumorq{font-size:clamp(23px,3vw,30px);background:rgba(255,255,255,.06);border-left:5px solid #cbb8ff;padding:8px 12px;border-radius:10px}
 [hidden]{display:none!important}
+.qboss{display:flex;align-items:center;gap:8px;margin:-4px 0 8px;padding:4px 10px 4px 4px;border-radius:999px;background:rgba(0,0,0,.35);border:2px solid #d9a441}
+.qboss img{width:38px;height:38px;object-fit:contain;flex:none;filter:drop-shadow(0 2px 2px rgba(0,0,0,.6))}
+.qboss b{font-weight:400;font-size:18px;color:#ffe27a;white-space:nowrap}
+.qbar{flex:1;height:16px;border-radius:999px;background:#2a1a38;border:2px solid #ffd24a;overflow:hidden;min-width:60px}
+.qbfill{display:block;height:100%;background:linear-gradient(180deg,#ff9a9a,#e0405a);transition:width .5s}
+.qboss small{font-size:15px;color:#fff3d6}
+.hot.goal .ring{stroke:#9cf2ff;stroke-width:8}
+.hot.goal .tagbg{fill:#fff3c4;stroke:#2a8fa0;stroke-width:5}
+.goalArrow path{fill:#ffe27a;stroke:#6b3d0c;stroke-width:5;stroke-linejoin:round;filter:drop-shadow(0 0 10px rgba(255,226,122,.9))}
+.goalArrow{animation:goalb .8s ease-in-out infinite alternate}
+@keyframes goalb{from{transform:translateY(-6px)}to{transform:translateY(10px)}}
+@media (max-width:760px),(max-height:560px){.mhpbar{display:none}}
+@media (max-height:520px) and (orientation:landscape){
+  #quiz{left:auto;right:max(10px,env(safe-area-inset-right));transform:none;width:min(56vw,560px);top:84px;bottom:8px;max-height:none;padding:10px 12px 12px}
+  #quiz.in{animation:none}
+  .qq{font-size:19px;margin:6px 2px 8px}.qq.rumorq{font-size:20px}
+  .qopts{gap:6px}.qopts .plank{min-height:44px;font-size:17px;padding:6px 10px}.qopts.two .plank{min-height:52px;font-size:19px}
+  .qres p{font-size:16px;margin:6px 2px}
+  #dlg{width:min(70vw,720px);padding:8px 12px}.pframe{width:58px;height:58px}
+}
 @media (max-width:640px){
   .portrait{width:58px;height:58px}
   #hearts svg{width:24px;height:22px}
@@ -1092,11 +1112,34 @@ function nextQ(){ if(!DECK.length){ /* 문제 모양이 번갈아 나오도록 �
     const by={};shuffle(QS).forEach(q=>(by[q.t]=by[q.t]||[]).push(q));const ks=Object.keys(by);let k=0;
     while(ks.some(t=>by[t].length)){const t=ks[k++%ks.length];if(by[t].length)DECK.push(by[t].pop())} }
   return DECK.shift(); }
-const G={floor:1,at:'E',seen:new Set(['E']),hp:3,maxHp:3,shards:0,key:false,bridge:false,door:false,mDown:false,uDone:false,chest:false,boss:false,busy:true,combo:0,quest:''};
+const G={floor:1,at:'E',seen:new Set(['E']),hp:3,maxHp:3,shards:0,key:false,bridge:false,door:false,mDown:false,uDone:false,chest:false,boss:false,busy:true,combo:0,quest:'',fight:null};
+
+/* ---------- 구역마다 다른 던전: 소문 괴물 · 사건 방 · 중간 보스 · 마지막 대사 (index.html 이 ?ch=구역id 로 열어요) ---------- */
+const ZID=new URLSearchParams(location.search).get('ch')||'safety', ZI=Math.max(0,CH.findIndex(c=>c.id===ZID)), ZC=CH[ZI];
+const ZMON={
+  safety:['허둥 연기 도깨비','땅이 흔들려? 생각할 틈 없이 무조건 밖으로 뛰어! 허둥지둥~ 그래야 내 연기가 쑥쑥 커지지!'],
+  character:['가시 말풍선','인사를 안 받아 줬다고? 그건 너희를 싫어해서야! 뾰족뾰족~ 내 말이 맞지?'],
+  career:['녹슨 톱니 도깨비','꿈은 딱 하나! 한 번 정하면 절대 못 바꿔! 철컥철컥, 톱니처럼 꽉 끼워 버릴 거야!'],
+  democracy:['와글 확성기','새 놀이터는 목소리 큰 사람 마음대로~! 와글와글, 내가 제일 크게 외친다!'],
+  rights:['쉿 자물쇠 유령','쉿! 어린이는 아직 어려서 생각을 말하면 안 된대~ 입을 꼭 잠가 버릴 테다!'],
+  multi:['가면 카멜레온','말투나 생김새가 다르면 우리 마을 사람이 아니래~ 색깔만 보고 판단하는 놀이 어때?'],
+  unify:['끊긴 철길 지네','북쪽 사람들과는 말이 하나도 안 통한대~ 덜컹덜컹, 철길은 영영 끊어졌다구!'],
+  dokdo:['안개 집게 게','이 지도 봐~ 저 섬은 주인 없는 바위래! 집게집게, 지도를 찢어 버려야지!'],
+  money:['금화 지갑 괴물','갖고 싶은 건 전부 지금 당장 사! 용돈은 펑펑 쓰라고 있는 거야~ 짤랑짤랑!'],
+  eco:['비닐 문어','바다는 넓으니까 쓰레기 조금쯤 괜찮아~ 꿀렁꿀렁, 다 내 몸이 될 거야!']};
+const [ZMN,ZML]=ZMON[ZC.id]||ZMON.safety;
+/* 홀수 구역은 사건 방이 흉내쟁이 상자, 중간 보스가 소문 까마귀 왕 */
+const ALT=ZI%2===1;
+const KEEPER=ALT?{n:'소문 까마귀 왕',img:'raven',w:250,h:250,line:'까악! 소문은 날개가 달려서 순식간에 퍼지지~ 여기부턴 아무도 못 지나간다! 별빛 조각은 심해의 눈님께 바칠 거다!'}
+  :{n:'녹슨 닻지기',img:'anchor_keeper',w:236,h:240,line:'쿠웅… 여기서부터는 아무도 못 지나간다! 별빛 조각은 심해의 눈님께 바칠 거다!'};
+IMG.zmon=IMG.fog_eater; IMG.raven=IMG.raven||IMG.anchor_keeper; IMG.mimic=IMG.mimic||IMG.chest;
+/* 그림 파일이 있으면 바꿔 끼워요 (dungeon.html 만 따로 열면 원래 그림 그대로) */
+function zImg(key,url){const im=new Image();im.onload=()=>{IMG[key]=url;document.querySelectorAll('[data-zimg="'+key+'"]').forEach(e=>e.setAttribute('href',url))};im.src=url}
+zImg('zmon','assets/monsters/'+ZC.id+'.webp'); if(ALT){zImg('raven','assets/monsters/raven.webp');zImg('mimic','assets/monsters/mimic.webp')}
 
 /* ---------- 지하 1층 지도 (그림 위 좌표) ---------- */
 const B1={
-  nodes:{E:{x:840,y:880,name:'동굴 입구'},H:{x:850,y:525,name:'룬 광장'},M:{x:360,y:602,name:'안개 먹보의 굴'},U:{x:385,y:245,name:'짙은 안개의 방'},
+  nodes:{E:{x:840,y:880,name:'동굴 입구'},H:{x:850,y:525,name:'룬 광장'},M:{x:360,y:602,name:ZMN+'의 굴'},U:{x:385,y:245,name:ALT?'수상한 상자 방':'짙은 안개의 방'},
          W:{x:1030,y:522,name:'흔들다리'},T:{x:1415,y:468,name:'금빛 보물방'},D:{x:850,y:372,name:'잠긴 철문'},S:{x:1200,y:218,name:'아래로 가는 계단'}},
   edges:[
     ['E','H','M840 880 C842 800 845 700 848 640 C850 590 850 560 850 525'],
@@ -1108,7 +1151,7 @@ const B1={
     ['D','S','M850 372 C920 362 1000 332 1060 292 C1110 258 1150 234 1200 218']
   ]
 };
-const HINT={H:'룬 광장',M:'반짝이는 별가루 흔적',U:'짙은 안개 속 ?',W:'흔들흔들 낡은 다리',T:'금빛이 새어 나오는 곳',D:'잠긴 철문',S:'아래로 내려가는 계단',E:'동굴 입구'};
+const HINT={H:'룬 광장',M:'반짝이는 별가루 흔적',U:ALT?'덜컹거리는 상자 ?':'짙은 안개 속 ?',W:'흔들흔들 낡은 다리',T:'금빛이 새어 나오는 곳',D:'잠긴 철문',S:'아래로 내려가는 계단',E:'동굴 입구'};
 const DOOR_ARCH='M752 342 L752 238 C752 170 948 170 948 238 L948 342Z';
 
 function b1Layer(){
@@ -1134,9 +1177,10 @@ function b1Layer(){
   <g id="doorOpen" opacity="0"><path d="${DOOR_ARCH}" fill="#0b0712"/><circle cx="828" cy="270" r="26" fill="url(#gTeal)"/><circle cx="872" cy="270" r="26" fill="url(#gTeal)"/><ellipse cx="828" cy="270" rx="6" ry="8" fill="#b9fff2"/><ellipse cx="872" cy="270" rx="6" ry="8" fill="#b9fff2"/></g>
   <g clip-path="url(#doorClip)"><image id="doorImg" class="doorImg" href="${IMG.bg_b1}" x="0" y="0" width="${MW}" height="${MH}"/></g>
   <!-- 몬스터 -->
-  <g id="monM" opacity="0"><image class="sprite float" href="${IMG.fog_eater}" x="${215-80}" y="${590-182}" width="160" height="182"/></g>
+  <g id="monM" opacity="0"><image class="sprite float" data-zimg="zmon" href="${IMG.zmon}" x="${215-95}" y="${590-190}" width="190" height="190"/></g>
+  ${ALT?`<g id="mimU" opacity="0"><image class="sprite float" data-zimg="mimic" href="${IMG.mimic}" x="${235-90}" y="${320-180}" width="180" height="180"/></g>`:''}
   <g id="peekM" class="peek"><ellipse cx="200" cy="520" rx="9" ry="6" fill="#ffd24a"/><ellipse cx="236" cy="520" rx="9" ry="6" fill="#ffd24a"/><circle cx="218" cy="520" r="40" fill="url(#gGold)" opacity=".35"/></g>
-  <g id="boss" opacity="0"><image class="sprite heavy" href="${IMG.anchor_keeper}" x="${850-118}" y="${350-240}" width="236" height="240"/></g>
+  <g id="boss" opacity="0"><image class="sprite heavy" data-zimg="${KEEPER.img}" href="${IMG[KEEPER.img]}" x="${850-KEEPER.w/2}" y="${350-KEEPER.h}" width="${KEEPER.w}" height="${KEEPER.h}"/></g>
   <!-- 안개(아직 모르는 곳) -->
   ${[['M',230,560,230,150],['U',390,210,250,150],['T',1470,380,230,160],['S',1190,120,170,150]].map(f=>`<g id="fog-${f[0]}" class="fogRoom"><g filter="url(#fogB)" class="drift2">
      <ellipse cx="${f[1]-f[3]*.3}" cy="${f[2]}" rx="${f[3]*.62}" ry="${f[4]*.7}" fill="#140c24" opacity=".92"/><ellipse cx="${f[1]+f[3]*.3}" cy="${f[2]-f[4]*.15}" rx="${f[3]*.62}" ry="${f[4]*.66}" fill="#1c1232" opacity=".9"/><ellipse cx="${f[1]}" cy="${f[2]+f[4]*.2}" rx="${f[3]*.8}" ry="${f[4]*.55}" fill="#100a1c" opacity=".9"/></g></g>`).join('')}
@@ -1161,6 +1205,7 @@ function b2Layer(){
 }
 
 /* ---------- 카메라 ---------- */
+const sideQuiz=()=>matchMedia('(max-height:520px) and (orientation:landscape)').matches;
 const svg=$('#world');
 const cam={x:840,y:700,w:MW,tx:840,ty:700,tw:MW,free:false};
 function baseW(){const a=innerWidth/innerHeight;return a>=1.5?MW:Math.max(480,Math.min(MH*a,MW))}
@@ -1189,7 +1234,7 @@ function hud(){
 }
 function quest(t){if(G.quest===t)return;G.quest=t;const q=$('#quest');$('#questT').textContent=t;q.classList.remove('pop');void q.offsetWidth;q.classList.add('pop')}
 function plaque(a,b){$('#plaqueS').textContent=a;$('#plaqueN').textContent=b}
-const WHO={gull:['꾸꾸','gull',1],me:['나','hero',0],eater:['안개 먹보','fog_eater',1],keeper:['녹슨 닻지기','anchor_keeper',1],eye:['심해의 눈','deep_eye',1]};
+const WHO={gull:['꾸꾸','gull',1],me:['나','hero',0],eater:['안개 먹보','fog_eater',1],zmon:[ZMN,'zmon',1],mimic:['흉내쟁이 상자','mimic',1],boss2:[KEEPER.n,KEEPER.img,1],keeper:['녹슨 닻지기','anchor_keeper',1],eye:['심해의 눈','deep_eye',1]};
 function say(who,text,btns){
   const [nm,img,full]=WHO[who], d=$('#dlg');
   d.innerHTML=`<div class="pframe ${full?'full':''}"><img src="${IMG[img]}" alt=""></div><div class="dbody"><b class="dname">${esc(nm)}</b><p class="dtext"></p><div class="dbtns"></div></div>`;
@@ -1219,13 +1264,19 @@ let SC=B1;
 function edgeOf(a,b){return SC.edges.find(e=>(e[0]===a&&e[1]===b)||(e[0]===b&&e[1]===a))}
 function neighbors(n){return SC.edges.filter(e=>e[0]===n||e[1]===n).map(e=>e[0]===n?e[1]:e[0])}
 function canGo(a,b){if(a==='W'&&b==='T'&&!G.bridge)return false;if(a==='D'&&b==='S'&&!G.boss)return false;return true}
+/* 지금 해야 할 일 → 가야 할 방 (글을 읽지 않아도 화살표를 따라가면 돼요) */
+function goalNode(){if(!G.mDown)return 'M';if(!G.chest)return G.bridge?'T':'W';if(!G.door)return 'D';if(!G.boss)return 'D';return 'S'}
+function stepToward(from,to){if(from===to)return null;const prev={[from]:null},q=[from];while(q.length){const a=q.shift();for(const b of neighbors(a)){if(b in prev||!canGo(a,b))continue;prev[b]=a;if(b===to){let c=b;while(prev[c]!==from)c=prev[c];return c}q.push(b)}}return null}
+const NODEICON={M:'zmon',T:'chest',D:'key',S:'shard'};
 function drawHotspots(){
   const g=$('#hotspots'); if(!g)return; g.innerHTML=''; if(G.busy)return;
+  const nextN=SC===B1?stepToward(G.at,goalNode()):null;
   neighbors(G.at).filter(n=>canGo(G.at,n)).forEach(n=>{
-    const N=SC.nodes[n], e=edgeOf(G.at,n), fresh=!G.seen.has(n), lab=fresh?HINT[n]:N.name, w=Math.max(120,lab.length*20+44);
-    const el=document.createElementNS(NS,'g'); el.setAttribute('class','hot'+(fresh?' fresh':''));
+    const N=SC.nodes[n], e=edgeOf(G.at,n), fresh=!G.seen.has(n), lab=fresh?HINT[n]:N.name, ic=!fresh&&NODEICON[n]&&IMG[NODEICON[n]], w=Math.max(120,lab.length*20+44)+(ic?44:0), goal=n===nextN;
+    const el=document.createElementNS(NS,'g'); el.setAttribute('class','hot'+(fresh?' fresh':'')+(goal?' goal':''));
     el.innerHTML=`<path d="${e[2]}" class="trail"/><g transform="translate(${N.x},${N.y})"><ellipse rx="62" ry="24" class="ring"/><ellipse rx="40" ry="15" class="ring2"/>
-      <g class="tag"><path d="M${-w/2} -150 h${w} l0 42 h${-w/2+14} l-14 14 l-14 -14 h${-w/2+14}z" class="tagbg"/><text y="-121" text-anchor="middle">${esc(lab)}</text></g>
+      ${goal?'<g class="goalArrow"><path d="M-11 -100 h22 v20 h15 l-26 30 l-26 -30 h15z"/></g>':''}
+      <g class="tag"><path d="M${-w/2} -150 h${w} l0 42 h${-w/2+14} l-14 14 l-14 -14 h${-w/2+14}z" class="tagbg"/>${ic?`<image href="${ic}" x="${-w/2+8}" y="-148" width="38" height="38"/>`:''}<text x="${ic?22:0}" y="-121" text-anchor="middle">${esc(lab)}</text></g>
       <ellipse rx="90" ry="80" cy="-50" fill="transparent"/></g>`;
     el.addEventListener('click',()=>{if(drag&&drag.moved)return;go(n)});
     g.appendChild(el);
@@ -1257,7 +1308,8 @@ function reveal(id){[`#fog-${id}`,`#peek${id}`].forEach(s=>{const e=$(s);if(e)e.
 /* ---------- 퀴즈 패널 ---------- */
 async function ask(tag,extra=''){
   const panel=$('#quiz'), q=await getQ(), two=q.o.length===2, order=two?q.o.map((_,i)=>i):shuffle(q.o.map((_,i)=>i));
-  panel.innerHTML=`<div class="qtop"><span class="qtag">${esc(tag)}</span><span class="qkind">${QTYPE[q.t]} · <small>${esc(q.z)}</small></span>${extra}</div><p class="qq ${q.t==='rumor'?'rumorq':''}">${esc(q.q)}</p><div class="qopts ${two?'two':''}">${order.map((oi,j)=>`<button class="plank opt" data-o="${oi}">${two?'':`<b>${'가나다라'[j]}</b>`}${esc(q.o[oi])}</button>`).join('')}</div><div class="qres"></div>`;
+  const fb=G.fight?`<div class="qboss">${G.fight.img?`<img src="${G.fight.img}" alt="">`:''}<b>${esc(G.fight.n)}</b><span class="qbar"><i class="qbfill" style="width:${100*G.fight.hp/G.fight.max}%"></i></span><small>${G.fight.hp}/${G.fight.max}</small></div>`:'';
+  panel.innerHTML=fb+`<div class="qtop"><span class="qtag">${esc(tag)}</span><span class="qkind">${QTYPE[q.t]} · <small>${esc(q.z)}</small></span>${extra}</div><p class="qq ${q.t==='rumor'?'rumorq':''}">${esc(q.q)}</p><div class="qopts ${two?'two':''}">${order.map((oi,j)=>`<button class="plank opt" data-o="${oi}">${two?'':`<b>${'가나다라'[j]}</b>`}${esc(q.o[oi])}</button>`).join('')}</div><div class="qres"></div>`;
   panel.hidden=false; panel.classList.remove('in'); void panel.offsetWidth; panel.classList.add('in');
   const pick=await new Promise(res=>panel.querySelectorAll('.opt').forEach(b=>b.onclick=()=>res(+b.dataset.o)));
   panel.querySelectorAll('.opt').forEach(b=>{b.disabled=true;if(+b.dataset.o===q.a)b.classList.add('right');else if(+b.dataset.o===pick)b.classList.add('wrong')});
@@ -1270,16 +1322,17 @@ const nextBtn=(panel,label)=>new Promise(res=>{const b=document.createElement('b
 async function battle(o){
   const mon=o.el; let mhp=o.hp; G.combo=0;
   const bar=document.createElementNS(NS,'g');
+  bar.setAttribute('class','mhpbar'); G.fight={n:o.name,hp:mhp,max:o.hp,img:(o.el.querySelector('image')||{}).getAttribute?o.el.querySelector('image').getAttribute('href'):''};
   bar.innerHTML=`<g transform="translate(${o.pos.x},${o.pos.y-o.barY})"><rect x="-78" y="-15" width="156" height="30" rx="15" class="mhpbg"/><rect x="-70" y="-8" width="140" height="16" rx="8" fill="#2a1a38"/><rect x="-70" y="-8" width="140" height="16" rx="8" class="mhpfill"/><text y="-24" text-anchor="middle" class="mname">${esc(o.name)}</text></g>`;
   $('#fx').appendChild(bar); const fill=bar.querySelector('.mhpfill');
-  camTo((heroPos.x+o.pos.x)/2,(heroPos.y+o.pos.y)/2-60,.62);
+  camTo((heroPos.x+o.pos.x)/2+(sideQuiz()?baseW()*.62*.24:0),(heroPos.y+o.pos.y)/2-60,.62);
   while(mhp>0){
     const {q,ok,panel}=await ask('⚔ 퀴즈로 공격!',G.combo>1?`<span class="combo">연속 ${G.combo}번!</span>`:'');
     if(ok){
       G.combo++;
       await shoot(heroPos.x,heroPos.y-70,o.pos.x,o.pos.y-o.hitY,'light');
       mhp--; mon.classList.remove('hurt'); void mon.getBBox(); mon.classList.add('hurt'); lightBurst(o.pos.x,o.pos.y-o.hitY,120);
-      fill.setAttribute('width',Math.max(0,140*mhp/o.hp)); const sp=svgPt(o.pos.x,o.pos.y-o.hitY); burst(sp.x,sp.y,16);
+      fill.setAttribute('width',Math.max(0,140*mhp/o.hp)); G.fight.hp=mhp; {const qf=panel.querySelector('.qbfill');if(qf)qf.style.width=(100*mhp/o.hp)+'%'} const sp=svgPt(o.pos.x,o.pos.y-o.hitY); burst(sp.x,sp.y,16);
       dmg(o.pos.x,o.pos.y-o.hitY-50,G.combo>1?'-1 콤보!':'-1');
       panel.querySelector('.qres').innerHTML=`<p class="good">딩동! ${esc(q.x)}</p>`;
     }else{
@@ -1292,7 +1345,7 @@ async function battle(o){
     }
     await nextBtn(panel,mhp>0?'다음 공격 ▶':'마무리!'); panel.hidden=true;
   }
-  bar.remove(); lightBurst(o.pos.x,o.pos.y-o.hitY,220); mon.classList.add('poof'); const sp=svgPt(o.pos.x,o.pos.y-o.hitY); burst(sp.x,sp.y,36); await wait(700);
+  bar.remove(); G.fight=null; lightBurst(o.pos.x,o.pos.y-o.hitY,220); mon.classList.add('poof'); const sp=svgPt(o.pos.x,o.pos.y-o.hitY); burst(sp.x,sp.y,36); await wait(700);
 }
 async function shoot(x1,y1,x2,y2,kind){
   const b=document.createElementNS(NS,'g'); b.setAttribute('class','shot '+kind);
@@ -1328,12 +1381,21 @@ async function arrive(n,first){
   if(n==='M'&&!G.mDown){
     reveal('M'); camTo(290,540,.6); await wait(700);
     const m=$('#monM'); m.setAttribute('opacity','1'); m.classList.add('rise'); await wait(600);
-    await say('eater','냠냠… 이 별빛 조각은 내 거야! 소문 안개를 더 먹고 쑥쑥 클 거라구~');
-    await say('gull','배 속에서 별빛 조각이 반짝여! 퀴즈로 공격해서 되찾자!',[['⚔ 싸우자!',1,'hot']]);
-    await battle({el:m,name:'안개 먹보',hp:2,pos:{x:215,y:590},hitY:95,barY:205});
-    G.mDown=true; G.shards++; hud(); await reward('shard','별빛 조각을 되찾았다!','안개 먹보 배 속에 있던 조각이에요');
-    await say('gull','먹보가 도망가며 외쳤어. “열쇠는 금빛 방에 있다!”');
+    await say('zmon',ZML);
+    await say('gull','저 괴물이 별빛 조각을 꽉 쥐고 있어! 소문이 진짜인지 퀴즈로 확인하면서 공격하자!',[['⚔ 싸우자!',1,'hot']]);
+    await battle({el:m,name:ZMN,hp:2,pos:{x:215,y:590},hitY:95,barY:215});
+    G.mDown=true; G.shards++; hud(); await reward('shard','별빛 조각을 되찾았다!',ZMN+'에게서 되찾은 조각이에요');
+    await say('gull','도망가던 괴물이 외쳤어. “열쇠는 금빛 방에 있다!”');
     quest('금빛 방에서 열쇠를 찾아라');
+  }
+  if(n==='U'&&!G.uDone&&ALT){
+    reveal('U'); camTo(330,280,.6); await wait(600);
+    await say('me','구석에 보물상자가 있어! 열어 볼까?',[['상자 열기',1,'hot']]);
+    const mm=$('#mimU'); mm.setAttribute('opacity','1'); mm.classList.add('rise'); document.body.classList.add('quake'); setTimeout(()=>document.body.classList.remove('quake'),600); await wait(600);
+    await say('mimic','덥석! 보물상자인 줄 알았지? 확인도 안 하고 덥석 믿으면 이렇게 된다구~ 메롱!');
+    await say('gull','겉모습만 보고 믿으면 안 돼! 퀴즈로 진짜를 가려내자!',[['⚔ 싸우자!',1,'hot']]);
+    await battle({el:mm,name:'흉내쟁이 상자',hp:2,pos:{x:235,y:320},hitY:90,barY:200});
+    G.uDone=true; G.shards++; hud(); await reward('shard','진짜 별빛 조각 발견!','흉내쟁이 상자 안에 숨어 있었어요');
   }
   if(n==='U'&&!G.uDone){
     reveal('U'); camTo(420,260,.6); await wait(600);
@@ -1369,10 +1431,10 @@ async function arrive(n,first){
       await walk(B1.edges[5][2].replace('M850 525 L850 440','M850 470 L850 440'),true); placeHero(850,470,1);
       const b=$('#boss'); b.setAttribute('opacity','1'); b.classList.add('rise'); document.body.classList.add('quake'); setTimeout(()=>document.body.classList.remove('quake'),700);
       camTo(850,360,.62); await wait(800);
-      await say('keeper','쿠웅… 여기서부터는 아무도 못 지나간다! 별빛 조각은 심해의 눈님께 바칠 거다!');
+      await say('boss2',KEEPER.line);
       await say('gull','중간 보스야! 등불 빛으로 퀴즈 공격!',[['⚔ 싸우자!',1,'hot']]);
-      await battle({el:b,name:'녹슨 닻지기',hp:3,pos:{x:850,y:350},hitY:130,barY:260});
-      G.boss=true; G.shards+=2; hud(); await reward('shard','별빛 조각 2개를 되찾았다!','닻지기가 지키던 조각이에요');
+      await battle({el:b,name:KEEPER.n,hp:3,pos:{x:850,y:350},hitY:130,barY:270});
+      G.boss=true; G.shards+=2; hud(); await reward('shard','별빛 조각 2개를 되찾았다!',KEEPER.n+' 곁에 숨겨져 있던 조각이에요');
       await walk('M850 470 L850 372',false); G.at='D';
       $('#seal').classList.add('gone'); reveal('S'); camTo(1100,230,.7); await wait(900);
       await say('gull','봐! 검은 안개가 계단 아래로 흘러 내려가! 안개의 주인은 저 아래에 있어!');
@@ -1393,8 +1455,9 @@ async function arriveB2(){
   camTo(905,300,.55); await wait(700); $('#eyeGlow').setAttribute('r','140');
   document.body.classList.add('quake'); setTimeout(()=>document.body.classList.remove('quake'),800);
   await say('eye','…누가 내 잠을 깨우느냐. 항구의 별빛은 모두 내 안개 속에서 잠들 것이다…');
+  await say('eye',`“${ZC.rumor}” … 이 소문도 내 안개 속에서 피어나 ${ZC.place}까지 퍼졌지…`);
   camTo(840,560,.95);
-  await say('me','별빛 조각은 항구 사람들 거야! 진실의 빛으로 봉인을 풀겠어!');
+  await say('me','그건 확인하지 않은 소문이야! 별빛 조각은 항구 사람들 거야. 진실의 빛으로 봉인을 풀겠어!');
   quest('마지막 보스 · 심해의 눈');
   await say('gull','등불 빛을 모아! 정답을 맞힐 때마다 진실의 빛이 날아가!',[['⚔ 마지막 싸움!',1,'hot']]);
   const eb=$('#eyeB'); eb.setAttribute('opacity','1'); eb.classList.add('rise'); document.body.classList.add('quake'); setTimeout(()=>document.body.classList.remove('quake'),700);
@@ -1403,7 +1466,7 @@ async function arriveB2(){
   $('#eyeGlow').setAttribute('r','60'); lightBurst(905,212,320,'gTeal'); G.shards+=3; hud();
   await reward('shard','봉인이 풀렸다!','심해의 눈이 잠들고 별빛 조각 3개가 돌아왔어요');
   await say('eye','…진실의 빛이 이렇게 따뜻했던가… 이제 소문 안개는 걷히리라…');
-  await say('gull','해냈어! 소문 안개가 걷히고 항구에 별빛이 돌아왔어! 너는 진짜 탐정이야!');
+  await say('gull',`해냈어! 소문 안개가 걷히고 ${ZC.place}에 별빛이 돌아왔어! 너는 진짜 탐정이야!`);
   quest('소문 던전 완전 정복!'); toParent({t:'dq:clear',shards:G.shards}); $('#endcard').hidden=false;
 }
 
