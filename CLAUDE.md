@@ -22,22 +22,20 @@ The final art direction is hand-painted art matching the dungeon (rules, prompts
 
 Tools need `npm install` (playwright-core, uses system Chrome). `npm run assets:test` re-checks all registered art.
 
-## Redesign progress (`game-redesign` branch, as of 2026-10-01)
+## Redesign progress (`game-redesign` branch, as of 2026-10-02)
 
-Done (painted art):
-- 지도 · 항구 허브 painted art
-- 10개 구역 지도 섬
+Done (painted art, all verified in real browsers on desktop and phone):
+- 지도 · 항구 허브 · 10개 구역 섬
 - 머지게임 10개 구역 painted 아이템 (120개)
-- 대표 주민 초상화 3명 (npc_safety · npc_career · npc_unify)
+- 주민 초상화: 대표 10명 + 이웃 주민 19명 (`npc_<zone>`, `npc_<zone>_1/_2`)
+- 블록 퍼즐 (시장 창고), 소문 팡팡 3매치 (보물 해변), 소문 퐁당 (등대 절벽 유리 항아리) — engines unchanged, art from `ART.pack.block/match/drop` with code-drawn fallback
+- 구 카드 던전 제거 → painted 소문 던전 하나 (구역별 괴물·사건·중간 보스, 다음 목표 화살표, 작은 화면 HUD 정리)
+- 전체 흐름 통합 점검 (학년 → 지도 → 구역 → 이야기·미니게임 → 보고서 → 오답 → 던전 → 복귀 · 새로고침 · 수업 모드 · v1 저장 이전)
 
-Next, in order:
-1. 나머지 주민 초상화 (대표 7명 → 이웃 주민 `npc_<zone>_1/_2`)
-2. 블록 퍼즐 리디자인
-3. 3매치 비주얼 리디자인
-4. 소문 퐁당 리디자인
-5. 던전 마무리
-6. 전체 통합 및 모바일 테스트
-7. 최종 GitHub push/배포 — push only when the user explicitly asks
+Remaining before release:
+1. Modal/UI text still uses emoji in places (quiz tags, story/intro dialogs, help sheets) — replace with painted/SVG icons if wanted
+2. Dungeon is 2 floors; a 3rd floor would need a new painted floor background
+3. Final review by the user, then GitHub push/deploy — push only when the user explicitly asks
 
 ## Architecture (all inside `index.html`)
 
