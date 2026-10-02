@@ -31,13 +31,10 @@ Done (all committed on `game-redesign`):
 - speed/feel: 퐁당 time-based fixed-step physics (`PHY`), shorter waits in 3-match/block/merge, map split into static + animated layers, islands 768px / portraits 384px
 - click stability (WIP commit): decorations in painted scenes have `pointer-events:none`; only static transparent hit shapes (`.hit`, `.mxhit`, dungeon `.hitz`) receive clicks. Root cause: the legacy `.mode:hover{transform}` rule matched the hub play spots (SVG groups with class "mode"); a CSS transform overrides the SVG transform attribute, so spots jumped toward the corner on hover. Button `:active` no longer moves the hit box.
 
-Verification status of the click-stability commit (2026-10-02, school PC):
-- passed: repeated real-coordinate first-click test (mouse + touch, 20x each map island, hub spot, back button, story button, dungeon room) = 100%; test.js 39/39, test2 13/13, test3 22/22, testmg 17/17, blocktest 28/28, matchtest 25/25
-- not yet re-run after this change: droptest, flow (full student journey), cave3 (dungeon entry/finish), zones (all 10 stories), smoke (all modes x zones), `npm run assets:test`
-- those extended browser test scripts lived in the school PC temp scratchpad and are NOT in the repo; `npm run assets:test` (scripts/test-assets.js) is the in-repo check
+Verification of the click-stability change (2026-10-02, school PC): all passed. Repeated real-coordinate first-click test (mouse + touch, 20x each map island, hub spot, back button, story button, dungeon room) = 100%; test 39/39, test2 13/13, test3 22/22, testmg 17/17, block 28/28, match 25/25, drop 25/25, flow 47/47, cave3 20/20, zones 16/16, smoke ok, assets:test 48/48. Those extended browser test scripts lived in the school PC temp scratchpad and are NOT in the repo; `npm run assets:test` (scripts/test-assets.js) is the in-repo check.
 
 Next, in order:
-1. Re-run the remaining checks (at minimum `npm install` then `npm run assets:test`) and play every screen at desktop and phone width
+1. At home: `npm install`, `npm run assets:test`, then play every screen at desktop and phone width
 2. Preview deploy to GitHub Pages only when the user asks. Pages serves `main` (repo root). Plan: tag current `origin/main` for rollback, fast-forward `main` to the tested `game-redesign` commit, then verify https://jbhee7777-afk.github.io/soomun-harbor/
 3. Never push `main` or change the public site without an explicit request
 
