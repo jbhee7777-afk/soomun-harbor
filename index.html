@@ -2682,7 +2682,8 @@ function runGame(g,o){
       const sh=openModal(`${head}<div class="scard">${esc(cards[k].t)}</div><div class="bins" style="${g.bins.length>2?'':'grid-template-columns:1fr 1fr'}">${g.bins.map((b,i)=>`<button class="bin" data-b="${i}"><span class="em">${b.e}</span>${esc(b.n)}</button>`).join('')}</div>`);
       dots(cards.length,k);
       sh.querySelectorAll('.bin').forEach(b=>b.onclick=()=>{
-        if(+b.dataset.b===cards[k].b){b.classList.add('good');sfx.place();k++;floatText('+1',b.getBoundingClientRect().left+40,b.getBoundingClientRect().top);if(k===cards.length)setTimeout(finish,350);else setTimeout(draw,280)}
+        if(k>=cards.length||sh.dataset.lock) return; /* 다음 카드로 넘어가는 사이 빠른 두 번 누르기 */
+        if(+b.dataset.b===cards[k].b){sh.dataset.lock=1;b.classList.add('good');sfx.place();k++;floatText('+1',b.getBoundingClientRect().left+40,b.getBoundingClientRect().top);if(k===cards.length)setTimeout(finish,350);else setTimeout(draw,280)}
         else{miss++;sfx.no();b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad')}
       });
     };
