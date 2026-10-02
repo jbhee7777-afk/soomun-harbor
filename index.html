@@ -94,7 +94,7 @@ h1,h2,h3{font-family:var(--disp);font-weight:400;margin:0;text-wrap:balance}
 .tcard:not(.got) .em{filter:grayscale(1);opacity:.3}
 
 /* ---------- 구역 허브 ---------- */
-#hub{overflow-y:auto;padding:12px 16px 30px}
+section#hub{overflow-y:auto;padding:12px 16px 30px}
 .hubwrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
 .stage{position:relative;border-radius:28px;overflow:hidden;box-shadow:0 7px 0 var(--tintD),0 16px 30px rgba(80,120,160,.15)}
 .stage svg.scene{display:block;width:100%;height:auto;aspect-ratio:800/260;min-height:170px}
@@ -439,6 +439,42 @@ h1,h2,h3{font-family:var(--disp);font-weight:400;margin:0;text-wrap:balance}
 .mode .mbig .mpiece,.mode .mdeco .mpiece{width:100%;height:100%}
 @media (max-width:480px){.mstat{min-width:60px}.mstat b{font-size:25px}.mplank{padding:4px 9px 6px}.mgoal small,.mstat small{font-size:13px}.mcombo b{font-size:36px}.mcombo span{font-size:48px}}
 
+/* ===== 소문 팡팡: 보물 해변 (painted art 기준) ===== */
+.mi img.art{position:absolute;inset:4%;width:92%;height:92%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;filter:drop-shadow(0 3px 2px rgba(0,0,0,.55))}
+.mi img.spx.whirl{position:absolute;inset:-4%;width:108%;height:108%;opacity:.95;filter:drop-shadow(0 0 6px rgba(120,240,255,.8))}
+.mt.sp-lineH img.art,.mt.sp-lineV img.art{filter:drop-shadow(0 0 4px #FFF3B0) drop-shadow(0 0 10px rgba(255,230,140,.9))}
+.mt.sp-bomb img.art{inset:16%;width:68%;height:68%}
+.mt.sp-rainbow img.art,.mpiece.sp-rainbow img.art{animation:mpearl 1.4s ease-in-out infinite}
+@keyframes mpearl{0%,100%{filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 10px rgba(255,180,255,.8));transform:scale(1)}50%{filter:drop-shadow(0 0 8px #fff) drop-shadow(0 0 18px rgba(160,240,255,.95));transform:scale(1.07)}}
+#match.painted{background-color:#1A1030;background-size:cover;background-position:center 75%;color:#FFF3D6}
+#match.painted::before{opacity:1;background:radial-gradient(ellipse at 50% 55%,transparent 42%,rgba(14,6,24,.45) 80%,rgba(8,2,14,.75) 100%)}
+#match.painted>.topbar{position:relative;z-index:2}
+#match.painted .mwrap{justify-content:center}
+#match.painted .mplank{border-radius:14px;background:linear-gradient(180deg,#5A3A22,#2E1C10);border:3px solid #B8862A;color:#FFF3D6;box-shadow:0 0 0 2px #2A170A,0 8px 14px rgba(0,0,0,.5),inset 0 2px 0 rgba(255,214,160,.3)}
+#match.painted .mplank::before{opacity:.18}
+#match.painted .mstat small,#match.painted .mgoal small{color:#FFE9A8}
+#match.painted .mstat b{color:#FFF3C4;-webkit-text-stroke:1.5px #6B3D0C;paint-order:stroke fill;text-shadow:0 2px 0 #3A1F0C}
+#mScore.pop{animation:bpop .45s cubic-bezier(.3,1.7,.5,1)}
+#match.painted .mboard{background:radial-gradient(90% 70% at 50% 30%,rgba(70,46,26,.86),rgba(28,16,8,.92));
+  box-shadow:inset 0 2px 0 rgba(255,214,160,.3),inset 0 0 22px rgba(0,0,0,.6),0 0 0 4px #2A170A,0 0 0 7px #B8862A,0 0 0 9px #2A170A,0 18px 34px rgba(0,0,0,.65)}
+#match.painted .mboard::before{display:none}
+#match.painted .msk{background:radial-gradient(ellipse at 50% 40%,rgba(255,226,170,.13),rgba(0,0,0,.28));box-shadow:inset 0 3px 6px rgba(0,0,0,.55),inset 0 -1px 0 rgba(255,214,160,.14)}
+#match.painted .msk.d{background:radial-gradient(ellipse at 50% 40%,rgba(255,226,170,.22),rgba(0,0,0,.22))}
+#match.painted .mcombo b{color:#FFE27A;-webkit-text-stroke:6px #6B3D0C;text-shadow:0 5px 0 #3A1F0C,0 0 24px rgba(255,200,80,.85)}
+#match.painted .mcombo span{color:#FFF3C4;-webkit-text-stroke:7px #8A4A10;text-shadow:0 6px 0 #3A1F0C}
+#match.painted .mcombo small{-webkit-text-stroke:4px #5A2C08}
+.mglint{position:absolute;z-index:5;pointer-events:none;width:var(--s);height:var(--s);margin:calc(var(--s)/-2) 0 0 calc(var(--s)/-2);border-radius:50%;
+  background:radial-gradient(circle,#fff 0,rgba(255,250,220,.9) 18%,var(--c) 42%,transparent 70%);mix-blend-mode:screen;animation:mglint .42s ease-out forwards}
+@keyframes mglint{0%{transform:scale(.2);opacity:1}40%{transform:scale(1);opacity:.95}100%{transform:scale(1.25);opacity:0}}
+.mboard.shk{animation:bshk .35s ease-in-out}.mboard.shk2{animation:bshk2 .5s ease-in-out}
+.rstars{display:flex;justify-content:center;gap:6px}
+.rstar{width:58px;height:58px;display:inline-block}
+.rstar svg{width:100%;height:100%}
+.rstar.off svg{filter:grayscale(1) brightness(.6);opacity:.55}
+.rstar.on{animation:rstar .55s var(--d,0s) cubic-bezier(.3,1.7,.5,1) both}
+.rstar.on svg{filter:drop-shadow(0 0 8px rgba(255,214,90,.9))}
+@keyframes rstar{0%{transform:scale(0) rotate(-60deg);opacity:0}70%{transform:scale(1.3) rotate(8deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+
 /* ---------- 소문 던전 ---------- */
 #dungeon{overflow-y:auto;padding:10px 16px 30px;background:linear-gradient(180deg,rgba(238,233,255,.8),rgba(255,225,234,.6))}
 .dwrap{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
@@ -705,7 +741,7 @@ body.tts-on .tts{display:inline-flex}
   .clue li{font-size:18px}
 }
 /* ===== 구역 허브: 해 질 녘 항구 장면 (던전 아트 방향) ===== */
-#hub{position:relative;overflow:hidden;padding:0;background:#120C22}
+section#hub{position:relative;overflow:hidden;padding:0;background:#120C22}
 #hub .hubwrap{max-width:none;margin:0;display:block;height:100%}
 .hx{position:relative;height:100%;width:100%;overflow:hidden;background:#120C22;font-family:var(--disp);color:#fff;
   --wood1:#C98F55;--wood2:#8A552B;--wood3:#4E2C14;--gold:#FFD24A;--ink:#2A1A0E}
@@ -1146,13 +1182,13 @@ body.tts-on .tts{display:inline-flex}
   </section>
 
   <section id="match" class="screen" hidden>
-    <div class="topbar pillbar">
-      <button class="ibtn" data-back aria-label="구역으로"><span class="em">🏠</span></button>
-      <span class="chipr" title="최고 점수"><span class="em">👑</span><span id="mBest">0</span></span>
-      <span class="chipr" title="이 구역의 별"><span class="em">⭐</span><span class="sVal">0</span></span>
+    <div class="topbar mghud">
+      <button class="hxslot hxbtn" data-back aria-label="구역으로" title="구역으로"><svg viewBox="0 0 40 40"><path d="M6 20 L20 7 L34 20" fill="none" stroke="#FFE27A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 18 V33 H30 V18" fill="#F7E9C9" stroke="#4E2C14" stroke-width="2.5" stroke-linejoin="round"/><rect x="17" y="23" width="7" height="10" rx="1.5" fill="#8A552B"/></svg></button>
+      <span class="mgstat" title="최고 점수"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 30 L8 12 L15 20 L20 8 L25 20 L32 12 L34 30Z" fill="#FFD24A" stroke="#6B3D0C" stroke-width="2.5" stroke-linejoin="round"/><circle cx="20" cy="24" r="3" fill="#FF7FA6" stroke="#6B3D0C" stroke-width="1.5"/></svg><b id="mBest">0</b></span>
+      <span class="mgstat" title="이 구역의 별"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#miStar"/></svg><b class="sVal">0</b></span>
       <span class="sp"></span>
-      <button class="cbtn butter" id="mBonus" hidden>❓ 보너스 퀴즈 <span id="mBonusN"></span></button>
-      <button class="ibtn" id="mHelp" aria-label="도움말"><span class="em">❓</span></button>
+      <button class="hxplank hot" id="mBonus" hidden>보너스 퀴즈 병 <span id="mBonusN"></span></button>
+      <button class="hxslot hxbtn" id="mHelp" aria-label="도움말" title="도움말"><svg viewBox="0 0 40 40"><text x="20" y="29" text-anchor="middle" font-family="Jua" font-size="26" fill="#FFE27A">?</text></svg></button>
     </div>
     <div class="mwrap" id="mwrap">
       <div class="mhud" id="mTop">
@@ -3336,13 +3372,16 @@ let M=null, mid=0;
 const mboardEl=$('#mboard');
 /* 작은 SVG 그림 (문서 맨 위 #mdefs 의 symbol 을 불러 써요) */
 function mSvg(id,cls='art'){return `<svg class="${cls}" viewBox="0 0 100 100" aria-hidden="true"><use href="#${id}"/></svg>`}
-function mUnder(sp){return sp==='lineH'||sp==='lineV'?mSvg('mspLine','spx'):sp==='bomb'?mSvg('mspWhirl','spx'):''}
-function mPieceHTML(t,sp){return `<span class="mpiece ${sp?'sp-'+sp:''}"><span class="mi">${mUnder(sp)}${mSvg(sp==='rainbow'?'mtP':'mt'+t)}</span></span>`}
+function mUnder(sp){const P=mPk();if(P&&sp==='bomb'&&P.whirl)return `<img class="spx whirl" src="${P.whirl}" alt="" draggable="false">`;return sp==='lineH'||sp==='lineV'?mSvg('mspLine','spx'):sp==='bomb'?mSvg('mspWhirl','spx'):''}
+function mPk(){const P=ART.pack&&ART.pack.match;return P&&P.piece_0?P:null}
+function mArt(t,sp){const P=mPk();if(!P)return mSvg(sp==='rainbow'?'mtP':'mt'+t);return `<img class="art" src="${sp==='rainbow'?(P.pearl||P.piece_0):P['piece_'+t]}" alt="" draggable="false">`}
+function mPieceHTML(t,sp){return `<span class="mpiece ${sp?'sp-'+sp:''}"><span class="mi">${mUnder(sp)}${mArt(t,sp)}</span></span>`}
 function pitch(){return M.cs+MGAP}
 function openMatch(){
   show('match');
   if(M) clearTimeout(M.hintT);
   M={g:[],score:0,moves:MOVES,busy:false,sel:null,bonus:0,nextB:MBONUS,starsWon:0,cs:48,maxCombo:0,made:0,over:false,hintT:0};
+  const ms=$('#match');ms.classList.toggle('painted',!!(ART.match_bg&&mPk()));ms.style.backgroundImage=ART.match_bg&&mPk()?`url("${ART.match_bg}")`:'';$('#mScore').textContent='0';$('#mScore')._v=0;
   mboardEl.innerHTML='';
   for(let r=0;r<MR;r++)for(let c=0;c<MC;c++){const s=document.createElement('div');s.className='msk'+((r+c)%2?' d':'');s.style.cssText=`--r:${r};--c:${c}`;mboardEl.appendChild(s)}
   fitMatch();
@@ -3368,7 +3407,7 @@ function drawTile(tile){
   const el=tile.el, sp=tile.sp;
   el.className='mt k'+tile.t+(sp?' sp-'+sp:'');
   el.setAttribute('aria-label',sp?MSP[sp]:MART[tile.t].n);
-  el.innerHTML=`<div class="mi">${mUnder(sp)}${mSvg(sp==='rainbow'?'mtP':'mt'+tile.t)}</div>`;
+  el.innerHTML=`<div class="mi">${mUnder(sp)}${mArt(tile.t,sp)}</div>`;
 }
 function setPos(tile,r,c,dur){tile.vr=r;tile.vc=c;tile.el.style.transitionDuration=dur+'s';tile.el.style.transform=`translate(${c*pitch()}px,${r*pitch()}px)`}
 /* 칸에 맞게 옮겨요. 떨어지는 거리만큼 시간이 길어지고, 닿을 때 살짝 눌려요. 가장 긴 이동 시간(초)을 돌려줘요 */
@@ -3390,7 +3429,7 @@ function fitMatch(){
 }
 function renderMatchTop(){
   if(!M) return; const c=chState(CI);
-  $('#mScore').textContent=M.score.toLocaleString(); $('#mMoves').textContent=M.moves; $$('.sVal').forEach(e=>e.textContent=c.stars);
+  numTo($('#mScore'),M.score); $('#mMoves').textContent=M.moves; $$('.sVal').forEach(e=>e.textContent=c.stars);
   $('#mMovesBox').classList.toggle('low',M.moves<=5&&M.moves>0);
   const st=MGOAL.filter(g=>M.score>=g).length;
   $('#mGbar').style.width=Math.min(100,M.score/MGOAL[2]*100)+'%';
@@ -3399,6 +3438,10 @@ function renderMatchTop(){
   $('#mBest').textContent=(c.mBest||0).toLocaleString();
   const b=$('#mBonus'); b.hidden=!M.bonus||M.over; $('#mBonusN').textContent=M.bonus>1?`×${M.bonus}`:'';
 }
+/* 숫자가 굴러 올라가고 크게 오르면 통 튀어요 (팡팡 · 퐁당 점수) */
+function numTo(el,v){const from=el._v||0;cancelAnimationFrame(el._raf);if(v<=from){el._v=v;el.textContent=v.toLocaleString();return}
+  if(v-from>=60){el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop')}
+  const t0=performance.now(),d=Math.min(800,260+(v-from)*.8);const step=t=>{const k=Math.min(1,(t-t0)/d),n=Math.round(from+(v-from)*(1-Math.pow(1-k,3)));el.textContent=n.toLocaleString();el._v=n;if(k<1)el._raf=requestAnimationFrame(step)};el._raf=requestAnimationFrame(step)}
 function posOf(tile){for(let r=0;r<MR;r++)for(let c=0;c<MC;c++)if(M.g[r][c]===tile)return [r,c];return null}
 /* 입력: 밀기(스와이프·마우스 끌기) 또는 두 칸을 차례로 톡톡 */
 let MP=null;
@@ -3559,18 +3602,20 @@ async function gravity(){
 function mXY(r,c){return [MPAD+c*pitch()+M.cs/2, MPAD+r*pitch()+M.cs/2]}
 function mFx(cls,style,ms){const e=document.createElement('div');e.className=cls;e.style.cssText=style;mboardEl.appendChild(e);setTimeout(()=>e.remove(),ms);return e}
 function mBurst(t){
-  const [x,y]=mXY(t.vr,t.vc), col=t.sp==='rainbow'?'#FFFFFF':MART[t.t].c;
+  const [x,y]=mXY(t.vr,t.vc), col=t.sp==='rainbow'?'#FFFFFF':MART[t.t].c, pt=mPk()?5:3;
   mFx('mring',`left:${x}px;top:${y}px;--s:${M.cs}px;border-color:${col}`,450);
-  for(let i=0;i<3;i++){const a=Math.random()*Math.PI*2, d=M.cs*(.55+Math.random()*.5);
+  if(mPk())mFx('mglint',`left:${x}px;top:${y}px;--s:${M.cs*1.7}px;--c:${col}`,420);
+  for(let i=0;i<pt;i++){const a=Math.random()*Math.PI*2, d=M.cs*(.55+Math.random()*.5);
     mFx('mpt',`left:${x}px;top:${y}px;--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d}px;--rt:${Math.random()*360}deg;background:${col}`,600)}
 }
 function mBeam(dir,k){
   if(k<0||k>=(dir==='h'?MR:MC)) return; const s=M.cs;
   if(dir==='h') mFx('mbeam h',`left:0;right:0;top:${MPAD+k*pitch()+s*.15}px;height:${s*.7}px`,520);
   else mFx('mbeam v',`top:0;bottom:0;left:${MPAD+k*pitch()+s*.15}px;width:${s*.7}px`,520);
-  beep(1100,.16,'triangle',.05,.5);
+  beep(1100,.16,'triangle',.05,.5); mShake(false);
 }
-function mShock(r,c,k){const [x,y]=mXY(r,c);mFx('mshock',`left:${x}px;top:${y}px;--s:${M.cs*(1+2*k)}px`,600)}
+function mShock(r,c,k){const [x,y]=mXY(r,c);mFx('mshock',`left:${x}px;top:${y}px;--s:${M.cs*(1+2*k)}px`,600);mShake(k>=2)}
+function mShake(big){const b=mboardEl;b.classList.remove('shk','shk2');void b.offsetWidth;b.classList.add(big?'shk2':'shk');setTimeout(()=>b.classList.remove('shk','shk2'),520);if(navigator.vibrate)try{navigator.vibrate(big?[30,30,40]:20)}catch(_){}}
 function mFloat(txt,c,r){const [x,y]=mXY(r,c);mFx('mfloat',`left:${x}px;top:${y}px`,900).textContent=txt}
 function mSay(txt,t){const p=posOf(t)||[t.vr,t.vc];const [x,y]=mXY(p[0],p[1]);mFx('msay',`left:${x}px;top:${y-M.cs*.4}px`,1100).textContent=txt}
 function mCombo(n){
@@ -3578,6 +3623,7 @@ function mCombo(n){
   const e=document.createElement('div'); e.className='mcombo'+(n>=4?' big':'');
   e.innerHTML=`<b>COMBO</b><span>×${n}</span><small>${n>=5?'최고의 탐정!':n>=4?'대단해요!':n>=3?'멋져요!':'연쇄 팡!'}</small>`;
   e.style.top=(mboardEl.offsetTop+mboardEl.offsetHeight*.38)+'px'; w.appendChild(e); setTimeout(()=>e.remove(),1000);
+  if(n>=3)mShake(n>=4);
 }
 /* ---------- 힌트 · 판 끝 · 보너스 ---------- */
 function mIdle(stop){
@@ -3616,10 +3662,10 @@ function matchOver(){
   const c=chState(CI), st=MGOAL.filter(g=>M.score>=g).length;
   const rec=M.score>(c.mBest||0); if(rec)c.mBest=M.score;
   if(st) addStars(st); save(); if(st) confetti(20+st*15);
-  const sh=openModal(`<div class="result"><h2>${rec?'새 기록!':'이동 끝!'}</h2><div class="stars">${[0,1,2].map(i=>`<span class="em ${i<st?'':'off'}">⭐</span>`).join('')}</div>
+  const sh=openModal(`<div class="result"><h2>${rec?'새 기록!':'이동 끝!'}</h2><div class="stars rstars">${[0,1,2].map(i=>`<span class="rstar ${i<st?'on':'off'}" style="--d:${.25+i*.28}s"><svg viewBox="0 0 100 100"><use href="#miStar"/></svg></span>`).join('')}</div>
     <div class="score" style="margin:6px 0">${M.score.toLocaleString()}점</div>
-    <p class="note">목표 ${MGOAL.map(g=>g.toLocaleString()).join(' · ')}점을 넘을 때마다 ⭐1 · 이번 판에서 모은 별 ⭐${M.starsWon+st}<br>최고 연쇄 ${M.maxCombo}번 · 특수 블록 ${M.made}개 · 최고 ${c.mBest.toLocaleString()}점</p></div>
-    <div class="row" style="justify-content:center"><button class="cbtn ghost" id="hub">🏠 구역으로</button><button class="cbtn mint" id="again">한 판 더!</button></div>`,{closable:false});
+    <p class="note">목표 ${MGOAL.map(g=>g.toLocaleString()).join(' · ')}점을 넘을 때마다 별 1개 · 이번 판에서 모은 별 ${M.starsWon+st}개<br>최고 연쇄 ${M.maxCombo}번 · 특수 블록 ${M.made}개 · 최고 ${(c.mBest||0).toLocaleString()}점</p></div>
+    <div class="row" style="justify-content:center"><button class="cbtn ghost" id="hub">구역으로</button><button class="cbtn mint" id="again">한 판 더!</button></div>`,{closable:false});
   sh.querySelector('#hub').onclick=()=>{closeModal();goHub()};
   sh.querySelector('#again').onclick=()=>{closeModal();openMatch()};
 }
@@ -3825,8 +3871,8 @@ function blockOver(){
   const c=chState(CI), rec=B.score>c.best; if(rec) c.best=B.score; save();
   if(rec) confetti(50);
   const sh=openModal(`<div class="result"><h2>${rec?'새 기록!':'게임 끝!'}</h2><div class="score" style="margin:12px 0">${B.score}점</div>
-    <p class="note">없앤 줄 ${B.lines}개 · 이번 판에서 모은 별 ⭐${B.starsWon} · 최고 ${c.best}점</p></div>
-    <div class="row" style="justify-content:center"><button class="cbtn ghost" id="hub">🏠 구역으로</button><button class="cbtn lav" id="again">한 판 더!</button></div>`,{closable:false});
+    <p class="note">없앤 줄 ${B.lines}개 · 이번 판에서 모은 별 ${B.starsWon}개 · 최고 ${c.best}점</p></div>
+    <div class="row" style="justify-content:center"><button class="cbtn ghost" id="hub">구역으로</button><button class="cbtn lav" id="again">한 판 더!</button></div>`,{closable:false});
   sh.querySelector('#hub').onclick=()=>{closeModal();goHub()};
   sh.querySelector('#again').onclick=()=>{closeModal();openBlock()};
 }
