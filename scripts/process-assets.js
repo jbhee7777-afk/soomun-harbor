@@ -39,7 +39,10 @@ const writeUrl=(f,u)=>{fs.mkdirSync(path.dirname(f),{recursive:true});fs.writeFi
 const srcOf=target=>{const f=fs.readdirSync(A).find(n=>path.parse(n).name===target&&/\.(jpe?g|png|webp)$/i.test(n));return f?path.join(A,f):null};
 
 async function toWebp(p,src,dst,q=.86){const r=await p.evaluate(async([d,q])=>{const {c,W,H}=await loadImg(d);return {W,H,u:c.toDataURL('image/webp',q)}},[dataUrl(src),q]);writeUrl(dst,r.u);return `${r.W}×${r.H}`}
-async function cutout(p,src,dst){const r=await p.evaluate(async d=>{const {c,x,W,H}=await loadImg(d);const cl=clearWhite(x,W,H,[],true);const bb=bbox(x,W,H);return {W,H,cl,bb,u:c.toDataURL('image/webp',.88)}},dataUrl(src));
+/* max: 화면에 쓰이는 크기의 2배 정도로 줄여 저장 (섬 768 · 초상화 384) — 내려받기 · 디코딩 · 메모리를 줄여요. 원본(*_src)은 그대로 */
+async function cutout(p,src,dst,max){const r=await p.evaluate(async([d,max])=>{const {c,x,W,H}=await loadImg(d);const cl=clearWhite(x,W,H,[],true);const bb=bbox(x,W,H);
+    let out=c;if(max&&Math.max(W,H)>max){const k=max/Math.max(W,H);out=document.createElement('canvas');out.width=Math.round(W*k);out.height=Math.round(H*k);const o=out.getContext('2d');o.imageSmoothingQuality='high';o.drawImage(c,0,0,out.width,out.height)}
+    return {W:out.width,H:out.height,cl,bb,u:out.toDataURL('image/webp',.9)}},[dataUrl(src),max||0]);
   writeUrl(dst,r.u);const m=r.bb.margin;const warn=Object.entries(m).filter(([,v])=>v<8).map(([k,v])=>`${k} ${v}px`);
   return `${r.W}×${r.H} · 투명 ${(r.cl*100|0)}% · 여백 위${m.top} 아래${m.bottom} 왼${m.left} 오${m.right}${warn.length?' · ⚠ 가장자리에 닿음('+warn.join(', ')+') 확인 필요':''}`}
 /* 묶음 그림을 cols×rows 칸으로 나눠 칸마다 가장 큰 덩어리(와 그 둘레 작은 조각)만 남겨 정사각 S px 로 */
@@ -95,9 +98,9 @@ async function buildArtManifest(p){
   await withPage(async p=>{
     for(const it of todo){const src=srcOf(it.target);if(!src){report.push(`⚠ ${it.target}: 원본이 assets 에 없어요 (아직 가져오지 않음)`);fail++;continue}
       try{let r;
-        if(it.kind==='isle')r=await cutout(p,src,path.join(A,`isle_${it.index}.webp`));
-        else if(it.kind==='isle_home')r=await cutout(p,src,path.join(A,'isle_home.webp'));
-        else if(it.kind==='npc')r=await cutout(p,src,path.join(A,`npc_${it.zone}.webp`));
+        if(it.kind==='isle')r=await cutout(p,src,path.join(A,`isle_${it.index}.webp`),768);
+        else if(it.kind==='isle_home')r=await cutout(p,src,path.join(A,'isle_home.webp'),768);
+        else if(it.kind==='npc')r=await cutout(p,src,path.join(A,`npc_${it.zone}.webp`),384);
         else if(it.kind==='bg')r=await toWebp(p,src,path.join(A,`${it.out}.webp`));
         else if(it.kind==='item-sheet')r=await splitSheet(p,src,path.join(A,'items'),it.zone);
         else if(it.kind==='sheet')r=await splitNamed(p,src,it);

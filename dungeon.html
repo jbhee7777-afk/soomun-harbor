@@ -1267,7 +1267,7 @@ function clampCam(){
 function camLoop(){
   const k=.08; cam.x+=(cam.tx-cam.x)*k; cam.y+=(cam.ty-cam.y)*k; cam.w+=(cam.tw-cam.w)*k;
   clampCam(); const h=cam.w/(innerWidth/innerHeight);
-  svg.setAttribute('viewBox',`${(cam.x-cam.w/2).toFixed(1)} ${(cam.y-h/2).toFixed(1)} ${cam.w.toFixed(1)} ${h.toFixed(1)}`);
+  const vb=`${(cam.x-cam.w/2).toFixed(1)} ${(cam.y-h/2).toFixed(1)} ${cam.w.toFixed(1)} ${h.toFixed(1)}`; if(vb!==cam.vb){cam.vb=vb;svg.setAttribute('viewBox',vb)} /* 카메라가 멈춰 있으면 다시 그리지 않아요 */
   requestAnimationFrame(camLoop);
 }
 let drag=null;
