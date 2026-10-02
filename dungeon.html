@@ -271,6 +271,10 @@ body.quake #world{animation:quake .7s}
 .qopts.two{grid-template-columns:1fr 1fr}.qopts.two .plank{justify-content:center;text-align:center;font-size:clamp(20px,2.6vw,26px);min-height:72px}
 .qq.rumorq{font-size:clamp(23px,3vw,30px);background:rgba(255,255,255,.06);border-left:5px solid #cbb8ff;padding:8px 12px;border-radius:10px}
 [hidden]{display:none!important}
+/* 클릭 안정 구조: 지도 장식은 클릭을 받지 않고 갈 수 있는 곳의 고정 hitbox 만 받아요 · 단추는 누를 때 움직이지 않아요 */
+#world *{pointer-events:none}
+#world .hot .hitz{pointer-events:all;cursor:pointer}
+.plank:active{transform:none!important;filter:brightness(.92)}
 /* ===== painted 아이콘 (이모지 대신) ===== */
 .ico{display:inline-block;width:1.1em;height:1.1em;vertical-align:-.2em;flex:none;overflow:visible}
 .em .ico,.em.ico{width:1em;height:1em;vertical-align:-.12em}
@@ -1327,7 +1331,7 @@ function drawHotspots(){
     el.innerHTML=`<path d="${e[2]}" class="trail"/><g transform="translate(${N.x},${N.y})"><ellipse rx="62" ry="24" class="ring"/><ellipse rx="40" ry="15" class="ring2"/>
       ${goal?'<g class="goalArrow"><path d="M-11 -100 h22 v20 h15 l-26 30 l-26 -30 h15z"/></g>':''}
       <g class="tag"><path d="M${-w/2} -150 h${w} l0 42 h${-w/2+14} l-14 14 l-14 -14 h${-w/2+14}z" class="tagbg"/>${ic?`<image href="${ic}" x="${-w/2+8}" y="-148" width="38" height="38"/>`:''}<text x="${ic?22:0}" y="-121" text-anchor="middle">${esc(lab)}</text></g>
-      <ellipse rx="90" ry="80" cy="-50" fill="transparent"/></g>`;
+      <ellipse class="hitz" rx="90" ry="80" cy="-50" fill="transparent"/><rect class="hitz" x="${-w/2-6}" y="-158" width="${w+12}" height="70" fill="transparent"/></g>`;
     el.addEventListener('click',()=>{if(drag&&drag.moved)return;go(n)});
     g.appendChild(el);
   });

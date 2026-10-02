@@ -24,18 +24,22 @@ Tools need `npm install` (playwright-core, uses system Chrome). `npm run assets:
 
 ## Redesign progress (`game-redesign` branch, as of 2026-10-02)
 
-Done (painted art, all verified in real browsers on desktop and phone):
-- 지도 · 항구 허브 · 10개 구역 섬
-- 머지게임 10개 구역 painted 아이템 (120개)
-- 주민 초상화: 대표 10명 + 이웃 주민 19명 (`npc_<zone>`, `npc_<zone>_1/_2`)
-- 블록 퍼즐 (시장 창고), 소문 팡팡 3매치 (보물 해변), 소문 퐁당 (등대 절벽 유리 항아리) — engines unchanged, art from `ART.pack.block/match/drop` with code-drawn fallback
-- 구 카드 던전 제거 → painted 소문 던전 하나 (구역별 괴물·사건·중간 보스, 다음 목표 화살표, 작은 화면 HUD 정리)
-- 전체 흐름 통합 점검 (학년 → 지도 → 구역 → 이야기·미니게임 → 보고서 → 오답 → 던전 → 복귀 · 새로고침 · 수업 모드 · v1 저장 이전)
+Done (all committed on `game-redesign`):
+- painted art: map, hub, 10 islands, merge items (120), residents (10 lead + 19 neighbours), block / 3-match / 퐁당 redesigns
+- old card dungeon removed; the painted 소문 던전 is the only dungeon, entered only from the harbor spot `#mDungeon`
+- emoji replaced by painted SVG icons (`#icodefs`, render-time `emoFix` in index.html and dungeon.html)
+- speed/feel: 퐁당 time-based fixed-step physics (`PHY`), shorter waits in 3-match/block/merge, map split into static + animated layers, islands 768px / portraits 384px
+- click stability (WIP commit): decorations in painted scenes have `pointer-events:none`; only static transparent hit shapes (`.hit`, `.mxhit`, dungeon `.hitz`) receive clicks. Root cause: the legacy `.mode:hover{transform}` rule matched the hub play spots (SVG groups with class "mode"); a CSS transform overrides the SVG transform attribute, so spots jumped toward the corner on hover. Button `:active` no longer moves the hit box.
 
-Remaining before release:
-1. Modal/UI text still uses emoji in places (quiz tags, story/intro dialogs, help sheets) — replace with painted/SVG icons if wanted
-2. Dungeon is 2 floors; a 3rd floor would need a new painted floor background
-3. Final review by the user, then GitHub push/deploy — push only when the user explicitly asks
+Verification status of the click-stability commit (2026-10-02, school PC):
+- passed: repeated real-coordinate first-click test (mouse + touch, 20x each map island, hub spot, back button, story button, dungeon room) = 100%; test.js 39/39, test2 13/13, test3 22/22, testmg 17/17, blocktest 28/28, matchtest 25/25
+- not yet re-run after this change: droptest, flow (full student journey), cave3 (dungeon entry/finish), zones (all 10 stories), smoke (all modes x zones), `npm run assets:test`
+- those extended browser test scripts lived in the school PC temp scratchpad and are NOT in the repo; `npm run assets:test` (scripts/test-assets.js) is the in-repo check
+
+Next, in order:
+1. Re-run the remaining checks (at minimum `npm install` then `npm run assets:test`) and play every screen at desktop and phone width
+2. Preview deploy to GitHub Pages only when the user asks. Pages serves `main` (repo root). Plan: tag current `origin/main` for rollback, fast-forward `main` to the tested `game-redesign` commit, then verify https://jbhee7777-afk.github.io/soomun-harbor/
+3. Never push `main` or change the public site without an explicit request
 
 ## Architecture (all inside `index.html`)
 

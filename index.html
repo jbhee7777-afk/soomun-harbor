@@ -127,8 +127,8 @@ section#hub{overflow-y:auto;padding:12px 16px 30px}
 .storybtn.ready{animation:bob 1.4s infinite}
 .modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
 .mode{border-radius:26px;padding:16px 14px 14px;text-align:left;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;color:var(--ink);transition:transform .15s}
-.mode:hover{transform:translateY(-3px)}
-.mode:active{transform:translateY(2px)}
+.mode:not(g):hover{transform:translateY(-3px)}
+.mode:not(g):active{transform:translateY(2px)}
 .mode .big{font-size:52px;filter:drop-shadow(0 4px 0 rgba(0,0,0,.08))}
 .mode h3{font-size:28px}
 .mode p{margin:0;font-size:18px;line-height:1.4;color:var(--ink)}
@@ -992,6 +992,23 @@ section#hub{position:relative;overflow:hidden;padding:0;background:#120C22}
 .mxscroll.port{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .mxscroll.port::-webkit-scrollbar{display:none}
 .mxworld{display:block;width:100%;height:auto}
+/* ===== 클릭 안정 구조 =====
+   클릭되는 상자(hitbox)는 움직이거나 크기가 변하지 않아요. 누름 · 올림 효과는 그림자 · 밝기 · 안쪽 내용에만.
+   (누르는 순간 단추가 아래로 3px 내려가면 가장자리를 누른 손가락이 단추 밖에서 떼어져 click 이 사라졌어요) */
+.cbtn:active,.ibtn:active,.gbig:active,.gpick:active,.vpick:active,.hxbtn:active,.hxplank:active,.tile:active,div.mode:active,button.mode:active{transform:none!important;filter:brightness(.92)}
+.tile:hover,div.mode:hover,button.mode:hover,.opt:hover,.piece:hover,#block.painted .piece:hover{transform:none!important}
+.tile:hover>*,div.mode:hover>*,button.mode:hover>*{transform:translateY(-3px)}
+.tile>*,div.mode>*,button.mode>*,.opt>*{transition:transform .12s}
+.opt:hover>*{transform:translateX(3px)}
+.pcell{transition:transform .12s}
+.piece:hover .pcell{transform:scale(1.05)}
+#block.painted .piece:hover .pcell{transform:scale(1.07)}
+/* 그림 장면(허브 · 지도): 장식(그림 · 빛 · 고리 · 안개 · 이름표 · 인물 · 반짝이)은 클릭을 받지 않고, 정해진 투명 hitbox 만 받아요 */
+.hxworld *,.mxlayers svg *{pointer-events:none}
+.hxworld .hit,.mxlayers .hit,.mxlayers .mxhit{pointer-events:all}
+.mxart .mxartin{transition:transform .2s ease-out;transform-box:fill-box;transform-origin:50% 85%}
+.mxart.lift .mxartin{transform:translateY(-6px) scale(1.06)}
+
 .mxlayers{position:relative}
 .mxlayers>svg+svg{position:absolute;left:0;top:0;height:100%}
 .mxl0,.mxl2{will-change:transform;pointer-events:none}
@@ -2238,7 +2255,8 @@ function mxZone(i,x,y,s,g){
       <text y="-10" text-anchor="middle" class="hxt1">${esc(name)}</text>
       ${[0,1,2,3].map(k=>`<image href="assets/shard.webp" x="${-34+k*18-6}" y="2" width="14" height="18" ${k<st?'':'filter="url(#mxGray)" opacity=".55"'}/>`).join('')}
       <text x="${w/2-12}" y="16" text-anchor="end" class="hxt3">${done?'완료':fog?'처음':`${st}/4`}</text></g></g>
-    ${ART.isles[i]?'':'<ellipse cy="-40" rx="100" ry="80" fill="transparent"/>'}</g>`;
+    <rect class="hit" x="${-w/2-6}" y="${(ART.isles[i]?-166:-150)-46}" width="${w+12}" height="96" fill="transparent"/>
+    ${ART.isles[i]?'':'<ellipse class="hit" cy="-40" rx="100" ry="80" fill="transparent"/>'}</g>`;
 }
 function mxRoute(h,z,i,hot){
   const [x1,y1]=h,[x2,y2]=z, cx=(x1+x2)/2+(i%2?60:-60), cy=(y1+y2)/2-40;
@@ -2254,7 +2272,7 @@ function mxWorld(L){
   const islands=L.z.map(([x,y],i)=>ART.isles[i]?'':mxIsland(x,y+12,128*L.s,58*L.s,i+1)).join('');
   const [hx,hy]=L.home, s=L.s;
   /* 네 겹: 정지 그림(바다 · 섬)은 따로 한 번만 그리고, 움직이는 장식만 다시 그려요 (지도가 매 프레임 통째로 다시 그려지지 않게) */
-  const zoneArt=L.z.map(([x,y],i)=>ART.isles[i]?`<g transform="translate(${x} ${y}) scale(${s})"><image href="${ART.isles[i]}" x="-140" y="-150" width="280" height="280" preserveAspectRatio="xMidYMid meet"/></g>`:'').join('');
+  const zoneArt=L.z.map(([x,y],i)=>ART.isles[i]?`<g class="mxart" data-i="${i}" transform="translate(${x} ${y}) scale(${s})"><g class="mxartin"><image href="${ART.isles[i]}" x="-140" y="-150" width="280" height="280" preserveAspectRatio="xMidYMid meet"/></g></g>`:'').join('');
   return `<div class="mxlayers">
   <svg class="mxworld mxl0" viewBox="0 0 ${L.W} ${L.H}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
   <defs>
@@ -2332,6 +2350,9 @@ function renderMap(){
   const sc=$('#mxScroll'); if(port) sc.scrollTop=keepY;
   const go=e=>{const z=e.target.closest&&e.target.closest('.mxz');if(!z)return false;sfx.tap();goHub(+z.dataset.i);return true};
   sc.onclick=go; sc.onkeydown=e=>{if((e.key==='Enter'||e.key===' ')&&go(e))e.preventDefault()};
+  /* 올림 효과는 보이는 섬(정지 층)에 — hitbox 는 그대로. pointerenter/leave 는 자식 사이를 오가도 다시 불리지 않아요 */
+  $$('.mxz').forEach(z=>{const art=$(`.mxart[data-i="${z.dataset.i}"]`);if(!art)return;const on=v=>art.classList.toggle('lift',v);
+    z.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')on(true)});z.addEventListener('pointerleave',()=>on(false));z.addEventListener('focus',()=>on(true));z.addEventListener('blur',()=>on(false))});
   $('#btnCards').onclick=()=>{sfx.tap();truthCardsModal()};
   $('#btnGuide').onclick=()=>teacherModal(); $('#btnSet').onclick=()=>settingsModal(); $('#btnGrade').onclick=()=>{sfx.tap();gradeModal(false)};
 }
@@ -2392,7 +2413,8 @@ function hxSpot(id,x,y,title,sub,rec,tagY=150,rx=74){
       <text y="${-tagY-8}" text-anchor="middle" class="hxt1">${esc(title)}</text>
       <text y="${-tagY+14}" text-anchor="middle" class="hxt2">${esc(sub)}</text>
       <text y="${-tagY+33}" text-anchor="middle" class="hxt3 rec">${esc(rec)}</text></g>
-    <ellipse rx="${rx+30}" ry="${tagY*.62}" cy="${-tagY*.45}" fill="transparent"/></g>`;
+    <ellipse class="hit" rx="${rx+30}" ry="${tagY*.62}" cy="${-tagY*.45}" fill="transparent"/>
+    <rect class="hit" x="${-w/2-6}" y="${-tagY-44}" width="${w+12}" height="102" fill="transparent"/></g>`;
 }
 function hubWorld(ch,c,port){
   const R=(n,s)=>{let v=s;return ()=>{v=(v*16807)%2147483647;return v/2147483647}};const rnd1=R(0,97);
