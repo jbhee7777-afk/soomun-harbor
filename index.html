@@ -775,9 +775,8 @@ section#hub{position:relative;overflow:hidden;padding:0;background:#120C22}
 .hxspot{cursor:pointer;outline:none}
 .hxspot .ring{fill:none;stroke:#FFE27A;stroke-width:5;opacity:.9;transform-box:fill-box;transform-origin:center;animation:hxring 1.6s ease-out infinite}
 .hxspot .ring2{fill:rgba(255,226,122,.25);stroke:#FFF3C0;stroke-width:3}
-.hxspot.newcave .ring,.hxspot.calling .ring{stroke:#9CF2FF;stroke-width:8;animation-duration:1s}
-.hxspot.newcave .ring2,.hxspot.calling .ring2{fill:rgba(156,242,255,.35);stroke:#E6FDFF}
-.hxspot.calling .tagbg{fill:#FFF3C4;stroke:#9CF2FF;stroke-width:6}
+.hxspot.newcave .ring{stroke:#9CF2FF;stroke-width:8;animation-duration:1s}
+.hxspot.newcave .ring2{fill:rgba(156,242,255,.35);stroke:#E6FDFF}
 @keyframes hxring{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.35);opacity:0}}
 .hxspot .tag{animation:hxtag 1.4s ease-in-out infinite alternate}
 @keyframes hxtag{to{transform:translateY(-8px)}}
@@ -2505,7 +2504,6 @@ function renderHub(){
           ${c.done?`<button class="hxplank hot" id="hStory">진실 카드 보기</button>`:
             `<button class="hxplank ${ready?'hot':''}" id="hStory">${ready?'이야기 열기!':'다음 이야기'} · <span class="hxcost">${hxStarIcon()}${cost}</span></button>`}
           ${(c.wrong&&c.wrong.length)?`<button class="hxplank" id="hReview" title="헷갈린 문제 다시 풀기">다시 풀기 <b class="cnt">${c.wrong.length}</b></button>`:''}
-          <button class="hxplank ${caveNew(c)?'hot':''}" id="hCave" title="안개 동굴 성의 소문 던전 · ${c.caveWins?`정복 ${c.caveWins}번`:c.caveBest?`지하 ${c.caveBest}층까지`:'처음 모험'}">${caveNew(c)?'소문 던전 열림!':'소문 던전으로'}</button>
         </div></div>
     </div>
   </div>`;
@@ -2516,7 +2514,6 @@ function renderHub(){
   const rv=$('#hReview'); if(rv) rv.onclick=()=>{sfx.tap();reviewWrong()};
   $('#hHelp').onclick=()=>{sfx.tap();coachStart(hubTutorial())};
   $('#hStory').onclick=()=>storyButton();
-  $('#hCave').onclick=()=>goCave();
   {const sp=$('#mDungeon');if(sp)sp.classList.toggle('newcave',caveNew(c))}
   const go={mMerge:openMerge,mBlock:openBlock,mMatch:openMatch,mDrop:openDrop,mDungeon:openCave};
   Object.entries(go).forEach(([id,fn])=>{const el=$('#'+id); if(!el)return;
@@ -2758,7 +2755,7 @@ function completeStep(ci,k){
   c.stars-=STEP_COST[k]; c.step++; c._pop=true; if(c.step>=4) c.done=true;
   save(); confetti(40); refresh();
   if(c.done) setTimeout(()=>showTruth(ci,true),400);
-  else{toast(`🔍 단서 ${c.step}/4 획득! ${CH[ci].steps[k].deco} ${CH[ci].steps[k].title}`);if(caveNew(c))setTimeout(()=>toast('안개 동굴 성의 소문 던전이 열렸어요! 대사 아래 단추나 항구 끝 성을 눌러 봐요'),2200)}
+  else{toast(`🔍 단서 ${c.step}/4 획득! ${CH[ci].steps[k].deco} ${CH[ci].steps[k].title}`);if(caveNew(c))setTimeout(()=>toast('소문 던전이 열렸어요! 항구의 안개 동굴 성을 눌러 들어가 봐요'),2200)}
 }
 function addStars(n,x,y){const c=chState(CI);c.stars+=n;save();if(x!=null)floatText(`+⭐${n}`,x,y);$$('.sVal').forEach(e=>e.textContent=c.stars)}
 
@@ -4132,12 +4129,8 @@ window.addEventListener('resize',()=>fitDrop());
    dungeon.html ↔ 본게임 메시지: dq:need → dq:q(drawQ 문제) · dq:ans(틀리면 오답 노트) · dq:stars(별빛 조각 → ⭐) · dq:floor · dq:clear · dq:exit
    저장: chState(ci).caveBest(도착한 층, 정복하면 3) · caveWins */
 let CAVE=null, CAVE_FIRST=false;
-/* 첫 단서를 얻은 뒤 아직 들어가 보지 않았으면 "소문 던전 열림!" (막지는 않아요: 언제든 들어갈 수 있어요) */
+/* 첫 단서를 얻은 뒤 아직 들어가 보지 않았으면 항구의 소문 던전 자리가 푸르게 빛나요 (막지는 않아요: 언제든 들어갈 수 있어요) */
 function caveNew(c){return c.step>=1&&!c.caveBest&&!c.caveWins&&!c.caveSeen}
-/* 대사 아래 단추: 항구의 안개 동굴 성으로 눈을 돌린 뒤 그 문으로 들어가요 (진입점은 항구의 소문 던전 하나) */
-function goCave(){sfx.tap();const sp=$('#mDungeon'),sc=$('#hxScroll');
-  if(sp&&sc&&SCREEN==='hub'){const r=sp.getBoundingClientRect(),q=sc.getBoundingClientRect();if(sc.scrollWidth>sc.clientWidth)sc.scrollTo({left:sc.scrollLeft+r.left+r.width/2-q.left-q.width/2,behavior:'smooth'});sp.classList.add('calling');setTimeout(()=>{sp.classList.remove('calling');openCave()},650)}
-  else openCave()}
 function openCave(){
   const ci=CI, c=chState(ci); if(!c.caveSeen){c.caveSeen=true;save()}
   CAVE={ci,sent:{},stars:0}; ttsStop(); coachEnd(true);
