@@ -191,7 +191,7 @@ arcDefine({id:'dokdo_fish',ch:'dokdo',name:'독도 바다 낚시',tag:'타이밍
           if(cast.t>=1.7)cast=null}
         for(const c of catchA)c.t+=dt*1.6;catchA=catchA.filter(c=>c.t<1);
         G.setHud(TIME(time),want.map(w=>`${w.f[0]}${w.got}/${w.need}`).join(' '),clean?`🧹 ${clean}`:`${G.lv}단계`)},
-      draw(c){const im=v2img('dokdo_sea.jpg');if(im)drawCover(c,im,0,0,AW,AH);else{c.fillStyle=G.grad(0,AH,'#9FD8FF','#0B3A60');c.fillRect(0,0,AW,AH)}if(typeof drawTaegeukgi==='function'){c.fillStyle='#E8E8EE';c.fillRect(280,102,2,30);drawTaegeukgi(c,282,101,26,Math.sin(G.t*3)*.5)}
+      draw(c){const im=v2img('dokdo_sea.jpg');if(im)drawCover(c,im,0,0,AW,AH);else{c.fillStyle=G.grad(0,AH,'#9FD8FF','#0B3A60');c.fillRect(0,0,AW,AH)}if(im&&typeof drawTaegeukgi==='function'){c.fillStyle='#E8E8EE';c.fillRect(280,102,2,30);drawTaegeukgi(c,282,101,26,Math.sin(G.t*3)*.5)}
         for(const s of shoals){for(let i=0;i<s.n;i++){const a=i*2.4+s.ph*1.5,r=8+(i%3)*9,x=s.x+Math.cos(a)*r*1.4,y=s.y+Math.sin(a)*r*.6;c.fillStyle='rgba(10,40,70,.45)';c.beginPath();c.ellipse(x,y+3,12,5,0,0,6.29);c.fill();G.emo(s.f[0],x,y,s.trash?26:22,.9)}
           c.strokeStyle=`rgba(255,255,255,${.25+.15*Math.sin(s.ph*4)})`;c.lineWidth=2;c.beginPath();c.ellipse(s.x,s.y,30+s.n*3,12+s.n,0,0,6.29);c.stroke();if(s.n>=5)G.text('✨',s.x+28,s.y-14,14,'#FFF','center',null)}
         if(!cast){c.save();c.translate(ax,ay);c.rotate(G.t);c.strokeStyle='#FFE27A';c.lineWidth=3;c.setLineDash([8,6]);c.beginPath();c.arc(0,0,22,0,6.29);c.stroke();c.restore();c.setLineDash([]);G.circle(ax,ay,4,'#FFE27A');}
