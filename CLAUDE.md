@@ -38,6 +38,14 @@ Next, in order:
 2. Preview deploy to GitHub Pages only when the user asks. Pages serves `main` (repo root). Plan: tag current `origin/main` for rollback, fast-forward `main` to the tested `game-redesign` commit, then verify https://jbhee7777-afk.github.io/soomun-harbor/
 3. Never push `main` or change the public site without an explicit request
 
+## 섬 놀이 리뉴얼 (2026-10-16 배포)
+
+테스트판 저장소 `soomun-harbor-test`에서 만들고 확인한 뒤 `main`에 옮겼어요 (되돌리기: 태그 `pre-renewal-20261016`).
+- 섬마다 놀이 3가지: `arcade.js` 엔진 + `arcade-games*.js`, `isle-games-a.js`~`isle-games-k.js`. 같은 id를 `arcDefine`으로 다시 정의하면 뒤에 읽힌 파일이 이겨요. 섬별 목록은 `ISLE_SET` (경제 섬: 저금 코인 푸셔 · 동전 합 10 · 저금 핀 뽑기).
+- 새 그림은 `assets/v2/` (Canva로 그려 작업용 디자인 "게임 그림 작업판"에서 원본 크기로 내보냄).
+- 태극기는 `drawTaegeukgi()` (isle-games-k.js)로 국기법 비율대로 그려요. 독도 그림에 AI가 그린 깃발을 쓰지 말고 이 함수로 그려 넣어요.
+- 놀이 설명은 `HOW_SHORT` (isle-games-i.js)에서 3줄 이내로.
+
 ## Architecture (all inside `index.html`)
 
 The script is ordered as: content data → shared engine → per-game engines → event wiring/boot (bottom of file). Search by the section comments (`/* ===== ... ===== */`, `/* ---------- ... ---------- */`).

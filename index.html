@@ -779,6 +779,11 @@ section#hub{position:relative;overflow:hidden;padding:0;background:#120C22}
 .hxsign{font-family:var(--disp);font-size:18px;fill:#FFE27A}
 /* 놀이 장소: 던전과 같은 반짝 고리 + 양피지 이름표 */
 .hxspot{cursor:pointer;outline:none}
+.hxicon{animation:hxbob 2.4s ease-in-out infinite}.hxicon image{transform-box:fill-box;transform-origin:center;transition:transform .2s}
+.hxspot:hover .hxicon image,.hxspot:focus .hxicon image{transform:scale(1.12)}
+@keyframes hxbob{0%,100%{translate:0 0}50%{translate:0 -10px}}
+.hxfloat{animation:hxfl 6s ease-in-out infinite;opacity:.5}@keyframes hxfl{0%,100%{translate:0 0;opacity:.35}50%{translate:0 -22px;opacity:.7}}
+@media (prefers-reduced-motion:reduce){.hxicon,.hxfloat{animation:none}}
 .hxspot .ring{fill:none;stroke:#FFE27A;stroke-width:5;opacity:.9;transform-box:fill-box;transform-origin:center;animation:hxring 1.6s ease-out infinite}
 .hxspot .ring2{fill:rgba(255,226,122,.25);stroke:#FFF3C0;stroke-width:3}
 .hxspot.newcave .ring{stroke:#9CF2FF;stroke-width:8;animation-duration:1s}
@@ -1235,7 +1240,7 @@ section#hub{position:relative;overflow:hidden;padding:0;background:#120C22}
     </div>
     <div class="bmain">
       <div class="bside" style="display:flex;flex-direction:column;align-items:center;gap:8px">
-        <div class="bscorebox"><span class="bsl">점수</span><div class="score" id="bScore">0</div></div>
+        <div class="bscorebox"><span class="bsl">점수</span><div class="score" id="bScore">0</div><small id="bGoalT" style="display:block;font-size:13px;color:#FFE9A8"></small></div>
         <div class="qgauge" id="bGauge"></div>
         <div class="bboard" id="bboard"></div>
       </div>
@@ -1282,6 +1287,7 @@ section#hub{position:relative;overflow:hidden;padding:0;background:#120C22}
     </div>
   </section>
 
+  <section id="arc" class="screen" hidden></section>
 </div>
 <div id="cave" hidden><iframe id="caveFrame" title="소문 던전"></iframe></div>
 <div id="modal" hidden></div>
@@ -1290,6 +1296,22 @@ section#hub{position:relative;overflow:hidden;padding:0;background:#120C22}
 <div id="ghost" hidden></div>
 <div id="bghost" hidden></div>
 <script src="assets/art-manifest.js"></script>
+<script src="assets/arc-art.js?v=20261016x"></script>
+<script src="arcade.js?v=20261016x"></script>
+<script src="arcade-games.js?v=20261016x"></script>
+<script src="arcade-games-2.js?v=20261016x"></script>
+<script src="arcade-games-3.js?v=20261016x"></script>
+<script src="isle-games-a.js?v=20261016x"></script>
+<script src="isle-games-b.js?v=20261016x"></script>
+<script src="isle-games-c.js?v=20261016x"></script>
+<script src="isle-games-d.js?v=20261016x"></script>
+<script src="isle-games-e.js?v=20261016x"></script>
+<script src="isle-games-f.js?v=20261016x"></script>
+<script src="isle-games-g.js?v=20261016x"></script>
+<script src="isle-games-h.js?v=20261016x"></script>
+<script src="isle-games-i.js?v=20261016x"></script>
+<script src="isle-games-j.js?v=20261016x"></script>
+<script src="isle-games-k.js?v=20261016x"></script>
 <script>
 /* ===== 범교과 10개 주제 콘텐츠 (2022 개정 교육과정 총론) ===== */
 const CH = [
@@ -1340,12 +1362,12 @@ const CH = [
   tips:['흔들리면 책상 아래로!','연기가 나면 몸을 낮춰요.','화재·구조·구급은 119!','물을 자주 마셔요.']
 },
 {
-  grades:[1,2,3,4], verdict:'false', verdictWhy:'인사를 안 받은 까닭은 여러 가지일 수 있어요. 부끄럽거나 못 들었을 수도 있어요.',
+  grades:[1,2,3,4], verdict:'true', verdictWhy:'맞아요! 먼저 인사하고 다가가는 배려와 소통은 친구 사이를 가깝게 해 줘요. 인사를 못 받았어도 바로 단정하지 말고 한 번 더 다가가 봐요.',
   id:'character', theme:'인성 교육', place:'다정 꽃집', icon:'💐', tint:'#D9577E',
   subjects:'도덕, 국어(듣기·말하기)',
   npc:{face:'👵', name:'민들레 할머니'},
   villagers:[{face:'👧', name:'소미'},{face:'👦', name:'준이'}],
-  rumor:'새로 전학 온 친구가 인사를 안 받아 준 건 우리를 싫어해서래!',
+  rumor:'새 친구에게 먼저 인사하고 다가가면 더 빨리 친해질 수 있대!',
   chains:[
     {gen:{e:'🪴', n:'꽃밭'}, items:[
       {e:'🌱', n:'씨앗', d:'작은 친절이 큰 우정으로 자라요.'},
@@ -1363,8 +1385,8 @@ const CH = [
   steps:[
     {title:'꽃집 문 열기', deco:'🚪', lines:[
       ['npc','탐정님, 요즘 아이들 사이에 오해가 생겼단다.'],
-      ['gull','꾸꾸! 새로 온 친구가 인사를 안 받아 준 건 우리를 싫어해서래!'],
-      ['npc','겉으로 보이는 행동만으로 마음을 다 알 수 있을까?']],
+      ['gull','꾸꾸! 새 친구에게 먼저 인사하고 다가가면 더 빨리 친해질 수 있대!'],
+      ['npc','정말 그럴까? 그런데 친구가 인사를 받아 주지 않으면 어떡하지?']],
      quiz:{q:'친구가 내 인사를 받아 주지 않았어요. 가장 알맞은 생각은?', o:['나를 싫어하는 게 틀림없어','못 들었거나 부끄러웠을 수도 있어. 다시 다가가 보자','다른 친구들에게 그 친구 흉을 본다'], a:1, x:'친구의 행동에는 여러 까닭이 있을 수 있어요. 섣불리 판단하지 않고 먼저 다가가는 것이 배려예요.'}},
     {title:'화분 정리하기', deco:'🪴', lines:[
       ['npc','그래, 한 번 더 다가가 보는 거야. 그럼 친구가 실수했을 땐?']],
@@ -1377,7 +1399,7 @@ const CH = [
       ['npc','이제 새 친구를 환영할 꽃다발을 만들 차례구나!']],
      quiz:{q:'다음 중 인성교육에서 말하는 핵심 가치가 아닌 것은?', o:['배려','협동','무조건 1등 하기'], a:2, x:'「인성교육진흥법」은 예, 효, 정직, 책임, 존중, 배려, 소통, 협동을 핵심 가치로 정하고 있어요.'}}
   ],
-  truth:{title:'행동만 보고 마음을 단정하지 않아요', points:['친구의 행동에는 여러 까닭이 있어요','먼저 다가가 말을 걸어요 (배려·소통)','실수했을 땐 솔직하게 사과해요 (정직·책임)','8가지 핵심 가치: 예·효·정직·책임·존중·배려·소통·협동']},
+  truth:{title:'먼저 다가가는 배려가 우정을 키워요', points:['친구의 행동에는 여러 까닭이 있어요','먼저 다가가 말을 걸어요 (배려·소통)','실수했을 땐 솔직하게 사과해요 (정직·책임)','8가지 핵심 가치: 예·효·정직·책임·존중·배려·소통·협동']},
   extra:[
     {q:'모둠에서 한 친구가 맡은 일을 어려워해요. 좋은 방법은?', o:['어떻게 도울지 물어보고 함께 한다','그 친구 탓을 한다','혼자 다 해 버린다'], a:0, x:'서로 힘을 모으는 것이 협동이에요.'},
     {q:'"고마워", "미안해"라는 말은 언제 하면 좋을까요?', o:['필요할 때마다 누구에게나','어른에게만','선생님이 시킬 때만'], a:0, x:'고마움과 미안함을 표현하는 것은 나이와 상관없이 모두에게 필요한 예절이에요.'},
@@ -1386,12 +1408,12 @@ const CH = [
   tips:['먼저 인사해 봐요.','끝까지 들어 주는 게 존중!','실수하면 솔직하게 사과해요.','"고마워"는 마법의 말!']
 },
 {
-  grades:[3,4,5,6], verdict:'false', verdictWhy:'꿈은 여러 경험을 하며 바뀌고 넓어져도 괜찮아요.',
+  grades:[3,4,5,6], verdict:'part', verdictWhy:'잘하는 것(강점)을 살피는 건 맞아요. 하지만 좋아하는 것(흥미)도 함께 살펴야 하고, 꿈은 경험하며 바뀌어도 괜찮아요.',
   id:'career', theme:'진로 교육', place:'꿈틀 공방', icon:'🛠️', tint:'#E08A1E',
   subjects:'실과, 도덕, 창의적 체험활동(진로)',
   npc:{face:'👨‍🔧', name:'공방지기 도윤'},
   villagers:[{face:'👩‍🍳', name:'요리사 수아'},{face:'👩‍🚀', name:'우주인 지호'}],
-  rumor:'꿈은 딱 하나만 정해야 하고, 한 번 정하면 바꾸면 안 된대!',
+  rumor:'꿈을 찾으려면 내가 잘하는 것만 살펴보면 된대!',
   chains:[
     {gen:{e:'🗄️', n:'배움 서랍'}, items:[
       {e:'🖍️', n:'크레파스', d:'좋아하는 것을 그려 보며 나를 알아가요.'},
@@ -1409,7 +1431,7 @@ const CH = [
   steps:[
     {title:'공방 불 켜기', deco:'💡', lines:[
       ['npc','탐정님, 아이들이 꿈 때문에 걱정이 많아요.'],
-      ['gull','꾸꾸! 꿈은 딱 하나만 정해야 하고, 바꾸면 안 된대!'],
+      ['gull','꾸꾸! 꿈을 찾으려면 내가 잘하는 것만 살펴보면 된대!'],
       ['npc','꿈은 어떻게 찾아가는 걸까요?']],
      quiz:{q:'나에게 어울리는 일을 찾는 좋은 방법은?', o:['여러 가지를 경험하며 내가 좋아하고 잘하는 것을 살펴본다','친구가 정한 꿈을 그대로 따라 한다','인기가 많은 직업만 고른다'], a:0, x:'다양하게 경험하면서 나의 흥미와 강점을 알아 가는 것이 진로 탐색의 시작이에요.'}},
     {title:'작업대 놓기', deco:'🪚', lines:[
@@ -1423,7 +1445,7 @@ const CH = [
       ['npc','마지막 단서! 세상이 바뀌면 직업도 바뀐답니다.']],
      quiz:{q:'옛날에는 없었지만 요즘 새로 생긴 직업은?', o:['드론 조종사','농부','어부'], a:0, x:'기술과 사회가 바뀌면 새로운 직업이 생기고, 어떤 직업은 모습이 달라지거나 줄어들어요.'}}
   ],
-  truth:{title:'꿈은 자라면서 바뀌고 넓어질 수 있어요', points:['여러 경험으로 나의 흥미와 강점을 알아가요','꿈이 바뀌는 것도 성장이에요','직업에 성별 구분은 없어요','세상이 변하면 새로운 직업이 생겨요']},
+  truth:{title:'흥미와 강점을 함께 살피고, 꿈은 자라며 바뀔 수 있어요', points:['여러 경험으로 나의 흥미와 강점을 알아가요','꿈이 바뀌는 것도 성장이에요','직업에 성별 구분은 없어요','세상이 변하면 새로운 직업이 생겨요']},
   extra:[
     {q:'큰 꿈을 이루기 위한 좋은 방법은?', o:['작은 목표를 세우고 꾸준히 실천한다','언젠가 저절로 이루어지길 기다린다','어려우면 바로 포기한다'], a:0, x:'작은 목표를 하나씩 이루다 보면 큰 꿈에 가까워져요.'},
     {q:'"나는 그림 그리기를 좋아하고, 친구를 잘 도와줘." 이것은 나의 무엇을 알아보는 활동일까요?', o:['흥미와 강점','키와 몸무게','집 주소'], a:0, x:'내가 좋아하는 것(흥미)과 잘하는 것(강점)을 알면 진로를 찾는 데 도움이 돼요.'},
@@ -1432,12 +1454,12 @@ const CH = [
   tips:['여러 가지를 경험해 봐요.','꿈이 바뀌어도 괜찮아요.','직업에 성별은 없어요.','작은 목표부터 차근차근!']
 },
 {
-  grades:[5,6], verdict:'false', verdictWhy:'마을 일은 목소리 큰 사람이 아니라 모두의 토의와 투표로 정해요.',
+  grades:[5,6], verdict:'true', verdictWhy:'맞아요! 다수결은 민주적인 결정 방법이지만, 적은 표를 받은 쪽의 의견도 존중하고 좋은 점은 반영해야 해요.',
   id:'democracy', theme:'민주시민 교육', place:'고래 마을회관', icon:'🏛️', tint:'#3C6FD1',
   subjects:'사회(정치·민주주의), 국어(토의·토론)',
   npc:{face:'🧔', name:'고래 이장님'},
   villagers:[{face:'👩‍🏫', name:'윤 선생님'},{face:'👧', name:'서연'}],
-  rumor:'새 놀이터는 목소리 큰 사람 마음대로 정한대!',
+  rumor:'새 놀이터를 투표로 정해도, 진 쪽 의견까지 존중해야 한대!',
   chains:[
     {gen:{e:'🗂️', n:'회의 서류함'}, items:[
       {e:'📝', n:'의견 쪽지', d:'내 생각을 까닭과 함께 적어요.'},
@@ -1455,8 +1477,8 @@ const CH = [
   steps:[
     {title:'회의 탁자 놓기', deco:'🪑', lines:[
       ['npc','탐정님, 마을에 새 놀이터를 짓기로 했는데 말이 많아요.'],
-      ['gull','꾸꾸! 새 놀이터는 목소리 큰 사람 마음대로 정한대!'],
-      ['npc','과연 그게 바른 방법일까요?']],
+      ['gull','꾸꾸! 새 놀이터를 투표로 정해도, 진 쪽 의견까지 존중해야 한대!'],
+      ['npc','이긴 쪽 마음대로 하면 안 되는 걸까요? 차근차근 확인해 봐요.']],
      quiz:{q:'새 놀이터에 무엇을 만들지 정할 때 가장 민주적인 방법은?', o:['목소리가 가장 큰 사람이 정한다','주민들이 의견을 충분히 나누고 투표로 정한다','한 사람을 뽑아 혼자 정하게 한다'], a:1, x:'여러 사람의 의견을 듣고 대화와 타협, 투표로 정하는 것이 민주적인 방법이에요.'}},
     {title:'투표소 준비하기', deco:'🗳️', lines:[
       ['npc','투표에서 진 쪽 의견은 어떻게 해야 할까요?']],
@@ -1469,7 +1491,7 @@ const CH = [
       ['npc','드디어 주민 투표 날이에요! 투표에도 지켜야 할 원칙이 있지요.']],
      quiz:{q:'누구에게 투표했는지 다른 사람이 알 수 없게 하는 선거 원칙은?', o:['비밀 선거','공개 선거','대리 선거'], a:0, x:'우리나라 선거는 보통·평등·직접·비밀 선거의 4대 원칙을 따라요.'}}
   ],
-  truth:{title:'마을 일은 모두의 대화와 투표로 정해요', points:['충분히 토의하고 투표로 결정해요','소수의 의견도 존중해요','소문은 출처와 날짜를 확인해요','선거 4원칙: 보통·평등·직접·비밀']},
+  truth:{title:'다수결로 정하되 소수 의견도 존중해요', points:['충분히 토의하고 투표로 결정해요','소수의 의견도 존중해요','소문은 출처와 날짜를 확인해요','선거 4원칙: 보통·평등·직접·비밀']},
   extra:[
     {q:'학급 규칙이 불편하다고 느껴질 때 알맞은 행동은?', o:['학급 회의에서 고치자고 제안한다','혼자 규칙을 무시한다','몰래 규칙판을 뗀다'], a:0, x:'규칙은 함께 지키고, 바꿀 때는 정해진 절차를 따라요.'},
     {q:'우리나라에서 대통령·국회의원 선거에 투표할 수 있는 나이는?', o:['만 18세 이상','만 12세 이상','만 30세 이상'], a:0, x:'2020년 선거부터 만 18세 이상 국민이 투표할 수 있어요.'},
@@ -1523,12 +1545,12 @@ const CH = [
   tips:['인권은 모두에게 있어요.','어린이도 의견을 말해요.','다른 사람의 권리도 소중해요.','싫다는 장난은 멈춰요.']
 },
 {
-  grades:[3,4], verdict:'false', verdictWhy:'말투나 생김새가 달라도 모두 함께 사는 우리 이웃이에요.',
+  grades:[3,4], verdict:'part', verdictWhy:'음식·인사말·명절 같은 문화는 다를 수 있어요. 하지만 "모든 게 다르다"는 건 사실이 아니에요. 가족을 아끼고 이웃과 함께 사는 마음은 같아요.',
   id:'multi', theme:'다문화 교육', place:'알록달록 세계 시장', icon:'🌏', tint:'#16A085',
   subjects:'사회(문화 다양성), 도덕, 음악·미술',
   npc:{face:'👩', name:'투이 아주머니'},
   villagers:[{face:'👨', name:'라훌 아저씨'},{face:'👧', name:'소피아'}],
-  rumor:'말투나 생김새가 다르면 우리 마을 사람이 아니래!',
+  rumor:'다른 나라에서 온 이웃은 우리와 모든 게 다르대!',
   chains:[
     {gen:{e:'🍳', n:'시장 부엌'}, items:[
       {e:'🍚', n:'밥', d:'쌀은 아시아 여러 나라의 주식이에요.'},
@@ -1546,7 +1568,7 @@ const CH = [
   steps:[
     {title:'시장 등불 달기', deco:'🏮', lines:[
       ['npc','씬 짜오! 탐정님, 저는 베트남에서 온 투이예요.'],
-      ['gull','꾸꾸! 말투나 생김새가 다르면 우리 마을 사람이 아니래!'],
+      ['gull','꾸꾸! 다른 나라에서 온 이웃은 우리와 모든 게 다르대!'],
       ['npc','저는 이 마을에서 15년째 쌀국숫집을 하고 있는걸요?']],
      quiz:{q:'나와 다른 문화를 만났을 때 알맞은 생각은?', o:['틀린 것이 아니라 다른 것이다','이상하니까 고쳐야 한다','우리 것만 좋다'], a:0, x:'문화에는 옳고 그름이 아니라 차이가 있어요. 서로의 문화를 존중해요.'}},
     {title:'인사말 간판 걸기', deco:'🪧', lines:[
@@ -1560,7 +1582,7 @@ const CH = [
       ['npc','축제 날이에요! 마지막으로 이 말들을 살펴봐요.']],
      quiz:{q:'다음 중 고정관념이 담긴 말은?', o:['"엄마가 외국에서 오셨으면 한국어를 못할 거야."','"사람마다 잘하는 게 달라."','"여러 나라 음식을 맛보고 싶어."'], a:0, x:'부모님의 나라와 상관없이 사람마다 할 수 있는 것은 달라요. 배경으로 사람을 판단하지 않아요.'}}
   ],
-  truth:{title:'생김새와 말투가 달라도 모두 우리 이웃이에요', points:['문화는 틀린 것이 아니라 다른 것','다른 나라의 인사·음식·놀이를 배우며 가까워져요','배경으로 사람을 판단하지 않아요','서로 다름이 마을을 더 풍성하게 해요']},
+  truth:{title:'문화는 다를 수 있지만 우리는 함께 사는 이웃이에요', points:['문화는 틀린 것이 아니라 다른 것','다른 나라의 인사·음식·놀이를 배우며 가까워져요','배경으로 사람을 판단하지 않아요','서로 다름이 마을을 더 풍성하게 해요']},
   extra:[
     {q:'새로 온 친구가 한국어가 서툴러요. 좋은 행동은?', o:['천천히 말하고 몸짓이나 그림으로 함께 이야기한다','말을 걸지 않는다','말투를 흉내 내며 놀린다'], a:0, x:'조금만 배려하면 누구와도 이야기할 수 있어요.'},
     {q:'"다문화"는 무엇을 뜻할까요?', o:['여러 문화가 함께 어우러져 있는 것','한 가지 문화만 있는 것','외국 음식만 먹는 것'], a:0, x:'우리 사회에는 다양한 문화와 배경을 가진 사람들이 함께 살아요.'},
@@ -1569,12 +1591,12 @@ const CH = [
   tips:['다른 것은 틀린 게 아니에요.','씬 짜오! = 안녕하세요','천천히 말하면 잘 통해요.','다름이 모이면 더 즐거워요.']
 },
 {
-  grades:[5,6], verdict:'false', verdictWhy:'남과 북은 같은 한글을 써서 말이 대부분 통해요. 일부 낱말만 달라요.',
+  grades:[5,6], verdict:'true', verdictWhy:'맞아요! 남과 북은 같은 한글을 써서 말이 대부분 통하지만, 오래 떨어져 지내며 다르게 부르는 낱말이 생겼어요. (도시락 = 곽밥)',
   id:'unify', theme:'통일 교육', place:'평화 기차역', icon:'🚉', tint:'#2E8BC0',
   subjects:'도덕(통일), 사회(역사)',
   npc:{face:'👴', name:'평화 역장 할아버지'},
   villagers:[{face:'👧', name:'한별'},{face:'👩', name:'여행객 미나'}],
-  rumor:'북한 사람들과는 말이 하나도 안 통한대!',
+  rumor:'남한과 북한은 같은 한글을 쓰지만, 다르게 부르는 낱말도 있대!',
   chains:[
     {gen:{e:'🎟️', n:'매표소'}, items:[
       {e:'🎫', n:'기차표', d:'언젠가 북쪽으로 가는 기차표도 생길까요?'},
@@ -1592,8 +1614,8 @@ const CH = [
   steps:[
     {title:'역 시계 고치기', deco:'🕰️', lines:[
       ['npc','내 고향은 저 북쪽 땅이란다. 철길이 다시 이어지면 꼭 가 보고 싶구나.'],
-      ['gull','꾸꾸! 북한 사람들과는 말이 하나도 안 통한대!'],
-      ['npc','허허, 그럴 리가. 같이 알아보자꾸나.']],
+      ['gull','꾸꾸! 남한과 북한은 같은 한글을 쓰지만, 다르게 부르는 낱말도 있대!'],
+      ['npc','허허, 그 말이 맞는지 같이 알아보자꾸나.']],
      quiz:{q:'남한과 북한이 함께 쓰는 글자는?', o:['한글','한자','알파벳'], a:0, x:'남과 북은 같은 한글을 쓰고, 대부분의 말이 통해요.'}},
     {title:'남북 낱말 사전 만들기', deco:'📖', lines:[
       ['npc','다만 오래 떨어져 지내서 달라진 낱말도 있지.']],
@@ -1605,7 +1627,7 @@ const CH = [
       ['gull','꾸꾸! 철길이 이어지면 어디까지 갈 수 있어?']],
      quiz:{q:'남북의 철도가 이어지면 기차로 어디까지 갈 수 있을까요?', o:['북한을 지나 중국, 러시아를 거쳐 유럽까지','제주도까지만','일본까지만'], a:0, x:'한반도 철도가 대륙과 이어지면 부산에서 유럽까지 기차로 갈 수도 있어요. 통일은 새로운 기회를 열어 줘요.'}}
   ],
-  truth:{title:'말은 조금 달라도 대부분 통해요', points:['남과 북은 같은 한글을 써요','떨어져 지낸 시간 때문에 일부 낱말이 달라졌어요 (도시락 = 곽밥)','분단으로 헤어진 이산가족이 있어요','평화 통일은 모두에게 새로운 기회예요']},
+  truth:{title:'같은 한글을 쓰지만 일부 낱말이 달라요', points:['남과 북은 같은 한글을 써요','떨어져 지낸 시간 때문에 일부 낱말이 달라졌어요 (도시락 = 곽밥)','분단으로 헤어진 이산가족이 있어요','평화 통일은 모두에게 새로운 기회예요']},
   extra:[
     {q:'6·25 전쟁이 일어난 해는?', o:['1950년','1945년','1988년'], a:0, x:'1950년 6월 25일 전쟁이 일어났고, 1953년 정전 협정을 맺었어요.'},
     {q:'북한에서 "손전화"는 무엇을 뜻할까요?', o:['휴대 전화','장갑','손 편지'], a:0, x:'북한에서는 휴대 전화를 "손전화"라고 해요.'},
@@ -1659,12 +1681,12 @@ const CH = [
   tips:['독도는 경상북도 울릉군!','동도·서도 + 89개 부속 섬','10월 25일은 독도의 날','강치를 기억해요.']
 },
 {
-  grades:[3,4], verdict:'false', verdictWhy:'갖고 싶은 것을 모두 바로 사면 꼭 필요한 곳에 쓸 돈이 모자랄 수 있어요.',
+  grades:[3,4], verdict:'part', verdictWhy:'저축은 정말 좋은 습관이에요. 하지만 꼭 필요한 것을 사거나 나누는 데 쓰는 것도 중요해요. 계획을 세워 알맞게 나누어 쓰고 모으는 게 핵심이에요.',
   id:'money', theme:'경제·금융 교육', place:'반짝 저금 시장', icon:'🏦', tint:'#C9A227',
   subjects:'사회(4학년 경제), 실과, 수학',
   npc:{face:'👨‍💼', name:'저금통 사장님'},
   villagers:[{face:'👧', name:'유나'},{face:'👦', name:'민호'}],
-  rumor:'갖고 싶은 건 전부 바로 사야 행복하대!',
+  rumor:'용돈은 하나도 쓰지 말고 전부 저금만 해야 좋대!',
   chains:[
     {gen:{e:'💰', n:'돈 주머니'}, items:[
       {e:'🪙', n:'동전', d:'작은 돈도 모이면 커져요.'},
@@ -1682,7 +1704,7 @@ const CH = [
   steps:[
     {title:'가게 간판 달기', deco:'🏷️', lines:[
       ['npc','탐정님, 아이들이 용돈을 하루 만에 다 써 버린대요.'],
-      ['gull','꾸꾸! 갖고 싶은 건 전부 바로 사야 행복하대!'],
+      ['gull','꾸꾸! 용돈은 하나도 쓰지 말고 전부 저금만 해야 좋대!'],
       ['npc','"필요한 것"과 "갖고 싶은 것"부터 구분해 봐요.']],
      quiz:{q:'다음 중 "꼭 필요한 것"에 가장 가까운 것은?', o:['새 학기에 쓸 공책','이미 있는 것과 똑같은 인형','유행하는 스티커 100장'], a:0, x:'생활에 꼭 있어야 하는 것(필요)과 갖고 싶은 것(욕구)을 구분하면 현명하게 쓸 수 있어요.'}},
     {title:'용돈 기입장 쓰기', deco:'✍️', lines:[
@@ -1696,7 +1718,7 @@ const CH = [
       ['npc','마지막으로, 물건을 고르는 지혜!']],
      quiz:{q:'비슷한 연필 두 개 중 하나를 고를 때 가장 현명한 방법은?', o:['가격, 품질, 나에게 필요한지를 비교해서 고른다','포장이 제일 화려한 것을 고른다','광고에 나온 것이면 무조건 고른다'], a:0, x:'여러 조건을 비교해 가장 만족스러운 것을 고르는 것을 합리적 선택이라고 해요.'}}
   ],
-  truth:{title:'필요와 욕구를 구분하고 계획적으로 써요', points:['필요한 것과 갖고 싶은 것을 구분해요','용돈 기입장으로 돈의 흐름을 살펴요','저축하면 이자가 붙어요','가격·품질·필요를 비교해 합리적으로 선택해요']},
+  truth:{title:'필요와 욕구를 구분하고, 계획적으로 쓰고 모아요', points:['필요한 것과 갖고 싶은 것을 구분해요','용돈 기입장으로 돈의 흐름을 살펴요','저축하면 이자가 붙어요','가격·품질·필요를 비교해 합리적으로 선택해요']},
   extra:[
     {q:'용돈 5,000원 중 2,000원을 저금했어요. 쓸 수 있는 돈은?', o:['3,000원','7,000원','2,000원'], a:0, x:'5,000 − 2,000 = 3,000원이에요. 쓰기 전에 먼저 저축하는 습관!'},
     {q:'"기회비용"이란?', o:['하나를 고를 때 포기한 것 가운데 가장 아까운 것의 가치','물건을 산 뒤 받는 영수증','은행에 내는 돈'], a:0, x:'과자 대신 공책을 샀다면, 포기한 과자가 기회비용이에요.'},
@@ -2109,25 +2131,63 @@ function chState(ci){
   return c;
 }
 
-/* ---------- 소리 ---------- */
-let AC=null;
-function beep(f=520,d=.09,type='sine',v=.08,slide=0){
-  if(!S.sound) return;
-  try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime;
-    o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(f*slide,t+d);
-    g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+d+.02)}catch(e){}
+/* ---------- 소리: WebAudio 합성 효과음 (파일 없이) ----------
+   tone: 음 하나(모양·미끄러짐·여운) · noise: 바람/타격 소리 · 모든 소리는 master → 짧은 메아리(delay)를 거쳐요 */
+let AC=null, SND=null;
+function snd(){
+  if(!S.sound) return null;
+  try{
+    if(!AC){AC=new (window.AudioContext||window.webkitAudioContext)();
+      const master=AC.createGain();master.gain.value=.9;
+      const comp=AC.createDynamicsCompressor();comp.threshold.value=-14;comp.ratio.value=5;
+      const dl=AC.createDelay(.5);dl.delayTime.value=.13;const fb=AC.createGain();fb.gain.value=.22;const wet=AC.createGain();wet.gain.value=.25;
+      master.connect(comp);master.connect(dl);dl.connect(fb);fb.connect(dl);dl.connect(wet);wet.connect(comp);comp.connect(AC.destination);
+      SND={master,noise:null}}
+    if(AC.state==='suspended')AC.resume();
+    return SND;
+  }catch(e){return null}
 }
+function tone(f=520,d=.1,type='sine',v=.08,slide=0,at=0,atk=.005){
+  const o0=snd();if(!o0)return;
+  try{const t=AC.currentTime+at,o=AC.createOscillator(),g=AC.createGain();
+    o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(30,f*slide),t+d);
+    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+atk);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+    o.connect(g).connect(o0.master);o.start(t);o.stop(t+d+.03)}catch(e){}
+}
+function noise(d=.15,v=.08,freq=1200,type='bandpass',at=0,sweep=0){
+  const o0=snd();if(!o0)return;
+  try{if(!o0.noise){const n=AC.sampleRate,b=AC.createBuffer(1,n,n),c=b.getChannelData(0);for(let i=0;i<n;i++)c[i]=Math.random()*2-1;o0.noise=b}
+    const t=AC.currentTime+at,src=AC.createBufferSource(),fl=AC.createBiquadFilter(),g=AC.createGain();
+    src.buffer=o0.noise;fl.type=type;fl.frequency.setValueAtTime(freq,t);if(sweep)fl.frequency.exponentialRampToValueAtTime(freq*sweep,t+d);fl.Q.value=1.2;
+    g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+    src.connect(fl).connect(g).connect(o0.master);src.start(t);src.stop(t+d+.02)}catch(e){}
+}
+function beep(f=520,d=.09,type='sine',v=.08,slide=0){tone(f,d,type,v,slide)}
+const arp=(fs,step=.07,d=.14,type='triangle',v=.07)=>fs.forEach((f,i)=>tone(f,d,type,v,0,i*step));
 const sfx={
-  spawn:()=>beep(700,.07,'triangle',.06,1.3),
-  merge:l=>{beep(460+l*90,.1,'sine',.09,1.5);setTimeout(()=>beep(680+l*90,.12,'sine',.07,1.25),70)},
-  deliver:()=>[523,659,784].forEach((f,i)=>setTimeout(()=>beep(f,.12,'triangle',.08),i*80)),
-  ok:()=>[587,740,880,1175].forEach((f,i)=>setTimeout(()=>beep(f,.13,'sine',.08),i*85)),
-  no:()=>beep(220,.2,'square',.035,.7),
-  tap:()=>beep(420,.05,'sine',.045,1.2),
-  place:()=>beep(330,.06,'triangle',.07,1.4),
-  clear:n=>[660,880,1046,1318].slice(0,Math.min(4,n+1)).forEach((f,i)=>setTimeout(()=>beep(f,.12,'sine',.08),i*70)),
-  hit:()=>{beep(180,.12,'sawtooth',.05,.5);setTimeout(()=>beep(900,.08,'square',.04,1.5),60)},
-  hurt:()=>beep(160,.3,'triangle',.08,.5)
+  spawn:()=>{tone(700,.07,'triangle',.06,1.3);noise(.05,.03,4000,'highpass')},
+  merge:l=>{tone(460+l*90,.12,'sine',.09,1.5);tone(690+l*90,.14,'triangle',.06,1.25,.07);noise(.08,.04,3000,'bandpass',0,2)},
+  deliver:()=>{arp([523,659,784,1046],.07,.16);tone(1568,.3,'sine',.03,1,.28)},
+  ok:()=>{arp([587,740,880,1175],.075,.15,'triangle',.07);tone(1760,.35,'sine',.03,1,.3);noise(.25,.02,6000,'highpass',.3)},
+  no:()=>{tone(240,.18,'square',.04,.7);tone(180,.25,'sawtooth',.03,.75,.1)},
+  tap:()=>{tone(620,.04,'sine',.05,1.4);noise(.02,.02,5000,'highpass')},
+  place:()=>{tone(220,.07,'triangle',.08,1.6);noise(.05,.05,900,'lowpass')},
+  clear:n=>{arp([660,880,1046,1318,1568].slice(0,Math.min(5,n+2)),.06,.14,'triangle',.07);noise(.3,.04,2500,'bandpass',0,3)},
+  hit:()=>{noise(.12,.12,600,'lowpass',0,.3);tone(140,.15,'sawtooth',.06,.5);tone(900,.06,'square',.03,1.5,.05)},
+  hurt:()=>{tone(300,.35,'triangle',.08,.4);noise(.2,.06,500,'lowpass')},
+  /* 섬 도전 놀이용 */
+  coin:()=>{tone(988,.06,'square',.04);tone(1319,.18,'square',.04,1,.06)},
+  jump:()=>{tone(300,.16,'square',.04,2.6)},
+  pop:()=>{tone(500+Math.random()*300,.07,'sine',.08,2);noise(.04,.03,3000,'highpass')},
+  whoosh:()=>noise(.22,.07,500,'bandpass',0,6),
+  tick:()=>tone(1400,.03,'square',.025),
+  combo:n=>{tone(520*Math.pow(1.122,Math.min(12,n)),.12,'triangle',.07,1.2)},
+  win:()=>{arp([523,659,784,1046,1319],.09,.22,'triangle',.08);arp([262,330,392,523],.09,.4,'sine',.05);noise(.6,.03,7000,'highpass',.45)},
+  lose:()=>{arp([494,440,392,330],.14,.26,'triangle',.07);tone(165,.6,'sine',.06,.8,.55)},
+  unlock:()=>{noise(.15,.06,2000,'bandpass',0,.5);arp([392,523,659,784,1046,1319],.06,.2,'triangle',.07);tone(2093,.5,'sine',.025,1,.36)},
+  fanfare:()=>{[[523,0],[523,.15],[523,.3],[659,.45],[784,.75],[659,1.0],[784,1.15],[1046,1.4]].forEach(([f,t])=>{tone(f,.28,'square',.035,1,t);tone(f/2,.28,'triangle',.05,1,t)});noise(1.2,.025,8000,'highpass',1.3)},
+  boss:()=>{tone(80,.9,'sawtooth',.08,.6);tone(60,1.1,'square',.05,.7,.1);noise(.9,.07,300,'lowpass',0,.4)},
+  star:()=>{arp([1046,1319,1568,2093],.05,.18,'sine',.05)}
 };
 
 /* ---------- 그림 (인라인 SVG) ---------- */
@@ -2194,7 +2254,8 @@ function faceHTML(ch,who,size){
 /* ---------- 화면 ---------- */
 let CI=-1, SCREEN='map';
 function show(id){
-  ['map','hub','merge','match','drop','block'].forEach(s=>$('#'+s).hidden=s!==id); SCREEN=id;
+  if(id!=='arc'&&SCREEN==='arc'&&typeof arcStop==='function'&&!EXT){ARC_settle();arcStop()}
+  ['map','hub','merge','match','drop','block','arc'].forEach(s=>$('#'+s).hidden=s!==id); SCREEN=id;
   const el=$('#'+id); if(CI>=0) el.setAttribute('style',tintVars(CH[CI])+';'+(el.dataset.st||''));
   coachEnd(true);
 }
@@ -2347,6 +2408,9 @@ function renderMap(){
     </div>
   </div>
 `;
+  {const cv=caveState(),n=solvedCount(),open=n>=CH.length;
+    $('#mx').insertAdjacentHTML('beforeend',`<button class="mxgate ${cv.clear?'won':open?'open':''}" id="btnCave"><span class="e">${cv.clear?'👑':open?'🏰':'🔒'}</span><span>${cv.clear?'소문 던전 정복!':'소문 던전'}<small>${cv.clear?'다시 도전하기':open?(cv.floor>1?`지하 ${cv.floor}층부터 이어하기`:'봉인이 풀렸어요! 지하 5층 끝판왕'):`진실 카드 ${n}/${CH.length} · 10장이면 열려요`}</small></span></button>`);
+    $('#btnCave').onclick=()=>{sfx.tap();caveGate()}}
   const sc=$('#mxScroll'); if(port) sc.scrollTop=keepY;
   const go=e=>{const z=e.target.closest&&e.target.closest('.mxz');if(!z)return false;sfx.tap();goHub(+z.dataset.i);return true};
   sc.onclick=go; sc.onkeydown=e=>{if((e.key==='Enter'||e.key===' ')&&go(e))e.preventDefault()};
@@ -2368,7 +2432,7 @@ const HOT={hub:{mMerge:[640,712],mBlock:[1205,532],mMatch:[1440,826],mDrop:[300,
   /* hub_bg.webp (Canva 생성 그림) 위 장소 좌표 */
   hubPainted:{mMerge:[300,846],mBlock:[1172,612],mMatch:[1380,812],mDrop:[250,572],mDungeon:[1552,452],chest:[1380,800],hero:[1000,648],gull:[1084,652],tag:{mMerge:150,mBlock:186,mMatch:168,mDrop:118,mDungeon:122}}};
 /* ===== 구역 허브: 해 질 녘 항구 한 장면 (던전과 같은 아트 방향) =====
-   장소를 눌러 놀이에 들어가요: 부두=합치기 · 시장 창고=블록 · 보물 해변=팡팡 · 등대 절벽=퐁당 · 먼 동굴 성=던전
+   장소를 눌러 놀이에 들어가요: 부두 · 시장 창고 · 보물 해변 = 그 섬만의 도전 놀이 3가지 (arcade.js). 던전은 지도에서만 들어가요
    그림: SVG(배경·건물·바다·빛·안개) + assets/*.webp(던전과 같은 주인공·갈매기·보물상자) */
 const HXW=1680, HXH=944;
 /* 주민 그림 초상화: assets/npc_<구역id>.webp = 대표 주민, npc_<구역id>_1/_2 = 이웃 주민 (art-manifest 가 자동 등록). 없으면 아래 villagerSVG */
@@ -2405,10 +2469,23 @@ function hxHouse(x,w,h,roof,i){
     ${wins.join('')}<rect x="${x+w/2-9}" y="${y-28}" width="18" height="28" rx="8" fill="#4A2A1E" stroke="#2A1626" stroke-width="2"/></g>`;
 }
 /* 놀이 장소 (던전과 같은 반짝 고리 + 양피지 이름표) */
-function hxSpot(id,x,y,title,sub,rec,tagY=150,rx=74){
+/* 섬마다 다른 허브 배경 (assets/arc-art.js 의 ARC_HUBS) · 없으면 공통 배경에 섬 색을 입혀요 */
+function hubOwn(ch){return !!(window.ARC_HUBS&&window.ARC_HUBS[ch.id])}
+function hubBgOf(ch){return hubOwn(ch)?window.ARC_HUBS[ch.id]:ART.hub_bg}
+/* 허브에 띄울 그림: 놀이 아이콘에 그림이 없으면 닮은 그림으로 */
+const HUB_ICON={character_merge:'🌷',character_crowd:'🙌',character_rhythm:'🎹',career_block:'🚀',career_wordle:'📝',career_helix:'🪜',democracy_arrows:'🪧',rights_diff:'👀',multi_hexa:'🎁',money_mart:'🛒',money_pusher:'🪙',money_pin:'🐷',eco_hole:'🌪',eco_ballblast:'⚽'};
+const hubIco=g=>HUB_ICON[g.id]||g.icon;
+function hubSpr(e){return window.ARC_SPRITES&&window.ARC_SPRITES[String(e).replace(/\uFE0F/g,'')]}
+/* 섬 분위기: 그 섬 놀이 그림들이 하늘에 둥둥 */
+function hubFloat(ch){const ic=arcGamesOf(CH.indexOf(ch)).map(hubIco);if(!ic.length)return '';
+  return [[150,300],[520,180],[860,250],[1260,190],[1560,300],[700,420]].map(([x,y],i)=>{const src=hubSpr(ic[i%ic.length]);
+    return src?`<image href="${src}" x="${x-34}" y="${y-34}" width="68" height="68" class="hxfloat" style="animation-delay:-${i*.7}s" pointer-events="none"/>`:''}).join('')}
+function hxSpotIcon(e,tagY){const src=hubSpr(e),cy=-(tagY-56)/2-8;
+  return `<g class="hxicon" transform="translate(0 ${cy})" pointer-events="none"><circle r="66" fill="url(#hxIconG)"/>${src?`<image href="${src}" x="-52" y="-52" width="104" height="104"/>`:`<text class="arcKeep" text-anchor="middle" dominant-baseline="central" font-size="70">${e}</text>`}</g>`}
+function hxSpot(id,x,y,title,sub,rec,tagY=150,rx=74,icon=''){
   const w=Math.max(150,Math.max([...title].length*26,[...sub].length*15,[...rec].length*14)+40);
   return `<g class="hot hxspot mode" id="${id}" tabindex="0" role="button" aria-label="${esc(sub)} · ${esc(title)}" transform="translate(${x} ${y})">
-    <ellipse rx="${rx}" ry="${rx*.33}" class="ring"/><ellipse rx="${rx*.62}" ry="${rx*.21}" class="ring2"/>
+    <ellipse rx="${rx}" ry="${rx*.33}" class="ring"/><ellipse rx="${rx*.62}" ry="${rx*.21}" class="ring2"/>${icon?hxSpotIcon(icon,tagY):''}
     <g class="tag"><path d="M${-w/2} ${-tagY-34} h${w} v74 h${-w/2+16} l-16 16 l-16 -16 h${-w/2+16}z" class="tagbg"/>
       <text y="${-tagY-8}" text-anchor="middle" class="hxt1">${esc(title)}</text>
       <text y="${-tagY+14}" text-anchor="middle" class="hxt2">${esc(sub)}</text>
@@ -2447,15 +2524,19 @@ function hubWorld(ch,c,port){
     <linearGradient id="hxHaze" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7A27A" stop-opacity="0"/><stop offset=".6" stop-color="#F7A27A" stop-opacity=".35"/><stop offset="1" stop-color="#F7A27A" stop-opacity="0"/></linearGradient>
     <filter id="hxBlur" x="-50%" y="-80%" width="200%" height="260%"><feGaussianBlur stdDeviation="16"/></filter>
     <filter id="hxSoft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
+    <radialGradient id="hxVig" cx=".5" cy=".55" r=".75"><stop offset=".55" stop-color="#1A0F2E" stop-opacity="0"/><stop offset="1" stop-color="#1A0F2E" stop-opacity=".55"/></radialGradient>
+    <radialGradient id="hxIconG"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".95"/><stop offset=".6" stop-color="#FFF4D6" stop-opacity=".85"/><stop offset="1" stop-color="#FFE7A8" stop-opacity="0"/></radialGradient>
   </defs>
-  ${ART.hub_bg?`<image href="${ART.hub_bg}" x="0" y="0" width="${HXW}" height="${HXH}" preserveAspectRatio="xMidYMid slice"/>
-  <g style="mix-blend-mode:screen" pointer-events="none">
+  ${ART.hub_bg?`<image href="${hubBgOf(ch)}" x="0" y="0" width="${HXW}" height="${HXH}" preserveAspectRatio="xMidYMid slice"/>
+  ${hubOwn(ch)?`<rect width="${HXW}" height="${HXH}" fill="url(#hxVig)" pointer-events="none"/>`:`<rect width="${HXW}" height="${HXH}" fill="${ch.tint}" opacity=".38" style="mix-blend-mode:color" pointer-events="none"/>`}
+  <g style="mix-blend-mode:screen;${hubOwn(ch)?'display:none':''}" pointer-events="none">
     <g class="hxbeam" style="transform-origin:236px 112px"><path d="M236 112 L760 40 L760 190Z" fill="url(#hxBeamG)" opacity=".55"/></g>
     <circle cx="236" cy="112" r="90" fill="url(#hxGold)" class="hxflick"/>
     <circle cx="1170" cy="520" r="120" fill="url(#hxTorch)" class="hxflick"/>
     <circle cx="1556" cy="392" r="110" fill="url(#hxViolet)" class="hxflick"/>
     ${[[76,690],[1160,400],[1410,450],[1550,470],[1630,470],[1490,480]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="40" fill="url(#hxTorch)" class="hxflick" style="animation-delay:-${(x%7)*.2}s"/>`).join('')}
   </g>
+  ${hubFloat(ch)}
   <circle cx="${HOT.hubPainted.chest[0]}" cy="${HOT.hubPainted.chest[1]-50}" r="130" fill="url(#hxGold)" class="hxflick" style="mix-blend-mode:screen"/>
   <image href="assets/chest.webp" x="${HOT.hubPainted.chest[0]-72}" y="${HOT.hubPainted.chest[1]-126}" width="144" height="126"/>`:`
   <!-- 하늘 · 해 · 구름 -->
@@ -2537,11 +2618,8 @@ function hubWorld(ch,c,port){
   `}
   <!-- 놀이 장소 -->
   <g id="hModes">
-    ${hxSpot('mMerge',...(ART.hub_bg?HOT.hubPainted:HOT.hub).mMerge,'항구 합치기','부두 · 주민 의뢰',rec.merge,ART.hub_bg?HOT.hubPainted.tag.mMerge:150,80)}
-    ${hxSpot('mBlock',...(ART.hub_bg?HOT.hubPainted:HOT.hub).mBlock,'블록 퍼즐','시장 창고',rec.block,ART.hub_bg?HOT.hubPainted.tag.mBlock:180,74)}
-    ${hxSpot('mMatch',...(ART.hub_bg?HOT.hubPainted:HOT.hub).mMatch,'소문 팡팡','보물 해변',rec.match,ART.hub_bg?HOT.hubPainted.tag.mMatch:170,80)}
-    ${hxSpot('mDrop',...(ART.hub_bg?HOT.hubPainted:HOT.hub).mDrop,'소문 퐁당','등대 절벽',rec.drop,ART.hub_bg?HOT.hubPainted.tag.mDrop:120,70)}
-    ${hxSpot('mDungeon',...(ART.hub_bg?HOT.hubPainted:HOT.hub).mDungeon,'소문 던전','안개 동굴 성',rec.cave,ART.hub_bg?HOT.hubPainted.tag.mDungeon:128,60)}
+    ${arcGamesOf(CI).map((g,i)=>{const P=ART.hub_bg?HOT.hubPainted:HOT.hub,k=['mMerge','mBlock','mMatch'][i],m=arcMedal(g.id);
+      return hxSpot('arc'+i,...P[k],g.name,g.tag,`별 ${arcStars(g.id)}/30 · ${m>=0?ARC_MEDAL[m].n:arcCleared(g.id)+'/10단계'}`,ART.hub_bg?HOT.hubPainted.tag[k]:[150,180,170][i],[80,74,80][i],hubIco(g))}).join('')}
   </g>
   <!-- 앞쪽: 주인공 · 갈매기 -->
   ${ART.hub_bg?(()=>{const [hx,hy]=HOT.hubPainted.hero,[gx,gy]=HOT.hubPainted.gull;return `<ellipse cx="${hx}" cy="${hy}" rx="58" ry="12" fill="#2A1206" opacity=".4"/>
@@ -2583,6 +2661,7 @@ function renderHub(){
       <div class="hxC">
         <div class="hxplaque"><small>${esc(ch.theme)}</small><b>${esc(ch.place)}</b></div>
         <div class="hxquest"><span class="qi">임무</span><span class="qt">${esc(questT)}</span></div>
+        ${goalHTML(CI)}
       </div>
       <div class="hxR">
         <div class="hxslot hxstars" title="이 구역의 별">${hxStarIcon()}<b class="sVal">${c.stars}</b></div>
@@ -2606,9 +2685,9 @@ function renderHub(){
   $('#hBack').onclick=()=>{sfx.tap();if(S.lesson)teacherModal();else goMap()};
   const rv=$('#hReview'); if(rv) rv.onclick=()=>{sfx.tap();reviewWrong()};
   $('#hHelp').onclick=()=>{sfx.tap();coachStart(hubTutorial())};
+  $('#hGoal').onclick=()=>{sfx.tap();notebookModal()};
   $('#hStory').onclick=()=>storyButton();
-  {const sp=$('#mDungeon');if(sp)sp.classList.toggle('newcave',caveNew(c))}
-  const go={mMerge:openMerge,mBlock:openBlock,mMatch:openMatch,mDrop:openDrop,mDungeon:openCave};
+  const go={}; arcGamesOf(CI).forEach((g,i)=>go['arc'+i]=()=>openArc(g.id));
   Object.entries(go).forEach(([id,fn])=>{const el=$('#'+id); if(!el)return;
     const run=()=>{if(sc._drag&&sc._drag.moved)return;sfx.tap();fn()};
     el.addEventListener('click',run); el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();run()}})});
@@ -2629,8 +2708,9 @@ function hubTutorial(){
   const ch=CH[CI];
   return [
     {who:'gull',target:()=>$('#hDlg'),text:`여기는 ${ch.place}! ${ch.npc.name}이(가) 소문 때문에 걱정이 많대. 소문이 진짜인지 탐정님이 밝혀 줘!`,wait:'next'},
-    {who:'gull',target:()=>$('#mMerge'),text:'반짝이는 고리가 있는 곳이 놀이터야! 부두, 시장 창고, 보물 해변, 등대 절벽, 안개 동굴 성 — 어디든 눌러서 ⭐별을 모아!',wait:'next'},
-    {who:'gull',target:()=>$('#hStory'),text:'⭐이 모이면 이 단추를 눌러 봐. 이야기 속 퀴즈와 미니게임을 풀면 🔍단서를 얻고, 단서 4개면 진실이 밝혀져!',wait:'next'}
+    {who:'gull',target:()=>$('#arc0'),text:`반짝이는 고리가 이 섬만의 놀이 3가지야! 단계를 깰 때마다 ⭐별을 받고, 단계가 오를수록 어려워져!`,wait:'next'},
+    {who:'gull',target:()=>$('#hGoal'),text:'이 막대가 목표야! ⭐이 가득 차면 🔍단서 하나를 열 수 있어. 단서 4개를 모으면 소문의 진실을 판정해!',wait:'next'},
+    {who:'gull',target:()=>$('#hStory'),text:'⭐이 모이면 이 단추! 진실 카드 10장을 모두 모으면 지도에서 소문 던전이 열려. 끝판왕까지 가 보자!',wait:'next'}
   ];
 }
 
@@ -2847,10 +2927,11 @@ function completeStep(ci,k){
   const c=chState(ci); if(c.step!==k) return;
   c.stars-=STEP_COST[k]; c.step++; c._pop=true; if(c.step>=4) c.done=true;
   save(); confetti(40); refresh();
-  if(c.done) setTimeout(()=>showTruth(ci,true),400);
-  else{toast(`🔍 단서 ${c.step}/4 획득! ${CH[ci].steps[k].deco} ${CH[ci].steps[k].title}`);if(caveNew(c))setTimeout(()=>toast('소문 던전이 열렸어요! 항구의 안개 동굴 성을 눌러 들어가 봐요'),2200)}
+  sfx.unlock();
+  if(c.done){setTimeout(()=>showTruth(ci,true),400);if(caveOpen())setTimeout(()=>toast('🏰 10개 섬의 진실을 모두 밝혔어요! 지도에서 소문 던전이 열렸어요'),2500)}
+  else clueBanner(ci,k);
 }
-function addStars(n,x,y){const c=chState(CI);c.stars+=n;save();if(x!=null)floatText(`+⭐${n}`,x,y);$$('.sVal').forEach(e=>e.textContent=c.stars)}
+function addStars(n,x,y){const c=chState(CI);c.stars+=n;save();if(n>0)sfx.star();if(x!=null)floatText(`+⭐${n}`,x,y);$$('.sVal').forEach(e=>e.textContent=c.stars);if(typeof goalRefresh==='function')goalRefresh()}
 
 /* ---------- 따라 하기 안내 (코치) ---------- */
 const coachEl=$('#coach'); let CO=null;
@@ -2929,29 +3010,11 @@ function settingsModal(){
   };
   draw();
 }
-/* ===== 수업 구조: 읽어주기 · 오답 · 첫 예상 · 탐정 보고서 · 함께 정리하기 · 교사 수업 모드 ===== */
+/* ===== 수업 구조: 오답 · 첫 예상 · 탐정 보고서 · 함께 정리하기 · 교사 수업 모드 ===== */
 
-/* ---------- 🔊 읽어주기 (브라우저 내장 음성, 한국어 음성이 있을 때만) ---------- */
-const TTS={ok:false,voice:null,btn:null};
-function ttsInit(){
-  try{
-    if(!('speechSynthesis' in window)||typeof SpeechSynthesisUtterance==='undefined') return;
-    const pick=()=>{const v=speechSynthesis.getVoices().find(v=>/^ko/i.test(v.lang||''));
-      if(v){TTS.ok=true;TTS.voice=v;document.body.classList.add('tts-on')}};
-    pick(); if(speechSynthesis.addEventListener) speechSynthesis.addEventListener('voiceschanged',pick);
-  }catch(e){}
-}
-function ttsBtn(text,cls=''){return `<button class="tts ${cls}" type="button" data-say="${esc(text)}" aria-label="읽어주기" title="읽어주기"><span class="em">🔊</span></button>`}
-function ttsStop(){try{if(TTS.ok&&(speechSynthesis.speaking||speechSynthesis.pending))speechSynthesis.cancel()}catch(e){} if(TTS.btn){TTS.btn.classList.remove('on');TTS.btn=null}}
-document.addEventListener('click',e=>{
-  const b=e.target.closest('.tts'); if(!b||!TTS.ok) return;
-  e.stopPropagation();
-  if(TTS.btn===b){ttsStop();return}
-  ttsStop();
-  const u=new SpeechSynthesisUtterance(stripEmo(b.dataset.say)); u.lang='ko-KR'; u.voice=TTS.voice; u.rate=.9;
-  u.onend=u.onerror=()=>{if(TTS.btn===b){b.classList.remove('on');TTS.btn=null}};
-  TTS.btn=b; b.classList.add('on'); speechSynthesis.speak(u);
-},true);
+/* 읽어주기(음성)는 쓰지 않아요 — 효과음만 써요. 예전 호출 자리는 빈 함수로 남겨 둬요 */
+function ttsBtn(){return ''}
+function ttsStop(){}
 
 /* ---------- 🔁 헷갈린 문제 (구역별 오답 기록) ---------- */
 function qid(q){let h=5381;const s=q.q;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return 'q'+(h>>>0).toString(36)}
@@ -2987,7 +3050,7 @@ function reviewWrong(){
 }
 
 /* ---------- 🤔 소문 첫 예상 ---------- */
-const GUESS={yes:{e:'👍',t:'진짜 같아요'},unsure:{e:'🤔',t:'잘 모르겠어요'},no:{e:'👎',t:'아닌 것 같아요'}};
+const GUESS={yes:{e:'⭕',t:'맞는 것 같아요'},part:{e:'🔺',t:'일부만 맞을 것 같아요'},no:{e:'❌',t:'틀린 것 같아요'},unsure:{e:'🤔',t:'잘 모르겠어요'}};
 function needGuess(ci){const c=chState(ci);return !c.guess&&c.step===0&&!c.done}
 function guessModal(ci,after){
   const ch=CH[ci];
@@ -2995,7 +3058,7 @@ function guessModal(ci,after){
     <h2 class="guessh">이 소문, 어떻게 생각해?</h2>
     <div class="rumorbig" style="${tintVars(ch)}"><span class="em">🐦</span><q>${esc(ch.rumor)}</q>${ttsBtn('이 소문, 어떻게 생각해? '+ch.rumor)}</div>
     <div class="guessbtns">${Object.entries(GUESS).map(([k,g])=>`<button class="gpick" data-k="${k}"><span class="em">${g.e}</span>${g.t}</button>`).join('')}</div>
-    <p class="note" style="text-align:center">지금은 정답을 몰라도 괜찮아요.<br>탐정 활동을 하며 단서를 찾아봐요!</p>`,{closable:false});
+    <p class="note" style="text-align:center">소문은 <b>맞을 수도, 일부만 맞을 수도, 틀릴 수도</b> 있어요.<br>단서 4개를 모은 뒤 처음 판단이 맞으면 <b>명탐정 배지</b>를 받아요!</p>`,{closable:false});
   sh.querySelectorAll('.gpick').forEach(b=>b.onclick=()=>{
     const c=chState(ci); c.guess=b.dataset.k; save(); sfx.ok();
     closeModal(); toast(`${GUESS[c.guess].e} 첫 생각을 기록했어요! 이제 단서를 찾아봐요 🔍`);
@@ -3018,7 +3081,7 @@ function showTruth(ci,celebrate){
         <div class="vbtns">${['true','part','false'].map(k=>`<button class="vpick" data-k="${k}"><span class="em">${VERDICT_E[k]}</span>${VERDICT[k]}</button>`).join('')}</div>`;
     }else{
       const same=fin===v;
-      const gmap={yes:'true',no:'false'}; const g=c.guess;
+      const gmap={yes:'true',part:'part',no:'false'}; const g=c.guess;
       let fb;
       if(!g) fb='';
       else if(g==='unsure') fb='처음엔 잘 몰랐지만, 단서를 모아 스스로 생각을 정했어요! 멋진 탐정이에요.';
@@ -3039,12 +3102,17 @@ function showTruth(ci,celebrate){
         <div class="rsec"><span class="no">③</span><div><small>조사하며 찾은 핵심 단서</small><ul class="clue">${clues.map(p=>`<li><span class="em">🔍</span>${esc(p)}</li>`).join('')}</ul>${ttsBtn('찾은 단서. '+clues.join('. '),'inl')}</div></div>
         <div class="rsec last"><span class="no">④</span><div><small>최종 판단</small>${judge}</div></div>
       </div>
-      ${celebrate&&!fin?talkHTML(ch,'gull','꾸꾸… 확인도 안 하고 퍼뜨려서 미안해. 탐정님의 판단을 들려줘!'):''}
+      ${celebrate&&!fin?talkHTML(ch,'gull','꾸꾸… 이 소문, 맞을까 틀릴까? 일부만 맞을 수도 있어! 단 한 번의 첫 판단이 맞으면 명탐정 배지야!'):''}
+      ${c.badge?'<p class="note" style="text-align:center"><b>🏅 명탐정 배지</b>를 받은 섬이에요!</p>':''}
       <div class="row">
         <button class="cbtn lav" id="recapB">📺 함께 정리하기</button>
         ${CI>=0?'<button class="cbtn ghost" id="stay">계속 놀기</button>':''}
         <button class="cbtn" id="go">${S.lesson?'구역으로':'지도로 가기'}</button></div>`);
-    sh.querySelectorAll('.vpick').forEach(b=>b.onclick=()=>{c.final=b.dataset.k;save();sfx.ok();if(c.final===(ch.verdict||'false'))confetti(30);draw()});
+    sh.querySelectorAll('.vpick').forEach(b=>b.onclick=()=>{c.final=b.dataset.k;const right=c.final===(ch.verdict||'false');
+      /* 첫 판단만 배지를 줘요 — 다시 판단하기로 정답을 찾아도 배지는 없어요 */
+      if(c.first==null){c.first=c.final;if(right){c.badge=true;sfx.fanfare();confetti(90);toast('🏅 첫 판단 성공! 명탐정 배지를 받았어요')}else sfx.no()}
+      else if(right){sfx.ok();confetti(30)}else sfx.no();
+      save();draw()});
     const r=sh.querySelector('#redo'); if(r) r.onclick=()=>{c.final=null;save();draw()};
     sh.querySelector('#recapB').onclick=()=>openRecap(ci);
     const s=sh.querySelector('#stay'); if(s) s.onclick=closeModal;
@@ -3132,7 +3200,7 @@ function teacherModal(tab){
   draw();
 }
 function guideHTML(){
-  return `<p class="note">2022 개정 교육과정 총론의 범교과 학습 주제 10가지를 항구 마을 10개 구역에 하나씩 담았어요. 다섯 가지 놀이(합치기·팡팡·퐁당·블록·던전)로 ⭐을 모으고, ⭐으로 <b>이야기 4단계</b>(퀴즈 2개 + 미니게임 2개)를 열면 <b>탐정 최종 보고서</b>를 써요.</p>
+  return `<p class="note">2022 개정 교육과정 총론의 범교과 학습 주제 10가지를 항구 마을 10개 구역에 하나씩 담았어요. 구역마다 <b>그 섬만의 놀이 3가지</b>(모두 30가지 · 단계 10개씩, 학년과 단계에 따라 어려워져요)로 ⭐을 모으고, ⭐으로 <b>이야기 4단계</b>(퀴즈 2개 + 미니게임 2개)를 열면 <b>탐정 최종 보고서</b>를 써요. 소문은 <b>맞음 · 일부만 맞음 · 틀림</b>이 섞여 있어요. 10개 구역을 모두 마치면 지도에서 <b>소문 던전</b>(지하 5층, 10개 주제 종합 문제)이 열려요.</p>
     <div class="tw"><table class="tbl"><thead><tr><th>구역</th><th>범교과 주제</th><th>추천 학년</th><th>연계 교과</th></tr></thead>
     <tbody>${CH.map(ch=>`<tr><td><span class="em">${ch.icon}</span> ${esc(ch.place)}</td><td>${esc(ch.theme)}</td><td>${(ch.grades||[]).length?`${Math.min(...ch.grades)}~${Math.max(...ch.grades)}학년`:'-'}</td><td>${esc(ch.subjects)}</td></tr>`).join('')}</tbody></table></div>
     <h3 class="gh">수업 흐름 (40분)</h3>
@@ -3158,7 +3226,6 @@ setInterval(()=>{
   const t=lessonLeft(); ['#lessonT','#lessonT2'].forEach(s=>{const e=$(s);if(e)e.textContent=t});
   if(!L.over&&Date.now()>=L.start+L.dur*60000&&SCREEN==='hub'&&modal.hidden&&!CO){L.over=true;save();timeUpModal()}
 },1000);
-ttsInit();
 /* ===== 놀이 1: 항구 합치기 ===== */
 const C0='#FFC9DA', C1='#C4F0DE';
 function freshBoard(ci,c){
@@ -3170,7 +3237,7 @@ function freshBoard(ci,c){
   while(c.orders.length<3) c.orders.push(makeOrder(ci,c));
 }
 function tickEnergy(){const now=Date.now();if(S.energy>=MAX_E){S.last=now;return}const g=Math.floor((now-S.last)/REGEN);if(g>0){S.energy=Math.min(MAX_E,S.energy+g);S.last+=g*REGEN;if(S.energy>=MAX_E)S.last=now;save()}}
-function useEnergy(n){if(S.unlimited)return true;tickEnergy();if(S.energy<n)return false;if(S.energy>=MAX_E)S.last=Date.now();S.energy-=n;return true}
+function useEnergy(n){if(S.unlimited||(EXT&&EXT.kind==='merge'))return true;tickEnergy();if(S.energy<n)return false;if(S.energy>=MAX_E)S.last=Date.now();S.energy-=n;return true}
 function addEnergy(n){S.energy=Math.min(MAX_E+30,S.energy+n)}
 function makeOrder(ci,c){
   const ch=CH[ci], people=[ch.npc,...ch.villagers];
@@ -3369,7 +3436,8 @@ function deliver(k,btnEl){
   o.needs.forEach(n=>{let idx=-1;for(let i=0;i<N;i++){const x=c.board[i];if(x&&x.t==='i'&&x.c===n.c&&x.l===n.l&&i!==sel){idx=i;break}}
     if(idx<0)idx=c.board.findIndex(x=>x&&x.t==='i'&&x.c===n.c&&x.l===n.l);if(idx>=0){c.board[idx]=null;if(idx===sel)sel=-1}});
   S.coins+=o.coins; const people=[ch.npc,...ch.villagers], p=people[o.p]||ch.npc;
-  const r=btnEl.getBoundingClientRect(); addStars(o.stars);
+  const r=btnEl.getBoundingClientRect(); addStars(EXT&&EXT.kind==='merge'?1:o.stars);
+  if(EXT&&EXT.kind==='merge'){EXT.cnt++;toast(`의뢰 ${EXT.cnt}/${EXT.orders} 완료!`);if(EXT.cnt>=EXT.orders){const sec=(performance.now()-EXT.t0)/1000,per=sec/EXT.orders;setTimeout(()=>{if(EXT)EXT.done(true,per<=45?3:per<=80?2:1,Math.round(5000/Math.max(1,per)))},900)}}
   c.orders[k]=makeOrder(CI,{step:c.step,orders:c.orders.filter((_,j)=>j!==k)});
   sfx.deliver(); save();
   if(card){card.classList.add('thanks');btnEl.disabled=true;const s=card.querySelector('.mgqs');if(s)s.textContent='고마워요! '+rnd(ch.tips);
@@ -3448,7 +3516,7 @@ function mergeTutorial(){
 /* ===== 놀이 4: 소문 팡팡 — 항구 보물 3매치 (SVG 그림 · 특수 블록 · 연쇄) =====
    M.g[r][c] = {id,t,sp,el,vr,vc} · t: 그림 종류 0~5 · sp: null | 'lineH' | 'lineV' | 'bomb' | 'rainbow'
    4개 한 줄 → 등대 빛(한 줄 싹) · ㄱ/ㅗ 모양 5개 → 파도 소용돌이(주변 3×3) · 5개 한 줄 → 무지개 진주(같은 그림 모두) */
-const MR=8, MC=8, MOVES=25, MTYPES=6, MGOAL=[1500,3000,5000], MBONUS=1500, MPAD=12, MGAP=4;
+const MR=8, MC=8, MOVES=25, MTYPES=6, MBONUS=1500, MPAD=12, MGAP=4; let MGOAL=[1500,3000,5000];
 const MART=[{n:'분홍 조개',c:'#FF7FA6'},{n:'황금 나침반',c:'#F5B82E'},{n:'유리병 편지',c:'#3CC2C0'},{n:'파란 닻',c:'#4F7FD9'},{n:'보물 지도 조각',c:'#E8903A'},{n:'별빛 조각',c:'#9B7BFF'}];
 const MSP={lineH:'가로 등대 빛',lineV:'세로 등대 빛',bomb:'파도 소용돌이',rainbow:'무지개 진주'};
 let M=null, mid=0;
@@ -3463,7 +3531,8 @@ function pitch(){return M.cs+MGAP}
 function openMatch(){
   show('match');
   if(M) clearTimeout(M.hintT);
-  M={g:[],score:0,moves:MOVES,busy:false,sel:null,bonus:0,nextB:MBONUS,starsWon:0,cs:48,maxCombo:0,made:0,over:false,hintT:0};
+  const XM=EXT&&EXT.kind==='match'; MGOAL=XM?EXT.goals:[1500,3000,5000];
+  M={g:[],score:0,moves:XM?EXT.moves:MOVES,busy:false,sel:null,bonus:0,nextB:MBONUS,starsWon:0,cs:48,maxCombo:0,made:0,over:false,hintT:0,paid:0,startBest:chState(CI).mBest||0};
   const ms=$('#match');ms.classList.toggle('painted',!!(ART.match_bg&&mPk()));ms.style.backgroundImage=ART.match_bg&&mPk()?`url("${ART.match_bg}")`:'';$('#mScore').textContent='0';$('#mScore')._v=0;
   mboardEl.innerHTML='';
   for(let r=0;r<MR;r++)for(let c=0;c<MC;c++){const s=document.createElement('div');s.className='msk'+((r+c)%2?' d':'');s.style.cssText=`--r:${r};--c:${c}`;mboardEl.appendChild(s)}
@@ -3515,6 +3584,9 @@ function renderMatchTop(){
   numTo($('#mScore'),M.score); $('#mMoves').textContent=M.moves; $$('.sVal').forEach(e=>e.textContent=c.stars);
   $('#mMovesBox').classList.toggle('low',M.moves<=5&&M.moves>0);
   const st=MGOAL.filter(g=>M.score>=g).length;
+  /* 목표를 넘는 그 순간 별을 줘요 — 중간에 나가도 받은 별은 그대로 남아요 */
+  if(!EXT&&st>(M.paid||0)&&!M.over){const n=st-(M.paid||0);M.paid=st;M.starsWon+=n;const r=$('#mGbar').getBoundingClientRect();addStars(n,r.left+r.width/2,r.top);sfx.ok();toast(`목표 달성! ⭐${n} 받았어요`)}
+  if(M.score>(c.mBest||0)){c.mBest=M.score;save()}
   $('#mGbar').style.width=Math.min(100,M.score/MGOAL[2]*100)+'%';
   $('#mGoalT').textContent=st>=3?'목표 모두 달성!':`다음 목표 ${MGOAL[st].toLocaleString()}점`;
   $$('#mTop .mk').forEach(e=>{const on=M.score>=MGOAL[+e.dataset.k];if(on&&!e.classList.contains('on')){e.classList.add('on')}else if(!on)e.classList.remove('on')});
@@ -3717,7 +3789,7 @@ function mIdle(stop){
 function afterMove(){
   if(!M||SCREEN!=='match') return;
   if(M.score>=M.nextB){while(M.score>=M.nextB){M.bonus++;M.nextB+=MBONUS}renderMatchTop();toast('보너스 퀴즈 병이 떠올랐어요! 풀고 싶을 때 눌러요')}
-  if(M.moves<=0){M.over=true;M.busy=true;mIdle(true);renderMatchTop();setTimeout(()=>{if(SCREEN==='match')matchOver()},650);return}
+  if(M.moves<=0||(EXT&&M.score>=MGOAL[2])){M.over=true;M.busy=true;mIdle(true);renderMatchTop();setTimeout(()=>{if(SCREEN==='match')matchOver()},650);return}
   if(!hasMove()){toast('움직일 곳이 없어서 섞을게요!');shuffleBoard()}
   mIdle();
 }
@@ -3742,12 +3814,13 @@ function matchBonus(){
     onWrong:()=>mIdle()});
 }
 function matchOver(){
-  const c=chState(CI), st=MGOAL.filter(g=>M.score>=g).length;
-  const rec=M.score>(c.mBest||0); if(rec)c.mBest=M.score;
-  if(st) addStars(st); save(); if(st) confetti(20+st*15);
+  if(EXT&&EXT.kind==='match'){const st=MGOAL.filter(g=>M.score>=g).length,c=chState(CI);if(M.score>(c.mBest||0))c.mBest=M.score;save();EXT.done(st>=1,st,M.score,`첫 목표 ${MGOAL[0].toLocaleString()}점을 넘지 못했어요.`);return}
+  const c=chState(CI), st=MGOAL.filter(g=>M.score>=g).length, owe=Math.max(0,st-(M.paid||0));
+  const rec=M.score>(M.startBest||0); if(M.score>(c.mBest||0))c.mBest=M.score;
+  M.paid=st; if(owe){addStars(owe);M.starsWon+=owe} save(); if(st) confetti(20+st*15);
   const sh=openModal(`<div class="result"><h2>${rec?'새 기록!':'이동 끝!'}</h2><div class="stars rstars">${[0,1,2].map(i=>`<span class="rstar ${i<st?'on':'off'}" style="--d:${.25+i*.28}s"><svg viewBox="0 0 100 100"><use href="#miStar"/></svg></span>`).join('')}</div>
     <div class="score" style="margin:6px 0">${M.score.toLocaleString()}점</div>
-    <p class="note">목표 ${MGOAL.map(g=>g.toLocaleString()).join(' · ')}점을 넘을 때마다 별 1개 · 이번 판에서 모은 별 ${M.starsWon+st}개<br>최고 연쇄 ${M.maxCombo}번 · 특수 블록 ${M.made}개 · 최고 ${(c.mBest||0).toLocaleString()}점</p></div>
+    <p class="note">목표 ${MGOAL.map(g=>g.toLocaleString()).join(' · ')}점을 넘을 때마다 별 1개 · 이번 판에서 모은 별 ${M.starsWon}개<br>최고 연쇄 ${M.maxCombo}번 · 특수 블록 ${M.made}개 · 최고 ${(c.mBest||0).toLocaleString()}점</p></div>
     <div class="row" style="justify-content:center"><button class="cbtn ghost" id="hub">구역으로</button><button class="cbtn mint" id="again">한 판 더!</button></div>`,{closable:false});
   sh.querySelector('#hub').onclick=()=>{closeModal();goHub()};
   sh.querySelector('#again').onclick=()=>{closeModal();openMatch()};
@@ -3800,7 +3873,7 @@ function canPlace(p){for(let r=0;r<BN;r++)for(let c=0;c<BN;c++)if(fits(p,r,c))re
 function refillTray(){B.tray=[newPiece(),newPiece(),newPiece()];let t=0;while(!B.tray.some(canPlace)&&t++<30)B.tray=[newPiece(),newPiece(),newPiece()]}
 function openBlock(){
   show('block'); const c=chState(CI);
-  B={g:Array(BN*BN).fill(null),score:0,lines:0,gauge:0,streak:0,revived:false,starsWon:0,bag:{},shown:0};
+  B={g:Array(BN*BN).fill(null),score:0,lines:0,gauge:0,streak:0,revived:false,starsWon:0,bag:{},shown:0,startBest:chState(CI).best||0};
   const bs=$('#block');bs.classList.toggle('painted',!!ART.block_bg);bs.style.backgroundImage=ART.block_bg?`url("${ART.block_bg}")`:'';
   const tut=!S.tut.block;
   if(tut){for(let cc=0;cc<BN;cc++)if(cc!==3)B.g[5*BN+cc]={col:rnd(PCOL),e:'⭐'};
@@ -3820,7 +3893,9 @@ function blockHelp(){
     <div class="row"><button class="cbtn" id="go">알겠어요</button></div>`);
   sh.querySelector('#go').onclick=closeModal;
 }
-function renderBlockTop(){const c=chState(CI);bScoreTo(B?B.score:0);$('#bBest').textContent=c.best;$$('.sVal').forEach(e=>e.textContent=c.stars);
+function renderBlockTop(){const c=chState(CI);bScoreTo(B?B.score:0);
+  if(EXT&&EXT.kind==='block'&&B&&!B.done&&B.score>=EXT.goals[2]){B.done=1;setTimeout(()=>blockOver(),450)}
+  {const gt=$('#bGoalT');if(gt)gt.textContent=EXT&&EXT.kind==='block'?`목표 ${EXT.goals.map(g=>g.toLocaleString()).join(' · ')}`:''}$('#bBest').textContent=c.best;$$('.sVal').forEach(e=>e.textContent=c.stars);
   $('#bGauge').innerHTML=`<span class="bgl">보너스 퀴즈</span>${[0,1,2].map(i=>`<i class="${B&&i<B.gauge?'on':''}"></i>`).join('')}`}
 /* 점수가 오를 때 숫자가 빠르게 올라가고 통 튀어요 */
 let bScoreRaf=0;
@@ -3951,7 +4026,8 @@ function checkOver(){
   blockOver();
 }
 function blockOver(){
-  const c=chState(CI), rec=B.score>c.best; if(rec) c.best=B.score; save();
+  if(EXT&&EXT.kind==='block'){const st=EXT.goals.filter(g=>B.score>=g).length,c=chState(CI);if(B.score>c.best)c.best=B.score;save();EXT.done(st>=1,st,B.score,`첫 목표 ${EXT.goals[0].toLocaleString()}점을 넘지 못했어요.`);return}
+  const c=chState(CI), rec=B.score>(B.startBest||0); if(B.score>c.best) c.best=B.score; save();
   if(rec) confetti(50);
   const sh=openModal(`<div class="result"><h2>${rec?'새 기록!':'게임 끝!'}</h2><div class="score" style="margin:12px 0">${B.score}점</div>
     <p class="note">없앤 줄 ${B.lines}개 · 이번 판에서 모은 별 ${B.starsWon}개 · 최고 ${c.best}점</p></div>
@@ -3981,7 +4057,7 @@ const PLV=[
   {n:'돌고래',r:73,c:['#E8F7FF','#7CC6F2','#2A78B2']},
   {n:'고래',r:85,c:['#E6EEFF','#7092E2','#283F8E']}
 ];
-const PGOAL=[500,1300,2600], PBONUS=900;
+let PGOAL=[500,1300,2600]; const PBONUS=900;
 let PD=null, pdRaf=0;
 const pdCv=$('#pdCv'), pdCtx=pdCv.getContext('2d');
 /* ---------- 그림: 바다 친구들 (painted 그림 · 없으면 캔버스 path) ---------- */
@@ -4049,9 +4125,10 @@ function pdIcon(l,size){const cv=document.createElement('canvas'),d=Math.min(2,w
   const x=cv.getContext('2d');x.scale(d,d);pdDraw(x,l,size/2,size/2,size/2-3,0);return cv}
 /* ---------- 시작 · 크기 ---------- */
 function openDrop(){
-  show('drop'); cancelAnimationFrame(pdRaf);
+  show('drop'); cancelAnimationFrame(pdRaf); PGOAL=EXT&&EXT.kind==='drop'?EXT.goals:[500,1300,2600];
+  {const t=$('#pdTop');if(t)t.querySelectorAll('.mk').forEach((e,i)=>e.style.left=(PGOAL[i]/PGOAL[2]*100)+'%')}
   const c=chState(CI); if(c.pBest==null) c.pBest=0;
-  PD={b:[],fx:[],txt:[],score:0,aim:PW/2,cur:pdPick(),next:pdPick(),cool:0,danger:0,over:false,bonus:0,nextB:PBONUS,starsWon:0,maxL:0,merges:0,id:0,t:0,bub:Array.from({length:14},()=>({x:Math.random()*PW,y:Math.random()*PH,r:2+Math.random()*4,s:.2+Math.random()*.5}))};
+  PD={b:[],fx:[],txt:[],score:0,aim:PW/2,cur:pdPick(),next:pdPick(),cool:0,danger:0,over:false,bonus:0,nextB:PBONUS,starsWon:0,maxL:0,merges:0,id:0,t:0,paid:0,startBest:chState(CI).pBest||0,bub:Array.from({length:14},()=>({x:Math.random()*PW,y:Math.random()*PH,r:2+Math.random()*4,s:.2+Math.random()*.5}))};
   const ds=$('#drop'),pa=!!(ART.drop_bg&&pdPk());ds.classList.toggle('painted',pa);ds.style.backgroundImage=pa?`url("${ART.drop_bg}")`:'';pdImgs();
   $('#pdScore')._v=0;$('#pdScore')._t=0;$('#pdScore').textContent='0';pdChainBuild();
   fitDrop(); renderDropTop();
@@ -4073,6 +4150,9 @@ function renderDropTop(){
   if(!PD) return; const c=chState(CI);
   numTo($('#pdScore'),PD.score); $$('.sVal').forEach(e=>e.textContent=c.stars);
   const st=PGOAL.filter(g=>PD.score>=g).length;
+  if(EXT&&!PD.over&&PD.score>=PGOAL[2]){PD.over=true;setTimeout(()=>{if(SCREEN==='drop')dropOver()},500)}
+  if(!EXT&&st>(PD.paid||0)&&!PD.over){const n=st-(PD.paid||0);PD.paid=st;PD.starsWon+=n;const r=$('#pdGbar').getBoundingClientRect();addStars(n,r.left+r.width/2,r.top);sfx.ok();toast(`목표 달성! ⭐${n} 받았어요`)}
+  if(PD.score>(c.pBest||0)){c.pBest=PD.score;save()}
   $('#pdGbar').style.width=Math.min(100,PD.score/PGOAL[2]*100)+'%';
   $('#pdGoalT').textContent=st>=3?'목표 모두 달성!':`다음 목표 ${PGOAL[st].toLocaleString()}점`;
   $$('#pdTop .mk').forEach(e=>e.classList.toggle('on',PD.score>=PGOAL[+e.dataset.k]));
@@ -4187,11 +4267,12 @@ function pdLoop(ts){
 }
 /* ---------- 판 끝 · 보너스 · 안내 ---------- */
 function dropOver(){
-  const c=chState(CI), st=PGOAL.filter(g=>PD.score>=g).length, rec=PD.score>(c.pBest||0);
-  if(rec)c.pBest=PD.score; if(st)addStars(st); save(); renderDropTop(); if(st)confetti(20+st*15);
+  if(EXT&&EXT.kind==='drop'){cancelAnimationFrame(pdRaf);const st=PGOAL.filter(g=>PD.score>=g).length,c=chState(CI);if(PD.score>(c.pBest||0))c.pBest=PD.score;save();EXT.done(st>=1,st,PD.score,`첫 목표 ${PGOAL[0].toLocaleString()}점을 넘지 못했어요.`);return}
+  const c=chState(CI), st=PGOAL.filter(g=>PD.score>=g).length, owe=Math.max(0,st-(PD.paid||0)), rec=PD.score>(PD.startBest||0);
+  if(PD.score>(c.pBest||0))c.pBest=PD.score; PD.paid=st; if(owe){addStars(owe);PD.starsWon+=owe} save(); renderDropTop(); if(st)confetti(20+st*15);
   const sh=openModal(`<div class="result"><h2>${rec?'새 기록!':'항아리가 꽉 찼어요!'}</h2><div class="stars rstars">${[0,1,2].map(i=>`<span class="rstar ${i<st?'on':'off'}" style="--d:${.25+i*.28}s"><svg viewBox="0 0 100 100"><use href="#miStar"/></svg></span>`).join('')}</div>
     <div class="score" style="margin:6px 0">${PD.score.toLocaleString()}점</div>
-    <p class="note">목표 ${PGOAL.map(g=>g.toLocaleString()).join(' · ')}점을 넘을 때마다 별 1개 · 이번 판에서 모은 별 ${PD.starsWon+st}개<br>합체 ${PD.merges}번 · 가장 큰 친구: ${PLV[PD.maxL].n} · 최고 ${c.pBest.toLocaleString()}점</p></div>
+    <p class="note">목표 ${PGOAL.map(g=>g.toLocaleString()).join(' · ')}점을 넘을 때마다 별 1개 · 이번 판에서 모은 별 ${PD.starsWon}개<br>합체 ${PD.merges}번 · 가장 큰 친구: ${PLV[PD.maxL].n} · 최고 ${c.pBest.toLocaleString()}점</p></div>
     <div class="row" style="justify-content:center"><button class="cbtn ghost" id="hub">구역으로</button><button class="cbtn mint" id="again">한 판 더!</button></div>`,{closable:false});
   sh.querySelector('#hub').onclick=()=>{closeModal();goHub()};
   sh.querySelector('#again').onclick=()=>{closeModal();openDrop()};
@@ -4224,33 +4305,69 @@ function dropTutorial(){
 }
 window.addEventListener('resize',()=>fitDrop());
 
-/* ===== 소문 던전 · 그림 탐험 (dungeon.html 을 화면 가득 띄워요) =====
-   dungeon.html ↔ 본게임 메시지: dq:need → dq:q(drawQ 문제) · dq:ans(틀리면 오답 노트) · dq:stars(별빛 조각 → ⭐) · dq:floor · dq:clear · dq:exit
-   저장: chState(ci).caveBest(도착한 층, 정복하면 3) · caveWins */
-let CAVE=null, CAVE_FIRST=false;
-/* 첫 단서를 얻은 뒤 아직 들어가 보지 않았으면 항구의 소문 던전 자리가 푸르게 빛나요 (막지는 않아요: 언제든 들어갈 수 있어요) */
-function caveNew(c){return c.step>=1&&!c.caveBest&&!c.caveWins&&!c.caveSeen}
-function openCave(){
-  const ci=CI, c=chState(ci); if(!c.caveSeen){c.caveSeen=true;save()}
-  CAVE={ci,sent:{},stars:0}; ttsStop(); coachEnd(true);
-  $('#caveFrame').src='dungeon.html?ch='+encodeURIComponent(CH[ci].id)+'&g='+curGrade();
+/* ===== 소문 던전 (dungeon.html 을 화면 가득 띄워요) =====
+   10개 섬의 진실을 모두 밝혀야 지도에서 열려요. 지하 5층 · 10개 주제 종합 문제 · 하트 5개 · 끝판왕을 물리치면 모험 완성.
+   dungeon.html → 본게임: dq:floor(도착한 층 = 이어하기 지점) · dq:wrong(틀린 문제 → 그 섬의 오답 노트) · dq:clear · dq:exit
+   저장: S.cave = {floor: 이어하기 층, best: 가장 깊이 간 층, clear: 정복 여부, wins: 정복 횟수} */
+let CAVE=null;
+function caveState(){if(!S.cave||typeof S.cave!=='object')S.cave={floor:1,best:0,clear:false,wins:0};return S.cave}
+function solvedCount(){return CH.filter(ch=>S.ch[ch.id]&&S.ch[ch.id].done).length}
+function caveOpen(){return solvedCount()>=CH.length}
+function caveGate(){
+  if(!caveOpen()){sfx.no();const n=solvedCount();
+    const sh=openModal(`<div class="result cvkeep"><h2>🔒 소문 던전</h2><p class="note">10개 섬에서 퍼진 소문 안개가 모두 이 던전으로 흘러 들어갔어요.<br><b>10개 섬의 진실을 모두 밝혀야</b> 봉인이 풀려요.</p>
+      <div class="cvseal">${CH.map(ch=>`<span class="${S.ch[ch.id]&&S.ch[ch.id].done?'on':''}" title="${esc(ch.place)}">${ch.icon}</span>`).join('')}</div>
+      <p class="score" style="margin:8px 0">${n} / ${CH.length}</p><p class="note">앞으로 ${CH.length-n}개 섬! 섬에서 놀이로 ⭐을 모아 단서를 찾아요.</p></div>
+      <div class="row" style="justify-content:center"><button class="cbtn" id="ok">알겠어요</button></div>`);
+    sh.querySelector('#ok').onclick=closeModal; return}
+  const cv=caveState();
+  if(cv.floor>1&&!cv.clear){
+    const sh=openModal(`<div class="result"><h2>소문 던전</h2><p class="note">지난번에 <b>지하 ${cv.floor}층</b>까지 내려갔어요.</p></div>
+      <div class="row" style="justify-content:center"><button class="cbtn ghost" id="new">지하 1층부터</button><button class="cbtn mint" id="cont">지하 ${cv.floor}층부터 이어하기</button></div>`);
+    sh.querySelector('#new').onclick=()=>{closeModal();openCave(1)}; sh.querySelector('#cont').onclick=()=>{closeModal();openCave(cv.floor)}; return}
+  const intro=openModal(`<div class="result cvkeep"><h2>🏰 소문 던전이 열렸어요!</h2>
+    <p class="note">지하 5층 끝판왕 <b>심해의 눈</b>을 물리치면 모험이 완성돼요.</p>
+    <ul class="cvrules"><li>📚 10개 섬에서 배운 내용이 <b>모두 섞여</b> 나와요</li><li>⏰ 깊이 내려갈수록 <b>제한 시간</b>이 짧아져요 (30초 → 15초)</li>
+      <li>❤️ 틀리면 하트가 줄어요. 하트 5개를 다 잃으면 <b>그 층 입구부터</b> 다시</li><li>👑 층마다 문지기, 5층엔 끝판왕!</li></ul></div>
+    <div class="row" style="justify-content:center"><button class="cbtn mint" id="go">던전으로 내려가기</button></div>`);
+  intro.querySelector('#go').onclick=()=>{closeModal();openCave(1)};
+}
+function openCave(from){
+  if(!caveOpen()) return caveGate();
+  const cv=caveState(); CAVE={from:from||1,clear:false}; coachEnd(true); sfx.boss();
+  $('#caveFrame').src='dungeon.html?v=20261016x&g='+curGrade()+'&from='+(from||1);
   $('#cave').hidden=false;
 }
 function closeCave(){
-  if(!CAVE) return; const ci=CAVE.ci, got=CAVE.stars; CAVE_FIRST=!!CAVE.first; CAVE=null;
+  if(!CAVE) return; const cleared=CAVE.clear; CAVE=null;
   $('#caveFrame').src='about:blank'; $('#cave').hidden=true;
-  goHub(ci); if(got) toast(CAVE_FIRST?`소문 던전 첫 정복! 보너스까지 별 ${got}개를 모았어요`:`소문 던전에서 모은 별 ${got}개!`);
+  goMap(true); if(cleared) setTimeout(finaleModal,300);
 }
 window.addEventListener('message',e=>{
   const f=$('#caveFrame'); if(!CAVE||!f||e.source!==f.contentWindow) return;
-  const d=e.data; if(!d||typeof d!=='object') return; const ci=CAVE.ci, c=chState(ci);
-  if(d.t==='dq:need'){const q=drawQ(ci); CAVE.sent[q.q]=q; f.contentWindow.postMessage({t:'dq:q',q:{q:q.q,o:q.o,a:q.a,x:q.x||'',z:CH[ci].theme}},'*')}
-  else if(d.t==='dq:ans'){const q=CAVE.sent[d.q]; if(q&&!d.ok) wrongAdd(ci,q)}
-  else if(d.t==='dq:stars'){const n=Math.max(0,Math.min(5,d.n|0)); if(n){c.stars+=n;CAVE.stars+=n;save()}}
-  else if(d.t==='dq:floor'){const n=d.n|0; if(n>(c.caveBest||0)){c.caveBest=n;save()}}
-  else if(d.t==='dq:clear'){c.caveBest=3;c.caveWins=(c.caveWins||0)+1;const bonus=c.caveWins===1?3:0;c.stars+=2+bonus;CAVE.stars+=2+bonus;CAVE.first=!!bonus;save()}
+  const d=e.data; if(!d||typeof d!=='object') return; const cv=caveState();
+  if(d.t==='dq:floor'){const n=Math.max(1,Math.min(5,d.n|0));cv.floor=n;cv.best=Math.max(cv.best||0,n);save()}
+  else if(d.t==='dq:wrong'){const ci=CH.findIndex(c=>c.id===d.zid);if(ci>=0&&typeof d.q==='string')wrongAdd(ci,{q:d.q})}
+  else if(d.t==='dq:clear'){CAVE.clear=true;cv.clear=true;cv.wins=(cv.wins||0)+1;cv.floor=1;cv.best=5;save()}
   else if(d.t==='dq:exit'){closeCave()}
+  else if(d.t==='dq:game'&&typeof arcTrial==='function'){const fl=Math.max(1,Math.min(5,d.floor|0)),g=curGrade()||3;
+    const BG={1:['#2A1E3E','#0B0714'],2:['#163A5A','#06121F'],3:['#5A1E14','#1A0606'],4:['#3A3A4A','#101018'],5:['#0E2A4A','#020812']}[fl];
+    arcTrial(String(d.id),{ch:{tint:'#6B3BB0',id:'dungeon'},d:Math.min(1,.15+fl*.14+(g-3)*.03),lv:fl*2,name:d.name,sub:`소문 던전 지하 ${fl}층 · 시련`,bg:BG,
+      done:win=>{try{f.contentWindow.postMessage({t:'dq:gameResult',ok:!!win},'*')}catch(e){}}})}
 });
+/* 끝판왕을 물리치면: 모험 완성 수료증 */
+function finaleModal(){
+  sfx.fanfare(); confetti(160);
+  const st=CH.reduce((a,ch)=>a+((S.ch[ch.id]||{}).stars||0),0), badges=CH.filter(ch=>(S.ch[ch.id]||{}).badge).length;
+  const arc=typeof arcTotal==='function'?arcTotal():0;
+  const sh=openModal(`<div class="result finale"><h2>🏆 소문 항구 탐정단 · 모험 완성!</h2>
+    <p class="note">10개 섬의 소문을 직접 확인하고, 지하 5층 끝판왕 <b>심해의 눈</b>까지 물리쳤어요.<br>이제 소문 항구에 진실의 빛이 가득해요!</p>
+    <div class="cvseal">${CH.map(ch=>`<span class="on">${ch.icon}</span>`).join('')}</div>
+    <div class="fstats"><div><b>${CH.length}/${CH.length}</b><small>진실 카드</small></div><div><b>${badges}</b><small>명탐정 배지</small></div><div><b>${arc}</b><small>도전 별</small></div><div><b>${caveState().wins}번</b><small>던전 정복</small></div></div>
+    <p class="note">${curGrade()?curGrade()+'학년 ':''}명탐정님, 앞으로도 소문을 들으면<br><b>확인하고 · 생각하고 · 함께 나누는</b> 탐정이 되어 주세요!</p></div>
+    <div class="row" style="justify-content:center"><button class="cbtn mint" id="ok">고마워요!</button></div>`);
+  sh.querySelector('#ok').onclick=closeModal;
+}
 /* ===== 이모지 대신 painted 아이콘 =====
    콘텐츠 자료(문제·카드·물건 이름)는 저장된 오답 기록이 문제 글자에 묶여 있어서 글자를 그대로 두고,
    화면에 그릴 때만 바꿔요: 뜻이 있는 기호는 #icodefs 의 SVG 아이콘으로, 구역 아이콘은 그 구역의 그림 섬으로,
@@ -4274,6 +4391,7 @@ function emoNode(ch,alone){
   if(isl){const i=document.createElement('img');i.className='ico isle';i.src=isl;i.alt='';return i}
   return null}
 function emoText(t){const s=t.nodeValue;if(!s||!EMO_T.test(s))return;const p=t.parentNode;if(!p)return;
+  if(p.closest&&p.closest('#arc,.arcKeep,.hxgoal,.mxgate,.cvseal,.flowmap,.finale,.cvkeep'))return; /* 섬 도전 놀이 · 목표 막대 등은 이모지를 그대로 써요 */
   if(p.namespaceURI==='http://www.w3.org/2000/svg'||/^(OPTION|SELECT|TEXTAREA|TITLE|SCRIPT|STYLE)$/.test(p.nodeName)){t.nodeValue=stripEmo(s)||' ';return}
   const f=document.createDocumentFragment();let last=0,m;EMO_RE.lastIndex=0;
   const alone=s.trim().match(EMO_RE);const one=alone&&alone.length===1&&alone[0]===s.trim();
@@ -4291,14 +4409,25 @@ new MutationObserver(ms=>{for(const m of ms){if(m.type==='characterData')emoText
   .observe(document.documentElement,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['title','aria-label','placeholder','alt']});
 emoFix(document.body);
 /* ===== 연결 · 시작 ===== */
-$$('[data-back]').forEach(b=>b.onclick=()=>{sfx.tap();goHub()});
+/* 놀이 중간에 나가도 점수·최고 기록·이미 받은 별은 그대로 남겨요 */
+function settleGame(){
+  if(CI<0) return; const c=chState(CI);
+  if(SCREEN==='match'&&M){renderMatchTop();if(M.score>(c.mBest||0))c.mBest=M.score}
+  else if(SCREEN==='drop'&&PD){renderDropTop();if(PD.score>(c.pBest||0))c.pBest=PD.score}
+  else if(SCREEN==='block'&&B){if(B.score>c.best)c.best=B.score}
+  else if(SCREEN==='arc'&&window.ARC_settle) ARC_settle();
+  try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
+}
+$$('[data-back]').forEach(b=>b.onclick=()=>{sfx.tap();settleGame();if(EXT){const id=EXT.id;EXT=null;cancelAnimationFrame(pdRaf);openArc(id)}else goHub()});
+window.addEventListener('pagehide',()=>settleGame());
 $('#btnQuiz').onclick=()=>{sfx.tap();quizCharge()};
 setInterval(()=>{if(SCREEN==='merge')renderMergeTop()},1000);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)save()});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)settleGame();else save()});
 function boot(){if(S.lesson&&CH[S.lesson.ci])goHub(S.lesson.ci);else{S.lesson=null;goMap();bootHash()}}
 /* 바로가기: index.html#play=merge&zone=0 → 그 구역의 놀이 화면 (학년을 고른 뒤, 수업 모드가 아닐 때만) */
 function bootHash(){const h=new URLSearchParams(location.hash.slice(1)),z=+h.get('zone'),play=h.get('play');if(!play||!CH[z])return;
-  const go={merge:openMerge,match:openMatch,drop:openDrop,block:openBlock,cave:openCave,hub:null}[play];if(go===undefined)return;
+  if(play==='cave'){caveGate();return}
+  const go={merge:openMerge,match:openMatch,drop:openDrop,block:openBlock,hub:null}[play];if(go===undefined)return;
   const c=chState(z);if(!c.intro||needGuess(z)){goHub(z);return} /* 첫 소개·첫 예상은 건너뛰지 않아요 (저장 값도 바꾸지 않음) */
   CI=z;show('hub');renderHub();if(go)go()}
 if(curGrade()) boot(); else {CI=-1;show('map');renderMap();gradeModal(true,boot)}
