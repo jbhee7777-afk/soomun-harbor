@@ -1301,22 +1301,22 @@ section#hub{position:relative;overflow:hidden;padding:0;background:#120C22}
 <div id="ghost" hidden></div>
 <div id="bghost" hidden></div>
 <script src="assets/art-manifest.js"></script>
-<script src="assets/arc-art.js?v=20261019b"></script>
-<script src="arcade.js?v=20261019b"></script>
-<script src="arcade-games.js?v=20261019b"></script>
-<script src="arcade-games-2.js?v=20261019b"></script>
-<script src="arcade-games-3.js?v=20261019b"></script>
-<script src="isle-games-a.js?v=20261019b"></script>
-<script src="isle-games-b.js?v=20261019b"></script>
-<script src="isle-games-c.js?v=20261019b"></script>
-<script src="isle-games-d.js?v=20261019b"></script>
-<script src="isle-games-e.js?v=20261019b"></script>
-<script src="isle-games-f.js?v=20261019b"></script>
-<script src="isle-games-g.js?v=20261019b"></script>
-<script src="isle-games-h.js?v=20261019b"></script>
-<script src="isle-games-i.js?v=20261019b"></script>
-<script src="isle-games-j.js?v=20261019b"></script>
-<script src="isle-games-k.js?v=20261019b"></script>
+<script src="assets/arc-art.js?v=20261019c"></script>
+<script src="arcade.js?v=20261019c"></script>
+<script src="arcade-games.js?v=20261019c"></script>
+<script src="arcade-games-2.js?v=20261019c"></script>
+<script src="arcade-games-3.js?v=20261019c"></script>
+<script src="isle-games-a.js?v=20261019c"></script>
+<script src="isle-games-b.js?v=20261019c"></script>
+<script src="isle-games-c.js?v=20261019c"></script>
+<script src="isle-games-d.js?v=20261019c"></script>
+<script src="isle-games-e.js?v=20261019c"></script>
+<script src="isle-games-f.js?v=20261019c"></script>
+<script src="isle-games-g.js?v=20261019c"></script>
+<script src="isle-games-h.js?v=20261019c"></script>
+<script src="isle-games-i.js?v=20261019c"></script>
+<script src="isle-games-j.js?v=20261019c"></script>
+<script src="isle-games-k.js?v=20261019c"></script>
 <script>
 /* ===== 범교과 10개 주제 콘텐츠 (2022 개정 교육과정 총론) ===== */
 const CH = [
@@ -4340,7 +4340,7 @@ function caveGate(){
 function openCave(from){
   if(!caveOpen()) return caveGate();
   const cv=caveState(); CAVE={from:from||1,clear:false}; coachEnd(true); sfx.boss();
-  $('#caveFrame').src='dungeon.html?v=20261019b&g='+curGrade()+'&from='+(from||1);
+  $('#caveFrame').src='dungeon.html?v=20261019c&g='+curGrade()+'&from='+(from||1);
   $('#cave').hidden=false;
 }
 function closeCave(){

@@ -131,7 +131,7 @@ const PIN_LV=[
     p:[[30,110,120,110],[30,230,120,230],[240,180,330,180],[140,320,290,365]],b:[['e',36,36,78,66,8],['g',36,150,78,72,6],['x',246,70,78,100,8]],need:{pig:'ge',trash:'x'},ratio:.85},
   {h:'빈 동전 두 무리 다 금화로! 충동구매는 마지막',bins:[[8,180,'trash'],[180,352,'pig']],w:[[120,200,120,290],[240,200,240,290],[20,40,20,130],[110,40,110,130],[20,160,128,193],[250,40,250,130],[340,40,340,130],[340,160,232,193],[140,30,140,110],[220,30,220,110],[230,380,90,425]],    p:[[20,130,110,130],[250,130,340,130],[120,290,240,290],[110,320,250,360],[140,110,220,110]],b:[['e',26,46,78,74,7],['e',256,46,78,74,7],['g',126,236,108,48,5],['x',146,36,68,64,6]],need:{pig:'ge',trash:'x'},ratio:.85},
   {h:'세 곳 모두 채워요! 길 바꾸는 핀 순서가 핵심',bins:[[8,120,'pig'],[120,240,'trash'],[240,352,'give']],w:[[20,40,20,120],[110,40,110,120],[20,150,125,185],[250,40,250,120],[340,40,340,120],[340,150,235,185],[140,30,140,100],[220,30,220,100]],    p:[[20,120,110,120],[250,120,340,120],[140,100,220,100],[110,230,255,270],[250,300,105,340]],b:[['g',26,46,78,66,8],['g',256,46,78,66,8],['x',146,36,68,56,6]],need:{pig:'g',give:'g',trash:'x'},split:[[0,'give'],[1,'pig']],ratio:.8},
-  {h:'다섯 곳! 은행·기부함·저금통 길을 차례로, 충동구매는 맨 마지막',bins:[[8,75,'give'],[75,140,'pig'],[140,220,'trash'],[220,290,'bank'],[290,352,'shop']],    w:[[20,40,20,130],[100,40,100,130],[20,150,136,186],[260,20,260,130],[340,20,340,130],[340,150,224,186],[140,20,140,130],[220,20,220,130],[290,226,290,452],[100,262,100,345]],    p:[[20,130,100,130],[260,130,340,130],[260,75,340,75],[140,70,220,70],[140,130,220,130],[126,210,272,248],[238,262,118,302],[222,328,56,380]],    b:[['e',266,26,68,44,8],['g',266,82,68,42,4],['g',26,46,68,78,8],['g',146,78,68,46,7],['x',146,26,68,40,6]],need:{pig:'g',give:'g',bank:'g',trash:'x'},split:[[[0,1],'pig'],[2,'bank'],[3,'give']],ratio:.7}];
+  {h:'다섯 곳! 은행·기부함·저금통 길을 차례로, 충동구매는 맨 마지막',bins:[[8,75,'give'],[75,140,'pig'],[140,220,'trash'],[220,290,'bank'],[290,352,'shop']],    w:[[20,40,20,130],[100,40,100,130],[20,150,136,186],[260,20,260,130],[340,20,340,130],[340,150,224,186],[140,20,140,130],[220,20,220,130],[290,226,290,452],[75,392,75,452],[92,262,92,344]],    p:[[20,130,100,130],[260,130,340,130],[260,75,340,75],[140,70,220,70],[140,130,220,130],[126,210,272,248],[238,262,118,302],[222,328,56,380]],    b:[['e',266,26,68,44,8],['g',266,82,68,42,4],['g',26,46,68,78,8],['g',146,78,68,46,7],['x',146,26,68,40,6]],need:{pig:'g',give:'g',bank:'g',trash:'x'},split:[[[0,1],'pig'],[2,'bank'],[3,'give']],ratio:.6}];
 arcDefine({id:'money_pin',ch:'money',name:'저금 핀 뽑기',tag:'핀 뽑기 순서 퍼즐',from:'풀 더 핀 (Pull the Pin)',icon:'📌',
   how:['핀을 눌러 뽑아요 · 순서가 중요해요','금화는 🐷저금통 · 💝기부함으로','충동구매 구슬은 🗑️쓰레기통으로만'],
   init(G){
@@ -145,7 +145,7 @@ arcDefine({id:'money_pin',ch:'money',name:'저금 핀 뽑기',tag:'핀 뽑기 �
     const goldN=balls.filter(b=>b.t!=='x').length,blackN=balls.filter(b=>b.t==='x').length;
     const want={};for(const k in L.need)want[k]=k==='trash'?Math.ceil(blackN*.75):0;
     if(L.split){L.split.forEach(([gi,k])=>{const gs=[].concat(gi);want[k]=Math.ceil(balls.filter(b=>gs.includes(b.grp)).length*RT)})}else for(const k in L.need)if(k!=='trash')want[k]=Math.ceil(goldN*RT);
-    let ended=false,settle=0,pulled=0,fact=G.pick(PIG_FACT);
+    let ended=false,settle=0,pulled=0,snapT=0,mv=true,fact=G.pick(PIG_FACT);
     const segs=()=>[...walls,...pins.filter(p=>!p.pull).map(p=>p.s)];
     const coll=(b,s)=>{const [x1,y1,x2,y2]=s,dx=x2-x1,dy=y2-y1,L2=dx*dx+dy*dy||1;let k=((b.x-x1)*dx+(b.y-y1)*dy)/L2;k=Math.max(0,Math.min(1,k));const px=x1+dx*k,py=y1+dy*k,ddx=b.x-px,ddy=b.y-py,d=Math.hypot(ddx,ddy);
       if(d<BR+3&&d>0){const nx=ddx/d,ny=ddy/d,pen=BR+3-d;b.x+=nx*pen;b.y+=ny*pen;const vn=b.vx*nx+b.vy*ny;if(vn<0){b.vx-=1.4*vn*nx;b.vy-=1.4*vn*ny}b.vx*=.985;b.vy*=.985}};
@@ -162,7 +162,7 @@ arcDefine({id:'money_pin',ch:'money',name:'저금 핀 뽑기',tag:'핀 뽑기 �
             if(d<BR*2&&d>0){const nx=dx/d,ny=dy/d,p=(BR*2-d)/2;a.x-=nx*p;a.y-=ny*p;b.x+=nx*p;b.y+=ny*p;const rv=(b.vx-a.vx)*nx+(b.vy-a.vy)*ny;if(rv<0){a.vx+=rv*nx*.5;a.vy+=rv*ny*.5;b.vx-=rv*nx*.5;b.vy-=rv*ny*.5}
               if(a.t==='x'&&b.t!=='x')b.t='x';else if(b.t==='x'&&a.t!=='x')a.t='x';else if(a.t==='g'&&b.t==='e')b.t='g';else if(b.t==='g'&&a.t==='e')a.t='g'}}}
         for(const p of pins){if(p.pull)p.out+=dt*500;if(p.hint)p.hint=Math.max(0,p.hint-dt)}
-        const moving=balls.some(b=>!b.in&&Math.hypot(b.vx,b.vy)>20);settle=moving?0:settle+dt;
+        snapT+=dt;if(snapT>=.25){snapT=0;mv=balls.some(b=>!b.in&&(b.sx==null||Math.hypot(b.x-b.sx,b.y-b.sy)>4));balls.forEach(b=>{b.sx=b.x;b.sy=b.y})}settle=mv?0:settle+dt;
         if(!ended&&settle>.7&&done()){ended=true;const extraOk=Object.keys(want).every(k=>count(k)>=Math.min(want[k]/RT*.95,want[k]+3));return G.win(extraOk&&pulled<=pins.filter(p=>!p.trap).length?3:2)}
         if(!ended&&settle>1.4&&pins.every(p=>p.pull||p.trap)){ended=true;return G.lose(Object.keys(want).map(k=>`${ICON[k]} ${count(k)}/${want[k]}`).join(' · ')+' — 핀 순서를 바꿔 봐요!')}
         G.setHud(Object.keys(want).map(k=>`${ICON[k]}${count(k)}/${want[k]}`).join(' '),`📌 ${pulled}개`,`${G.lv}단계`)},
@@ -186,7 +186,7 @@ arcDefine({id:'money_pin',ch:'money',name:'저금 핀 뽑기',tag:'핀 뽑기 �
           else{c.save();c.shadowColor='#FF3A5A';c.shadowBlur=6;const g=c.createRadialGradient(x-2.5,y-3,1,x,y,R2);g.addColorStop(0,'#6A5A7A');g.addColorStop(1,'#120E18');G.circle(x,y,R2,g,'#FF4A6A',1.6);c.restore();c.fillStyle='#FF6A80';c.fillRect(x-.9,y-R2*.5,1.8,R2*.6);c.fillRect(x-.9,y+R2*.25,1.8,1.8)}}
         G.rr(14,4,AW-28,22,11,'rgba(255,255,255,.7)');G.text(`💡 ${L.h}`,AW/2,15,14,'#6B3D1F','center',null)},
       tap(x,y){const d=(p)=>{const [x1,y1,x2,y2]=p.s,dx=x2-x1,dy=y2-y1,L2=dx*dx+dy*dy;let k=((x-x1)*dx+(y-y1)*dy)/L2;k=Math.max(0,Math.min(1,k));return Math.hypot(x-(x1+dx*k),y-(y1+dy*k))};
-        const cand=pins.filter(p=>!p.pull&&d(p)<18).sort((a,b)=>d(a)-d(b))[0];if(cand){cand.pull=true;pulled++;G.sfx('whoosh')}}
+        const cand=pins.filter(p=>!p.pull&&d(p)<18).sort((a,b)=>d(a)-d(b))[0];if(cand){cand.pull=true;pulled++;settle=0;mv=true;snapT=0;G.sfx('whoosh')}}
     }}});
 
 /* ---------- 독도 1: 독도 바다 낚시 — 물고기 떼가 모인 곳에 타이밍 맞춰 던지기 ---------- */
