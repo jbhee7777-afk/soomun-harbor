@@ -90,12 +90,18 @@ arcDefine({id:'multi_hexa',ch:'multi',name:'세계 시장 헥사',tag:'육각 �
       if(cleared>=goal)return G.win(cells.filter(c=>c.st.length).length<=cells.length*.4?3:cells.filter(c=>!c.st.length).length>=3?2:1);
       if(cells.every(c=>c.st.length))G.lose('판이 꽉 찼어요! 같은 색끼리 이웃하게 놓아요.')};
     const hexPath=(c,x,y,s)=>{c.beginPath();for(let i=0;i<6;i++){const a=Math.PI/3*i;c.lineTo(x+s*Math.cos(a),y+s*Math.sin(a))}c.closePath()};
-    const drawStack=(c,st,x,y,s)=>{st.forEach((col,i)=>{hexPath(c,x,y-i*3,s*.92);c.fillStyle=COL[col][0];c.fill();c.strokeStyle='rgba(0,0,0,.35)';c.lineWidth=1.5;c.stroke()});if(st.length)G.text(String(run({st})),x,y-st.length*3+1,12,'#FFF')};
+    const drawStack=(c,st,x,y,s)=>{st.forEach((col,i)=>{const yy=y-i*3.4,cc=COL[col][0];hexPath(c,x,yy+3,s*.92);c.fillStyle=mix(cc,'#000000',.38);c.fill();hexPath(c,x,yy,s*.92);const g=c.createLinearGradient(0,yy-s,0,yy+s);g.addColorStop(0,mix(cc,'#FFFFFF',.3));g.addColorStop(1,cc);c.fillStyle=g;c.fill();c.strokeStyle=mix(cc,'#000000',.45);c.lineWidth=1.2;c.stroke()});
+      if(st.length){const ty=y-(st.length-1)*3.4;hexPath(c,x,ty,s*.6);c.fillStyle='rgba(255,255,255,.22)';c.fill();G.text(String(run({st})),x,ty+1,Math.max(12,s*.5),'#FFFFFF','center','rgba(0,0,0,.55)')}};
     const OY=470;
     return {
       boostText:'새 더미로 바꾸기', boost(){offer=[mkStack(),mkStack(),mkStack()]},
       update(){G.setHud(`⬢ ${cleared}/${goal}`,`빈 칸 ${cells.filter(c=>!c.st.length).length}`,`${k}색`)},
-      draw(c){for(const cl of cells){hexPath(c,cl.x,cl.y,hs*.96);c.fillStyle='rgba(255,255,255,.1)';c.fill();c.strokeStyle='rgba(255,255,255,.25)';c.stroke();drawStack(c,cl.st,cl.x,cl.y,hs)}
+      draw(c){c.fillStyle=G.grad(0,AH,'#FFE3B0','#E59A55');c.fillRect(0,0,AW,AH);c.fillStyle='rgba(255,255,255,.12)';for(let x=0;x<AW;x+=36)c.fillRect(x,0,18,AH);
+        for(let i=0;i<10;i++){const x=i*40;c.fillStyle=i%2?'#FFFFFF':'#E8484E';c.fillRect(x,0,40,34);c.beginPath();c.arc(x+20,34,20,0,Math.PI);c.fill()}G.rr(0,0,AW,6,0,'#8A3A1A');
+        G.rr(AW/2-70,40,140,28,12,'#7A4A22','#4A2A10',3);G.text('🌏 세계 시장',AW/2,55,17,'#FFE9A8','center',null);
+        const BR=(R+.7)*hs*1.75,bp=(y)=>{c.beginPath();for(let i=0;i<6;i++){const a=Math.PI/3*i+Math.PI/6;c.lineTo(AW/2+BR*Math.cos(a),y+BR*Math.sin(a))}c.closePath()};bp(CY+8);c.fillStyle='rgba(90,50,20,.35)';c.fill();bp(CY);c.fillStyle='#B7834E';c.fill();c.strokeStyle='#6A3E1A';c.lineWidth=4;c.stroke();
+        for(const cl of cells){hexPath(c,cl.x,cl.y,hs*.94);c.fillStyle='#8E5E30';c.fill();hexPath(c,cl.x,cl.y+1.5,hs*.8);c.fillStyle='rgba(0,0,0,.12)';c.fill();drawStack(c,cl.st,cl.x,cl.y,hs)}
+        G.rr(14,OY-48,AW-28,96,18,'#8A5A2E','#5A3414',3);G.rr(22,OY-40,AW-44,10,5,'rgba(255,255,255,.18)');
         offer.forEach((st,i)=>{if(!st||(drag&&drag.i===i))return;drawStack(c,st,70+i*110,OY,26)});
         if(drag)drawStack(c,offer[drag.i],drag.x,drag.y,hs)},
       down(x,y){offer.forEach((st,i)=>{if(st&&Math.hypot(x-(70+i*110),y-OY)<40)drag={i,x,y}})},

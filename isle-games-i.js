@@ -1,44 +1,67 @@
 /* ===== 다시 만든 놀이 5: 저금 코인 푸셔(새 놀이) · 동전 합 10 · 저금 핀 뽑기 · 독도 바다 낚시 · 괭이갈매기.io · 설명 다듬기 ===== */
 
-/* ---------- 경제 1 (새 놀이): 저금 코인 푸셔 — 동전을 떨어뜨려 밀어내기 · 목표 금액 모으기 ---------- */
-const COINV=[[10,9.5,'#D99A4A','#8A5A20'],[50,10.5,'#E4E4EC','#8A8A9A'],[100,11.5,'#D8DCE4','#7A7E8A'],[500,14,'#F0F0F4','#8A8A9A']];
+/* ---------- 경제 1 (새 놀이): 저금 코인 푸셔 — 크기가 다른 동전 · 다음 동전 · ⭐동전 비 · 🌟2배 · 와르르 콤보 ---------- */
+const COINV=[[10,8.5,'#E0A050','#8A5A20'],[50,10.5,'#ECECF2','#8A8A9A'],[100,12.5,'#DDE2EA','#7A7E8A'],[500,17,'#F4F4F8','#7A7A8C']];
 const SAVE_TIP=['목표를 정하고 모으면 더 잘 모여요!','100원짜리 10개면 1,000원!','갖고 싶은 것과 필요한 것을 나눠 봐요.','조금씩이라도 꾸준히 모으는 게 저축이에요.','500원짜리 2개면 1,000원!'];
 arcDefine({id:'money_pusher',ch:'money',name:'저금 코인 푸셔',tag:'동전 떨어뜨려 밀어내기',from:'코인 푸셔 (오락실 동전 밀기)',icon:'🪙',
-  how:['위쪽을 눌러 동전을 떨어뜨려요','밀판이 동전을 밀어 저금통으로 쏙!','목표 금액을 모으면 성공'],
+  how:['위쪽을 눌러 동전을 떨어뜨려요','큰 500원은 세게 밀어요! ⭐은 동전 비','목표 금액을 모으면 성공'],
   init(G){
     const WISH=[['🎮','게임기'],['⚽','축구공'],['📚','동화책'],['🧸','곰 인형'],['🚲','자전거'],['🎨','물감 세트']],wish=G.pick(WISH);
-    const goal=Math.round((700+G.d*1200)/100)*100,hand0=20+Math.round(G.d*6),FX0=34,FX1=AW-34,FY0=130,FRONT=452,PW0=128;
-    let coins=[],hand=hand0,saved=0,lost=0,t=0,py=PW0,pv=0,drops=[],falls=[],settle=0,tip=G.pick(SAVE_TIP),tipT=0,bonus=[];
-    const mkCoin=(x,y,vi)=>{const v=COINV[vi];return {x,y,vx:0,vy:0,r:v[1],v:v[0],vi,spin:Math.random()*6}};
-    const pickV=()=>{const r=Math.random();return r<.35?0:r<.6?1:r<.9?2:3};
-    for(let row=0,y=FY0+100;y<FRONT-14;row++,y+=21)for(let x=FX0+12+(row%2)*11.5;x<FX1-10;x+=23){if(Math.random()<.08)continue;const vi=pickV();coins.push(mkCoin(x+G.rand(-1.5,1.5),y+G.rand(-1.5,1.5),vi===3&&Math.random()<.5?2:vi))}
-    for(let i=0;i<3;i++)bonus.push({x:G.rand(80,AW-80),y:G.rand(300,400),vx:0,vy:0,r:15,v:500,gift:true});
-    const pusher=()=>FY0+40+56*(.5-.5*Math.cos(t*(1.5+.3*G.d)));
+    const goal=Math.round((1100+G.d*1100)/100)*100,hand0=18+Math.round(G.d*6),FX0=34,FX1=AW-34,FY0=130,FRONT=452;
+    let coins=[],hand=hand0,saved=0,lost=0,t=0,py=FY0+40,pv=0,drops=[],falls=[],settle=0,tip=G.pick(SAVE_TIP),tipT=0,bonus=[],
+      queue=[],specT=9,dblT=0,combo=0,comboT=0,comboShow=null,pigB=0,rainShow=0;
+    const mkCoin=(x,y,vi)=>{const v=COINV[vi];return {x,y,vx:0,vy:0,r:v[1],v:v[0],vi}};
+    const pickV=()=>{const r=Math.random();return r<.36?0:r<.66?1:r<.94?2:3};
+    const nextDrop=()=>{const r=Math.random();return r<.1?{vi:2,star:1}:r<.22?{vi:0}:r<.62?{vi:2}:{vi:3}};
+    for(let i=0;i<3;i++)queue.push(nextDrop());
+    for(let y=FY0+98;y<FRONT-10;y+=23){let x=FX0+G.rand(1,7);for(;;){const vi=pickV(),r=COINV[vi][1];if(x+2*r>FX1)break;if(Math.random()>.06)coins.push(mkCoin(x+r,y+G.rand(-2,2),vi));x+=2*r+1}}
+    const gift=(x,y,k)=>({x,y,vx:0,vy:0,r:15,v:k==='🎁'?500:0,gift:true,k});
+    for(let i=0;i<3;i++)bonus.push(gift(G.rand(80,AW-80),G.rand(290,400),'🎁'));
     const all=()=>coins.concat(bonus);
+    const collide=(A,imp)=>{for(let i=0;i<A.length;i++)for(let j=i+1;j<A.length;j++){const a=A[i],b=A[j],dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy),m=a.r+b.r;
+      if(d<m&&d>0){const nx=dx/d,ny=dy/d,ma=a.r*a.r,mb=b.r*b.r,wa=mb/(ma+mb),wb=ma/(ma+mb),p=m-d;a.x-=nx*p*wa;a.y-=ny*p*wa;b.x+=nx*p*wb;b.y+=ny*p*wb;
+        if(imp){const rv=(b.vx-a.vx)*nx+(b.vy-a.vy)*ny;if(rv<0){a.vx+=rv*nx*wa;a.vy+=rv*ny*wa;b.vx-=rv*nx*wb;b.vy-=rv*ny*wb}}}}};
+    /* 시작 판을 미리 정리해서 겹치지 않게 */
+    for(let k=0;k<40;k++){const A=all();collide(A,false);for(const c of A){c.x=G.clamp(c.x,FX0+c.r,FX1-c.r);c.y=G.clamp(c.y,FY0+96,FRONT-c.r-2)}}
+    const pusher=()=>FY0+40+56*(.5-.5*Math.cos(t*(1.5+.3*G.d)));
+    const rain=()=>{rainShow=1.6;G.sfx('fanfare');for(let i=0;i<6;i++)drops.push({x:G.rand(FX0+20,FX1-20),t:-.15*i-.2,vi:pickV()})};
     return {
       boostText:'동전 5개 더', boost(){hand+=5},
-      update(dt){t+=dt;tipT=Math.max(0,tipT-dt);const ny=pusher(),dy=ny-py;pv=dy/Math.max(dt,1e-3);py=ny;if(dy>0){const A0=all(),dep=new Map(),q=[];A0.forEach(c=>{if(c.y-c.r<py+2&&c.x>FX0&&c.x<FX1){dep.set(c,0);q.push(c)}});for(let qi=0;qi<q.length;qi++){const a=q[qi],da=dep.get(a);for(const b of A0){if(dep.has(b)||b.y<a.y-2)continue;if(Math.hypot(b.x-a.x,b.y-a.y)<a.r+b.r+1.5){dep.set(b,da+1);q.push(b)}}}for(const [c,d] of dep){c.y+=dy*Math.max(.3,1-d*.06);c.x+=G.rand(-.3,.3)}}
-        for(const d of drops){d.t+=dt*3.2}const land=drops.filter(d=>d.t>=1);drops=drops.filter(d=>d.t<1);for(const d of land){const c=mkCoin(d.x,py+12,2);c.vy=60;coins.push(c);G.sfx('tap')}
-        const A=all();let moving=false;
+      update(dt){t+=dt;tipT=Math.max(0,tipT-dt);dblT=Math.max(0,dblT-dt);comboT-=dt;pigB=Math.max(0,pigB-dt*4);rainShow=Math.max(0,rainShow-dt);if(comboShow){comboShow.k-=dt;if(comboShow.k<=0)comboShow=null}
+        const ny=pusher(),dy=ny-py;pv=dy/Math.max(dt,1e-3);py=ny;
+        if(dy>0){const A0=all(),dep=new Map(),q=[];A0.forEach(c=>{if(c.y-c.r<py+2&&c.x>FX0&&c.x<FX1){dep.set(c,0);q.push(c)}});
+          for(let qi=0;qi<q.length;qi++){const a=q[qi],da=dep.get(a);for(const b of A0){if(dep.has(b)||b.y<a.y-2)continue;if(Math.hypot(b.x-a.x,b.y-a.y)<a.r+b.r+1.5){dep.set(b,da+(a.r>=16?.5:1));q.push(b)}}}
+          for(const [c,d] of dep){c.y+=dy*Math.max(.3,1-d*.06);c.x+=G.rand(-.3,.3)}}
+        for(const d of drops)d.t+=dt*3.2;const land=drops.filter(d=>d.t>=1);drops=drops.filter(d=>d.t<1);
+        for(const d of land){const c=mkCoin(d.x,py+COINV[d.vi][1]+2,d.vi);c.vy=d.vi===3?140:70;coins.push(c);G.sfx('tap');if(d.vi===3)G.shake=Math.max(G.shake,3);if(d.star)rain()}
+        specT-=dt;if(specT<=0){specT=10+G.rand(0,4);if(bonus.length<4){const k=Math.random()<.5?'🌟':'🎁';bonus.push(gift(G.rand(FX0+30,FX1-30),py+18,k));G.pop(k==='🌟'?'🌟 2배 별 등장!':'🎁 선물 등장!',AW/2,FY0+80,'#FFE27A',18)}}
+        const A=all();
         for(let it=0;it<3;it++){
           for(const c of A){if(c.y-c.r<py&&c.x>FX0&&c.x<FX1){c.y=py+c.r;if(pv>0)c.vy=Math.max(c.vy,pv)}
             if(c.y<FRONT-40){if(c.x<FX0+c.r){c.x=FX0+c.r;c.vx=Math.abs(c.vx)*.3}if(c.x>FX1-c.r){c.x=FX1-c.r;c.vx=-Math.abs(c.vx)*.3}}}
-          for(let i=0;i<A.length;i++)for(let j=i+1;j<A.length;j++){const a=A[i],b=A[j],dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy),m=a.r+b.r;
-            if(d<m&&d>0){const nx=dx/d,ny2=dy/d,p=(m-d)/2;a.x-=nx*p;a.y-=ny2*p;b.x+=nx*p;b.y+=ny2*p;const rv=(b.vx-a.vx)*nx+(b.vy-a.vy)*ny2;if(rv<0){a.vx+=rv*nx*.5;a.vy+=rv*ny2*.5;b.vx-=rv*nx*.5;b.vy-=rv*ny2*.5}}}}
-        for(const c of A){c.x+=c.vx*dt;c.y+=c.vy*dt;c.vx*=Math.pow(.12,dt);c.vy*=Math.pow(.12,dt);if(Math.hypot(c.vx,c.vy)>8)moving=true;
-          if(c.y>FRONT+c.r*.4){c.out=1;falls.push({x:c.x,y:c.y,v:c.v,vi:c.vi,gift:c.gift,t:0,side:c.x<FX0-2||c.x>FX1+2});
-            if(c.x<FX0-2||c.x>FX1+2){lost++;G.pop('옆으로 떨어졌어요',c.x<AW/2?70:AW-70,FRONT-10,'#FFB3B3',15)}else{saved+=c.v;G.sfx('coin');G.pop(`+${c.v}원`,c.x,FRONT-16,'#FFE27A',c.gift?24:18);if(c.gift){G.burst(c.x,FRONT,'#FF9FC0',20);G.sfx('star')}}}
+          collide(A,true)}
+        for(const c of A){c.x+=c.vx*dt;c.y+=c.vy*dt;c.vx*=Math.pow(.12,dt);c.vy*=Math.pow(.12,dt);
+          if(c.y>FRONT+c.r*.4){c.out=1;const side=c.x<FX0-2||c.x>FX1+2;falls.push({x:c.x,y:c.y,vi:c.vi,gift:c.gift,k:c.k,t:0});
+            if(side){lost++;G.pop('옆으로 떨어졌어요',c.x<AW/2?70:AW-70,FRONT-10,'#FFB3B3',15)}
+            else{pigB=1;combo=comboT>0?combo+1:1;comboT=.8;if(combo>=3){comboShow={n:combo,k:1};if(combo===3||combo%5===0)G.sfx('combo')}
+              if(c.k==='🌟'){dblT=8;G.sfx('unlock');G.burst(c.x,FRONT,'#FFE27A',26,220);G.pop('🌟 8초 동안 2배!',AW/2,FRONT-30,'#FFE27A',22)}
+              else{const v=c.v*(dblT?2:1);saved+=v;G.sfx('coin');G.pop(`+${v}원${dblT?' ×2':''}`,c.x,FRONT-16,dblT?'#FFB13A':'#FFE27A',c.gift||c.vi===3?24:18);if(c.gift){G.burst(c.x,FRONT,'#FF9FC0',20);G.sfx('star')}}}}
           else if((c.x<FX0-4||c.x>FX1+4)&&c.y>FRONT-40){c.out=1;lost++}}
         coins=coins.filter(c=>!c.out);bonus=bonus.filter(c=>!c.out);for(const f of falls)f.t+=dt*2.5;falls=falls.filter(f=>f.t<1);
         if(saved>=goal&&!G.over){G.burst(AW/2,500,'#FFE27A',40);return G.win(hand>=hand0*.4?3:hand>=hand0*.15?2:1)}
         settle=(!hand&&!drops.length)?settle+dt:0;if(settle>5&&!G.over)return G.lose(`${saved.toLocaleString()}원 모았어요. 목표 ${goal.toLocaleString()}원까지 조금 더!`);
-        G.setHud(`🪙 손에 ${hand}개`,`🐷 ${saved.toLocaleString()}/${goal.toLocaleString()}원`,`${wish[0]} ${wish[1]}`)},
+        G.setHud(`🪙 손에 ${hand}개`,`🐷 ${saved.toLocaleString()}/${goal.toLocaleString()}원`,dblT?`🌟 2배 ${Math.ceil(dblT)}초`:`${wish[0]} ${wish[1]}`)},
       draw(c){c.fillStyle=G.grad(0,AH,'#3A1A5A','#140A24');c.fillRect(0,0,AW,AH);
-        for(let i=0;i<14;i++){const on=Math.floor(G.t*4+i)%3===0;G.circle(14+i*25.5,16,5,on?'#FFE27A':'#6A4A2A');G.circle(14+i*25.5,AH-10,5,on?'#FF9FC0':'#6A4A2A')}
+        const hot=dblT>0||comboShow;for(let i=0;i<14;i++){const on=Math.floor(G.t*(hot?12:4)+i)%3===0;G.circle(14+i*25.5,16,5,on?(dblT?'#FFB13A':'#FFE27A'):'#6A4A2A');G.circle(14+i*25.5,AH-10,5,on?'#FF9FC0':'#6A4A2A')}
         G.rr(12,26,AW-24,62,16,'#FFF8E6','#D9A441',4);G.emo(wish[0],46,57,40);G.text(`${wish[1]} 사기`,AW/2+18,44,18,'#4A240E','center',null);
         G.rr(78,60,AW-104,16,8,'#E8D8B8');G.rr(78,60,(AW-104)*Math.min(1,saved/goal),16,8,'#FFC83A');G.text(`${saved.toLocaleString()} / ${goal.toLocaleString()}원`,AW/2+26,68,13,'#4A240E','center',null);
+        const coin=(x,y,vi,s=1,star)=>{const v=COINV[vi],r=v[1]*s;G.circle(x,y+r*.18,r,v[3]);const cg=c.createRadialGradient(x-r*.35,y-r*.4,1,x,y,r);cg.addColorStop(0,'#FFFFFF');cg.addColorStop(.5,star?'#FFE27A':v[2]);cg.addColorStop(1,star?'#C98A00':v[3]);
+          G.circle(x,y,r,cg,star?'#8A5A00':v[3],1.5);G.circle(x,y,r*.74,null,'rgba(0,0,0,.18)',1);if(star)G.emo('⭐',x,y,r*1.2);else G.text(String(v[0]),x,y+.5,v[0]>=100?r*.72:r*.85,'#4A3420','center',null)};
+        /* 다음 동전 */
+        G.text('다음',30,111,13,'#FFE9A8');queue.forEach((q,i)=>{coin(62+i*40,110,q.vi,i?.8:1,q.star)});
+        if(dblT)G.text(`🌟 2배 타임 ${Math.ceil(dblT)}초`,AW-80,111,15,'#FFB13A','center','#1A1030');
         /* 판 */
-        G.rr(FX0-14,FY0-10,FX1-FX0+28,FRONT-FY0+18,14,'#1E2E4A','#8AA0D0',3);c.fillStyle=G.grad(FY0,FRONT,'#2E4A7A','#3E6AA8');c.fillRect(FX0,FY0,FX1-FX0,FRONT-FY0);
+        G.rr(FX0-14,FY0-10,FX1-FX0+28,FRONT-FY0+18,14,'#1E2E4A',dblT?'#FFB13A':'#8AA0D0',3);c.fillStyle=G.grad(FY0,FRONT,'#2E4A7A','#3E6AA8');c.fillRect(FX0,FY0,FX1-FX0,FRONT-FY0);
         c.strokeStyle='rgba(255,255,255,.07)';c.lineWidth=1;for(let y=FY0;y<FRONT;y+=24){c.beginPath();c.moveTo(FX0,y);c.lineTo(FX1,y);c.stroke()}
         G.rr(FX0-8,FY0,8,FRONT-40-FY0,3,'#C8D4F0');G.rr(FX1,FY0,8,FRONT-40-FY0,3,'#C8D4F0');
         G.text('🕳️',FX0-6,FRONT-14,16,'#FFF','center',null);G.text('🕳️',FX1+6,FRONT-14,16,'#FFF','center',null);
@@ -46,17 +69,18 @@ arcDefine({id:'money_pusher',ch:'money',name:'저금 코인 푸셔',tag:'동전 
         const g=c.createLinearGradient(0,FY0,0,py);g.addColorStop(0,'#8A9AC0');g.addColorStop(1,'#E8EEFF');c.fillStyle=g;c.fillRect(FX0,FY0-6,FX1-FX0,py-FY0+6);
         for(let x=FX0+10;x<FX1-16;x+=28)G.rr(x,py-14,16,6,3,'#FFC83A');G.rr(FX0,py-3,FX1-FX0,5,2,'#5A6A90');
         for(const k of all()){c.fillStyle='rgba(0,0,0,.3)';c.beginPath();c.ellipse(k.x+2,k.y+3,k.r,k.r*.8,0,0,6.29);c.fill();
-          if(k.gift){G.emo('🎁',k.x,k.y,30);continue}const v=COINV[k.vi],cg=c.createRadialGradient(k.x-k.r*.35,k.y-k.r*.4,1,k.x,k.y,k.r);cg.addColorStop(0,'#FFFFFF');cg.addColorStop(.5,v[2]);cg.addColorStop(1,v[3]);
-          G.circle(k.x,k.y,k.r,cg,v[3],1.5);G.circle(k.x,k.y,k.r*.72,null,'rgba(0,0,0,.18)',1);G.text(String(k.v),k.x,k.y+.5,k.v>=100?k.r*.75:k.r*.85,'#4A3420','center',null)}
+          if(k.gift){if(k.k==='🌟'){G.circle(k.x,k.y,k.r+3+Math.sin(G.t*6)*2,'rgba(255,226,122,.35)')}G.emo(k.k,k.x,k.y,30);continue}coin(k.x,k.y,k.vi)}
         /* 앞 가장자리 · 저금통 */
-        c.save();c.shadowColor='#FFE27A';c.shadowBlur=12;G.rr(FX0,FRONT,FX1-FX0,5,2,'#FFE27A');c.restore();
-        for(const f of falls){const y=f.y+f.t*60,a=1-f.t;if(f.gift)G.emo('🎁',f.x,y,26,a);else G.circle(f.x,y,COINV[f.vi][1]*(1-f.t*.4),COINV[f.vi][2])}
-        G.emo('🐷',AW/2,505,58);
-        for(const d of drops){const y=G.lerp(FY0-60,py+12,d.t),s=1.6-d.t*.6;c.fillStyle='rgba(0,0,0,.25)';c.beginPath();c.ellipse(d.x,py+12,11*d.t,8*d.t,0,0,6.29);c.fill();G.circle(d.x,y,11.5*s,'#D8DCE4','#7A7E8A',2);G.text('100',d.x,y,9*s,'#4A3420','center',null)}
+        c.save();c.shadowColor='#FFE27A';c.shadowBlur=12;G.rr(FX0,FRONT,FX1-FX0,5,2,dblT?'#FFB13A':'#FFE27A');c.restore();
+        for(const f of falls){const y=f.y+f.t*60,a=1-f.t;if(f.gift)G.emo(f.k,f.x,y,26,a);else{c.globalAlpha=a;coin(f.x,y,f.vi,1-f.t*.4);c.globalAlpha=1}}
+        G.emo('🐷',AW/2,505-pigB*6,58*(1+pigB*.12));
+        for(const d of drops){if(d.t<0)continue;const r=COINV[d.vi][1],y=G.lerp(FY0-60,py+r+2,d.t),s=1.6-d.t*.6;c.fillStyle='rgba(0,0,0,.25)';c.beginPath();c.ellipse(d.x,py+r+2,r*d.t,r*.7*d.t,0,0,6.29);c.fill();coin(d.x,y,d.vi,s,d.star)}
         if(hand&&!drops.length&&G.t<4)G.text('👆 위쪽을 눌러 동전 떨어뜨리기',AW/2,FY0+70,18,'#FFFFFF','center','#1A1030');
+        if(rainShow){c.globalAlpha=Math.min(1,rainShow*2);G.text('⭐ 동전 비! ⭐',AW/2,FY0+60,30,'#FFE27A','center','#5A1A0A');c.globalAlpha=1}
+        if(comboShow){const s=1+Math.max(0,comboShow.k-.75)*1.5;c.save();c.globalAlpha=Math.min(1,comboShow.k*2);c.translate(AW/2,FRONT-60);c.scale(s,s);G.text(`와르르! ${comboShow.n}개`,0,0,24+Math.min(comboShow.n,10),'#FFE27A','center','#5A1A0A');c.restore()}
         if(tipT)G.text(`💡 ${tip}`,AW/2,AH-40,15,'#FFE9A8','center','#1A1030')},
-      tap(x,y){if(y>FY0+120)return;if(hand<=0){G.sfx('no');G.pop('동전을 다 썼어요',AW/2,FY0+40,'#FFB3B3',18);return}if(drops.length>=2)return;
-        hand--;drops.push({x:G.clamp(x,FX0+16,FX1-16),t:0});G.sfx('whoosh');if(hand%6===0){tip=G.pick(SAVE_TIP);tipT=3}}
+      tap(x,y){if(y>FY0+120)return;if(hand<=0){G.sfx('no');G.pop('동전을 다 썼어요',AW/2,FY0+40,'#FFB3B3',18);return}if(drops.filter(d=>d.t>=0).length>=2)return;
+        hand--;const q=queue.shift();queue.push(nextDrop());drops.push({x:G.clamp(x,FX0+18,FX1-18),t:0,vi:q.vi,star:q.star});G.sfx('whoosh');if(hand%6===0){tip=G.pick(SAVE_TIP);tipT=3}}
     }}});
 
 /* ---------- 경제 2: 동전 합 10 — 저학년은 짝꿍 동전이 붙어 있고, 짝꿍 힌트 · 판이 막히면 새 동전 ---------- */
@@ -106,11 +130,12 @@ const PIN_LV=[
   {h:'빈 동전 → 금화 → 저금통, 충동구매는 쓰레기통',bins:[[8,180,'trash'],[180,352,'pig']],w:[[30,30,30,110],[120,30,120,110],[30,140,30,230],[120,140,120,230],[240,60,240,180],[330,60,330,180],[30,260,150,300],[330,250,210,300],[240,385,80,430]],
     p:[[30,110,120,110],[30,230,120,230],[240,180,330,180],[140,320,290,365]],b:[['e',36,36,78,66,8],['g',36,150,78,72,6],['x',246,70,78,100,8]],need:{pig:'ge',trash:'x'},ratio:.85},
   {h:'빈 동전 두 무리 다 금화로! 충동구매는 마지막',bins:[[8,180,'trash'],[180,352,'pig']],w:[[120,200,120,290],[240,200,240,290],[20,40,20,130],[110,40,110,130],[20,160,128,193],[250,40,250,130],[340,40,340,130],[340,160,232,193],[140,30,140,110],[220,30,220,110],[230,380,90,425]],    p:[[20,130,110,130],[250,130,340,130],[120,290,240,290],[110,320,250,360],[140,110,220,110]],b:[['e',26,46,78,74,7],['e',256,46,78,74,7],['g',126,236,108,48,5],['x',146,36,68,64,6]],need:{pig:'ge',trash:'x'},ratio:.85},
-  {h:'세 곳 모두 채워요! 길 바꾸는 핀 순서가 핵심',bins:[[8,120,'pig'],[120,240,'trash'],[240,352,'give']],w:[[20,40,20,120],[110,40,110,120],[20,150,125,185],[250,40,250,120],[340,40,340,120],[340,150,235,185],[140,30,140,100],[220,30,220,100]],    p:[[20,120,110,120],[250,120,340,120],[140,100,220,100],[110,230,255,270],[250,300,105,340]],b:[['g',26,46,78,66,8],['g',256,46,78,66,8],['x',146,36,68,56,6]],need:{pig:'g',give:'g',trash:'x'},split:[[0,'give'],[1,'pig']],ratio:.8}];
+  {h:'세 곳 모두 채워요! 길 바꾸는 핀 순서가 핵심',bins:[[8,120,'pig'],[120,240,'trash'],[240,352,'give']],w:[[20,40,20,120],[110,40,110,120],[20,150,125,185],[250,40,250,120],[340,40,340,120],[340,150,235,185],[140,30,140,100],[220,30,220,100]],    p:[[20,120,110,120],[250,120,340,120],[140,100,220,100],[110,230,255,270],[250,300,105,340]],b:[['g',26,46,78,66,8],['g',256,46,78,66,8],['x',146,36,68,56,6]],need:{pig:'g',give:'g',trash:'x'},split:[[0,'give'],[1,'pig']],ratio:.8},
+  {h:'다섯 곳! 은행·기부함·저금통 길을 차례로, 충동구매는 맨 마지막',bins:[[8,75,'give'],[75,140,'pig'],[140,220,'trash'],[220,290,'bank'],[290,352,'shop']],    w:[[20,40,20,130],[100,40,100,130],[20,150,136,186],[260,20,260,130],[340,20,340,130],[340,150,224,186],[140,20,140,130],[220,20,220,130],[290,226,290,452],[100,262,100,345]],    p:[[20,130,100,130],[260,130,340,130],[260,75,340,75],[140,70,220,70],[140,130,220,130],[126,210,272,248],[238,262,118,302],[222,328,56,380]],    b:[['e',266,26,68,44,8],['g',266,82,68,42,4],['g',26,46,68,78,8],['g',146,78,68,46,7],['x',146,26,68,40,6]],need:{pig:'g',give:'g',bank:'g',trash:'x'},split:[[[0,1],'pig'],[2,'bank'],[3,'give']],ratio:.7}];
 arcDefine({id:'money_pin',ch:'money',name:'저금 핀 뽑기',tag:'핀 뽑기 순서 퍼즐',from:'풀 더 핀 (Pull the Pin)',icon:'📌',
   how:['핀을 눌러 뽑아요 · 순서가 중요해요','금화는 🐷저금통 · 💝기부함으로','충동구매 구슬은 🗑️쓰레기통으로만'],
   init(G){
-    const ORDER=[[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[4,1],[5,1],[6,1]],li=ORDER[(G.lv-1)%10][0],mir=!!ORDER[(G.lv-1)%10][1],L=PIN_LV[li],RT=L.ratio||.75,M=v=>mir?AW-v:v,BR=7;
+    const ORDER=[[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[6,1],[7,0],[7,1]],li=ORDER[(G.lv-1)%10][0],mir=!!ORDER[(G.lv-1)%10][1],L=PIN_LV[li],RT=L.ratio||.75,M=v=>mir?AW-v:v,BR=7;
     const seg=s=>mir?[M(s[0]),s[1],M(s[2]),s[3]]:s.slice();
     let walls=[[8,0,8,560],[352,0,352,560],...L.w.map(seg)],bins=L.bins.map(([a,b,k])=>mir?[AW-b,AW-a,k]:[a,b,k]).sort((p,q)=>p[0]-q[0]);
     bins.slice(1).forEach(b=>walls.push([b[0],452,b[0],560]));
@@ -119,13 +144,13 @@ arcDefine({id:'money_pin',ch:'money',name:'저금 핀 뽑기',tag:'핀 뽑기 �
     const binOf=x=>bins.find(b=>x>=b[0]&&x<b[1]);
     const goldN=balls.filter(b=>b.t!=='x').length,blackN=balls.filter(b=>b.t==='x').length;
     const want={};for(const k in L.need)want[k]=k==='trash'?Math.ceil(blackN*.75):0;
-    if(L.split){L.split.forEach(([gi,k])=>{want[k]=Math.ceil(balls.filter(b=>b.grp===gi).length*RT)})}else for(const k in L.need)if(k!=='trash')want[k]=Math.ceil(goldN*RT);
+    if(L.split){L.split.forEach(([gi,k])=>{const gs=[].concat(gi);want[k]=Math.ceil(balls.filter(b=>gs.includes(b.grp)).length*RT)})}else for(const k in L.need)if(k!=='trash')want[k]=Math.ceil(goldN*RT);
     let ended=false,settle=0,pulled=0,fact=G.pick(PIG_FACT);
     const segs=()=>[...walls,...pins.filter(p=>!p.pull).map(p=>p.s)];
     const coll=(b,s)=>{const [x1,y1,x2,y2]=s,dx=x2-x1,dy=y2-y1,L2=dx*dx+dy*dy||1;let k=((b.x-x1)*dx+(b.y-y1)*dy)/L2;k=Math.max(0,Math.min(1,k));const px=x1+dx*k,py=y1+dy*k,ddx=b.x-px,ddy=b.y-py,d=Math.hypot(ddx,ddy);
       if(d<BR+3&&d>0){const nx=ddx/d,ny=ddy/d,pen=BR+3-d;b.x+=nx*pen;b.y+=ny*pen;const vn=b.vx*nx+b.vy*ny;if(vn<0){b.vx-=1.4*vn*nx;b.vy-=1.4*vn*ny}b.vx*=.985;b.vy*=.985}};
     const count=k=>balls.filter(b=>b.in===k&&(k==='trash'?b.t==='x':b.t==='g')).length;
-    const ICON={pig:'🐷',trash:'🗑️',give:'💝'},NAME={pig:'저금통',trash:'쓰레기통',give:'기부함'};
+    const ICON={pig:'🐷',trash:'🗑️',give:'💝',bank:'🏦',shop:'🛍️'},NAME={pig:'저금통',trash:'쓰레기통',give:'기부함',bank:'은행',shop:'가게'};
     const done=()=>Object.keys(want).every(k=>count(k)>=want[k]);
     return {
       boostText:'힌트 보기', boost(){const p=pins.find(p=>!p.pull&&!p.trap);if(p){p.hint=4}G.pop(L.h,AW/2,40,'#FFE27A',16)},
@@ -146,9 +171,9 @@ arcDefine({id:'money_pin',ch:'money',name:'저금 핀 뽑기',tag:'핀 뽑기 �
         /* 나무 벽: 그림자 · 몸통 · 밝은 결 */
         c.lineCap='round';for(const [w,col,dy] of [[12,'rgba(60,30,10,.25)',3],[10,'#6B3F1C',0],[7,'#B07A44',0],[2.5,'#E2B07A',-2]])for(const s2 of walls){c.strokeStyle=col;c.lineWidth=w;c.beginPath();c.moveTo(s2[0],s2[1]+dy);c.lineTo(s2[2],s2[3]+dy);c.stroke()}
         /* 받는 곳: 저금통 · 쓰레기통 · 기부함 */
-        for(const b of bins){const k=b[2],x=b[0]+4,w=b[1]-b[0]-8,top={pig:'#FFC4D6',trash:'#C8D0D8',give:'#FFD6E6'}[k],bot={pig:'#F28AAE',trash:'#8E99A6',give:'#E88AB0'}[k],g=c.createLinearGradient(0,474,0,534);g.addColorStop(0,top);g.addColorStop(1,bot);
+        for(const b of bins){const k=b[2],x=b[0]+4,w=b[1]-b[0]-8,top={pig:'#FFC4D6',trash:'#C8D0D8',give:'#FFD6E6',bank:'#C8E8FF',shop:'#FFE0B0'}[k],bot={pig:'#F28AAE',trash:'#8E99A6',give:'#E88AB0',bank:'#6AA8E0',shop:'#E0A050'}[k],g=c.createLinearGradient(0,474,0,534);g.addColorStop(0,top);g.addColorStop(1,bot);
           G.rr(x,478,w,58,14,'rgba(60,30,10,.25)');G.rr(x,474,w,58,14,g,'#6B3D1F',2.5);G.rr(x+8,478,w-16,7,4,'rgba(255,255,255,.55)');G.emo(ICON[k],x+w/2,496,30);
-          const done=want[k]!=null&&count(k)>=want[k];G.text(`${NAME[k]}${want[k]!=null?` ${count(k)}/${want[k]}`:''}${done?' ✔':''}`,x+w/2,522,14,done?'#1F6B3A':'#3A240E','center',null)}
+          const done=want[k]!=null&&count(k)>=want[k];G.text(`${NAME[k]}${want[k]!=null?` ${count(k)}/${want[k]}`:''}${done?' ✔':''}`,x+w/2,522,bins.length>3?11:14,done?'#1F6B3A':'#3A240E','center',null)}
         /* 핀: 은색 막대 + 금색 고리 손잡이 */
         for(const p of pins){const [x1,y1,x2,y2]=p.s,L2=Math.hypot(x2-x1,y2-y1)||1,ux=(x2-x1)/L2,uy=(y2-y1)/L2,o=p.out;c.save();c.translate(ux*o,uy*o);
           for(const [w,col,dy] of [[10,'rgba(40,40,60,.25)',3],[8,'#7A8296',0],[6,'#C9CFDD',0],[2,'#FFFFFF',-1.5]]){c.strokeStyle=col;c.lineWidth=w;c.beginPath();c.moveTo(x1,y1+dy);c.lineTo(x2,y2+dy);c.stroke()}

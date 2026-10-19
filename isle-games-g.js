@@ -71,37 +71,43 @@ arcDefine({id:'character_crowd',ch:'character',name:'친구 모으기 런',tag:'
         else if(phase==='lose'){bt+=dt;if(bt>1.3)G.lose(`친구가 ${bossHP-n}명 모자랐어요. 착한 행동 문을 골라요!`)}
         G.setHud(`🧑‍🤝‍🧑 ${n}명`,`🚪 ${pairs-ev.filter(e=>e.type==='gate').length}/${pairs}`,`😢 거인 ${bossHP}`)},
       draw(c){
-        /* 하늘 · 해 · 구름 · 언덕 */
-        c.fillStyle=G.grad(0,HOR,'#5DB8FF','#FFE7BE');c.fillRect(0,0,AW,HOR+2);
-        G.circle(292,58,30,'rgba(255,240,170,.45)');G.circle(292,58,22,'#FFF4B8');
-        for(let i=0;i<3;i++){const x=((i*150+G.t*8)%520)-80,y=40+i*26;c.fillStyle='rgba(255,255,255,.9)';c.beginPath();c.ellipse(x,y,34,12,0,0,6.29);c.ellipse(x+22,y-8,22,13,0,0,6.29);c.ellipse(x-20,y-4,18,10,0,0,6.29);c.fill()}
-        c.fillStyle='#8FCB7A';c.beginPath();c.moveTo(0,HOR);for(let x=0;x<=AW;x+=20)c.lineTo(x,HOR-14-Math.sin(x*.03+1)*10-Math.sin(x*.011)*8);c.lineTo(AW,HOR);c.fill();
-        c.fillStyle=G.grad(HOR,AH,'#86D06E','#3F8F45');c.fillRect(0,HOR,AW,AH-HOR);
-        /* 달리는 길: 타일 띠 + 빨강·하양 연석 */
+        /* 하늘 · 해 · 구름 · 먼 산 · 호수 */
+        c.fillStyle=G.grad(0,HOR,'#4FB0FF','#FFE9C8');c.fillRect(0,0,AW,HOR+2);
+        G.circle(292,58,40,'rgba(255,240,170,.3)');G.circle(292,58,26,'#FFF6C8');
+        for(let i=0;i<3;i++){const x=((i*150+G.t*8)%520)-80,y=36+i*24;c.fillStyle='rgba(255,255,255,.92)';for(const [dx,dy,rx,ry] of [[0,0,34,12],[20,-8,22,14],[-18,-5,18,11],[36,-1,16,9]]){c.beginPath();c.ellipse(x+dx,y+dy,rx,ry,0,0,6.29);c.fill()}}
+        c.fillStyle='#9CC8E8';c.beginPath();c.moveTo(0,HOR);for(let x=0;x<=AW;x+=12)c.lineTo(x,HOR-34-Math.sin(x*.021+2)*18-Math.sin(x*.05)*6);c.lineTo(AW,HOR);c.fill();
+        c.fillStyle='#7EBF6A';c.beginPath();c.moveTo(0,HOR);for(let x=0;x<=AW;x+=12)c.lineTo(x,HOR-12-Math.sin(x*.03+1)*9-Math.sin(x*.011)*7);c.lineTo(AW,HOR);c.fill();
+        c.fillStyle=G.grad(HOR,AH,'#7ED46A','#3E9A48');c.fillRect(0,HOR,AW,AH-HOR);
+        /* 달리는 길: 잔디 줄무늬 · 떠 있는 길 · 하양 점선 */
         const BAND=70,zMax=2800;let z=zMax-((zMax+dist)%BAND);
         for(;z>-300;z-=BAND){const a=P(z),b=P(z-BAND),k=Math.floor((z+dist)/BAND);
-          const quad=(w0,w1,col)=>{c.fillStyle=col;c.beginPath();c.moveTo(X(w0,a.s),a.y);c.lineTo(X(w1,a.s),a.y);c.lineTo(X(w1,b.s),b.y);c.lineTo(X(w0,b.s),b.y);c.closePath();c.fill()};
-          quad(-RW,RW,k%2?'#8EC2FF':'#A9D2FF');quad(-RW,-RW*.02,k%2?'rgba(255,255,255,.05)':'rgba(255,255,255,0)');
-          quad(-RW-18,-RW,k%2?'#FF5A6A':'#FFFFFF');quad(RW,RW+18,k%2?'#FF5A6A':'#FFFFFF');
-          quad(-RW-26,-RW-18,'#2F6FB8');quad(RW+18,RW+26,'#2F6FB8')}
-        c.fillStyle=G.grad(HOR-2,HOR+40,'rgba(255,240,215,.9)','rgba(255,240,215,0)');c.fillRect(0,HOR-2,AW,42);
-        /* 길가 나무 */
+          const quad=(w0,w1,col,da=0,db=0)=>{c.fillStyle=col;c.beginPath();c.moveTo(X(w0,a.s),a.y+da*a.s);c.lineTo(X(w1,a.s),a.y+da*a.s);c.lineTo(X(w1,b.s),b.y+db*b.s);c.lineTo(X(w0,b.s),b.y+db*b.s);c.closePath();c.fill()};
+          if(k%2)quad(-900,900,'rgba(255,255,255,.07)');
+          quad(-RW-14,-RW-6,'#2A5FA8',0,0);quad(RW+6,RW+14,'#2A5FA8',0,0);quad(-RW-14,RW+14,'#244E8C',8,8);
+          quad(-RW,RW,k%2?'#79B2FF':'#8DC0FF');
+          quad(-RW-10,-RW,k%2?'#FFD24A':'#FFFFFF');quad(RW,RW+10,k%2?'#FFD24A':'#FFFFFF');
+          if(k%2)quad(-3,3,'rgba(255,255,255,.7)')}
+        c.fillStyle=G.grad(HOR-2,HOR+46,'rgba(255,240,215,.85)','rgba(255,240,215,0)');c.fillRect(0,HOR-2,AW,48);
+        /* 길가 나무 · 꽃 */
         const trees=[];for(let i=0;i<14;i++){const zz=((i*200-dist)%2800+2800)%2800-150;for(const sd of [-1,1])trees.push({z:zz,x:sd*(RW+70+(i%3)*40),e:i%4?'🌳':'🌷'})}
         trees.sort((a,b)=>b.z-a.z).forEach(t=>{const p=P(t.z);if(p.y>AH+40)return;G.emo(t.e,X(t.x,p.s),p.y-30*p.s,(t.e==='🌳'?80:40)*p.s)});
-        /* 문 · 통나무 (먼 것부터) */
-        [...ev].sort((a,b)=>b.z-a.z).forEach(e=>{if(e.z>2500||e.z<-120)return;const p=P(e.z),s=p.s;
+        /* 문 · 통나무 (먼 것부터, 멀면 흐리게) */
+        [...ev].sort((a,b)=>b.z-a.z).forEach(e=>{if(e.z>1500||e.z<-120)return;const p=P(e.z),s=p.s,fa=G.clamp((1500-e.z)/400,0,1);c.globalAlpha=fa;
           if(e.type==='log'){/* 짧은 통나무: 그림자 · 나무껍질 · 나이테 (굴러가며 나이테가 돌아요) */
             const x=X(e.x,s),y=p.y-13*s,L=LOGW*s,r=12*s;c.fillStyle='rgba(0,30,70,.28)';c.beginPath();c.ellipse(x,p.y,L+r,6*s,0,0,6.29);c.fill();
             const g=c.createLinearGradient(0,y-r,0,y+r);g.addColorStop(0,'#C48A52');g.addColorStop(.45,'#8A5A30');g.addColorStop(1,'#4E2C14');G.rr(x-L,y-r,2*L,2*r,3*s,g);
             c.strokeStyle='rgba(60,32,12,.55)';c.lineWidth=Math.max(1,1.6*s);for(const k of [-.45,0,.45]){c.beginPath();c.moveTo(x-L+2*s,y+k*r);c.bezierCurveTo(x-L*.3,y+k*r-2*s,x+L*.3,y+k*r+2*s,x+L-2*s,y+k*r);c.stroke()}
             for(const sd of [-1,1]){const cx2=x+sd*L;G.circle(cx2,y,r,'#E8C08A','#6B3D1F',Math.max(1,2*s));c.strokeStyle='rgba(140,90,40,.8)';c.lineWidth=Math.max(.8,1.2*s);
-              for(const rr of [.65,.35]){c.beginPath();c.arc(cx2,y,r*rr,e.rot*sd,e.rot*sd+5);c.stroke()}G.circle(cx2,y,1.6*s,'#8A5A30')}return}
-          const H=130*s;e.sides.forEach((sd,i)=>{const w0=i?6:-RW+4,w1=i?RW-4:-6,x0=X(w0,s),x1=X(w1,s),w=x1-x0,top=p.y-H;
-            const g=c.createLinearGradient(0,top,0,p.y);g.addColorStop(0,'rgba(120,200,255,.78)');g.addColorStop(1,'rgba(60,120,230,.62)');
-            G.rr(x0,top,w,H,10*s,g,'#FFFFFF',Math.max(1.5,4*s));G.rr(x0+6*s,top+6*s,w-12*s,10*s,5*s,'rgba(255,255,255,.45)');
-            const fs=Math.max(9,21*s),L=wrapText(c,sd.txt,w-14*s,fs).slice(0,2);L.forEach((t,j)=>G.text(t,x0+w/2,top+H*.42+(j-(L.length-1)/2)*fs*1.15,fs,'#FFFFFF','center','#173A6A'));
-            G.text('친구 ?',x0+w/2,top+H*.82,Math.max(8,16*s),'#FFE27A','center','#173A6A')});
-          G.rr(X(-RW-8,s),p.y-H-12*s,(2*RW+16)*s,14*s,6*s,'#FFD24A','#8A5410',Math.max(1,2*s))});
+              for(const rr of [.65,.35]){c.beginPath();c.arc(cx2,y,r*rr,e.rot*sd,e.rot*sd+5);c.stroke()}G.circle(cx2,y,1.6*s,'#8A5A30')}c.globalAlpha=1;return}
+          const H=134*s,top=p.y-H;
+          e.sides.forEach((sd,i)=>{const w0=i?5:-RW+3,w1=i?RW-3:-5,x0=X(w0,s),x1=X(w1,s),w=x1-x0;
+            const g=c.createLinearGradient(0,top,0,p.y);g.addColorStop(0,'rgba(140,220,255,.82)');g.addColorStop(1,'rgba(70,140,240,.6)');
+            G.rr(x0,top,w,H,12*s,g,'#FFFFFF',Math.max(1.5,4*s));G.rr(x0+6*s,top+6*s,w-12*s,12*s,6*s,'rgba(255,255,255,.5)');
+            c.fillStyle='rgba(255,255,255,.18)';c.beginPath();c.moveTo(x0+w*.15,p.y);c.lineTo(x0+w*.4,top);c.lineTo(x0+w*.55,top);c.lineTo(x0+w*.3,p.y);c.fill();
+            const fs=Math.max(9,22*s),L=wrapText(c,sd.txt,w-16*s,fs).slice(0,2);L.forEach((t,j)=>G.text(t,x0+w/2,top+H*.42+(j-(L.length-1)/2)*fs*1.15,fs,'#FFFFFF','center','#173A6A'));
+            G.rr(x0+w/2-34*s,top+H*.74,68*s,24*s,12*s,'rgba(23,58,106,.7)');G.text('친구 ?',x0+w/2,top+H*.74+12*s,Math.max(8,15*s),'#FFE27A','center',null)});
+          for(const wx of [-RW-8,RW+8]){const x=X(wx,s);G.rr(x-6*s,top-14*s,12*s,H+14*s,5*s,G.grad(top,p.y,'#FFFFFF','#C9D6E8'),'#5A6A8A',Math.max(1,1.5*s));G.circle(x,top-16*s,9*s,'#FFD24A','#8A5410',Math.max(1,2*s))}
+          G.rr(X(-RW-8,s),top-20*s,(2*RW+16)*s,14*s,7*s,G.grad(top-20*s,top-6*s,'#FFE27A','#F0A81A'),'#8A5410',Math.max(1,2*s));c.globalAlpha=1});
         /* 거인 */
         if(phase!=='run'){const bz=phase==='boss'?Math.max(170,900-bt/1.3*730):170,p=P(bz);
           if(phase!=='win')giant(AW/2,p.y,p.s*.95,phase!=='win'&&!(clash===2&&n>=bossHP));
@@ -109,8 +115,8 @@ arcDefine({id:'character_crowd',ch:'character',name:'친구 모으기 런',tag:'
         /* 친구 무리 */
         if(phase!=='win'){const N=Math.ceil(clash===1?shownN:n),R=Math.min(72,12+Math.sqrt(Math.max(1,N))*6),show=Math.min(N,80),pts=[],cy=PY-(clash?Math.min(1,bt)*40:0);
           for(let i=0;i<show;i++){const a=i*2.399,r=Math.sqrt(i/show)*R;pts.push({i,x:cx+Math.cos(a)*r,y:cy+Math.sin(a)*r*.55})}pts.sort((p,q)=>p.y-q.y);
-          c.fillStyle='rgba(0,40,90,.25)';c.beginPath();c.ellipse(cx,cy+8,R+10,R*.5+8,0,0,6.29);c.fill();
-          const kid=arcSprite('run_g');for(const p of pts){const bob=Math.abs(Math.sin(G.t*12+p.i))*3;if(kid)G.emo(['run_g','run_k','run_b1','run_b2'][p.i%4],p.x,p.y-6-bob,show>45?18:show>15?24:30);else{G.circle(p.x,p.y+4,6,'#3C6FD1');G.circle(p.x,p.y-4,5,'#FFD9B8','#8A552B',1)}}
+          c.fillStyle='rgba(0,40,90,.16)';c.beginPath();c.ellipse(cx,cy+8,R+6,R*.45+6,0,0,6.29);c.fill();
+          const KS=['run_g','run_k','run_b1','run_b2'],SH=['#3C6FD1','#FF6B8A','#2FBF7A','#FFB13A'],sz=show>45?18:show>15?24:30;for(const p of pts){const bob=Math.abs(Math.sin(G.t*12+p.i))*3,k=KS[p.i%4];if(arcSprite(k))G.emo(k,p.x,p.y-6-bob,sz);else{const u=sz/30;G.rr(p.x-6*u,p.y-4*u-bob,12*u,13*u,5*u,SH[p.i%4]);G.circle(p.x,p.y-9*u-bob,6*u,'#FFD9B8','#8A552B',1)}}
           G.rr(cx-28,cy-R*.55-42,56,28,12,'#173A6A','#FFFFFF',2.5);G.text(String(N),cx,cy-R*.55-28,19,'#FFE27A','center',null)}
         /* 문을 지날 때 결과 */
         if(flash){const a=Math.min(1,flash.t*2);c.globalAlpha=a;G.text(flash.txt,AW/2,250,44,flash.k?'#7FFFA0':'#FF8A8A','center','#1A1030');G.text(flash.sub,AW/2,292,22,'#FFFFFF','center','#1A1030');c.globalAlpha=1}
@@ -126,8 +132,8 @@ arcDefine({id:'character_crowd',ch:'character',name:'친구 모으기 런',tag:'
 arcDefine({id:'safety_run',ch:'safety',name:'대피 퀴즈 런',tag:'3줄 달리기 · 정답 문',from:'서브웨이 서퍼 (Subway Surfers)',icon:'🏃',
   how:['좌우로 밀어 줄을 바꿔요','위로 밀면 점프, 아래로 밀면 숙이기','문제가 나오면 정답 줄로 가요'],
   init(G){
-    const HY=150, goal=3+Math.round(G.d*5), vz=.3+.45*G.d, readT=8-3.5*G.d;
-    let P={lane:1,x:1,jy:0,vy:0,slide:0,inv:0},objs=[],t=1.2,hearts=3,passed=0,gate=null,ann=null,annT=3,scroll=0,coins=0,msg=null;
+    const HY=150, goal=2+Math.round(G.d*2), vz=.3+.45*G.d, readT=8-3.5*G.d, GAP=11-2*G.d;
+    let P={lane:1,x:1,jy:0,vy:0,slide:0,inv:0},objs=[],t=1.2,hearts=3,passed=0,gate=null,ann=null,annT=7,scroll=0,coins=0,msg=null;
     const proj=(lane,z)=>{const s=1/(1+z*3.2);return {x:AW/2+(lane-1)*112*s,y:HY+(470-HY)*s,s}};
     const newAnn=()=>{const q=drawQ(G.trial?0:CI);if(!q)return;ann={q,order:quizOrder(G,q),t:readT};objs=objs.filter(o=>o.z<.45);msg={t:'📖 장애물 멈춤! 문제를 읽어요',c:'#FFE27A',k:1.6}};
     const lane=d=>{P.lane=G.clamp(P.lane+d,0,2);G.sfx('whoosh')};
@@ -145,7 +151,7 @@ arcDefine({id:'safety_run',ch:'safety',name:'대피 퀴즈 런',tag:'3줄 달리
         if(gate){gate.z-=vz*dt;if(gate.z<.03){const pick=gate.order[P.lane],ok=pick===gate.q.a;
             if(ok){passed++;G.sfx('ok');G.burst(AW/2,380,'#7FFFA0',24);G.addScore(30);msg={t:'⭕ 정답 문 통과!',c:'#7FFFA0',k:1.3};if(passed>=goal){gate=null;return G.win(starsByHearts(hearts))}}
             else{if(!G.trial)wrongAdd(CI,gate.q);hit(pick==null?`막힌 길! 정답은 ${'가나다'[gate.order.indexOf(gate.q.a)]}`:`❌ 정답은 ${'가나다'[gate.order.indexOf(gate.q.a)]}!`)}
-            gate=null;annT=3+2*G.d}}
+            gate=null;annT=GAP}}
         G.setHud(HEARTS(hearts),`🚪 ${passed}/${goal}`,`⛑️ ${coins}`)},
       draw(c){
         c.fillStyle=G.grad(0,HY,'#4A6FD0','#FFC48A');c.fillRect(0,0,AW,HY);
